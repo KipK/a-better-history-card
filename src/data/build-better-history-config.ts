@@ -2,7 +2,11 @@ import type { BetterHistoryConfig, SeriesConfig } from "@kipk/ha-better-history"
 import type { ABetterHistoryCardConfig, CardSeriesConfig } from "../types/config.js";
 
 function cssColor(value: string | number[] | undefined): string | undefined {
-  if (typeof value === "string" && value.trim() !== "") return value.trim();
+  if (typeof value === "string" && value.trim() !== "") {
+    const color = value.trim();
+    if (/^[a-z][a-z0-9-]*$/i.test(color)) return `var(--${color}-color, ${color})`;
+    return color;
+  }
   if (!Array.isArray(value) || value.length < 3) return undefined;
 
   const [r, g, b] = value.map((part) => Number(part));
