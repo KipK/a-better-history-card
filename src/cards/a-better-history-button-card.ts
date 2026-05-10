@@ -2,9 +2,14 @@ import { LitElement, css, html, type TemplateResult } from "lit";
 import "../components/history-dialog.js";
 import { normalizeConfig } from "../data/normalize-config.js";
 import type { ABetterHistoryCardConfig } from "../types/config.js";
+import { BUTTON_EDITOR_TAG } from "../const.js";
 import type { HomeAssistant, LovelaceCard, LovelaceCardGridOptions } from "../types/ha.js";
 
 export class ABetterHistoryButtonCard extends LitElement implements LovelaceCard {
+  static getConfigElement(): HTMLElement {
+    return document.createElement(BUTTON_EDITOR_TAG);
+  }
+
   static properties = {
     hass: { attribute: false },
     _config: { state: true },

@@ -2,6 +2,7 @@ import { LitElement, css, html, nothing, type TemplateResult } from "lit";
 import { buildBetterHistoryConfig } from "../data/build-better-history-config.js";
 import { normalizeConfig } from "../data/normalize-config.js";
 import type { ABetterHistoryCardConfig } from "../types/config.js";
+import { EDITOR_TAG } from "../const.js";
 import type { HomeAssistant, LovelaceCard, LovelaceCardGridOptions } from "../types/ha.js";
 
 // Resolved at runtime relative to the bundle — do not let Vite resolve this path.
@@ -11,6 +12,10 @@ const HISTORY_ELEMENT_URL = new URL(
 ).toString();
 
 export class ABetterHistoryCard extends LitElement implements LovelaceCard {
+  static getConfigElement(): HTMLElement {
+    return document.createElement(EDITOR_TAG);
+  }
+
   static properties = {
     hass: { attribute: false },
     _config: { state: true },
