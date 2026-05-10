@@ -8,6 +8,7 @@ export function normalizeConfig(raw: ABetterHistoryCardConfig): ABetterHistoryCa
     show_legend: true,
     show_tooltip: true,
     show_controls: true,
+    button_hover_effect: true,
     ...raw
   };
 }
