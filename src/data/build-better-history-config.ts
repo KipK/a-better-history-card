@@ -1,6 +1,16 @@
 import type { BetterHistoryConfig, SeriesConfig } from "@kipk/ha-better-history";
 import type { ABetterHistoryCardConfig, CardSeriesConfig } from "../types/config.js";
 
+function cssColor(value: string | number[] | undefined): string | undefined {
+  if (typeof value === "string" && value.trim() !== "") return value.trim();
+  if (!Array.isArray(value) || value.length < 3) return undefined;
+
+  const [r, g, b] = value.map((part) => Number(part));
+  if (![r, g, b].every((part) => Number.isFinite(part))) return undefined;
+
+  return `rgb(${r}, ${g}, ${b})`;
+}
+
 function mapSeries(s: CardSeriesConfig): SeriesConfig {
   return {
     entity: s.entity,
@@ -46,9 +56,9 @@ export function buildBetterHistoryConfig(card: ABetterHistoryCardConfig, skipTit
     if (card.title !== undefined) cfg.title = card.title;
     if (card.title_font_family !== undefined) cfg.titleFontFamily = card.title_font_family;
     if (card.title_font_size !== undefined) cfg.titleFontSize = card.title_font_size;
-    if (card.title_color !== undefined) cfg.titleColor = card.title_color;
+    const titleColor = cssColor(card.title_color);
+    if (titleColor !== undefined) cfg.titleColor = titleColor;
   }
-  if (card.background_color !== undefined) cfg.backgroundColor = card.background_color;
   if (card.line_mode !== undefined) cfg.lineMode = card.line_mode;
   if (card.line_width !== undefined) cfg.lineWidth = card.line_width;
   if (card.show_line_mode_buttons !== undefined) cfg.showLineModeButtons = card.show_line_mode_buttons;

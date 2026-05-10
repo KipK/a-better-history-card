@@ -24,7 +24,6 @@ const LABELS: Record<string, string> = {
   title_font_family: "Title font family",
   title_font_size: "Title font size",
   title_color: "Title color",
-  background_color: "Background color",
   line_mode: "Line mode",
   line_width: "Line width",
   show_tools_button: "Tools button",
@@ -42,7 +41,18 @@ const LABELS: Record<string, string> = {
   debug_performance: "Debug performance"
 };
 
-const COLOR_FIELD_NAMES = new Set(["background_color", "title_color", "button_color", "button_hover_color"]);
+const COLOR_FIELD_NAMES = new Set(["title_color", "button_color", "button_hover_color"]);
+
+function cssColor(value: string | number[] | undefined): string | undefined {
+  if (typeof value === "string" && value.trim() !== "") return value.trim();
+  if (!Array.isArray(value) || value.length < 3) return undefined;
+
+  const [r, g, b] = value.map((part) => Number(part));
+  if (![r, g, b].every((part) => Number.isFinite(part))) return undefined;
+
+  return `rgb(${r}, ${g}, ${b})`;
+}
+
 export abstract class BaseCardEditor extends LitElement implements LovelaceCardEditor {
   static properties = {
     hass: { attribute: false },
@@ -170,7 +180,6 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
         }
       },
       { name: "line_width", selector: { number: { min: 1, max: 10 } } },
-      { name: "background_color", selector: { color_rgb: {} } },
       { name: "title_font_family", selector: { text: {} } },
       { name: "title_font_size", selector: { text: {} } },
       { name: "title_color", selector: { color_rgb: {} } }
@@ -332,8 +341,7 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
         class="color-picker"
         .label=${this._computeLabel(schema)}
         .value=${this._colorValue(schema.name)}
-        ?include_none=${schema.name === "background_color"}
-        @value-changed=${(event: CustomEvent<{ value?: string }>) => this._colorChanged(schema.name, event)}
+        @value-changed=${(event: CustomEvent<{ value?: string | number[] }>) => this._colorChanged(schema.name, event)}
       ></ha-color-picker>
     `;
   }
@@ -349,9 +357,9 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
     return `rgb(${r}, ${g}, ${b})`;
   }
 
-  private _colorChanged(name: string, event: CustomEvent<{ value?: string }>): void {
+  private _colorChanged(name: string, event: CustomEvent<{ value?: string | number[] }>): void {
     const next = { ...this._config } as Record<string, unknown>;
-    const value = event.detail.value;
+    const value = cssColor(event.detail.value);
     if (value === undefined || value === "") {
       delete next[name];
     } else {

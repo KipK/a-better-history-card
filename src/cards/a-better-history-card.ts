@@ -11,6 +11,16 @@ const HISTORY_ELEMENT_URL = new URL(
   import.meta.url
 ).toString();
 
+function cssColor(value: string | number[] | undefined): string | undefined {
+  if (typeof value === "string" && value.trim() !== "") return value.trim();
+  if (!Array.isArray(value) || value.length < 3) return undefined;
+
+  const [r, g, b] = value.map((part) => Number(part));
+  if (![r, g, b].every((part) => Number.isFinite(part))) return undefined;
+
+  return `rgb(${r}, ${g}, ${b})`;
+}
+
 export class ABetterHistoryCard extends LitElement implements LovelaceCard {
   static getConfigElement(): HTMLElement {
     return document.createElement(EDITOR_TAG);
@@ -186,10 +196,11 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
 
     if (!title && !hasButtons) return nothing;
 
+    const titleColor = cssColor(cfg?.title_color);
     const titleStyle = [
       cfg?.title_font_family ? `font-family:${cfg.title_font_family};` : "",
       cfg?.title_font_size ? `font-size:${cfg.title_font_size};` : "",
-      cfg?.title_color ? `color:${cfg.title_color};` : ""
+      titleColor ? `color:${titleColor};` : ""
     ].join("");
 
     return html`
