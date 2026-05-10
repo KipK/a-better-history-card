@@ -47,6 +47,13 @@ export class SeriesListEditor extends LitElement {
       margin-top: 8px;
       width: 100%;
     }
+
+    .add-attr-btn {
+      --wa-color-fill-normal: var(--ha-color-amber-80, #ffb74d);
+      --wa-color-on-normal: #3d2800;
+      --ha-color-fill-primary-normal-hover: color-mix(in srgb, var(--ha-color-amber-80, #ffb74d) 85%, black 15%);
+      --ha-color-fill-primary-normal-active: color-mix(in srgb, var(--ha-color-amber-80, #ffb74d) 70%, black 30%);
+    }
   `;
 
   series: CardSeriesConfig[] = [];
@@ -133,7 +140,10 @@ export class SeriesListEditor extends LitElement {
         `
       )}
       <div class="add-btn">
-        <ha-button @click=${() => this._add()}>Add entity</ha-button>
+        <ha-button class="add-attr-btn" size="small" appearance="filled" @click=${() => this._add()}>
+          <ha-icon icon="mdi:playlist-plus" slot="start"></ha-icon>
+          Add attribute
+        </ha-button>
       </div>
     `;
   }
