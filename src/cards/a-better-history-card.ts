@@ -2,7 +2,7 @@ import { LitElement, css, html, nothing, type TemplateResult } from "lit";
 import { buildBetterHistoryConfig } from "../data/build-better-history-config.js";
 import { normalizeConfig } from "../data/normalize-config.js";
 import type { ABetterHistoryCardConfig } from "../types/config.js";
-import { EDITOR_TAG } from "../const.js";
+import { CARD_TYPE, EDITOR_TAG } from "../const.js";
 import type { HomeAssistant, LovelaceCard, LovelaceCardGridOptions } from "../types/ha.js";
 
 // Resolved at runtime relative to the bundle — do not let Vite resolve this path.
@@ -14,6 +14,29 @@ const HISTORY_ELEMENT_URL = new URL(
 export class ABetterHistoryCard extends LitElement implements LovelaceCard {
   static getConfigElement(): HTMLElement {
     return document.createElement(EDITOR_TAG);
+  }
+
+  static getStubConfig(hass: HomeAssistant): ABetterHistoryCardConfig {
+    const states = hass.states;
+    const entityId =
+      Object.keys(states).find(
+        (id) => /^sensor\.[^.]*temperature/.test(id) || id.startsWith("climate.")
+      ) ??
+      Object.keys(states).find(
+        (id) => id.startsWith("sensor.") && !isNaN(Number(states[id]?.state))
+      );
+    if (entityId) {
+      return {
+        type: CARD_TYPE,
+        entities: [entityId],
+        range_mode: "relative",
+        hours: 24,
+        show_entity_picker: true,
+        show_legend: true,
+        show_tooltip: true
+      };
+    }
+    return { type: CARD_TYPE };
   }
 
   static properties = {

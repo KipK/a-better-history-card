@@ -2,12 +2,35 @@ import { LitElement, css, html, type TemplateResult } from "lit";
 import "../components/history-dialog.js";
 import { normalizeConfig } from "../data/normalize-config.js";
 import type { ABetterHistoryCardConfig } from "../types/config.js";
-import { BUTTON_EDITOR_TAG } from "../const.js";
+import { BUTTON_CARD_TYPE, BUTTON_EDITOR_TAG } from "../const.js";
 import type { HomeAssistant, LovelaceCard, LovelaceCardGridOptions } from "../types/ha.js";
 
 export class ABetterHistoryButtonCard extends LitElement implements LovelaceCard {
   static getConfigElement(): HTMLElement {
     return document.createElement(BUTTON_EDITOR_TAG);
+  }
+
+  static getStubConfig(hass: HomeAssistant): ABetterHistoryCardConfig {
+    const states = hass.states;
+    const entityId =
+      Object.keys(states).find(
+        (id) => /^sensor\.[^.]*temperature/.test(id) || id.startsWith("climate.")
+      ) ??
+      Object.keys(states).find(
+        (id) => id.startsWith("sensor.") && !isNaN(Number(states[id]?.state))
+      );
+    if (entityId) {
+      return {
+        type: BUTTON_CARD_TYPE,
+        entities: [entityId],
+        range_mode: "relative",
+        hours: 24,
+        show_entity_picker: true,
+        show_legend: true,
+        show_tooltip: true
+      };
+    }
+    return { type: BUTTON_CARD_TYPE };
   }
 
   static properties = {
