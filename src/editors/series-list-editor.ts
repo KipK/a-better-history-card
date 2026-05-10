@@ -1,14 +1,29 @@
-import { LitElement, css, html, type TemplateResult } from "lit";
+import { LitElement, css, html, nothing, type TemplateResult } from "lit";
 import "./series-item-editor.js";
+import type { HistorySource } from "@kipk/ha-better-history";
 import type { CardSeriesConfig } from "../types/config.js";
 import type { HomeAssistant } from "../types/ha.js";
+import { sourceToSeriesConfig } from "../data/source-to-series.js";
+
+const PICKER_ELEMENT_URL = new URL(
+  /* @vite-ignore */ "lib/ha-better-history/picker.js",
+  import.meta.url
+).toString();
+
+let _pickerLoaded = false;
+async function loadPickerElement(): Promise<void> {
+  if (_pickerLoaded) return;
+  _pickerLoaded = true;
+  await import(/* @vite-ignore */ PICKER_ELEMENT_URL);
+}
 
 export class SeriesListEditor extends LitElement {
   static properties = {
     series: { attribute: false },
     hass: { attribute: false },
     _dragIndex: { state: true },
-    _dragOverIndex: { state: true }
+    _dragOverIndex: { state: true },
+    _pickerOpen: { state: true }
   };
 
   static styles = css`
@@ -54,12 +69,20 @@ export class SeriesListEditor extends LitElement {
       --ha-color-fill-primary-normal-hover: color-mix(in srgb, var(--ha-color-amber-80, #ffb74d) 85%, black 15%);
       --ha-color-fill-primary-normal-active: color-mix(in srgb, var(--ha-color-amber-80, #ffb74d) 70%, black 30%);
     }
+
+    .picker-wrapper {
+      border: 1px solid var(--divider-color);
+      border-radius: 8px;
+      margin-top: 8px;
+      padding: 8px;
+    }
   `;
 
   series: CardSeriesConfig[] = [];
   hass?: HomeAssistant;
   private _dragIndex = -1;
   private _dragOverIndex = -1;
+  private _pickerOpen = false;
 
   private _emit(series: CardSeriesConfig[]): void {
     this.dispatchEvent(
@@ -71,7 +94,7 @@ export class SeriesListEditor extends LitElement {
     );
   }
 
-  private _add(): void {
+  private _addEmpty(): void {
     this._emit([...this.series, { entity: "", forced: true }]);
   }
 
@@ -111,6 +134,23 @@ export class SeriesListEditor extends LitElement {
     this._dragOverIndex = -1;
   }
 
+  private async _togglePicker(): Promise<void> {
+    if (this._pickerOpen) {
+      this._pickerOpen = false;
+      return;
+    }
+    await loadPickerElement();
+    this._pickerOpen = true;
+  }
+
+  private _onSourcesConfirmed(event: CustomEvent<{ sources: HistorySource[] }>): void {
+    const added = event.detail.sources.map(sourceToSeriesConfig);
+    if (added.length > 0) {
+      this._emit([...this.series, ...added]);
+    }
+    this._pickerOpen = false;
+  }
+
   protected render(): TemplateResult {
     return html`
       ${this.series.map(
@@ -139,10 +179,36 @@ export class SeriesListEditor extends LitElement {
           </div>
         `
       )}
+      ${this._pickerOpen
+        ? html`
+            <div class="picker-wrapper">
+              <abh-series-picker
+                .hass=${this.hass}
+                @sources-confirmed=${(e: CustomEvent<{ sources: HistorySource[] }>) =>
+                  this._onSourcesConfirmed(e)}
+              ></abh-series-picker>
+            </div>
+          `
+        : nothing}
       <div class="add-btn">
-        <ha-button class="add-attr-btn" size="small" appearance="filled" @click=${() => this._add()}>
-          <ha-icon icon="mdi:playlist-plus" slot="start"></ha-icon>
-          Add attribute
+        <ha-button
+          class="add-attr-btn"
+          size="small"
+          appearance="filled"
+          @click=${() => { void this._togglePicker(); }}
+        >
+          <ha-icon
+            icon=${this._pickerOpen ? "mdi:close" : "mdi:playlist-plus"}
+            slot="start"
+          ></ha-icon>
+          ${this._pickerOpen ? "Cancel" : "Add series"}
+        </ha-button>
+        <ha-button
+          size="small"
+          @click=${() => { this._addEmpty(); }}
+        >
+          <ha-icon icon="mdi:text-box-plus-outline" slot="start"></ha-icon>
+          Add manually
         </ha-button>
       </div>
     `;

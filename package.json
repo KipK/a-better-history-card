@@ -9,7 +9,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@kipk/ha-better-history": "^0.1.2",
+    "@kipk/ha-better-history": "file:../ha-better-history",
     "lit": "^3.3.2"
   },
   "devDependencies": {

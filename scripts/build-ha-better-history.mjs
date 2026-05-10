@@ -6,14 +6,19 @@ import { spawnSync } from "node:child_process";
 
 const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
 const PROJECT_ROOT = resolve(SCRIPT_DIR, "..");
-const PACKAGE_ENTRY = join(PROJECT_ROOT, "node_modules/@kipk/ha-better-history/dist/define.js");
+const PKG_DIR = join(PROJECT_ROOT, "node_modules/@kipk/ha-better-history/dist");
+const DEFINE_ENTRY = join(PKG_DIR, "define.js");
+const PICKER_ENTRY = join(PKG_DIR, "picker.js");
 const OUT_DIR = join(PROJECT_ROOT, "dist/lib/ha-better-history");
 const TEMP_DIR = join(PROJECT_ROOT, "tmp/ha-better-history-build");
-const TEMP_CONFIG = join(TEMP_DIR, "vite.config.mjs");
 const VITE_BIN = join(PROJECT_ROOT, "node_modules/vite/bin/vite.js");
 
-if (!existsSync(PACKAGE_ENTRY)) {
-  throw new Error("Missing @kipk/ha-better-history package build. Run `npm install` first.");
+if (!existsSync(DEFINE_ENTRY)) {
+  throw new Error("Missing @kipk/ha-better-history dist/define.js. Run `npm install` first.");
+}
+
+if (!existsSync(PICKER_ENTRY)) {
+  throw new Error("Missing @kipk/ha-better-history dist/picker.js. Run `npm install` first.");
 }
 
 if (!existsSync(VITE_BIN)) {
@@ -24,6 +29,7 @@ rmSync(OUT_DIR, { recursive: true, force: true });
 rmSync(TEMP_DIR, { recursive: true, force: true });
 mkdirSync(TEMP_DIR, { recursive: true });
 
+const TEMP_CONFIG = join(TEMP_DIR, "vite.config.mjs");
 writeFileSync(TEMP_CONFIG, `import { defineConfig } from "vite";
 
 export default defineConfig({
@@ -32,9 +38,12 @@ export default defineConfig({
     emptyOutDir: true,
     outDir: ${JSON.stringify(OUT_DIR)},
     lib: {
-      entry: ${JSON.stringify(PACKAGE_ENTRY)},
+      entry: {
+        define: ${JSON.stringify(DEFINE_ENTRY)},
+        picker: ${JSON.stringify(PICKER_ENTRY)},
+      },
       formats: ["es"],
-      fileName: () => "define.js"
+      fileName: (_, entryName) => entryName + ".js"
     }
   }
 });
