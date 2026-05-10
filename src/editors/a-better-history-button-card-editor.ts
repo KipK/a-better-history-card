@@ -3,6 +3,10 @@ import type { HaFormSchema } from "../types/ha.js";
 import { BaseCardEditor } from "./base-card-editor.js";
 
 export class ABetterHistoryButtonCardEditor extends BaseCardEditor {
+  protected override _styleSchema(): HaFormSchema[] {
+    return super._styleSchema().filter((item) => item.name !== "title_color");
+  }
+
   protected _tabs(): Array<{ id: string; label: string }> {
     return [
       { id: "entities", label: "Entities" },
