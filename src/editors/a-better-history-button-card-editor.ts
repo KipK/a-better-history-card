@@ -9,7 +9,7 @@ export class ABetterHistoryButtonCardEditor extends BaseCardEditor {
       { id: "range", label: "Range" },
       { id: "display", label: "Display" },
       { id: "style", label: "Style" },
-      { id: "toolbar", label: "Toolbar" },
+      { id: "header", label: "Header" },
       { id: "button", label: "Button" },
       { id: "advanced", label: "Advanced" }
     ];
@@ -20,7 +20,7 @@ export class ABetterHistoryButtonCardEditor extends BaseCardEditor {
       case "range": return this._rangeSchema();
       case "display": return this._displaySchema();
       case "style": return this._styleSchema();
-      case "toolbar": return this._toolbarSchema();
+      case "header": return this._headerSchema();
       case "button": return this._buttonSchema();
       case "advanced": return this._advancedSchema();
       default: return [];

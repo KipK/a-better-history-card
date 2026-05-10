@@ -155,15 +155,15 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
       },
       { name: "line_width", selector: { number: { min: 1, max: 10 } } },
       { name: "background_color", selector: { color_rgb: {} } },
-      { name: "title", selector: { text: {} } },
       { name: "title_font_family", selector: { text: {} } },
       { name: "title_font_size", selector: { text: {} } },
       { name: "title_color", selector: { color_rgb: {} } }
     ];
   }
 
-  protected _toolbarSchema(): HaFormSchema[] {
+  protected _headerSchema(): HaFormSchema[] {
     return [
+      { name: "title", selector: { text: {} } },
       { name: "show_tools_button", selector: { boolean: {} } },
       { name: "show_controls_toggle", selector: { boolean: {} } },
       { name: "show_fullscreen_button", selector: { boolean: {} } }
