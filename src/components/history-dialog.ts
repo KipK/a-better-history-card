@@ -55,6 +55,20 @@ export class HistoryDialog extends LitElement {
       justify-content: center;
       min-height: 70vh;
     }
+
+    .history {
+      display: flex;
+      flex: 1 1 auto;
+      height: min(78vh, 760px);
+      min-height: 70vh;
+      min-width: 0;
+      width: 100%;
+    }
+
+    ha-dialog[fullscreen] .history {
+      height: calc(100vh - 96px);
+      min-height: calc(100vh - 96px);
+    }
   `;
 
   open = false;
@@ -203,7 +217,7 @@ export class HistoryDialog extends LitElement {
               .showControls=${this._controlsVisible}
               .toolsOpen=${this._toolsOpen}
               @picker-overlay-changed=${(e: CustomEvent<{ open: boolean }>) => this._onPickerOverlayChanged(e)}
-              style="flex:1;min-height:70vh;"
+              class="history"
             ></ha-better-history>`
           : nothing}
       </ha-dialog>
