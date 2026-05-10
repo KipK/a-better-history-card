@@ -19,7 +19,7 @@ function mapSeries(s: CardSeriesConfig): SeriesConfig {
 }
 
 /** Converts a card config into the BetterHistoryConfig consumed by <ha-better-history>. */
-export function buildBetterHistoryConfig(card: ABetterHistoryCardConfig): BetterHistoryConfig {
+export function buildBetterHistoryConfig(card: ABetterHistoryCardConfig, skipTitle?: boolean): BetterHistoryConfig {
   const cfg: BetterHistoryConfig = {};
 
   if (card.series) cfg.series = card.series.map(mapSeries);
@@ -40,10 +40,12 @@ export function buildBetterHistoryConfig(card: ABetterHistoryCardConfig): Better
   if (card.show_import_button !== undefined) cfg.showImportButton = card.show_import_button;
   if (card.disable_climate_overlay !== undefined) cfg.disableClimateOverlay = card.disable_climate_overlay;
 
-  if (card.title !== undefined) cfg.title = card.title;
-  if (card.title_font_family !== undefined) cfg.titleFontFamily = card.title_font_family;
-  if (card.title_font_size !== undefined) cfg.titleFontSize = card.title_font_size;
-  if (card.title_color !== undefined) cfg.titleColor = card.title_color;
+  if (!skipTitle) {
+    if (card.title !== undefined) cfg.title = card.title;
+    if (card.title_font_family !== undefined) cfg.titleFontFamily = card.title_font_family;
+    if (card.title_font_size !== undefined) cfg.titleFontSize = card.title_font_size;
+    if (card.title_color !== undefined) cfg.titleColor = card.title_color;
+  }
   if (card.background_color !== undefined) cfg.backgroundColor = card.background_color;
   if (card.line_mode !== undefined) cfg.lineMode = card.line_mode;
   if (card.line_width !== undefined) cfg.lineWidth = card.line_width;

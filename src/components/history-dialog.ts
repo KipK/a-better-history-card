@@ -198,7 +198,7 @@ export class HistoryDialog extends LitElement {
         ${this.open && this._historyElementReady && cfg
           ? html`<ha-better-history
               .hass=${this.hass}
-              .config=${buildBetterHistoryConfig(cfg)}
+              .config=${buildBetterHistoryConfig(cfg, true)}
               .language=${this.language}
               .showControls=${this._controlsVisible}
               .toolsOpen=${this._toolsOpen}
