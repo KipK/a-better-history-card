@@ -30,6 +30,9 @@ const LABELS: Record<string, string> = {
   button_label: "Button label",
   button_icon: "Button icon",
   button_show_name: "Show button name",
+  button_show_icon: "Show button icon",
+  button_color: "Button color",
+  button_hover_effect: "Hover effect",
   show_fullscreen_button: "Fullscreen button",
   attribute_units: "Attribute units (JSON object)",
   debug_performance: "Debug performance"
@@ -170,8 +173,11 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
   protected _buttonSchema(): HaFormSchema[] {
     return [
       { name: "button_label", selector: { text: {} } },
+      { name: "button_show_name", selector: { boolean: {} } },
       { name: "button_icon", selector: { icon: {} } },
-      { name: "button_show_name", selector: { boolean: {} } }
+      { name: "button_show_icon", selector: { boolean: {} } },
+      { name: "button_color", selector: { color_rgb: {} } },
+      { name: "button_hover_effect", selector: { boolean: {} } }
     ];
   }
 

@@ -56,6 +56,9 @@ export interface ABetterHistoryCardConfig {
   button_label?: string;
   button_icon?: string;
   button_show_name?: boolean;
+  button_show_icon?: boolean;
+  button_color?: string;
+  button_hover_effect?: boolean;
 
   // Layout (written by HA layout panel)
   grid_options?: { columns?: number | string; rows?: number | string };

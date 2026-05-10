@@ -61,12 +61,16 @@ export class ABetterHistoryButtonCard extends LitElement implements LovelaceCard
 
     ha-icon {
       --mdc-icon-size: 36px;
-      color: var(--primary-text-color);
+      color: var(--_btn-color, var(--primary-text-color));
     }
 
     .label {
-      color: var(--primary-text-color);
+      color: var(--_btn-color, var(--primary-text-color));
       font-size: 0.9em;
+    }
+
+    ha-card:hover {
+      --ha-card-box-shadow: var(--_btn-hover-shadow, none);
     }
   `;
 
@@ -104,12 +108,20 @@ export class ABetterHistoryButtonCard extends LitElement implements LovelaceCard
     const icon = cfg?.button_icon ?? "mdi:chart-line";
     const label = cfg?.button_label ?? "History";
     const showName = cfg?.button_show_name !== false;
+    const showIcon = cfg?.button_show_icon !== false;
+    const hoverEffect = cfg?.button_hover_effect !== false;
+    const color = cfg?.button_color;
     const language = this.hass?.locale?.language ?? this.hass?.language;
 
+    const cardStyleParts: string[] = [];
+    if (color) cardStyleParts.push(`--_btn-color: ${color}`);
+    cardStyleParts.push(`--_btn-hover-shadow: ${hoverEffect ? "0 0 0 2px var(--primary-color)" : "none"}`);
+    const cardStyle = cardStyleParts.join("; ");
+
     return html`
-      <ha-card @click=${this._openDialog}>
+      <ha-card style=${cardStyle} @click=${this._openDialog}>
         <div class="btn-content">
-          <ha-icon icon=${icon}></ha-icon>
+          ${showIcon ? html`<ha-icon icon=${icon}></ha-icon>` : null}
           ${showName ? html`<span class="label">${label}</span>` : null}
         </div>
       </ha-card>
