@@ -55,13 +55,29 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
       height: 100%;
     }
 
-    .toolbar {
+    .header {
       align-items: center;
       display: flex;
       flex: 0 0 auto;
-      gap: 4px;
-      justify-content: flex-end;
+      gap: 8px;
+      min-height: 40px;
       padding: 4px 8px 0;
+    }
+
+    .header-actions {
+      align-items: center;
+      display: flex;
+      gap: 4px;
+      margin-inline-start: auto;
+    }
+
+    .card-title {
+      font-weight: 500;
+      line-height: 1.25;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     ha-better-history {
@@ -155,31 +171,43 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
     }
   }
 
-  private _renderToolbar(): TemplateResult | typeof nothing {
+  private _renderHeader(): TemplateResult | typeof nothing {
     const cfg = this._config;
-    if (!cfg?.show_tools_button && !cfg?.show_controls_toggle && !cfg?.show_fullscreen_button) return nothing;
+    const title = cfg?.title;
+    const hasButtons = cfg?.show_tools_button || cfg?.show_controls_toggle || cfg?.show_fullscreen_button;
+
+    if (!title && !hasButtons) return nothing;
+
+    const titleStyle = [
+      cfg?.title_font_family ? `font-family:${cfg.title_font_family};` : "",
+      cfg?.title_font_size ? `font-size:${cfg.title_font_size};` : "",
+      cfg?.title_color ? `color:${cfg.title_color};` : ""
+    ].join("");
 
     return html`
-      <div class="toolbar">
-        ${cfg.show_tools_button
-          ? html`<ha-icon-button
-              .label=${"Tools"}
-              ?active=${this._toolsOpen}
-              @click=${() => { this._toolsOpen = !this._toolsOpen; }}
-            ><ha-icon icon="mdi:tools"></ha-icon></ha-icon-button>`
-          : nothing}
-        ${cfg.show_controls_toggle
-          ? html`<ha-icon-button
-              .label=${this._controlsVisible ? "Hide controls" : "Show controls"}
-              @click=${() => { this._controlsVisible = !this._controlsVisible; }}
-            ><ha-icon icon=${this._controlsVisible ? "mdi:chevron-up" : "mdi:chevron-down"}></ha-icon></ha-icon-button>`
-          : nothing}
-        ${cfg.show_fullscreen_button
-          ? html`<ha-icon-button
-              .label=${this._fullscreen ? "Exit fullscreen" : "Fullscreen"}
-              @click=${() => this._toggleFullscreen()}
-            ><ha-icon icon=${this._fullscreen ? "mdi:fullscreen-exit" : "mdi:fullscreen"}></ha-icon></ha-icon-button>`
-          : nothing}
+      <div class="header">
+        ${title ? html`<div class="card-title" style=${titleStyle}>${title}</div>` : nothing}
+        ${hasButtons ? html`<div class="header-actions">
+          ${cfg.show_tools_button
+            ? html`<ha-icon-button
+                .label=${"Tools"}
+                ?active=${this._toolsOpen}
+                @click=${() => { this._toolsOpen = !this._toolsOpen; }}
+              ><ha-icon icon="mdi:tools"></ha-icon></ha-icon-button>`
+            : nothing}
+          ${cfg.show_controls_toggle
+            ? html`<ha-icon-button
+                .label=${this._controlsVisible ? "Hide controls" : "Show controls"}
+                @click=${() => { this._controlsVisible = !this._controlsVisible; }}
+              ><ha-icon icon=${this._controlsVisible ? "mdi:chevron-up" : "mdi:chevron-down"}></ha-icon></ha-icon-button>`
+            : nothing}
+          ${cfg.show_fullscreen_button
+            ? html`<ha-icon-button
+                .label=${this._fullscreen ? "Exit fullscreen" : "Fullscreen"}
+                @click=${() => this._toggleFullscreen()}
+              ><ha-icon icon=${this._fullscreen ? "mdi:fullscreen-exit" : "mdi:fullscreen"}></ha-icon></ha-icon-button>`
+            : nothing}
+        </div>` : nothing}
       </div>
     `;
   }
@@ -199,11 +227,11 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
       return html`<div class="loading">Loading history…</div>`;
     }
 
-    const bhConfig = buildBetterHistoryConfig(cfg);
+    const bhConfig = buildBetterHistoryConfig(cfg, !!cfg.title);
     const language = this.hass?.locale?.language ?? this.hass?.language;
 
     return html`
-      ${this._renderToolbar()}
+      ${this._renderHeader()}
       <ha-better-history
         .hass=${this.hass}
         .config=${bhConfig}
