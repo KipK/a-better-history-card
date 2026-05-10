@@ -16,11 +16,10 @@ export class ABetterHistoryCardEditor extends BaseCardEditor {
 
   protected _schema(tab: string): HaFormSchema[] {
     switch (tab) {
-      case "entities": return this._entitiesSchema();
       case "range": return this._rangeSchema();
       case "display": return this._displaySchema();
       case "style": return this._styleSchema();
-      case "toolbar": return [...this._toolbarSchema(), { name: "show_fullscreen_button", selector: { boolean: {} } }];
+      case "toolbar": return this._toolbarSchema();
       case "advanced": return this._advancedSchema();
       default: return [];
     }

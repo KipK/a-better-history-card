@@ -4,7 +4,6 @@ import type { CardSeriesConfig, ABetterHistoryCardConfig } from "../types/config
 import type { HaFormChangedEvent, HaFormSchema, HomeAssistant, LovelaceCardEditor } from "../types/ha.js";
 
 const LABELS: Record<string, string> = {
-  entities: "Entities",
   series: "Series (JSON)",
   range_mode: "Range mode",
   hours: "Hours",
@@ -82,10 +81,6 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
   protected abstract _schema(tab: string): HaFormSchema[];
 
   // Shared schema builders
-
-  protected _entitiesSchema(): HaFormSchema[] {
-    return [{ name: "entities", selector: { entity: { multiple: true } } }];
-  }
 
   protected _rangeSchema(): HaFormSchema[] {
     return [
@@ -234,13 +229,6 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
 
   private _renderEntitiesTab(): TemplateResult {
     return html`
-      <ha-form
-        .hass=${this.hass}
-        .data=${this._getFormData()}
-        .schema=${this._entitiesSchema()}
-        .computeLabel=${(s: HaFormSchema) => this._computeLabel(s)}
-        @value-changed=${(e: HaFormChangedEvent<Record<string, unknown>>) => this._valueChanged(e)}
-      ></ha-form>
       <abh-series-list-editor
         .series=${this._config.series ?? []}
         .hass=${this.hass}

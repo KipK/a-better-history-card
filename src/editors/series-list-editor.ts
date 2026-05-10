@@ -1,4 +1,4 @@
-import { LitElement, css, html, nothing, type TemplateResult } from "lit";
+import { LitElement, css, html, type TemplateResult } from "lit";
 import "./series-item-editor.js";
 import type { HistorySource } from "@kipk/ha-better-history";
 import type { CardSeriesConfig } from "../types/config.js";
@@ -23,12 +23,16 @@ export class SeriesListEditor extends LitElement {
     hass: { attribute: false },
     _dragIndex: { state: true },
     _dragOverIndex: { state: true },
-    _pickerOpen: { state: true }
+    _pickerReady: { state: true }
   };
 
   static styles = css`
     :host {
       display: block;
+    }
+
+    .picker-section {
+      margin-bottom: 12px;
     }
 
     .series-row {
@@ -56,25 +60,11 @@ export class SeriesListEditor extends LitElement {
       flex: 0 0 auto;
     }
 
-    .add-btn {
+    .add-manual-btn {
       display: flex;
       justify-content: center;
       margin-top: 8px;
       width: 100%;
-    }
-
-    .add-attr-btn {
-      --wa-color-fill-normal: var(--ha-color-amber-80, #ffb74d);
-      --wa-color-on-normal: #3d2800;
-      --ha-color-fill-primary-normal-hover: color-mix(in srgb, var(--ha-color-amber-80, #ffb74d) 85%, black 15%);
-      --ha-color-fill-primary-normal-active: color-mix(in srgb, var(--ha-color-amber-80, #ffb74d) 70%, black 30%);
-    }
-
-    .picker-wrapper {
-      border: 1px solid var(--divider-color);
-      border-radius: 8px;
-      margin-top: 8px;
-      padding: 8px;
     }
   `;
 
@@ -82,7 +72,12 @@ export class SeriesListEditor extends LitElement {
   hass?: HomeAssistant;
   private _dragIndex = -1;
   private _dragOverIndex = -1;
-  private _pickerOpen = false;
+  private _pickerReady = false;
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    loadPickerElement().then(() => { this._pickerReady = true; });
+  }
 
   private _emit(series: CardSeriesConfig[]): void {
     this.dispatchEvent(
@@ -134,25 +129,24 @@ export class SeriesListEditor extends LitElement {
     this._dragOverIndex = -1;
   }
 
-  private async _togglePicker(): Promise<void> {
-    if (this._pickerOpen) {
-      this._pickerOpen = false;
-      return;
-    }
-    await loadPickerElement();
-    this._pickerOpen = true;
-  }
-
   private _onSourcesConfirmed(event: CustomEvent<{ sources: HistorySource[] }>): void {
     const added = event.detail.sources.map(sourceToSeriesConfig);
     if (added.length > 0) {
       this._emit([...this.series, ...added]);
     }
-    this._pickerOpen = false;
   }
 
   protected render(): TemplateResult {
     return html`
+      <div class="picker-section">
+        ${this._pickerReady
+          ? html`<abh-series-picker
+              .hass=${this.hass}
+              @sources-confirmed=${(e: CustomEvent<{ sources: HistorySource[] }>) =>
+                this._onSourcesConfirmed(e)}
+            ></abh-series-picker>`
+          : html``}
+      </div>
       ${this.series.map(
         (item, i) => html`
           <div
@@ -179,34 +173,8 @@ export class SeriesListEditor extends LitElement {
           </div>
         `
       )}
-      ${this._pickerOpen
-        ? html`
-            <div class="picker-wrapper">
-              <abh-series-picker
-                .hass=${this.hass}
-                @sources-confirmed=${(e: CustomEvent<{ sources: HistorySource[] }>) =>
-                  this._onSourcesConfirmed(e)}
-              ></abh-series-picker>
-            </div>
-          `
-        : nothing}
-      <div class="add-btn">
-        <ha-button
-          class="add-attr-btn"
-          size="small"
-          appearance="filled"
-          @click=${() => { void this._togglePicker(); }}
-        >
-          <ha-icon
-            icon=${this._pickerOpen ? "mdi:close" : "mdi:playlist-plus"}
-            slot="start"
-          ></ha-icon>
-          ${this._pickerOpen ? "Cancel" : "Add series"}
-        </ha-button>
-        <ha-button
-          size="small"
-          @click=${() => { this._addEmpty(); }}
-        >
+      <div class="add-manual-btn">
+        <ha-button size="small" @click=${() => this._addEmpty()}>
           <ha-icon icon="mdi:text-box-plus-outline" slot="start"></ha-icon>
           Add manually
         </ha-button>
