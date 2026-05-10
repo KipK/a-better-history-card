@@ -7,6 +7,8 @@ export function normalizeConfig(raw: ABetterHistoryCardConfig): ABetterHistoryCa
     hours: 24,
     show_legend: true,
     show_tooltip: true,
+    show_grid: true,
+    show_scale: true,
     show_controls: true,
     show_line_mode_buttons: true,
     show_export_button: true,

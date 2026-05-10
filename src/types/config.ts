@@ -34,6 +34,8 @@ export interface ABetterHistoryCardConfig {
   show_entity_picker?: boolean;
   show_legend?: boolean;
   show_tooltip?: boolean;
+  show_grid?: boolean;
+  show_scale?: boolean;
   show_import_button?: boolean;
   show_export_button?: boolean;
   show_time_range_selector?: boolean;

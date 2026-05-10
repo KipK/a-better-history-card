@@ -15,6 +15,8 @@ const LABELS: Record<string, string> = {
   show_entity_picker: "Entity picker",
   show_legend: "Legend",
   show_tooltip: "Tooltip",
+  show_grid: "Grid",
+  show_scale: "Scale",
   show_import_button: "Import button",
   show_export_button: "Export button",
   show_time_range_selector: "Time range selector",
@@ -159,6 +161,8 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
       { name: "show_entity_picker", selector: { boolean: {} } },
       { name: "show_legend", selector: { boolean: {} } },
       { name: "show_tooltip", selector: { boolean: {} } },
+      { name: "show_grid", selector: { boolean: {} } },
+      { name: "show_scale", selector: { boolean: {} } },
       { name: "show_controls", selector: { boolean: {} } },
       { name: "disable_climate_overlay", selector: { boolean: {} } }
     ];
