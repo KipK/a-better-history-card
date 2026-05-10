@@ -1,4 +1,5 @@
 import { LitElement, css, html, nothing, type TemplateResult } from "lit";
+import "../components/history-dialog.js";
 import { buildBetterHistoryConfig } from "../data/build-better-history-config.js";
 import { normalizeConfig } from "../data/normalize-config.js";
 import type { ABetterHistoryCardConfig } from "../types/config.js";
@@ -58,7 +59,7 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
     _config: { state: true },
     _toolsOpen: { state: true },
     _controlsVisible: { state: true },
-    _fullscreen: { state: true },
+    _dialogOpen: { state: true },
     _historyElementReady: { state: true }
   };
 
@@ -127,7 +128,7 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
   private _config?: ABetterHistoryCardConfig;
   private _toolsOpen = false;
   private _controlsVisible = true;
-  private _fullscreen = false;
+  private _dialogOpen = false;
   private _historyElementReady = customElements.get("ha-better-history") !== undefined;
   private _historyElementLoadStarted = false;
 
@@ -170,26 +171,13 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
     }
   }
 
-  connectedCallback(): void {
-    super.connectedCallback();
-    document.addEventListener("fullscreenchange", this._onFullscreenChange);
+  private _openDialog(): void {
+    this._dialogOpen = true;
   }
 
-  disconnectedCallback(): void {
-    super.disconnectedCallback();
-    document.removeEventListener("fullscreenchange", this._onFullscreenChange);
-  }
-
-  private _onFullscreenChange = (): void => {
-    this._fullscreen = document.fullscreenElement === this;
-  };
-
-  private _toggleFullscreen(): void {
-    if (document.fullscreenElement) {
-      void document.exitFullscreen();
-    } else {
-      void this.requestFullscreen();
-    }
+  private _onDialogClosed(e: Event): void {
+    e.stopPropagation();
+    this._dialogOpen = false;
   }
 
   private _renderHeader(): TemplateResult | typeof nothing {
@@ -226,9 +214,9 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
             : nothing}
           ${cfg.show_fullscreen_button
             ? html`<ha-icon-button
-                .label=${this._fullscreen ? "Exit fullscreen" : "Fullscreen"}
-                @click=${() => this._toggleFullscreen()}
-              ><ha-icon icon=${this._fullscreen ? "mdi:fullscreen-exit" : "mdi:fullscreen"}></ha-icon></ha-icon-button>`
+                .label=${"Fullscreen"}
+                @click=${() => this._openDialog()}
+              ><ha-icon icon="mdi:fullscreen"></ha-icon></ha-icon-button>`
             : nothing}
         </div>` : nothing}
       </div>
@@ -263,6 +251,13 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
         .showControls=${this._controlsVisible}
         style="width:100%;height:100%;"
       ></ha-better-history>
+      <abh-history-dialog
+        .open=${this._dialogOpen}
+        .hass=${this.hass}
+        .config=${cfg}
+        .language=${language}
+        @dialog-closed=${this._onDialogClosed}
+      ></abh-history-dialog>
     `;
   }
 }

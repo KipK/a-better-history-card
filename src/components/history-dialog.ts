@@ -66,8 +66,8 @@ export class HistoryDialog extends LitElement {
     }
 
     ha-dialog[fullscreen] .history {
-      height: calc(100vh - 96px);
-      min-height: calc(100vh - 96px);
+      height: calc(100vh - 128px);
+      min-height: calc(100vh - 128px);
     }
   `;
 
@@ -127,6 +127,7 @@ export class HistoryDialog extends LitElement {
       this.requestUpdate();
       return;
     }
+    event.stopPropagation();
     this.dispatchEvent(new CustomEvent("dialog-closed", { bubbles: true, composed: true }));
   }
 
