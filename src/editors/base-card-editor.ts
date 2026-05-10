@@ -3,6 +3,7 @@ import "./series-list-editor.js";
 import type { CardSeriesConfig, ABetterHistoryCardConfig } from "../types/config.js";
 import type { HaFormChangedEvent, HaFormSchema, HomeAssistant, LovelaceCardEditor } from "../types/ha.js";
 import { ensureDateRangePicker, ensureHaComponents } from "../ha/load-components.js";
+import { normalizeConfig } from "../data/normalize-config.js";
 
 const LABELS: Record<string, string> = {
   series: "Series (JSON)",
@@ -92,7 +93,7 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
   }
 
   setConfig(config: unknown): void {
-    this._config = { ...(config as ABetterHistoryCardConfig) };
+    this._config = { ...normalizeConfig(config as ABetterHistoryCardConfig) };
     const tabs = this._tabs();
     if (!tabs.find((t) => t.id === this._activeTab)) {
       this._activeTab = tabs[0]?.id ?? "";
