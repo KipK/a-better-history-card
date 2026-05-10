@@ -4,6 +4,7 @@ import type { HistorySource } from "@kipk/ha-better-history";
 import type { CardSeriesConfig } from "../types/config.js";
 import type { HomeAssistant } from "../types/ha.js";
 import { sourceToSeriesConfig } from "../data/source-to-series.js";
+import { ensureHaComponents } from "../ha/load-components.js";
 
 const PICKER_ELEMENT_URL = new URL(
   /* @vite-ignore */ "lib/ha-better-history/picker.js",
@@ -23,7 +24,8 @@ export class SeriesListEditor extends LitElement {
     hass: { attribute: false },
     _dragIndex: { state: true },
     _dragOverIndex: { state: true },
-    _pickerReady: { state: true }
+    _pickerReady: { state: true },
+    _componentsReady: { state: true }
   };
 
   static styles = css`
@@ -32,28 +34,69 @@ export class SeriesListEditor extends LitElement {
     }
 
     .picker-section {
-      margin-bottom: 12px;
+      margin-bottom: 0;
+      max-height: 44px;
+      min-height: 36px;
+      overflow: visible;
+      position: relative;
     }
 
-    .series-row {
+    .picker-section abh-series-picker {
+      display: block;
+      max-height: 44px;
+      overflow: visible;
+    }
+
+    .series-list {
+      margin-top: 8px;
+    }
+
+    .series-panel {
       border: 1px solid var(--divider-color);
-      border-radius: 4px;
-      display: flex;
-      align-items: flex-start;
-      gap: 4px;
+      border-radius: 8px;
+      display: block;
       margin-bottom: 8px;
-      padding: 4px;
+      overflow: hidden;
     }
 
-    .series-row[drag-over] {
+    .series-panel[drag-over] {
       border-color: var(--primary-color);
+    }
+
+    .series-summary {
+      align-items: center;
+      display: grid;
+      gap: 8px;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      min-height: 40px;
+      padding: 4px 8px;
     }
 
     .drag-handle {
       color: var(--secondary-text-color);
       cursor: grab;
       flex: 0 0 auto;
-      padding-top: 12px;
+    }
+
+    .series-title {
+      color: var(--primary-text-color);
+      font-weight: 500;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .series-subtitle {
+      color: var(--secondary-text-color);
+      font-size: 12px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .series-details {
+      border-top: 1px solid var(--divider-color);
+      padding: 8px;
     }
 
     .delete-btn {
@@ -73,9 +116,11 @@ export class SeriesListEditor extends LitElement {
   private _dragIndex = -1;
   private _dragOverIndex = -1;
   private _pickerReady = false;
+  private _componentsReady = false;
 
   override connectedCallback(): void {
     super.connectedCallback();
+    ensureHaComponents().then(() => { this._componentsReady = true; });
     loadPickerElement().then(() => { this._pickerReady = true; });
   }
 
@@ -136,6 +181,18 @@ export class SeriesListEditor extends LitElement {
     }
   }
 
+  private _seriesTitle(item: CardSeriesConfig): string {
+    if (item.label) return item.label;
+    if (!item.entity) return "New series";
+    const friendlyName = this.hass?.states[item.entity]?.attributes.friendly_name;
+    return typeof friendlyName === "string" && friendlyName ? friendlyName : item.entity;
+  }
+
+  private _seriesSubtitle(item: CardSeriesConfig): string {
+    const parts = [item.entity, item.attribute].filter((part): part is string => Boolean(part));
+    return parts.length > 0 ? parts.join(" · ") : "No entity selected";
+  }
+
   protected render(): TemplateResult {
     return html`
       <div class="picker-section">
@@ -147,38 +204,66 @@ export class SeriesListEditor extends LitElement {
             ></abh-series-picker>`
           : html``}
       </div>
-      ${this.series.map(
-        (item, i) => html`
-          <div
-            class="series-row"
-            ?drag-over=${this._dragOverIndex === i}
-            draggable="true"
-            @dragstart=${() => this._onDragStart(i)}
-            @dragover=${(e: DragEvent) => this._onDragOver(e, i)}
-            @drop=${() => this._onDrop(i)}
-            @dragend=${() => this._onDragEnd()}
-          >
-            <ha-icon class="drag-handle" icon="mdi:drag"></ha-icon>
-            <abh-series-item-editor
-              .series=${item}
-              .hass=${this.hass}
-              @item-changed=${(e: CustomEvent<{ item: CardSeriesConfig }>) =>
-                this._onItemChanged(i, e.detail.item)}
-            ></abh-series-item-editor>
-            <ha-icon-button
-              class="delete-btn"
-              .label=${"Remove"}
-              @click=${() => this._remove(i)}
-            ><ha-icon icon="mdi:close"></ha-icon></ha-icon-button>
-          </div>
-        `
-      )}
+      <div class="series-list">
+        ${this.series.map((item, i) => this._renderSeriesPanel(item, i))}
+      </div>
       <div class="add-manual-btn">
         <ha-button size="small" @click=${() => this._addEmpty()}>
           <ha-icon icon="mdi:text-box-plus-outline" slot="start"></ha-icon>
           Add manually
         </ha-button>
       </div>
+    `;
+  }
+
+  private _renderSeriesPanel(item: CardSeriesConfig, index: number): TemplateResult {
+    const header = html`
+      <div class="series-summary">
+        <ha-icon class="drag-handle" icon="mdi:drag"></ha-icon>
+        <div>
+          <div class="series-title">${this._seriesTitle(item)}</div>
+          <div class="series-subtitle">${this._seriesSubtitle(item)}</div>
+        </div>
+        <ha-icon-button
+          class="delete-btn"
+          .label=${"Remove"}
+          @click=${(event: Event) => {
+            event.stopPropagation();
+            this._remove(index);
+          }}
+        ><ha-icon icon="mdi:close"></ha-icon></ha-icon-button>
+      </div>
+    `;
+
+    const content = html`
+      <div class="series-details">
+        <abh-series-item-editor
+          .series=${item}
+          .hass=${this.hass}
+          @item-changed=${(e: CustomEvent<{ item: CardSeriesConfig }>) =>
+            this._onItemChanged(index, e.detail.item)}
+        ></abh-series-item-editor>
+      </div>
+    `;
+
+    if (!this._componentsReady) {
+      return html`${header}${content}`;
+    }
+
+    return html`
+      <ha-expansion-panel
+        class="series-panel"
+        outlined
+        ?drag-over=${this._dragOverIndex === index}
+        draggable="true"
+        @dragstart=${() => this._onDragStart(index)}
+        @dragover=${(e: DragEvent) => this._onDragOver(e, index)}
+        @drop=${() => this._onDrop(index)}
+        @dragend=${() => this._onDragEnd()}
+      >
+        <div slot="header">${header}</div>
+        ${content}
+      </ha-expansion-panel>
     `;
   }
 }

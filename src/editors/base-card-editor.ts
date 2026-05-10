@@ -2,6 +2,7 @@ import { LitElement, css, html, type TemplateResult } from "lit";
 import "./series-list-editor.js";
 import type { CardSeriesConfig, ABetterHistoryCardConfig } from "../types/config.js";
 import type { HaFormChangedEvent, HaFormSchema, HomeAssistant, LovelaceCardEditor } from "../types/ha.js";
+import { ensureDateRangePicker, ensureHaComponents } from "../ha/load-components.js";
 
 const LABELS: Record<string, string> = {
   series: "Series (JSON)",
@@ -37,7 +38,9 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
   static properties = {
     hass: { attribute: false },
     _config: { state: true },
-    _activeTab: { state: true }
+    _activeTab: { state: true },
+    _componentsReady: { state: true },
+    _dateRangePickerReady: { state: true }
   };
 
   static styles = css`
@@ -63,11 +66,30 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
       border-bottom-color: var(--primary-color);
       color: var(--primary-text-color);
     }
+
+    .date-range-section {
+      margin-top: 12px;
+    }
+
+    .date-range-label {
+      color: var(--secondary-text-color);
+      display: block;
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
   `;
 
   hass?: HomeAssistant;
   protected _config: ABetterHistoryCardConfig = { type: "" };
   protected _activeTab = "";
+  private _componentsReady = false;
+  private _dateRangePickerReady = false;
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    ensureHaComponents().then(() => { this._componentsReady = true; });
+    ensureDateRangePicker().then(() => { this._dateRangePickerReady = customElements.get("ha-date-range-picker") !== undefined; });
+  }
 
   setConfig(config: unknown): void {
     this._config = { ...(config as ABetterHistoryCardConfig) };
@@ -96,9 +118,7 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
           }
         }
       },
-      { name: "hours", selector: { number: { min: 1 } } },
-      { name: "start_date", selector: { datetime: {} } },
-      { name: "end_date", selector: { datetime: {} } }
+      { name: "hours", selector: { number: { min: 1 } } }
     ];
   }
 
@@ -215,7 +235,7 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
           `
         )}
       </div>
-      ${activeTab === "entities" ? this._renderEntitiesTab() : html`
+      ${activeTab === "entities" ? this._renderEntitiesTab() : activeTab === "range" ? this._renderRangeTab() : html`
         <ha-form
           .hass=${this.hass}
           .data=${this._getFormData()}
@@ -235,5 +255,66 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
         @series-changed=${(e: CustomEvent<{ series: CardSeriesConfig[] }>) => this._onSeriesChanged(e)}
       ></abh-series-list-editor>
     `;
+  }
+
+  private _renderRangeTab(): TemplateResult {
+    return html`
+      <ha-form
+        .hass=${this.hass}
+        .data=${this._getFormData()}
+        .schema=${this._rangeSchema()}
+        .computeLabel=${(s: HaFormSchema) => this._computeLabel(s)}
+        @value-changed=${(e: HaFormChangedEvent<Record<string, unknown>>) => this._valueChanged(e)}
+      ></ha-form>
+      ${this._config.range_mode === "absolute" && this._componentsReady && this._dateRangePickerReady
+        ? html`
+            <div class="date-range-section">
+              <span class="date-range-label">Date range</span>
+              <ha-date-range-picker
+                .hass=${this.hass}
+                .startDate=${this._dateRangeStartDate()}
+                .endDate=${this._dateRangeEndDate()}
+                time-picker
+                extended-presets
+                @value-changed=${(event: CustomEvent) => this._dateRangeChanged(event)}
+              ></ha-date-range-picker>
+            </div>
+          `
+        : html``}
+    `;
+  }
+
+  private _dateRangeStartDate(): Date {
+    return this._coerceDate(this._config.start_date) ?? new Date(Date.now() - 24 * 3600000);
+  }
+
+  private _dateRangeEndDate(): Date {
+    return this._coerceDate(this._config.end_date) ?? new Date();
+  }
+
+  private _coerceDate(value: unknown): Date | undefined {
+    if (value instanceof Date && Number.isFinite(value.getTime())) return value;
+    if (typeof value !== "string" || value === "") return undefined;
+    const date = new Date(value);
+    return Number.isFinite(date.getTime()) ? date : undefined;
+  }
+
+  private _dateRangeChanged(event: CustomEvent): void {
+    const detail = event.detail as {
+      value?: { startDate?: unknown; endDate?: unknown };
+      startDate?: unknown;
+      endDate?: unknown;
+    };
+    const startDate = this._coerceDate(detail.value?.startDate ?? detail.startDate);
+    const endDate = this._coerceDate(detail.value?.endDate ?? detail.endDate);
+
+    if (!startDate || !endDate) return;
+
+    this._config = {
+      ...this._config,
+      start_date: startDate.toISOString(),
+      end_date: endDate.toISOString()
+    };
+    this._emitConfig();
   }
 }
