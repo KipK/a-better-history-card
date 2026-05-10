@@ -43,13 +43,6 @@ const LABELS: Record<string, string> = {
 };
 
 const COLOR_FIELD_NAMES = new Set(["background_color", "title_color", "button_color", "button_hover_color"]);
-const DEFAULT_COLORS: Record<string, string> = {
-  background_color: "none",
-  title_color: "primary-text-color",
-  button_color: "primary-text-color",
-  button_hover_color: "primary-color"
-};
-
 export abstract class BaseCardEditor extends LitElement implements LovelaceCardEditor {
   static properties = {
     hass: { attribute: false },
@@ -339,7 +332,6 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
         class="color-picker"
         .label=${this._computeLabel(schema)}
         .value=${this._colorValue(schema.name)}
-        default_color=${DEFAULT_COLORS[schema.name] ?? "primary-color"}
         ?include_none=${schema.name === "background_color"}
         @value-changed=${(event: CustomEvent<{ value?: string }>) => this._colorChanged(schema.name, event)}
       ></ha-color-picker>
