@@ -49,6 +49,7 @@ export function buildBetterHistoryConfig(card: ABetterHistoryCardConfig, skipTit
   if (card.background_color !== undefined) cfg.backgroundColor = card.background_color;
   if (card.line_mode !== undefined) cfg.lineMode = card.line_mode;
   if (card.line_width !== undefined) cfg.lineWidth = card.line_width;
+  if (card.show_line_mode_buttons !== undefined) cfg.showLineModeButtons = card.show_line_mode_buttons;
   if (card.debug_performance !== undefined) cfg.debugPerformance = card.debug_performance;
 
   return cfg;

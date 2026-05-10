@@ -27,6 +27,7 @@ const LABELS: Record<string, string> = {
   line_width: "Line width",
   show_tools_button: "Tools button",
   show_controls_toggle: "Controls toggle button",
+  show_line_mode_buttons: "Line mode buttons",
   button_label: "Button label",
   button_icon: "Button icon",
   button_show_name: "Show button name",
@@ -166,7 +167,8 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
       { name: "title", selector: { text: {} } },
       { name: "show_tools_button", selector: { boolean: {} } },
       { name: "show_controls_toggle", selector: { boolean: {} } },
-      { name: "show_fullscreen_button", selector: { boolean: {} } }
+      { name: "show_fullscreen_button", selector: { boolean: {} } },
+      { name: "show_line_mode_buttons", selector: { boolean: {} } }
     ];
   }
 

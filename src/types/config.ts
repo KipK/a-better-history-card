@@ -51,6 +51,7 @@ export interface ABetterHistoryCardConfig {
   show_tools_button?: boolean;
   show_controls_toggle?: boolean;
   show_fullscreen_button?: boolean;
+  show_line_mode_buttons?: boolean;
 
   // Button-card variant only
   button_label?: string;
