@@ -16,6 +16,8 @@ const LABELS: Record<string, string> = {
   show_legend: "Legend",
   show_tooltip: "Tooltip",
   show_import_button: "Import button",
+  show_export_button: "Export button",
+  show_time_range_selector: "Time range selector",
   show_controls: "Controls (chevron, initial state)",
   disable_climate_overlay: "Disable climate overlay",
   title: "Title",
@@ -133,7 +135,6 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
       { name: "show_entity_picker", selector: { boolean: {} } },
       { name: "show_legend", selector: { boolean: {} } },
       { name: "show_tooltip", selector: { boolean: {} } },
-      { name: "show_import_button", selector: { boolean: {} } },
       { name: "show_controls", selector: { boolean: {} } },
       { name: "disable_climate_overlay", selector: { boolean: {} } }
     ];
@@ -167,8 +168,16 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
       { name: "title", selector: { text: {} } },
       { name: "show_tools_button", selector: { boolean: {} } },
       { name: "show_controls_toggle", selector: { boolean: {} } },
-      { name: "show_fullscreen_button", selector: { boolean: {} } },
-      { name: "show_line_mode_buttons", selector: { boolean: {} } }
+      { name: "show_fullscreen_button", selector: { boolean: {} } }
+    ];
+  }
+
+  protected _toolsSchema(): HaFormSchema[] {
+    return [
+      { name: "show_line_mode_buttons", selector: { boolean: {} } },
+      { name: "show_import_button", selector: { boolean: {} } },
+      { name: "show_export_button", selector: { boolean: {} } },
+      { name: "show_time_range_selector", selector: { boolean: {} } }
     ];
   }
 

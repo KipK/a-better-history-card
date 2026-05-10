@@ -35,6 +35,8 @@ export interface ABetterHistoryCardConfig {
   show_legend?: boolean;
   show_tooltip?: boolean;
   show_import_button?: boolean;
+  show_export_button?: boolean;
+  show_time_range_selector?: boolean;
   show_controls?: boolean;
   disable_climate_overlay?: boolean;
 

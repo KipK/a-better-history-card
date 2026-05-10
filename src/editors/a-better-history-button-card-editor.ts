@@ -10,6 +10,7 @@ export class ABetterHistoryButtonCardEditor extends BaseCardEditor {
       { id: "display", label: "Display" },
       { id: "style", label: "Style" },
       { id: "header", label: "Header" },
+      ...(this._config.show_tools_button ? [{ id: "tools", label: "Tools" }] : []),
       { id: "button", label: "Button" },
       { id: "advanced", label: "Advanced" }
     ];
@@ -21,6 +22,7 @@ export class ABetterHistoryButtonCardEditor extends BaseCardEditor {
       case "display": return this._displaySchema();
       case "style": return this._styleSchema();
       case "header": return this._headerSchema();
+      case "tools": return this._toolsSchema();
       case "button": return this._buttonSchema();
       case "advanced": return this._advancedSchema();
       default: return [];

@@ -38,6 +38,8 @@ export function buildBetterHistoryConfig(card: ABetterHistoryCardConfig, skipTit
   if (card.show_legend !== undefined) cfg.showLegend = card.show_legend;
   if (card.show_tooltip !== undefined) cfg.showTooltip = card.show_tooltip;
   if (card.show_import_button !== undefined) cfg.showImportButton = card.show_import_button;
+  if (card.show_export_button !== undefined) cfg.showExportButton = card.show_export_button;
+  if (card.show_time_range_selector !== undefined) cfg.showTimeRangeSelector = card.show_time_range_selector;
   if (card.disable_climate_overlay !== undefined) cfg.disableClimateOverlay = card.disable_climate_overlay;
 
   if (!skipTitle) {
