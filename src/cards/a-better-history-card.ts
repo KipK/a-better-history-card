@@ -60,6 +60,7 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
       display: flex;
       flex: 0 0 auto;
       gap: 4px;
+      justify-content: flex-end;
       padding: 4px 8px 0;
     }
 

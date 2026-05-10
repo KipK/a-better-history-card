@@ -161,7 +161,8 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
   protected _toolbarSchema(): HaFormSchema[] {
     return [
       { name: "show_tools_button", selector: { boolean: {} } },
-      { name: "show_controls_toggle", selector: { boolean: {} } }
+      { name: "show_controls_toggle", selector: { boolean: {} } },
+      { name: "show_fullscreen_button", selector: { boolean: {} } }
     ];
   }
 
@@ -169,8 +170,7 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
     return [
       { name: "button_label", selector: { text: {} } },
       { name: "button_icon", selector: { icon: {} } },
-      { name: "button_show_name", selector: { boolean: {} } },
-      { name: "show_fullscreen_button", selector: { boolean: {} } }
+      { name: "button_show_name", selector: { boolean: {} } }
     ];
   }
 

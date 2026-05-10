@@ -50,12 +50,12 @@ export interface ABetterHistoryCardConfig {
   // Toolbar buttons rendered above the component
   show_tools_button?: boolean;
   show_controls_toggle?: boolean;
+  show_fullscreen_button?: boolean;
 
   // Button-card variant only
   button_label?: string;
   button_icon?: string;
   button_show_name?: boolean;
-  show_fullscreen_button?: boolean;
 
   // Layout (written by HA layout panel)
   grid_options?: { columns?: number | string; rows?: number | string };
