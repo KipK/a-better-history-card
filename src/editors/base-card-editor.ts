@@ -174,12 +174,12 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
 
   protected _buttonSchema(): HaFormSchema[] {
     return [
-      { name: "button_label", selector: { text: {} } },
       { name: "button_show_name", selector: { boolean: {} } },
-      { name: "button_icon", selector: { icon: {} } },
       { name: "button_show_icon", selector: { boolean: {} } },
-      { name: "button_color", selector: { color_rgb: {} } },
-      { name: "button_hover_effect", selector: { boolean: {} } }
+      { name: "button_hover_effect", selector: { boolean: {} } },
+      { name: "button_label", selector: { text: {} } },
+      { name: "button_icon", selector: { icon: {} } },
+      { name: "button_color", selector: { color_rgb: {} } }
     ];
   }
 
