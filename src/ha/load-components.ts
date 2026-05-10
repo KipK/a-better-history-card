@@ -5,6 +5,7 @@ const HA_COMPONENTS = [
   "ha-icon",
   "ha-icon-button",
   "ha-button",
+  "ha-color-picker",
   "ha-expansion-panel"
 ];
 

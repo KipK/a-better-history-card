@@ -11,6 +11,8 @@ export function normalizeConfig(raw: ABetterHistoryCardConfig): ABetterHistoryCa
     show_line_mode_buttons: true,
     show_export_button: true,
     show_time_range_selector: true,
+    button_show_name: true,
+    button_show_icon: true,
     button_hover_effect: true,
     ...raw
   };

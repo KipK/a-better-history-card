@@ -5,6 +5,16 @@ import type { ABetterHistoryCardConfig } from "../types/config.js";
 import { BUTTON_CARD_TYPE, BUTTON_EDITOR_TAG } from "../const.js";
 import type { HomeAssistant, LovelaceCard, LovelaceCardGridOptions } from "../types/ha.js";
 
+function cssColor(value: string | number[] | undefined): string | undefined {
+  if (typeof value === "string" && value.trim() !== "") return value.trim();
+  if (!Array.isArray(value) || value.length < 3) return undefined;
+
+  const [r, g, b] = value.map((part) => Number(part));
+  if (![r, g, b].every((part) => Number.isFinite(part))) return undefined;
+
+  return `rgb(${r}, ${g}, ${b})`;
+}
+
 export class ABetterHistoryButtonCard extends LitElement implements LovelaceCard {
   static getConfigElement(): HTMLElement {
     return document.createElement(BUTTON_EDITOR_TAG);
@@ -110,12 +120,14 @@ export class ABetterHistoryButtonCard extends LitElement implements LovelaceCard
     const showName = cfg?.button_show_name !== false;
     const showIcon = cfg?.button_show_icon !== false;
     const hoverEffect = cfg?.button_hover_effect !== false;
-    const color = cfg?.button_color;
+    const color = cssColor(cfg?.button_color);
+    const hoverColor = cssColor(cfg?.button_hover_color);
     const language = this.hass?.locale?.language ?? this.hass?.language;
 
     const cardStyleParts: string[] = [];
     if (color) cardStyleParts.push(`--_btn-color: ${color}`);
-    cardStyleParts.push(`--_btn-hover-shadow: ${hoverEffect ? "0 0 0 2px var(--primary-color)" : "none"}`);
+    if (hoverColor) cardStyleParts.push(`--_btn-hover-color: ${hoverColor}`);
+    cardStyleParts.push(`--_btn-hover-shadow: ${hoverEffect ? "0 0 0 2px var(--_btn-hover-color, var(--primary-color))" : "none"}`);
     const cardStyle = cardStyleParts.join("; ");
 
     return html`

@@ -35,10 +35,19 @@ const LABELS: Record<string, string> = {
   button_show_name: "Show button name",
   button_show_icon: "Show button icon",
   button_color: "Button color",
+  button_hover_color: "Hover color",
   button_hover_effect: "Hover effect",
   show_fullscreen_button: "Fullscreen button",
   attribute_units: "Attribute units (JSON object)",
   debug_performance: "Debug performance"
+};
+
+const COLOR_FIELD_NAMES = new Set(["background_color", "title_color", "button_color", "button_hover_color"]);
+const DEFAULT_COLORS: Record<string, string> = {
+  background_color: "none",
+  title_color: "primary-text-color",
+  button_color: "primary-text-color",
+  button_hover_color: "primary-color"
 };
 
 export abstract class BaseCardEditor extends LitElement implements LovelaceCardEditor {
@@ -83,6 +92,18 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
       display: block;
       font-size: 12px;
       margin-bottom: 4px;
+    }
+
+    .color-grid {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      margin-top: 12px;
+    }
+
+    .color-picker {
+      max-width: 260px;
+      width: 100%;
     }
   `;
 
@@ -188,7 +209,8 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
       { name: "button_hover_effect", selector: { boolean: {} } },
       { name: "button_label", selector: { text: {} } },
       { name: "button_icon", selector: { icon: {} } },
-      { name: "button_color", selector: { color_rgb: {} } }
+      { name: "button_color", selector: { color_rgb: {} } },
+      { name: "button_hover_color", selector: { color_rgb: {} } }
     ];
   }
 
@@ -253,7 +275,7 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
           `
         )}
       </div>
-      ${activeTab === "entities" ? this._renderEntitiesTab() : activeTab === "range" ? this._renderRangeTab() : html`
+      ${activeTab === "entities" ? this._renderEntitiesTab() : activeTab === "range" ? this._renderRangeTab() : activeTab === "style" ? this._renderStyleTab() : activeTab === "button" ? this._renderButtonTab() : html`
         <ha-form
           .hass=${this.hass}
           .data=${this._getFormData()}
@@ -263,6 +285,88 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
         ></ha-form>
       `}
     `;
+  }
+
+  private _renderSchemaForm(schema: HaFormSchema[]): TemplateResult {
+    return html`
+      <ha-form
+        .hass=${this.hass}
+        .data=${this._getFormData()}
+        .schema=${schema}
+        .computeLabel=${(s: HaFormSchema) => this._computeLabel(s)}
+        @value-changed=${(e: HaFormChangedEvent<Record<string, unknown>>) => this._valueChanged(e)}
+      ></ha-form>
+    `;
+  }
+
+  private _withoutColorFields(schema: HaFormSchema[]): HaFormSchema[] {
+    return schema.filter((item) => !COLOR_FIELD_NAMES.has(item.name));
+  }
+
+  private _colorFields(schema: HaFormSchema[]): HaFormSchema[] {
+    return schema.filter((item) => COLOR_FIELD_NAMES.has(item.name));
+  }
+
+  private _renderStyleTab(): TemplateResult {
+    const schema = this._styleSchema();
+
+    return html`
+      ${this._renderSchemaForm(this._withoutColorFields(schema))}
+      ${this._renderColorGrid(this._colorFields(schema))}
+    `;
+  }
+
+  private _renderButtonTab(): TemplateResult {
+    const schema = this._buttonSchema();
+
+    return html`
+      ${this._renderSchemaForm(this._withoutColorFields(schema))}
+      ${this._renderColorGrid(this._colorFields(schema))}
+    `;
+  }
+
+  private _renderColorGrid(schema: HaFormSchema[]): TemplateResult {
+    return html`
+      <div class="color-grid">
+        ${schema.map((item) => this._renderColorField(item))}
+      </div>
+    `;
+  }
+
+  private _renderColorField(schema: HaFormSchema): TemplateResult {
+    return html`
+      <ha-color-picker
+        class="color-picker"
+        .label=${this._computeLabel(schema)}
+        .value=${this._colorValue(schema.name)}
+        default_color=${DEFAULT_COLORS[schema.name] ?? "primary-color"}
+        ?include_none=${schema.name === "background_color"}
+        @value-changed=${(event: CustomEvent<{ value?: string }>) => this._colorChanged(schema.name, event)}
+      ></ha-color-picker>
+    `;
+  }
+
+  private _colorValue(name: string): string | undefined {
+    const value = (this._config as unknown as Record<string, unknown>)[name];
+    if (typeof value === "string" && value.trim() !== "") return value;
+    if (!Array.isArray(value) || value.length < 3) return undefined;
+
+    const [r, g, b] = value.map((part) => Number(part));
+    if (![r, g, b].every((part) => Number.isFinite(part))) return undefined;
+
+    return `rgb(${r}, ${g}, ${b})`;
+  }
+
+  private _colorChanged(name: string, event: CustomEvent<{ value?: string }>): void {
+    const next = { ...this._config } as Record<string, unknown>;
+    const value = event.detail.value;
+    if (value === undefined || value === "") {
+      delete next[name];
+    } else {
+      next[name] = value;
+    }
+    this._config = next as unknown as ABetterHistoryCardConfig;
+    this._emitConfig();
   }
 
   private _renderEntitiesTab(): TemplateResult {

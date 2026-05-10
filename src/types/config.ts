@@ -60,7 +60,8 @@ export interface ABetterHistoryCardConfig {
   button_icon?: string;
   button_show_name?: boolean;
   button_show_icon?: boolean;
-  button_color?: string;
+  button_color?: string | number[];
+  button_hover_color?: string | number[];
   button_hover_effect?: boolean;
 
   // Layout (written by HA layout panel)
