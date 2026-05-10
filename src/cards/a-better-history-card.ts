@@ -110,7 +110,7 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
   getGridOptions(): LovelaceCardGridOptions {
     return {
       columns: 12,
-      rows: "auto",
+      rows: 6,
       min_columns: 6,
       min_rows: 2
     };
