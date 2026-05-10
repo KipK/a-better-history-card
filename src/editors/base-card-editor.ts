@@ -29,7 +29,7 @@ const LABELS: Record<string, string> = {
   button_label: "Button label",
   button_icon: "Button icon",
   button_show_name: "Show button name",
-  show_fullscreen_button: "Fullscreen button (dialog only)",
+  show_fullscreen_button: "Fullscreen button",
   attribute_units: "Attribute units (JSON object)",
   debug_performance: "Debug performance"
 };

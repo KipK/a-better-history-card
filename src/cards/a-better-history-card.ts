@@ -44,6 +44,7 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
     _config: { state: true },
     _toolsOpen: { state: true },
     _controlsVisible: { state: true },
+    _fullscreen: { state: true },
     _historyElementReady: { state: true }
   };
 
@@ -88,6 +89,7 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
   private _config?: ABetterHistoryCardConfig;
   private _toolsOpen = false;
   private _controlsVisible = true;
+  private _fullscreen = false;
   private _historyElementReady = customElements.get("ha-better-history") !== undefined;
   private _historyElementLoadStarted = false;
 
@@ -130,9 +132,31 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
     }
   }
 
+  connectedCallback(): void {
+    super.connectedCallback();
+    document.addEventListener("fullscreenchange", this._onFullscreenChange);
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback();
+    document.removeEventListener("fullscreenchange", this._onFullscreenChange);
+  }
+
+  private _onFullscreenChange = (): void => {
+    this._fullscreen = document.fullscreenElement === this;
+  };
+
+  private _toggleFullscreen(): void {
+    if (document.fullscreenElement) {
+      void document.exitFullscreen();
+    } else {
+      void this.requestFullscreen();
+    }
+  }
+
   private _renderToolbar(): TemplateResult | typeof nothing {
     const cfg = this._config;
-    if (!cfg?.show_tools_button && !cfg?.show_controls_toggle) return nothing;
+    if (!cfg?.show_tools_button && !cfg?.show_controls_toggle && !cfg?.show_fullscreen_button) return nothing;
 
     return html`
       <div class="toolbar">
@@ -148,6 +172,12 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
               .label=${this._controlsVisible ? "Hide controls" : "Show controls"}
               @click=${() => { this._controlsVisible = !this._controlsVisible; }}
             ><ha-icon icon=${this._controlsVisible ? "mdi:chevron-up" : "mdi:chevron-down"}></ha-icon></ha-icon-button>`
+          : nothing}
+        ${cfg.show_fullscreen_button
+          ? html`<ha-icon-button
+              .label=${this._fullscreen ? "Exit fullscreen" : "Fullscreen"}
+              @click=${() => this._toggleFullscreen()}
+            ><ha-icon icon=${this._fullscreen ? "mdi:fullscreen-exit" : "mdi:fullscreen"}></ha-icon></ha-icon-button>`
           : nothing}
       </div>
     `;
