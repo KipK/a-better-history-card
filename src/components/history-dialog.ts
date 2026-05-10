@@ -176,7 +176,7 @@ export class HistoryDialog extends LitElement {
               @click=${() => { this._toolsOpen = !this._toolsOpen; }}
             ><ha-icon icon="mdi:tools"></ha-icon></ha-icon-button>`
           : nothing}
-        ${cfg?.show_controls_toggle
+        ${cfg?.show_controls_toggle && (cfg?.show_date_picker || cfg?.show_entity_picker)
           ? html`<ha-icon-button
               slot="headerActionItems"
               class="btn"

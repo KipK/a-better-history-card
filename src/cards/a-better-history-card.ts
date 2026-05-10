@@ -174,7 +174,8 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
   private _renderHeader(): TemplateResult | typeof nothing {
     const cfg = this._config;
     const title = cfg?.title;
-    const hasButtons = cfg?.show_tools_button || cfg?.show_controls_toggle || cfg?.show_fullscreen_button;
+    const showChevron = !!(cfg?.show_controls_toggle && (cfg?.show_date_picker || cfg?.show_entity_picker));
+    const hasButtons = cfg?.show_tools_button || showChevron || cfg?.show_fullscreen_button;
 
     if (!title && !hasButtons) return nothing;
 
@@ -195,7 +196,7 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
                 @click=${() => { this._toolsOpen = !this._toolsOpen; }}
               ><ha-icon icon="mdi:tools"></ha-icon></ha-icon-button>`
             : nothing}
-          ${cfg.show_controls_toggle
+          ${showChevron
             ? html`<ha-icon-button
                 .label=${this._controlsVisible ? "Hide controls" : "Show controls"}
                 @click=${() => { this._controlsVisible = !this._controlsVisible; }}
