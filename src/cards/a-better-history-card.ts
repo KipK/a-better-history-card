@@ -1,0 +1,158 @@
+import { LitElement, css, html, nothing, type TemplateResult } from "lit";
+import { buildBetterHistoryConfig } from "../data/build-better-history-config.js";
+import { normalizeConfig } from "../data/normalize-config.js";
+import type { ABetterHistoryCardConfig } from "../types/config.js";
+import type { HomeAssistant, LovelaceCard, LovelaceCardGridOptions } from "../types/ha.js";
+
+// Resolved at runtime relative to the bundle — do not let Vite resolve this path.
+const HISTORY_ELEMENT_URL = new URL(
+  /* @vite-ignore */ "lib/ha-better-history/define.js",
+  import.meta.url
+).toString();
+
+export class ABetterHistoryCard extends LitElement implements LovelaceCard {
+  static properties = {
+    hass: { attribute: false },
+    _config: { state: true },
+    _toolsOpen: { state: true },
+    _controlsVisible: { state: true },
+    _historyElementReady: { state: true }
+  };
+
+  static styles = css`
+    :host {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .toolbar {
+      align-items: center;
+      display: flex;
+      flex: 0 0 auto;
+      gap: 4px;
+      padding: 4px 8px 0;
+    }
+
+    ha-better-history {
+      flex: 1;
+      min-height: 0;
+    }
+
+    .error {
+      align-items: center;
+      color: var(--error-color, red);
+      display: flex;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .loading {
+      align-items: center;
+      color: var(--secondary-text-color);
+      display: flex;
+      flex: 1;
+      justify-content: center;
+    }
+  `;
+
+  hass?: HomeAssistant;
+  private _config?: ABetterHistoryCardConfig;
+  private _toolsOpen = false;
+  private _controlsVisible = true;
+  private _historyElementReady = customElements.get("ha-better-history") !== undefined;
+  private _historyElementLoadStarted = false;
+
+  setConfig(config: unknown): void {
+    const raw = config as ABetterHistoryCardConfig;
+    if (!raw.entities?.length && !raw.series?.length) {
+      // Allow empty config — show placeholder rather than throw.
+    }
+    this._config = { ...normalizeConfig(raw) };
+    this._controlsVisible = this._config.show_controls ?? true;
+    void this._loadHistoryElement();
+  }
+
+  getCardSize(): number {
+    const rows = this._config?.grid_options?.rows;
+    if (typeof rows === "number") return rows;
+    return 6;
+  }
+
+  getGridOptions(): LovelaceCardGridOptions {
+    return {
+      columns: 12,
+      rows: "auto",
+      min_columns: 6,
+      min_rows: 2
+    };
+  }
+
+  private async _loadHistoryElement(): Promise<void> {
+    if (this._historyElementReady || this._historyElementLoadStarted) return;
+    this._historyElementLoadStarted = true;
+
+    try {
+      await import(/* @vite-ignore */ HISTORY_ELEMENT_URL);
+      await customElements.whenDefined("ha-better-history");
+      this._historyElementReady = true;
+    } catch (error) {
+      console.warn("[a-better-history-card] Failed to load ha-better-history:", error);
+      this._historyElementLoadStarted = false;
+    }
+  }
+
+  private _renderToolbar(): TemplateResult | typeof nothing {
+    const cfg = this._config;
+    if (!cfg?.show_tools_button && !cfg?.show_controls_toggle) return nothing;
+
+    return html`
+      <div class="toolbar">
+        ${cfg.show_tools_button
+          ? html`<ha-icon-button
+              .label=${"Tools"}
+              ?active=${this._toolsOpen}
+              @click=${() => { this._toolsOpen = !this._toolsOpen; }}
+            ><ha-icon icon="mdi:tools"></ha-icon></ha-icon-button>`
+          : nothing}
+        ${cfg.show_controls_toggle
+          ? html`<ha-icon-button
+              .label=${this._controlsVisible ? "Hide controls" : "Show controls"}
+              @click=${() => { this._controlsVisible = !this._controlsVisible; }}
+            ><ha-icon icon=${this._controlsVisible ? "mdi:chevron-up" : "mdi:chevron-down"}></ha-icon></ha-icon-button>`
+          : nothing}
+      </div>
+    `;
+  }
+
+  protected render(): TemplateResult {
+    const cfg = this._config;
+
+    if (!cfg) {
+      return html`<div class="error">No configuration.</div>`;
+    }
+
+    if (!cfg.entities?.length && !cfg.series?.length) {
+      return html`<div class="error">Configure at least one entity.</div>`;
+    }
+
+    if (!this._historyElementReady) {
+      return html`<div class="loading">Loading history…</div>`;
+    }
+
+    const bhConfig = buildBetterHistoryConfig(cfg);
+    const language = this.hass?.locale?.language ?? this.hass?.language;
+
+    return html`
+      ${this._renderToolbar()}
+      <ha-better-history
+        .hass=${this.hass}
+        .config=${bhConfig}
+        .language=${language}
+        .toolsOpen=${this._toolsOpen}
+        .showControls=${this._controlsVisible}
+        style="width:100%;height:100%;"
+      ></ha-better-history>
+    `;
+  }
+}
