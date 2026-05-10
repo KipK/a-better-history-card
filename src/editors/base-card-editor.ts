@@ -1,5 +1,6 @@
 import { LitElement, css, html, type TemplateResult } from "lit";
-import type { ABetterHistoryCardConfig } from "../types/config.js";
+import "./series-list-editor.js";
+import type { CardSeriesConfig, ABetterHistoryCardConfig } from "../types/config.js";
 import type { HaFormChangedEvent, HaFormSchema, HomeAssistant, LovelaceCardEditor } from "../types/ha.js";
 
 const LABELS: Record<string, string> = {
@@ -83,10 +84,7 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
   // Shared schema builders
 
   protected _entitiesSchema(): HaFormSchema[] {
-    return [
-      { name: "entities", selector: { entity: { multiple: true } } },
-      { name: "series", selector: { text: { multiline: true } } }
-    ];
+    return [{ name: "entities", selector: { entity: { multiple: true } } }];
   }
 
   protected _rangeSchema(): HaFormSchema[] {
@@ -174,9 +172,6 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
 
   private _getFormData(): Record<string, unknown> {
     const data = { ...this._config } as Record<string, unknown>;
-    if (Array.isArray(data.series)) {
-      data.series = JSON.stringify(data.series, null, 2);
-    }
     if (data.attribute_units && typeof data.attribute_units === "object") {
       data.attribute_units = JSON.stringify(data.attribute_units, null, 2);
     }
@@ -186,14 +181,20 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
   private _valueChanged(event: HaFormChangedEvent<Record<string, unknown>>): void {
     const raw = { ...event.detail.value };
 
-    if (typeof raw.series === "string") {
-      try { raw.series = JSON.parse(raw.series); } catch { delete raw.series; }
-    }
     if (typeof raw.attribute_units === "string") {
       try { raw.attribute_units = JSON.parse(raw.attribute_units); } catch { delete raw.attribute_units; }
     }
 
     this._config = { ...this._config, ...(raw as unknown as ABetterHistoryCardConfig) };
+    this._emitConfig();
+  }
+
+  private _onSeriesChanged(event: CustomEvent<{ series: CardSeriesConfig[] }>): void {
+    this._config = { ...this._config, series: event.detail.series };
+    this._emitConfig();
+  }
+
+  private _emitConfig(): void {
     this.dispatchEvent(
       new CustomEvent("config-changed", {
         detail: { config: this._config },
@@ -206,7 +207,6 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
   protected render(): TemplateResult {
     const tabs = this._tabs();
     const activeTab = tabs.find((t) => t.id === this._activeTab)?.id ?? tabs[0]?.id ?? "";
-    const schema = this._schema(activeTab);
 
     return html`
       <div class="tabs">
@@ -220,13 +220,32 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
           `
         )}
       </div>
+      ${activeTab === "entities" ? this._renderEntitiesTab() : html`
+        <ha-form
+          .hass=${this.hass}
+          .data=${this._getFormData()}
+          .schema=${this._schema(activeTab)}
+          .computeLabel=${(s: HaFormSchema) => this._computeLabel(s)}
+          @value-changed=${(e: HaFormChangedEvent<Record<string, unknown>>) => this._valueChanged(e)}
+        ></ha-form>
+      `}
+    `;
+  }
+
+  private _renderEntitiesTab(): TemplateResult {
+    return html`
       <ha-form
         .hass=${this.hass}
         .data=${this._getFormData()}
-        .schema=${schema}
+        .schema=${this._entitiesSchema()}
         .computeLabel=${(s: HaFormSchema) => this._computeLabel(s)}
         @value-changed=${(e: HaFormChangedEvent<Record<string, unknown>>) => this._valueChanged(e)}
       ></ha-form>
+      <abh-series-list-editor
+        .series=${this._config.series ?? []}
+        .hass=${this.hass}
+        @series-changed=${(e: CustomEvent<{ series: CardSeriesConfig[] }>) => this._onSeriesChanged(e)}
+      ></abh-series-list-editor>
     `;
   }
 }

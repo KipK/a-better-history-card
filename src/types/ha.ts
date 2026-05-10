@@ -45,6 +45,7 @@ export interface HaFormSchema {
   icon?: string;
   schema?: HaFormSchema[];
   selector?: Record<string, unknown>;
+  conditions?: Array<{ name: string; value: unknown }>;
 }
 
 export interface HaFormChangedEvent<T> extends CustomEvent {
