@@ -30,11 +30,11 @@ export class HistoryDialog extends LitElement {
     .btn {
       --ha-icon-button-size: 40px;
       --ha-icon-button-padding-inline: 6px;
+      --mdc-icon-size: 20px;
       color: var(--primary-text-color);
     }
 
     .btn-tools {
-      --mdc-icon-size: 18px;
       margin-inline-start: 12px;
     }
 

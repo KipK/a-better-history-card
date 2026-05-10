@@ -71,6 +71,13 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
       margin-inline-start: auto;
     }
 
+    .header-actions ha-icon-button {
+      --ha-icon-button-size: 40px;
+      --ha-icon-button-padding-inline: 6px;
+      --mdc-icon-size: 20px;
+      color: var(--primary-text-color);
+    }
+
     .card-title {
       font-weight: 500;
       line-height: 1.25;
