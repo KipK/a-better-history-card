@@ -5,6 +5,7 @@ function mapSeries(s: CardSeriesConfig): SeriesConfig {
   return {
     entity: s.entity,
     ...(s.attribute !== undefined && { attribute: s.attribute }),
+    ...(s.forced !== undefined && { forced: s.forced }),
     ...(s.label !== undefined && { label: s.label }),
     ...(s.color !== undefined && { color: s.color }),
     ...(s.unit !== undefined && { unit: s.unit }),
