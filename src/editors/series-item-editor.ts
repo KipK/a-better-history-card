@@ -43,6 +43,13 @@ export class SeriesItemEditor extends LitElement {
   }
 
   private _schema(): HaFormSchema[] {
+    const manualScaleSchema: HaFormSchema[] = this.series.scale_mode === "manual"
+      ? [
+          { name: "scale_min", selector: { number: {} } },
+          { name: "scale_max", selector: { number: {} } }
+        ]
+      : [];
+
     return [
       { name: "entity", selector: { entity: {} } },
       { name: "attribute", selector: { text: {} } },
@@ -62,18 +69,7 @@ export class SeriesItemEditor extends LitElement {
           }
         }
       },
-      {
-        type: "conditional",
-        name: "scale_min",
-        conditions: [{ name: "scale_mode", value: "manual" }],
-        schema: [{ name: "scale_min", selector: { number: {} } }]
-      },
-      {
-        type: "conditional",
-        name: "scale_max",
-        conditions: [{ name: "scale_mode", value: "manual" }],
-        schema: [{ name: "scale_max", selector: { number: {} } }]
-      },
+      ...manualScaleSchema,
       {
         name: "line_mode",
         selector: {
