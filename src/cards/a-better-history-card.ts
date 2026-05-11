@@ -103,6 +103,8 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
     }
 
     ha-better-history {
+      --better-history-min-height: 0px;
+      --better-history-surface-overflow-y: hidden;
       flex: 1;
       min-height: 0;
     }
