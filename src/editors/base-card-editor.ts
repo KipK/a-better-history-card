@@ -110,6 +110,12 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
       max-width: 260px;
       width: 100%;
     }
+
+    .slider-safe-form {
+      box-sizing: border-box;
+      margin-inline: 6px;
+      max-width: calc(100% - 12px);
+    }
   `;
 
   hass?: HomeAssistant;
@@ -317,7 +323,9 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
     const schema = this._styleSchema();
 
     return html`
-      ${this._renderSchemaForm(this._withoutColorFields(schema))}
+      <div class="slider-safe-form">
+        ${this._renderSchemaForm(this._withoutColorFields(schema))}
+      </div>
       ${this._renderColorGrid(this._colorFields(schema))}
     `;
   }

@@ -77,6 +77,13 @@ export class SeriesItemEditor extends LitElement {
       flex: 1;
       min-width: 0;
     }
+
+    ha-form {
+      box-sizing: border-box;
+      display: block;
+      margin-inline: 6px;
+      max-width: calc(100% - 12px);
+    }
   `;
 
   series: CardSeriesConfig = { entity: "" };
