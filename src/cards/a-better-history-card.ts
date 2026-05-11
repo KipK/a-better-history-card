@@ -66,6 +66,11 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
 
   static styles = css`
     :host {
+      display: block;
+      height: 100%;
+    }
+
+    ha-card {
       display: flex;
       flex-direction: column;
       height: 100%;
@@ -243,37 +248,39 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
     const cfg = this._config;
 
     if (!cfg) {
-      return html`<div class="error">${localize(this.hass, "card.error.no_configuration")}</div>`;
+      return html`<ha-card><div class="error">${localize(this.hass, "card.error.no_configuration")}</div></ha-card>`;
     }
 
     if (!cfg.entities?.length && !cfg.series?.length) {
-      return html`<div class="error">${localize(this.hass, "card.error.no_entities")}</div>`;
+      return html`<ha-card><div class="error">${localize(this.hass, "card.error.no_entities")}</div></ha-card>`;
     }
 
     if (!this._historyElementReady) {
-      return html`<div class="loading">${localize(this.hass, "dialog.loading_history")}</div>`;
+      return html`<ha-card><div class="loading">${localize(this.hass, "dialog.loading_history")}</div></ha-card>`;
     }
 
     const bhConfig = buildBetterHistoryConfig(cfg, !!cfg.title);
     const language = this.hass?.locale?.language ?? this.hass?.language;
 
     return html`
-      ${this._renderHeader()}
-      <ha-better-history
-        .hass=${this.hass}
-        .config=${bhConfig}
-        .language=${language}
-        .toolsOpen=${this._toolsOpen}
-        .showControls=${this._controlsVisible}
-        style="width:100%;height:100%;"
-      ></ha-better-history>
-      <abh-history-dialog
-        .open=${this._dialogOpen}
-        .hass=${this.hass}
-        .config=${cfg}
-        .language=${language}
-        @dialog-closed=${this._onDialogClosed}
-      ></abh-history-dialog>
+      <ha-card>
+        ${this._renderHeader()}
+        <ha-better-history
+          .hass=${this.hass}
+          .config=${bhConfig}
+          .language=${language}
+          .toolsOpen=${this._toolsOpen}
+          .showControls=${this._controlsVisible}
+          style="width:100%;height:100%;"
+        ></ha-better-history>
+        <abh-history-dialog
+          .open=${this._dialogOpen}
+          .hass=${this.hass}
+          .config=${cfg}
+          .language=${language}
+          @dialog-closed=${this._onDialogClosed}
+        ></abh-history-dialog>
+      </ha-card>
     `;
   }
 }
