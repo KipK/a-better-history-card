@@ -15,6 +15,45 @@ Both variants share the same configuration schema and the same visual editor.
 
 ---
 
+## Features
+
+### Entity attribute graphs — what native HA history cannot do
+
+The native Home Assistant history panel only graphs **entity states**. Many of the most useful
+values in HA live in **entity attributes** — the current temperature of a climate thermostat, the
+battery level of a sensor, the power draw of a smart plug, the position of a cover, etc. These
+are invisible to the built-in history.
+
+`ha-better-history` graphs attributes as first-class series. You can mix state series and attribute
+series on the same graph, with independent colors, labels, and Y-axis scale groups:
+
+```yaml
+series:
+  - entity: climate.living_room
+    attribute: current_temperature   # not visible in native HA history
+    label: Indoor temp
+    scale_group: temperature
+  - entity: sensor.outdoor_temperature
+    label: Outdoor temp
+    scale_group: temperature         # shares the same Y-axis
+```
+
+> Because HA attributes carry no unit metadata, declare units via `attribute_units` so series
+> can be matched onto a shared scale — see the [`attribute_units`](#data) option.
+
+### Other highlights
+
+- **Multi-entity, multi-attribute** — combine as many series as needed on one graph.
+- **Scale groups** — group series onto a shared Y-axis by unit (e.g. all temperatures together, all humidity readings together).
+- **Per-series styling** — color, line mode (stair / line / column), and line width per series.
+- **Climate overlay** — heating/cooling state visualized as a background band on climate series.
+- **Flexible time range** — rolling relative window (e.g. last 48 h) or fixed absolute date range, with an optional date-range picker in the graph.
+- **Toolbar** — optional tools panel with zoom selector, line-mode buttons, CSV export/import.
+- **Two card variants** — inline graph in the dashboard grid, or a button that opens a dialog.
+- **Visual editor** — full tabbed UI editor; no YAML required.
+
+---
+
 ## Screenshots
 
 > _Screenshots will be added in a later step._

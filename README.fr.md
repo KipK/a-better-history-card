@@ -15,6 +15,46 @@ Les deux variantes partagent le même schéma de configuration et le même édit
 
 ---
 
+## Fonctionnalités
+
+### Graphiques des attributs d'entités — ce que l'historique natif de HA ne peut pas faire
+
+Le panneau d'historique natif de Home Assistant ne trace que les **états des entités**. Or, de
+nombreuses valeurs utiles dans HA se trouvent dans les **attributs** des entités — la température
+actuelle d'un thermostat climat, le niveau de batterie d'un capteur, la puissance consommée d'une
+prise connectée, la position d'un volet, etc. Ces valeurs sont invisibles dans l'historique intégré.
+
+`ha-better-history` trace les attributs comme des séries à part entière. Vous pouvez mélanger séries
+d'état et séries d'attributs sur le même graphique, avec couleurs, libellés et groupes d'axe Y
+indépendants :
+
+```yaml
+series:
+  - entity: climate.living_room
+    attribute: current_temperature   # invisible dans l'historique natif HA
+    label: Temp. intérieure
+    scale_group: temperature
+  - entity: sensor.outdoor_temperature
+    label: Temp. extérieure
+    scale_group: temperature         # partage le même axe Y
+```
+
+> Les attributs HA ne portant aucune métadonnée d'unité, déclarez les unités via `attribute_units`
+> pour que les séries puissent être regroupées sur une échelle commune — voir l'option [`attribute_units`](#données).
+
+### Autres points forts
+
+- **Multi-entités, multi-attributs** — combinez autant de séries que nécessaire sur un seul graphique.
+- **Groupes d'axe** — regroupez les séries sur un axe Y commun par unité (ex. toutes les températures ensemble, toutes les humidités ensemble).
+- **Style par série** — couleur, mode de ligne (escalier / ligne / colonne) et épaisseur par série.
+- **Superposition climat** — état chauffe/refroidissement visualisé en bande de fond sur les séries clima.
+- **Plage temporelle flexible** — fenêtre glissante relative (ex. dernières 48 h) ou plage de dates fixe, avec sélecteur de dates optionnel dans le graphique.
+- **Barre d'outils** — panneau outils optionnel avec sélecteur de zoom, boutons de mode ligne, export/import CSV.
+- **Deux variantes de carte** — graphique inline dans la grille du tableau de bord, ou bouton qui ouvre une boîte de dialogue.
+- **Éditeur visuel** — éditeur complet à onglets ; aucun YAML requis.
+
+---
+
 ## Captures d'écran
 
 > _Les captures d'écran seront ajoutées dans une étape ultérieure._
