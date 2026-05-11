@@ -67,6 +67,9 @@ series:
 
 ### Via HACS
 
+[![Add this repository to HACS.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=KipK&repository=a-better-history-card&category=Plugin)
+
+
 1. Add this repository as a custom repository in HACS (type: **Dashboard**).
 2. Install **a-better-history-card** from HACS.
 3. Clear browser cache and reload Home Assistant.
