@@ -59,16 +59,15 @@ export class HistoryDialog extends LitElement {
     .history {
       display: flex;
       flex: 1 1 auto;
-      height: min(82vh, 900px);
-      min-height: 70vh;
+      height: min(72vh, 58vw, 820px);
+      min-height: min(420px, calc(100vh - 128px));
       min-width: 0;
       width: 100%;
     }
 
     ha-dialog[fullscreen] .history {
-      height: calc(100vh - 96px);
-      min-height: calc(100vh - 96px);
-      max-height: 56vw;
+      height: min(76vh, 52vw, 860px);
+      min-height: min(460px, calc(100vh - 128px));
     }
   `;
 
