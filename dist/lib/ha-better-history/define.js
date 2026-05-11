@@ -1,5 +1,5 @@
-import { C as e, S as t, _ as n, a as r, b as i, c as a, d as o, f as s, g as c, h as l, i as u, l as d, m as f, n as p, o as m, p as h, r as g, s as _, t as v, u as y, v as ee, x as b, y as x } from "./decorators-BBL2xFP6.js";
-//#region node_modules/@kipk/ha-better-history/dist/ha-better-history-BgBEvQh2.js
+import { C as e, S as t, _ as n, a as r, b as i, c as a, d as o, f as s, g as c, h as l, i as u, l as d, m as f, n as p, o as m, p as h, r as g, s as _, t as v, u as y, v as ee, x as b, y as x } from "./decorators-B_XoYuBq.js";
+//#region ../ha-better-history/dist/ha-better-history-CC9ddAmQ.js
 var S = 6e4, te = 48;
 function C(e) {
 	requestAnimationFrame(() => requestAnimationFrame(e));
@@ -371,38 +371,38 @@ var _e = .15, ve = 8;
 function ye(e) {
 	return Math.max(e.max - e.min, 1e-9);
 }
-function be(e) {
+function M(e) {
 	return (e.min + e.max) / 2;
 }
-function M(e) {
+function N(e) {
 	return Math.log10(Math.max(Math.abs(e), 1e-9));
 }
-function N(e, t) {
-	let n = Math.abs(M(ye(e)) - M(ye(t))), r = Math.abs(M(be(e)) - M(be(t))), i = e.unit && t.unit && e.unit !== t.unit ? .4 : 0;
+function P(e, t) {
+	let n = Math.abs(N(ye(e)) - N(ye(t))), r = Math.abs(N(M(e)) - N(M(t))), i = e.unit && t.unit && e.unit !== t.unit ? .4 : 0;
 	return n + r * .6 + i;
 }
-function xe(e) {
+function be(e) {
 	if (e.length < 2) return !1;
 	let t = Math.min(...e.map((e) => e.min)), n = Math.max(...e.map((e) => e.max)), r = Math.max(n - t, 1e-9), i = e.map((e) => e.max - e.min).filter((e) => e > 1e-6);
 	if (i.length < 2) return !1;
 	let a = Math.min(...i), o = Math.max(...i);
 	return Math.min(...i.map((e) => e / r)) <= _e && (o / Math.max(a, 1e-9) >= ve || r / a >= ve);
 }
-function Se(e) {
+function xe(e) {
 	let t = e[0], n = e[1], r = -Infinity;
 	for (let i = 0; i < e.length; i++) for (let a = i + 1; a < e.length; a++) {
-		let o = N(e[i], e[a]);
+		let o = P(e[i], e[a]);
 		o > r && (r = o, t = e[i], n = e[a]);
 	}
 	return t.order <= n.order ? [t, n] : [n, t];
 }
-function Ce(e) {
-	if (!xe(e)) return [e, []];
-	let [t, n] = Se(e), r = [], i = [];
-	for (let a of e) a.id === t.id ? r.push(a) : a.id === n.id ? i.push(a) : N(a, t) <= N(a, n) ? r.push(a) : i.push(a);
+function Se(e) {
+	if (!be(e)) return [e, []];
+	let [t, n] = xe(e), r = [], i = [];
+	for (let a of e) a.id === t.id ? r.push(a) : a.id === n.id ? i.push(a) : P(a, t) <= P(a, n) ? r.push(a) : i.push(a);
 	return [r, i];
 }
-function P(e, t, n, r) {
+function Ce(e, t, n, r) {
 	let i = Math.min(...n.map((e) => e.min)), a = Math.max(...n.map((e) => e.max)), o = Math.max(...n.map((e) => e.precision)), s = he(i, a, o), c = de(s.min, s.max);
 	return {
 		ids: new Set(n.map((e) => e.id)),
@@ -434,8 +434,8 @@ function we(e) {
 		});
 	}
 	return t.flatMap((e, t) => {
-		let [n, r] = e.key === "group:boolean" ? [e.series, []] : Ce(e.series), i = 28 + t * le, a = P(e.key, "left", n, i);
-		return r.length > 0 ? [a, P(e.key, "right", r, i)] : [a];
+		let [n, r] = e.key === "group:boolean" ? [e.series, []] : Se(e.series), i = 28 + t * le, a = Ce(e.key, "left", n, i);
+		return r.length > 0 ? [a, Ce(e.key, "right", r, i)] : [a];
 	});
 }
 function Te(e, t, n, r) {
@@ -501,7 +501,7 @@ function Oe(e) {
 		let r = e[1], i = e.slice(2).join(":");
 		t.has(r) || t.set(r, {});
 		let a = t.get(r);
-		i === "current_temperature" || i === "temperature" ? a.temp = n.id : i === "hvac_action" && (a.hvac = n.id);
+		i === "current_temperature" || i === "temperature" && !a.temp ? a.temp = n.id : i === "hvac_action" && (a.hvac = n.id);
 	}
 	for (let [, e] of t) if (e.temp && e.hvac) return {
 		tempId: e.temp,
@@ -550,17 +550,16 @@ function ke(e, t, n) {
 	});
 }
 function Ae(e, t) {
-	let n = Date.now();
-	return e.flatMap((r, i) => {
-		let a = Math.max(r.time, t.start), o = Math.min(e[i + 1]?.time ?? t.end, t.end, n);
-		return o > a ? [{
-			start: a,
-			end: o,
-			value: r.value
+	let n = Date.now(), r = [...e].sort((e, t) => e.time - t.time), i = r.findIndex((e) => e.time >= t.start), a = i === -1 ? r.length : i, o = a > 0 ? r.slice(a - 1) : r;
+	return o.flatMap((e, r) => {
+		let i = Math.max(e.time, t.start), a = Math.min(o[r + 1]?.time ?? t.end, t.end, n);
+		return a > i ? [{
+			start: i,
+			end: a,
+			value: e.value
 		}] : [];
 	});
 }
-var je = 16;
 function I(e, t) {
 	return 40 + (e - t.start) / (t.end - t.start) * 640;
 }
@@ -584,26 +583,26 @@ function z(e, t) {
 		}] : [];
 	});
 }
-var Me = new Set([
+var je = new Set([
 	"off",
 	"idle",
 	"none",
 	"false"
 ]);
-function Ne(e, t, n, r) {
+function Me(e, t, n, r) {
 	if (typeof e == "boolean") return e ? t : "var(--better-history-muted-color, var(--secondary-text-color, #888))";
 	let i = String(e);
-	return Me.has(i.toLowerCase()) ? "var(--better-history-muted-color, var(--secondary-text-color, #888))" : (n.has(i) || n.set(i, E[(r + n.size) % E.length]), n.get(i));
+	return je.has(i.toLowerCase()) ? "var(--better-history-muted-color, var(--secondary-text-color, #888))" : (n.has(i) || n.set(i, E[(r + n.size) % E.length]), n.get(i));
 }
-function Pe(e, t) {
+function Ne(e, t) {
 	return e + 34 + Math.max(t - 1, 0) * 14;
 }
-function Fe(e, t, n, r) {
+function Pe(e, t, n, r) {
 	return e.flatMap((e) => {
 		if (e.valueType !== "number" && e.valueType !== "boolean" || e.lineMode === "column") return [];
 		let i = R(e, t);
 		if (!i) return [];
-		let a = Te(Ie(e.points, n, e.lineMode, r), n, 40, 640), { points: o, pathLength: s } = e.lineMode === "line" ? We(a, n, i) : Ue(a, n, i);
+		let a = Te(Fe(e.points, n, e.lineMode, r), n, 40, 640), { points: o, pathLength: s } = e.lineMode === "line" ? Ue(a, n, i) : He(a, n, i);
 		return [{
 			id: e.id,
 			color: e.color,
@@ -613,12 +612,12 @@ function Fe(e, t, n, r) {
 		}];
 	});
 }
-function Ie(e, t, n, r) {
+function Fe(e, t, n, r) {
 	let i = e.map((e) => ({
 		time: e.time,
 		value: Number(e.value)
 	})).filter((e) => Number.isFinite(e.value)).sort((e, t) => e.time - t.time), a = i.filter((e) => e.time >= t.start && e.time <= t.end);
-	if (n === "line") return Re(i, a, t);
+	if (n === "line") return Le(i, a, t);
 	let o = [...i].reverse().find((e) => e.time < t.start), s = o && (a.length === 0 || a[0].time > t.start) ? [{
 		time: t.start,
 		value: o.value
@@ -628,7 +627,7 @@ function Ie(e, t, n, r) {
 		value: c.value
 	}] : s;
 }
-function Le(e, t, n) {
+function Ie(e, t, n) {
 	if (!e || !t || e.time === t.time || e.time > n || t.time < n) return;
 	let r = (n - e.time) / (t.time - e.time);
 	return {
@@ -636,23 +635,23 @@ function Le(e, t, n) {
 		value: e.value + (t.value - e.value) * r
 	};
 }
-function Re(e, t, n) {
-	let r = [...e].reverse().find((e) => e.time < n.start), i = e.find((e) => e.time > n.start), a = [...e].reverse().find((e) => e.time < n.end), o = e.find((e) => e.time > n.end), s = t[0]?.time === n.start ? void 0 : Le(r, i, n.start), c = t[t.length - 1]?.time === n.end ? void 0 : Le(a, o, n.end);
+function Le(e, t, n) {
+	let r = [...e].reverse().find((e) => e.time < n.start), i = e.find((e) => e.time > n.start), a = [...e].reverse().find((e) => e.time < n.end), o = e.find((e) => e.time > n.end), s = t[0]?.time === n.start ? void 0 : Ie(r, i, n.start), c = t[t.length - 1]?.time === n.end ? void 0 : Ie(a, o, n.end);
 	return [
 		s,
 		...t,
 		c
 	].filter((e) => e !== void 0);
 }
-function ze(e) {
+function Re(e) {
 	return e.min <= 0 && e.max >= 0 ? 0 : e.min > 0 ? e.min : e.max;
 }
-function Be(e, t, n) {
+function ze(e, t, n) {
 	return e.flatMap((e) => {
 		if (e.valueType !== "number" && e.valueType !== "boolean" || e.lineMode !== "column") return [];
 		let r = R(e, t);
 		if (!r) return [];
-		let i = L(ze(r), r);
+		let i = L(Re(r), r);
 		return z(e, n).flatMap((t, a) => {
 			let o = Number(t.value);
 			if (!Number.isFinite(o)) return [];
@@ -668,7 +667,7 @@ function Be(e, t, n) {
 		});
 	});
 }
-function Ve(e, t, n) {
+function Be(e, t, n) {
 	let r = t + 10, i = 0;
 	return e.flatMap((e, t) => {
 		if (e.valueType === "number" || e.valueType === "boolean") return [];
@@ -676,7 +675,7 @@ function Ve(e, t, n) {
 		i += 1;
 		let o = /* @__PURE__ */ new Map();
 		return z(e, n).reduce((n, r) => {
-			let i = Ne(r.value, e.color, o, t), a = n[n.length - 1];
+			let i = Me(r.value, e.color, o, t), a = n[n.length - 1];
 			return a && a.fill === i && Math.abs(a.end - r.start) < 1 ? a.end = r.end : n.push({
 				start: r.start,
 				end: r.end,
@@ -694,16 +693,16 @@ function Ve(e, t, n) {
 		});
 	});
 }
-function He(e) {
+function Ve(e) {
 	return e.flatMap((e) => {
 		let t = e.height - 10;
 		return e.ticks.map((n) => ({
 			y: e.top + 5 + t - (n - e.min) / (e.max - e.min) * t,
-			value: Ge(n, e.precision)
+			value: B(n, e.precision)
 		}));
 	});
 }
-function Ue(e, t, n) {
+function He(e, t, n) {
 	if (e.length === 0) return {
 		points: "",
 		pathLength: 0
@@ -722,7 +721,7 @@ function Ue(e, t, n) {
 		pathLength: i
 	};
 }
-function We(e, t, n) {
+function Ue(e, t, n) {
 	if (e.length === 0) return {
 		points: "",
 		pathLength: 0
@@ -739,38 +738,38 @@ function We(e, t, n) {
 		pathLength: r
 	};
 }
-function Ge(e, t) {
+function B(e, t) {
 	return t <= 0 && Number.isInteger(e) ? String(e) : e.toFixed(t);
 }
-var B = 60 * 1e3, V = 60 * B, H = 24 * V, U = [
-	10 * B,
-	15 * B,
-	20 * B,
-	30 * B,
-	V,
-	2 * V,
-	3 * V,
-	4 * V,
-	6 * V,
-	8 * V,
-	12 * V,
+var V = 60 * 1e3, H = 60 * V, U = 24 * H, W = [
+	10 * V,
+	15 * V,
+	20 * V,
+	30 * V,
 	H,
 	2 * H,
 	3 * H,
-	7 * H,
-	14 * H,
-	30 * H,
-	60 * H,
-	90 * H
+	4 * H,
+	6 * H,
+	8 * H,
+	12 * H,
+	U,
+	2 * U,
+	3 * U,
+	7 * U,
+	14 * U,
+	30 * U,
+	60 * U,
+	90 * U
 ];
-function Ke(e, t) {
-	for (let n of U) if (e / n <= t) return n;
-	return U[U.length - 1];
+function We(e, t) {
+	for (let n of W) if (e / n <= t) return n;
+	return W[W.length - 1];
 }
-function qe(e, t, n = 12) {
+function Ge(e, t, n = 12) {
 	let r = t - e;
 	if (r <= 0) return [];
-	let i = Ke(r, n), a = [], o = Math.ceil(e / i) * i;
+	let i = We(r, n), a = [], o = Math.ceil(e / i) * i;
 	for (let e = o; e < t; e += i) {
 		let t = new Date(e);
 		a.push({
@@ -780,8 +779,8 @@ function qe(e, t, n = 12) {
 	}
 	return a;
 }
-function Je(e, t) {
-	let n = new Date(e), r = t / H;
+function Ke(e, t) {
+	let n = new Date(e), r = t / U;
 	if (r > 88) {
 		let e = n.toLocaleString("default", { month: "short" }), t = n.getFullYear();
 		return n.getMonth() === 0 ? `${e} ${t}` : e;
@@ -795,7 +794,7 @@ function Je(e, t) {
 	let i = String(n.getHours()).padStart(2, "0"), a = String(n.getMinutes()).padStart(2, "0");
 	return r > .5 ? `${i}:${a}` : `${i}:${a}:${String(n.getSeconds()).padStart(2, "0")}`;
 }
-function Ye(e, t) {
+function qe(e, t) {
 	let n = [], r;
 	for (let i of e) {
 		if (i.time < t.start) {
@@ -807,31 +806,31 @@ function Ye(e, t) {
 	}
 	return r ? [r, ...n] : n;
 }
-function Xe(e, t) {
+function Je(e, t) {
 	return e.map((e) => ({
 		...e,
-		points: Ye(e.points, t)
+		points: qe(e.points, t)
 	}));
 }
-function W(e) {
+function G(e) {
 	return e.valueType === "boolean" ? "group:boolean" : e.scaleGroupKey;
 }
-function Ze(e, t, n) {
+function Ye(e, t, n) {
 	let r = /* @__PURE__ */ new Map(), i = /* @__PURE__ */ new Map();
 	for (let t of e) {
 		if (t.valueType !== "number" && t.valueType !== "boolean") continue;
-		let e = W(t);
+		let e = G(t);
 		i.set(e, [...i.get(e) ?? [], t]);
 	}
 	for (let e of t) {
 		if (e.valueType !== "number" && e.valueType !== "boolean") continue;
-		let t = W(e);
+		let t = G(e);
 		r.set(t, [...r.get(t) ?? [], e]);
 	}
-	return [...i.entries()].flatMap(([e, t]) => Xe(r.get(e) ?? t, n));
+	return [...i.entries()].flatMap(([e, t]) => Je(r.get(e) ?? t, n));
 }
-function Qe(e, t, n, r = !1, i = 12, a = !0) {
-	let o = { extendStairToEnd: a }, s = we(Ze(e, t, n)), c = new Set(s.map((e) => e.graphKey)).size, l = ge(c), u = e.filter((e) => e.valueType !== "number" && e.valueType !== "boolean").length, d = qe(n.start, n.end, i), f = n.end - n.start;
+function Xe(e, t, n, r = !1, i = 12, a = !0) {
+	let o = { extendStairToEnd: a }, s = we(Ye(e, t, n)), c = new Set(s.map((e) => e.graphKey)).size, l = ge(c), u = e.filter((e) => e.valueType !== "number" && e.valueType !== "boolean").length, d = Ge(n.start, n.end, i), f = n.end - n.start;
 	return {
 		allSeries: e,
 		visibleSeries: t,
@@ -839,20 +838,20 @@ function Qe(e, t, n, r = !1, i = 12, a = !0) {
 		extendStairToEnd: a,
 		numericScales: s,
 		plotBottom: l,
-		chartHeight: Pe(l, u),
-		numericLines: Fe(t, s, n, o),
-		numericColumns: Be(t, s, n),
-		segments: Ve(t, l, n),
+		chartHeight: Ne(l, u),
+		numericLines: Pe(t, s, n, o),
+		numericColumns: ze(t, s, n),
+		segments: Be(t, l, n),
 		heatingAreas: r ? [] : ke(t, s, n),
-		yAxisLabels: He(s),
+		yAxisLabels: Ve(s),
 		xAxisLabels: d.map((e) => ({
 			x: I(e.time, n),
-			label: Je(e.time, f),
+			label: Ke(e.time, f),
 			bold: e.bold
 		}))
 	};
 }
-function $e(e, t, n, r, i) {
+function Ze(e, t, n, r, i) {
 	return e.filter((e) => (e.valueType === "number" || e.valueType === "boolean") && e.lineMode !== "column").flatMap((e) => {
 		let a = R(e, t);
 		if (!a) return [];
@@ -860,7 +859,7 @@ function $e(e, t, n, r, i) {
 			...a,
 			top: 28,
 			height: i
-		}, s = Te(Ie(e.points, n, e.lineMode, r), n, 40, 640), { points: c, pathLength: l } = e.lineMode === "line" ? We(s, n, o) : Ue(s, n, o);
+		}, s = Te(Fe(e.points, n, e.lineMode, r), n, 40, 640), { points: c, pathLength: l } = e.lineMode === "line" ? Ue(s, n, o) : He(s, n, o);
 		return {
 			id: e.id,
 			color: e.color,
@@ -870,7 +869,7 @@ function $e(e, t, n, r, i) {
 		};
 	});
 }
-function et(e, t, n, r) {
+function Qe(e, t, n, r) {
 	return e.filter((e) => (e.valueType === "number" || e.valueType === "boolean") && e.lineMode === "column").flatMap((e) => {
 		let i = R(e, t);
 		if (!i) return [];
@@ -878,7 +877,7 @@ function et(e, t, n, r) {
 			...i,
 			top: 28,
 			height: r
-		}, o = L(ze(a), a);
+		}, o = L(Re(a), a);
 		return z(e, n).flatMap((t, r) => {
 			let i = Number(t.value);
 			if (!Number.isFinite(i)) return [];
@@ -894,11 +893,11 @@ function et(e, t, n, r) {
 		});
 	});
 }
-function tt(e, t, n) {
+function $e(e, t, n) {
 	return e.filter((e) => e.valueType !== "number" && e.valueType !== "boolean").flatMap((e, r) => {
 		let i = t + r * 14, a = /* @__PURE__ */ new Map();
 		return z(e, n).reduce((t, n) => {
-			let i = Ne(n.value, e.color, a, r), o = t[t.length - 1];
+			let i = Me(n.value, e.color, a, r), o = t[t.length - 1];
 			return o && o.fill === i && Math.abs(o.end - n.start) < 1 ? o.end = n.end : t.push({
 				start: n.start,
 				end: n.end,
@@ -916,23 +915,17 @@ function tt(e, t, n) {
 		});
 	});
 }
-function nt(e) {
+function et(e) {
 	return e >= 160 ? 5 : e >= 100 ? 4 : e >= 64 ? 3 : 2;
 }
-function rt(e, t) {
-	let n = t - 10, r = nt(t), i = e.ticks.length <= r ? e.ticks : de(e.min, e.max, r), a = e.ticks === i ? e.precision : Math.max(e.precision, me(i));
+function tt(e, t) {
+	let n = t - 10, r = et(t), i = e.ticks.length <= r ? e.ticks : de(e.min, e.max, r), a = e.ticks === i ? e.precision : Math.max(e.precision, me(i));
 	return i.map((t) => ({
 		y: 33 + n - (t - e.min) / (e.max - e.min) * n,
-		value: Ge(t, a)
+		value: B(t, a)
 	}));
 }
-function it(e, t) {
-	return t === 0 ? e : e.split(" ").map((e) => {
-		let [n, r] = e.split(",");
-		return `${n},${(parseFloat(r) + t).toFixed(1)}`;
-	}).join(" ");
-}
-function at(e, t, n) {
+function nt(e, t, n) {
 	let r = /* @__PURE__ */ new Set(), i = /* @__PURE__ */ new Map();
 	return {
 		allSeries: e.map((e, t) => {
@@ -951,24 +944,24 @@ function at(e, t, n) {
 		})
 	};
 }
-function ot(e, t = 12, n = 180) {
-	let r = [], i = e.timeBounds, a = e.allSeries.filter((e) => e.valueType !== "number" && e.valueType !== "boolean"), o = e.visibleSeries.filter((e) => e.valueType !== "number" && e.valueType !== "boolean"), s = i.end - i.start, c = qe(i.start, i.end, t).map((e) => ({
+function rt(e, t = 12, n = 180) {
+	let r = [], i = e.timeBounds, a = e.allSeries.filter((e) => e.valueType !== "number" && e.valueType !== "boolean"), o = e.visibleSeries.filter((e) => e.valueType !== "number" && e.valueType !== "boolean"), s = i.end - i.start, c = Ge(i.start, i.end, t).map((e) => ({
 		x: I(e.time, i),
-		label: Je(e.time, s),
+		label: Ke(e.time, s),
 		bold: e.bold
 	}));
 	if (e.numericScales.length === 0 && a.length > 0) {
-		let e = o.length, t = e > 0 ? 10 + e * 14 : 0, s = 28 + n + t + 18, l = s + je, u = at(a, o, 0);
+		let e = o.length, t = 28 + n + 16 + 6, s = e > 0 ? 22 + e * 14 : 0, l = 28 + n + s + 18, u = l + 16, d = nt(a, o, 0);
 		r.push({
-			series: u.visibleSeries,
-			allSeries: u.allSeries,
+			series: d.visibleSeries,
+			allSeries: d.allSeries,
 			scales: [],
 			graphHeight: n,
-			svgHeight: s,
-			canvasHeight: l,
+			svgHeight: l,
+			canvasHeight: u,
 			lines: [],
 			columns: [],
-			segments: tt(u.visibleSeries, 28 + n + 10, i),
+			segments: $e(d.visibleSeries, t, i),
 			yLabels: [],
 			rightYLabels: [],
 			xLabels: c,
@@ -977,30 +970,31 @@ function ot(e, t = 12, n = 180) {
 	}
 	let l = [...new Set(e.numericScales.map((e) => e.graphKey))];
 	for (let t = 0; t < l.length; t++) {
-		let s = l[t], u = e.numericScales.filter((e) => e.graphKey === s), d = u.find((e) => e.axis === "left") ?? u[0], f = u.find((e) => e.axis === "right"), p = new Set(u.flatMap((e) => [...e.ids])), m = e.allSeries.filter((e) => (e.valueType === "number" || e.valueType === "boolean") && W(e) === s), h = e.visibleSeries.filter((e) => p.has(e.id)), g = t === 0 ? [...h, ...o] : h, _ = at(t === 0 ? [...m, ...a] : m, g, t), v = _.visibleSeries.filter((e) => e.valueType !== "number" && e.valueType !== "boolean"), y = v.length, ee = y > 0 ? 10 + y * 14 : 0, b = 28 + n + ee + 18, x = b + je, S = 28 - d.top, te = rt(d, n), C = f ? rt(f, n) : [];
+		let s = l[t], u = e.numericScales.filter((e) => e.graphKey === s), d = u.find((e) => e.axis === "left") ?? u[0], f = u.find((e) => e.axis === "right"), p = new Set(u.flatMap((e) => [...e.ids])), m = e.allSeries.filter((e) => (e.valueType === "number" || e.valueType === "boolean") && G(e) === s), h = e.visibleSeries.filter((e) => p.has(e.id)), g = t === 0 ? [...h, ...o] : h, _ = nt(t === 0 ? [...m, ...a] : m, g, t), v = _.visibleSeries.filter((e) => e.valueType !== "number" && e.valueType !== "boolean"), y = v.length, ee = 28 + n + 16 + 6, b = y > 0 ? 22 + y * 14 : 0, x = 28 + n + b + 18, S = x + 16, te = tt(d, n), C = f ? tt(f, n) : [], w = u.map((e) => ({
+			...e,
+			top: 28,
+			height: n
+		})), T = w.find((e) => e.axis === "left") ?? w[0];
 		r.push({
 			series: _.visibleSeries,
 			allSeries: _.allSeries,
-			scale: d,
-			scales: u,
+			scale: T,
+			scales: w,
 			graphHeight: n,
-			svgHeight: b,
-			canvasHeight: x,
-			lines: $e(_.visibleSeries, u, i, { extendStairToEnd: e.extendStairToEnd }, n),
-			columns: et(_.visibleSeries, u, i, n),
-			segments: tt(v, 28 + n + 10, i),
+			svgHeight: x,
+			canvasHeight: S,
+			lines: Ze(_.visibleSeries, w, i, { extendStairToEnd: e.extendStairToEnd }, n),
+			columns: Qe(_.visibleSeries, w, i, n),
+			segments: $e(v, ee, i),
 			yLabels: te,
 			rightYLabels: C,
 			xLabels: c,
-			heatingAreas: t === 0 ? e.heatingAreas.map((e) => ({
-				id: e.id,
-				points: it(e.points, S)
-			})) : []
+			heatingAreas: e.heatingAreas.length > 0 ? ke(e.visibleSeries, w, i) : []
 		});
 	}
 	return r;
 }
-var st = class {
+var it = class {
 	constructor(e) {
 		this.tooltip = void 0, this._series = [], this._cacheKey = "", this._timeBounds = {
 			start: 0,
@@ -1171,19 +1165,19 @@ var st = class {
       </div>
     `;
 	}
-}, ct = "temperature";
-function lt(e) {
+}, at = "temperature";
+function ot(e) {
 	return e.join(".");
 }
-function ut(e) {
-	return e?.toLowerCase() === ct;
+function st(e) {
+	return e?.toLowerCase() === at;
 }
-function dt(e, t) {
+function ct(e, t) {
 	if (!e || !t) return;
-	let n = t[lt(e)];
+	let n = t[ot(e)];
 	return typeof n == "string" && n !== "" ? n : void 0;
 }
-function ft(e) {
+function lt(e) {
 	return {
 		id: e.id,
 		kind: e.attribute ? "entity_attribute" : "entity_state",
@@ -1194,74 +1188,74 @@ function ft(e) {
 		unit: e.unit
 	};
 }
-var pt = 24, mt = "2.5", ht = [
+var ut = 24, dt = "2.5", ft = [
 	"current_temperature",
 	"temperature",
 	"hvac_action"
-], gt = /°[CF]|[CFK]$/;
-function G(e) {
-	return gt.test(e);
+], pt = /°[CF]|[CFK]$/;
+function K(e) {
+	return pt.test(e);
 }
-function _t(e) {
+function mt(e) {
 	return e.scaleMode === "manual" && (e.scaleMin !== void 0 || e.scaleMax !== void 0);
 }
-function vt(e) {
+function ht(e) {
 	return /* @__PURE__ */ new Date(Math.floor(e.getTime() / 1e3) * 1e3);
 }
-function yt(e) {
+function gt(e) {
 	if (e !== void 0) return Array.isArray(e) ? e : e.split(".");
 }
-function K(e) {
+function q(e) {
 	return e === "line" || e === "column" ? e : "stair";
 }
-function q(e) {
-	return typeof e == "number" ? Number.isFinite(e) && e >= 0 ? String(e) : mt : typeof e == "string" && e.trim() !== "" ? e.trim() : mt;
+function J(e) {
+	return typeof e == "number" ? Number.isFinite(e) && e >= 0 ? String(e) : dt : typeof e == "string" && e.trim() !== "" ? e.trim() : dt;
 }
-function bt(e, t) {
+function _t(e, t) {
 	return t ? `attr:${e}:${t.join(".")}` : `state:${e}`;
 }
-function xt(e) {
+function vt(e) {
 	return e[e.length - 1] ?? "";
 }
-function St(e, t, n) {
+function yt(e, t, n) {
 	let r = e?.states[t];
 	return r ? n ? y(r, n)?.valueType ?? "string" : _(r)?.valueType ?? "string" : "number";
 }
-function Ct(e, t, n, r) {
+function bt(e, t, n, r) {
 	if (r) return r;
-	if (n) return xt(n);
+	if (n) return vt(n);
 	let i = e?.states[t]?.attributes.friendly_name;
 	return typeof i == "string" && i !== "" ? i : t;
 }
-function wt(e, t, n, r, i) {
+function xt(e, t, n, r, i) {
 	if (r !== void 0) return r || void 0;
-	if (n) return dt(n, i);
+	if (n) return ct(n, i);
 	let a = e?.states[t]?.attributes.unit_of_measurement;
 	return typeof a == "string" && a !== "" ? a : void 0;
 }
-function J(e, t, n, r) {
+function Y(e, t, n, r) {
 	return n ? `group:${n}` : r === "number" && t ? `unit:${t}` : `series:${e}`;
 }
-function Tt(e, t, n, r, i, a) {
-	let o = yt(e.attribute), s = bt(e.entity, o), c = St(n, e.entity, o), l = wt(n, e.entity, o, e.unit, r);
+function St(e, t, n, r, i, a) {
+	let o = gt(e.attribute), s = _t(e.entity, o), c = yt(n, e.entity, o), l = xt(n, e.entity, o, e.unit, r);
 	return {
 		id: s,
 		entity: e.entity,
 		attribute: o,
 		forced: e.forced ?? !0,
-		label: Ct(n, e.entity, o, e.label),
+		label: bt(n, e.entity, o, e.label),
 		color: e.color ?? k(t),
 		unit: l,
-		scaleGroupKey: J(s, l, e.scaleGroup, c),
+		scaleGroupKey: Y(s, l, e.scaleGroup, c),
 		scaleMode: e.scaleMode ?? "auto",
 		scaleMin: e.scaleMin,
 		scaleMax: e.scaleMax,
-		lineMode: K(e.lineMode ?? i),
-		lineWidth: q(e.lineWidth ?? a),
+		lineMode: q(e.lineMode ?? i),
+		lineWidth: J(e.lineWidth ?? a),
 		valueType: c
 	};
 }
-function Et(e, t, n, r, i) {
+function Ct(e, t, n, r, i) {
 	let a = n?.states[e];
 	if (!a) {
 		let n = `state:${e}`;
@@ -1273,8 +1267,8 @@ function Et(e, t, n, r, i) {
 			color: k(t),
 			scaleGroupKey: `series:${n}`,
 			scaleMode: "auto",
-			lineMode: K(r),
-			lineWidth: q(i),
+			lineMode: q(r),
+			lineWidth: J(i),
 			valueType: "number"
 		};
 	}
@@ -1286,14 +1280,14 @@ function Et(e, t, n, r, i) {
 		label: o.label,
 		color: k(t),
 		unit: o.unit,
-		scaleGroupKey: J(o.id, o.unit, void 0, o.valueType),
+		scaleGroupKey: Y(o.id, o.unit, void 0, o.valueType),
 		scaleMode: "auto",
-		lineMode: K(r),
-		lineWidth: q(i),
+		lineMode: q(r),
+		lineWidth: J(i),
 		valueType: o.valueType
 	};
 }
-function Dt(e, t) {
+function wt(e, t) {
 	let n = t?.states[e];
 	if (!n) return;
 	let r = n.attributes, i = r.temperature_unit;
@@ -1301,11 +1295,11 @@ function Dt(e, t) {
 	let a = r.unit_of_measurement;
 	if (typeof a == "string" && a !== "") return a;
 }
-function Ot(e, t, n) {
+function Tt(e, t, n) {
 	if (e.attribute || !e.entity.startsWith("climate.") || !n?.states[e.entity]) return [e];
-	let r = Dt(e.entity, n);
-	return [e, ...ht.map((i) => {
-		let a = [i], o = bt(e.entity, a), s = St(n, e.entity, a), c = D[i] ?? k(t()), l = i === "current_temperature" || i === "temperature" ? r : void 0, u = i === "hvac_action" ? void 0 : "temperature";
+	let r = wt(e.entity, n);
+	return [e, ...ft.map((i) => {
+		let a = [i], o = _t(e.entity, a), s = yt(n, e.entity, a), c = D[i] ?? k(t()), l = i === "current_temperature" || i === "temperature" ? r : void 0, u = i === "hvac_action" ? void 0 : "temperature";
 		return {
 			id: o,
 			entity: e.entity,
@@ -1314,7 +1308,7 @@ function Ot(e, t, n) {
 			label: i,
 			color: c,
 			unit: l,
-			scaleGroupKey: J(o, l, u, s),
+			scaleGroupKey: Y(o, l, u, s),
 			scaleMode: "auto",
 			lineMode: e.lineMode,
 			lineWidth: e.lineWidth,
@@ -1322,27 +1316,27 @@ function Ot(e, t, n) {
 		};
 	})];
 }
-function kt(e) {
-	return e.find((e) => e.scaleGroupKey === "group:temperature" && e.unit && G(e.unit))?.unit ?? e.find((e) => e.unit && G(e.unit))?.unit;
+function Et(e) {
+	return e.find((e) => e.scaleGroupKey === "group:temperature" && e.unit && K(e.unit))?.unit ?? e.find((e) => e.unit && K(e.unit))?.unit;
 }
-function At(e) {
-	let t = kt(e), n = e.some((e) => e.scaleGroupKey === "group:temperature");
+function Dt(e) {
+	let t = Et(e), n = e.some((e) => e.scaleGroupKey === "group:temperature");
 	return e.map((e) => {
-		let r = ut(e.unit), i = r && t ? t : e.unit, a = r && i && e.scaleGroupKey === "unit:temperature" ? `unit:${i}` : e.scaleGroupKey;
-		return n && e.valueType === "number" && i && G(i) && a.startsWith("unit:") && !_t(e) && (a = "group:temperature"), i !== e.unit || a !== e.scaleGroupKey ? {
+		let r = st(e.unit), i = r && t ? t : e.unit, a = r && i && e.scaleGroupKey === "unit:temperature" ? `unit:${i}` : e.scaleGroupKey;
+		return n && e.valueType === "number" && i && K(i) && a.startsWith("unit:") && !mt(e) && (a = "group:temperature"), i !== e.unit || a !== e.scaleGroupKey ? {
 			...e,
 			unit: i,
 			scaleGroupKey: a
 		} : e;
 	});
 }
-function jt(e) {
-	let { config: t, hass: n } = e, r = e.attributeUnits ?? t?.attributeUnits, i = t?.endDate ?? e.endDate ?? /* @__PURE__ */ new Date(), a = t?.hours ?? e.hours ?? pt, o = t?.startDate ?? e.startDate ?? /* @__PURE__ */ new Date(i.getTime() - a * 36e5), s = t?.lineMode ?? e.lineMode, c = t?.lineWidth ?? e.lineWidth, l;
-	l = t?.series && t.series.length > 0 ? t.series.map((e, t) => Tt(e, t, n, r, s, c)) : (t?.defaultEntities ?? e.entities ?? []).map((e, t) => Et(e, t, n, s, c)).filter((e) => e !== void 0);
+function Ot(e) {
+	let { config: t, hass: n } = e, r = e.attributeUnits ?? t?.attributeUnits, i = t?.endDate ?? e.endDate ?? /* @__PURE__ */ new Date(), a = t?.hours ?? e.hours ?? ut, o = t?.startDate ?? e.startDate ?? /* @__PURE__ */ new Date(i.getTime() - a * 36e5), s = t?.lineMode ?? e.lineMode, c = t?.lineWidth ?? e.lineWidth, l;
+	l = t?.series && t.series.length > 0 ? t.series.map((e, t) => St(e, t, n, r, s, c)) : (t?.defaultEntities ?? e.entities ?? []).map((e, t) => Ct(e, t, n, s, c)).filter((e) => e !== void 0);
 	let u = l.length;
-	return l = l.flatMap((e) => Ot(e, () => u++, n)), l = At(l), {
-		startDate: vt(o),
-		endDate: vt(i),
+	return l = l.flatMap((e) => Tt(e, () => u++, n)), l = Dt(l), {
+		startDate: ht(o),
+		endDate: ht(i),
 		showDatePicker: t?.showDatePicker ?? e.showDatePicker ?? !1,
 		showEntityPicker: t?.showEntityPicker ?? e.showEntityPicker ?? !1,
 		showLegend: t?.showLegend ?? e.showLegend ?? !0,
@@ -1361,13 +1355,13 @@ function jt(e) {
 		disableClimateOverlay: t?.disableClimateOverlay ?? !1
 	};
 }
-function Mt() {
+function kt() {
 	return customElements.get("ha-date-range-picker") !== void 0;
 }
-async function Nt() {
+async function At() {
 	await f();
 }
-function Pt(e, n, r, i) {
+function jt(e, n, r, i) {
 	return t`
     <div class="date-picker-wrapper">
       <ha-date-range-picker
@@ -1384,26 +1378,26 @@ function Pt(e, n, r, i) {
     </div>
   `;
 }
-var Ft = /°[CF]|[CFK]$/, It = 60, Lt = 1e3, Y = 24, Rt = 720, zt = 48, Bt = .34, Vt = .72, Ht = 720, X = 2, Ut = [
+var Mt = /°[CF]|[CFK]$/, Nt = 60, Pt = 1e3, Ft = 24, It = 720, Lt = 48, Rt = .34, zt = .72, Bt = 720, X = 2, Vt = [
 	"current_temperature",
 	"temperature",
 	"hvac_action"
-], Z = new Set(["current_temperature", "temperature"]), Wt = 5;
-function Gt(e) {
+], Z = new Set(["current_temperature", "temperature"]), Ht = 5;
+function Ut(e) {
 	let t = 0;
 	for (let n of e) n >= "0" && n <= "9" ? t += 6.2 : n === "." || n === "," ? t += 3.2 : n === "-" ? t += 4 : t += 6.2;
 	return Math.ceil(t);
 }
-function Kt(e) {
-	let t = Math.max(0, ...e.map((e) => Gt(e.value)));
-	return t > 0 ? `${t + Wt}px` : "0px";
+function Wt(e) {
+	let t = Math.max(0, ...e.map((e) => Ut(e.value)));
+	return t > 0 ? `${t + Ht}px` : "0px";
 }
 function Q(e) {
-	return Ft.test(e);
+	return Mt.test(e);
 }
 var $ = class extends i {
 	constructor(...e) {
-		super(...e), this.hours = 24, this.showDatePicker = !1, this.showEntityPicker = !1, this.showImportButton = !1, this.showExportButton = !0, this.showTimeRangeSelector = !0, this.showLineModeButtons = !0, this.showLegend = !0, this.showTooltip = !0, this.showGrid = !0, this.showScale = !0, this.showControls = !0, this.debugPerformance = !1, this.toolsOpen = !1, this._hiddenSeriesIds = [], this._liveNow = Date.now(), this._datePickerReady = !1, this._entityComponentsReady = !1, this._attributeMenuOpen = !1, this._attributeSearch = "", this._path = [], this._selectedSources = [], this._removedConfigSourceIds = [], this._customEntityIds = [], this._entityPickerOpen = !1, this._data = new ie(this), this._tooltip = new st(this), this._prevClipX = /* @__PURE__ */ new Map(), this._prevStartTime = 0, this._prevEndTime = 0, this._prevContainerWidth = 0, this._wasLoading = !1, this._suppressLineAnimation = !1, this._pendingAddedSources = [], this._dragDropCommitted = !1, this._lastPickerOverlayOpen = !1, this._importedSeriesMeta = /* @__PURE__ */ new Map(), this._importedDataActive = !1, this._containerWidth = 0, this._chartSurfaceHeight = 0, this._chartSurfaceConstrained = !1, this._lastFetchKey = "", this._lastFetchSources = [], this._lastHassResolveTime = 0, this._getEntityPickerItems = () => g(this.hass), this._getAdditionalEntityPickerItems = (e) => {
+		super(...e), this.hours = 24, this.showDatePicker = !1, this.showEntityPicker = !1, this.showImportButton = !1, this.showExportButton = !0, this.showTimeRangeSelector = !0, this.showLineModeButtons = !0, this.showLegend = !0, this.showTooltip = !0, this.showGrid = !0, this.showScale = !0, this.showControls = !0, this.debugPerformance = !1, this.toolsOpen = !1, this._hiddenSeriesIds = [], this._liveNow = Date.now(), this._datePickerReady = !1, this._entityComponentsReady = !1, this._attributeMenuOpen = !1, this._attributeSearch = "", this._path = [], this._selectedSources = [], this._removedConfigSourceIds = [], this._customEntityIds = [], this._entityPickerOpen = !1, this._data = new ie(this), this._tooltip = new it(this), this._prevClipX = /* @__PURE__ */ new Map(), this._prevStartTime = 0, this._prevEndTime = 0, this._prevContainerWidth = 0, this._wasLoading = !1, this._suppressLineAnimation = !1, this._pendingAddedSources = [], this._dragDropCommitted = !1, this._lastPickerOverlayOpen = !1, this._importedSeriesMeta = /* @__PURE__ */ new Map(), this._importedDataActive = !1, this._containerWidth = 0, this._chartSurfaceHeight = 0, this._chartSurfaceConstrained = !1, this._lastFetchKey = "", this._lastFetchSources = [], this._lastHassResolveTime = 0, this._getEntityPickerItems = () => g(this.hass), this._getAdditionalEntityPickerItems = (e) => {
 			if (!this.hass || !e?.trim()) return [];
 			let t = new Set(this._pickerEntities().map((e) => e.entity_id));
 			return c(g(this.hass, Object.values(this.hass.states).filter((e) => e !== void 0).filter((e) => !t.has(e.entity_id))), e);
@@ -1469,9 +1463,9 @@ var $ = class extends i {
 				this._stopLiveClock();
 				return;
 			}
-			let e = this._effectiveEndDate().getTime(), t = !this._viewEnd || Math.abs(this._viewEnd.getTime() - e) <= Lt * 2, n = Date.now();
+			let e = this._effectiveEndDate().getTime(), t = !this._viewEnd || Math.abs(this._viewEnd.getTime() - e) <= Pt * 2, n = Date.now();
 			this._liveNow = n, t && (this._viewEnd = new Date(n));
-		}, Lt);
+		}, Pt);
 	}
 	_stopLiveClock() {
 		this._liveNowTimer !== void 0 && (clearInterval(this._liveNowTimer), this._liveNowTimer = void 0);
@@ -1501,7 +1495,7 @@ var $ = class extends i {
 	}
 	_fetchSources() {
 		let e = [], t = /* @__PURE__ */ new Set();
-		if (this._resolved && !this._importedDataActive) for (let n of this._activeResolvedSeries()) t.has(n.id) || (t.add(n.id), e.push(ft(n)));
+		if (this._resolved && !this._importedDataActive) for (let n of this._activeResolvedSeries()) t.has(n.id) || (t.add(n.id), e.push(lt(n)));
 		for (let n of this._selectedSources) for (let r of this._expandedSelectedSources(n)) t.has(r.id) || (t.add(r.id), e.push(r));
 		return e;
 	}
@@ -1543,7 +1537,7 @@ var $ = class extends i {
 				if (e === this._lastHassResolveTime && this._lastFetchKey) return;
 				this._lastHassResolveTime = e;
 			}
-			let n = jt({
+			let n = Ot({
 				config: this.config,
 				entities: this.entities,
 				hours: this.hours,
@@ -1577,8 +1571,8 @@ var $ = class extends i {
 					r.length > 0 && a.length === 0 ? (this._lastFetchKey = s, this._lastFetchSources = i, this._data.addSources(this.hass, r, n.startDate, n.endDate)) : a.length > 0 && r.length === 0 ? (this._lastFetchKey = s, this._lastFetchSources = i, this._data.removeSources(a)) : (this._lastFetchKey = s, this._lastFetchSources = i, this._data.fetch(this.hass, i, n.startDate, n.endDate));
 				} else this._lastFetchKey = s, this._lastFetchSources = i, this._data.fetch(this.hass, i, n.startDate, n.endDate);
 			}
-			n.showDatePicker && !this._datePickerReady && Nt().then(() => {
-				this._datePickerReady = Mt(), this.requestUpdate();
+			n.showDatePicker && !this._datePickerReady && At().then(() => {
+				this._datePickerReady = kt(), this.requestUpdate();
 			}), n.showEntityPicker && !this._entityComponentsReady && a().then(() => {
 				this._entityComponentsReady = d(), this.requestUpdate();
 			});
@@ -1719,7 +1713,7 @@ var $ = class extends i {
 		let u = this._maxXTicks(), d = this._buildRenderSeries(), f = d.filter((e) => !this._hiddenSeriesIds.includes(e.id)), p = {
 			start: a,
 			end: Math.max(o, a + 1)
-		}, m = this._data.debugPerformance, h = m ? s() : 0, g = Qe(d, f, p, this._resolved?.disableClimateOverlay ?? !1, u, l), _ = m ? s() - h : 0;
+		}, m = this._data.debugPerformance, h = m ? s() : 0, g = Xe(d, f, p, this._resolved?.disableClimateOverlay ?? !1, u, l), _ = m ? s() - h : 0;
 		return m && n(m, "chart.build_data", {
 			allSeriesCount: d.length,
 			visibleSeriesCount: f.length,
@@ -1742,7 +1736,7 @@ var $ = class extends i {
 	_graphGroups(e) {
 		let t = this._maxXTicks(), n = this._graphHeightFor(e), r = this._graphGroupRenderCache;
 		if (r && r.dataRef === e && r.maxXTicks === t && r.graphHeight === n) return r.groups;
-		let i = ot(e, t, n);
+		let i = rt(e, t, n);
 		return this._graphGroupRenderCache = {
 			dataRef: e,
 			maxXTicks: t,
@@ -1752,14 +1746,14 @@ var $ = class extends i {
 	}
 	_graphHeightFor(e) {
 		if (!this._chartSurfaceConstrained || this._chartSurfaceHeight <= 0) return 180;
-		let t = Math.max(new Set(e.numericScales.map((e) => e.graphKey)).size, +!!e.allSeries.some((e) => e.valueType !== "number" && e.valueType !== "boolean"), 1), n = e.allSeries.filter((e) => e.valueType !== "number" && e.valueType !== "boolean").length, r = t * 62 + (n > 0 ? 10 + n * 14 : 0), i = this._chartSurfaceHeight - r, a = this._containerWidth > 0 ? this._containerWidth * 640 / 720 : 640, o = Math.max(180, Math.min(Math.floor(a * Bt), Math.floor(this._chartSurfaceHeight / t * Vt), Ht)), s = Math.floor(Math.max(0, i) / t);
-		return Math.max(zt, Math.min(s, o));
+		let t = Math.max(new Set(e.numericScales.map((e) => e.graphKey)).size, +!!e.allSeries.some((e) => e.valueType !== "number" && e.valueType !== "boolean"), 1), n = e.allSeries.filter((e) => e.valueType !== "number" && e.valueType !== "boolean").length, r = t * 62 + (n > 0 ? 10 + n * 14 : 0), i = this._chartSurfaceHeight - r, a = this._containerWidth > 0 ? this._containerWidth * 640 / 720 : 640, o = Math.max(180, Math.min(Math.floor(a * Rt), Math.floor(this._chartSurfaceHeight / t * zt), Bt)), s = Math.floor(Math.max(0, i) / t);
+		return Math.max(Lt, Math.min(s, o));
 	}
 	_renderGraphGroup(n) {
-		let r = this._resolved?.showLegend ?? !0, i = this._resolved?.showGrid ?? !0, a = this._resolved?.showScale ?? !0, o = n.series.map((e) => e.id).join("|");
+		let r = this._resolved?.showLegend ?? !0, i = this._resolved?.showGrid ?? !0, a = this._resolved?.showScale ?? !0, o = n.series.map((e) => e.id).join("|"), s = a ? Wt(n.yLabels) : "0px", c = a ? Wt(n.rightYLabels) : "0px", l = 28 + n.graphHeight, u = l + 3, d = l + 16 + 6;
 		return t`
       <div class="graph-section">
-        <div class="graph-row" style=${`--axis-label-gap:${Wt}px;--axis-left-gutter:${a ? Kt(n.yLabels) : "0px"};--axis-right-gutter:${a ? Kt(n.rightYLabels) : "0px"};`}>
+        <div class="graph-row" style=${`--axis-label-gap:${Ht}px;--axis-left-gutter:${s};--axis-right-gutter:${c};`}>
           <div class="axis-labels axis-labels--left" style="height:${n.canvasHeight}px">
             ${a ? n.yLabels.map((e) => t`<span class="y-axis-label y-axis-label--left" style="top:${e.y.toFixed(1)}px;">${e.value}</span>`) : b}
           </div>
@@ -1770,7 +1764,7 @@ var $ = class extends i {
               preserveAspectRatio="none"
             >
               ${i ? n.xLabels.map((t) => e`
-                      <line class="grid-line grid-line--vertical" x1=${t.x.toFixed(1)} y1=${18} x2=${t.x.toFixed(1)} y2=${n.svgHeight - 18}></line>
+                      <line class="grid-line grid-line--vertical" x1=${t.x.toFixed(1)} y1=${18} x2=${t.x.toFixed(1)} y2=${l}></line>
                     `) : b}
               ${i ? n.yLabels.map((t) => e`
                       <line class="grid-line grid-line--horizontal" x1=${40} y1=${t.y.toFixed(1)} x2=${680} y2=${t.y.toFixed(1)}></line>
@@ -1792,10 +1786,10 @@ var $ = class extends i {
 			return e`<polyline class="line" style=${`--better-history-line-width:${t.lineWidth};`} clip-path="url(#${n})" data-line-id=${t.id} data-animate-clip=${s ? "true" : b} data-target-x=${a} points=${t.points} stroke=${t.color}></polyline>`;
 		})}
               ${n.segments.map((t) => e`<rect class="segment" x=${t.x} y=${t.y} width=${t.width} height="9" fill=${t.fill}></rect>`)}
-              ${n.series.filter((e) => e.valueType !== "number" && e.valueType !== "boolean").map((t, r) => e`<rect class="segment-border" x=${40} y=${28 + n.graphHeight + 10 + r * 14} width=${640} height="9" fill="none" stroke=${t.color}></rect>`)}
-              ${a ? e`<line class="axis" x1=${40} y1=${18} x2=${40} y2=${n.svgHeight - 18}></line>` : b}
-              ${a && n.rightYLabels.length > 0 ? e`<line class="axis" x1=${680} y1=${18} x2=${680} y2=${n.svgHeight - 18}></line>` : b}
-              ${a ? e`<line class="axis" x1=${40} y1=${n.svgHeight - 18} x2=${680} y2=${n.svgHeight - 18}></line>` : b}
+              ${n.series.filter((e) => e.valueType !== "number" && e.valueType !== "boolean").map((t, n) => e`<rect class="segment-border" x=${40} y=${d + n * 14} width=${640} height="9" fill="none" stroke=${t.color}></rect>`)}
+              ${a ? e`<line class="axis" x1=${40} y1=${18} x2=${40} y2=${l}></line>` : b}
+              ${a && n.rightYLabels.length > 0 ? e`<line class="axis" x1=${680} y1=${18} x2=${680} y2=${l}></line>` : b}
+              ${a ? e`<line class="axis" x1=${40} y1=${l} x2=${680} y2=${l}></line>` : b}
               ${a && n.scale ? n.yLabels.map((t) => e`
                       <line class="axis tick" x1=${40} y1=${t.y.toFixed(1)} x2=${44} y2=${t.y.toFixed(1)}></line>
                     `) : b}
@@ -1804,8 +1798,8 @@ var $ = class extends i {
                     `) : b}
             </svg>
             ${a ? n.xLabels.map((e) => {
-			let r = ((e.x - 40) / 640 * 100).toFixed(2);
-			return t`<span class="x-axis-label ${e.bold ? "x-axis-label--bold" : ""}" style="left:${r}%;top:${n.svgHeight + 3}px;">${e.label}</span>`;
+			let n = ((e.x - 40) / 640 * 100).toFixed(2);
+			return t`<span class="x-axis-label ${e.bold ? "x-axis-label--bold" : ""}" style="left:${n}%;top:${u}px;">${e.label}</span>`;
 		}) : b}
           </div>
           <div class="axis-labels axis-labels--right" style="height:${n.canvasHeight}px">
@@ -1920,7 +1914,7 @@ var $ = class extends i {
 		return t > 0 ? t : void 0;
 	}
 	_minViewSpanMs(e = this._rangeSliderTrackWidthPx()) {
-		let { span: t } = this._loadedRangeMs(), n = Math.max(e ?? Rt, Y), r = Math.ceil(t * Y / n), i = Math.min(6e4, Math.max(1, Math.floor(t / 1e3)));
+		let { span: t } = this._loadedRangeMs(), n = Math.max(e ?? It, Ft), r = Math.ceil(t * Ft / n), i = Math.min(6e4, Math.max(1, Math.floor(t / 1e3)));
 		return Math.min(t, Math.max(1, r, i));
 	}
 	_minViewRangeStep(e) {
@@ -2219,7 +2213,7 @@ var $ = class extends i {
 		}));
 	}
 	_renderDatePicker() {
-		return !this._resolved?.showDatePicker || !this._datePickerReady ? b : Pt(this.hass, this._resolved.startDate, this._resolved.endDate, (e, t) => this._onDateRangeChanged(e, t));
+		return !this._resolved?.showDatePicker || !this._datePickerReady ? b : jt(this.hass, this._resolved.startDate, this._resolved.endDate, (e, t) => this._onDateRangeChanged(e, t));
 	}
 	_positionEntityMenu() {
 		let e = this.renderRoot?.querySelector(".entity-trigger"), t = this.renderRoot?.querySelector(".entity-menu");
@@ -2256,7 +2250,7 @@ var $ = class extends i {
 	}
 	_sourceWithAttributeUnit(e) {
 		if (e.kind !== "entity_attribute" || !e.path) return e;
-		let t = dt(e.path, this.attributeUnits ?? this.config?.attributeUnits), n = ut(t) ? this._resolvedTemperatureUnit() ?? t : t;
+		let t = ct(e.path, this.attributeUnits ?? this.config?.attributeUnits), n = st(t) ? this._resolvedTemperatureUnit() ?? t : t;
 		return !n || e.unit === n ? e : {
 			...e,
 			unit: n
@@ -2266,7 +2260,7 @@ var $ = class extends i {
 		if (e.kind !== "entity_state" || !e.entityId.startsWith("climate.")) return [this._sourceWithAttributeUnit(e)];
 		let t = this.hass?.states[e.entityId];
 		if (!t) return [this._sourceWithAttributeUnit(e)];
-		let n = typeof t.attributes.temperature_unit == "string" && t.attributes.temperature_unit !== "" ? t.attributes.temperature_unit : typeof t.attributes.unit_of_measurement == "string" && t.attributes.unit_of_measurement !== "" ? t.attributes.unit_of_measurement : void 0, r = Ut.map((r) => {
+		let n = typeof t.attributes.temperature_unit == "string" && t.attributes.temperature_unit !== "" ? t.attributes.temperature_unit : typeof t.attributes.unit_of_measurement == "string" && t.attributes.unit_of_measurement !== "" ? t.attributes.unit_of_measurement : void 0, r = Vt.map((r) => {
 			let i = y(t, [r]), a = {
 				id: `attr:${e.entityId}:${r}`,
 				kind: "entity_attribute",
@@ -2294,7 +2288,7 @@ var $ = class extends i {
 			detail: { source: t },
 			bubbles: !0,
 			composed: !0
-		})), this._sourceAddBatchTimer !== void 0 && clearTimeout(this._sourceAddBatchTimer), this._sourceAddBatchTimer = setTimeout(() => this._flushPendingAddedSources(), It);
+		})), this._sourceAddBatchTimer !== void 0 && clearTimeout(this._sourceAddBatchTimer), this._sourceAddBatchTimer = setTimeout(() => this._flushPendingAddedSources(), Nt);
 	}
 	_flushPendingAddedSources() {
 		if (this._sourceAddBatchTimer = void 0, this._pendingAddedSources.length === 0) return;
@@ -2361,7 +2355,7 @@ var $ = class extends i {
 	}
 };
 //#endregion
-//#region node_modules/@kipk/ha-better-history/dist/define.js
+//#region ../ha-better-history/dist/define.js
 x([p({ attribute: !1 })], $.prototype, "hass", void 0), x([p({ attribute: !1 })], $.prototype, "config", void 0), x([p({ attribute: !1 })], $.prototype, "entities", void 0), x([p({ attribute: !1 })], $.prototype, "attributeUnits", void 0), x([p({ type: Number })], $.prototype, "hours", void 0), x([p({ attribute: !1 })], $.prototype, "startDate", void 0), x([p({ attribute: !1 })], $.prototype, "endDate", void 0), x([p({
 	type: Boolean,
 	attribute: "show-date-picker"
