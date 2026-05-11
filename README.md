@@ -6,10 +6,10 @@ multi-entity history graphs with per-series styling, scale groups, climate overl
 
 ## Variants
 
-| Card type | Description |
-|-----------|-------------|
-| `custom:a-better-history-card` | Inline graph rendered directly in the Lovelace grid. |
-| `custom:a-better-history-button-card` | Button that opens the graph in a dialog. |
+| Card type                             | Description                                          |
+| ------------------------------------- | ---------------------------------------------------- |
+| `custom:a-better-history-card`        | Inline graph rendered directly in the Lovelace grid. |
+| `custom:a-better-history-button-card` | Button that opens the graph in a dialog.             |
 
 Both variants share the same configuration schema and the same visual editor.
 
@@ -56,7 +56,10 @@ series:
 
 ## Screenshots
 
-> _Screenshots will be added in a later step._
+![Screenshot](./assets/screens/dialog.png)
+![Screenshot](./assets/screens/attributes_picker.png)
+![Screenshot](./assets/screens/card-1graph.png)
+![Screenshot](./assets/screens/card-2graphs.png)
 
 ---
 
@@ -172,11 +175,11 @@ All options are optional unless noted. Defaults come from `normalizeConfig()`.
 
 ### Data
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `entities` | `string[]` | — | Shorthand list of entity IDs to graph as state series. |
-| `series` | `CardSeriesConfig[]` | — | Explicit series definitions (see [Series options](#series-options) below). Takes precedence over `entities`. |
-| `attribute_units` | `Record<string, string>` | — | Map of `entity_id.attribute` → unit string. Required for attribute series — see note below. |
+| Option            | Type                     | Default | Description                                                                                                  |
+| ----------------- | ------------------------ | ------- | ------------------------------------------------------------------------------------------------------------ |
+| `entities`        | `string[]`               | —       | Shorthand list of entity IDs to graph as state series.                                                       |
+| `series`          | `CardSeriesConfig[]`     | —       | Explicit series definitions (see [Series options](#series-options) below). Takes precedence over `entities`. |
+| `attribute_units` | `Record<string, string>` | —       | Map of `entity_id.attribute` → unit string. Required for attribute series — see note below.                  |
 
 > **Why `attribute_units` matters.**
 > Entity _states_ in Home Assistant carry a `unit_of_measurement` attribute, so the component can
@@ -198,75 +201,75 @@ All options are optional unless noted. Defaults come from `normalizeConfig()`.
 
 ### Range
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `range_mode` | `"relative"` \| `"absolute"` | `"relative"` | Relative rolling window or fixed absolute date range. |
-| `hours` | `number` | `24` | Window size in hours when `range_mode` is `"relative"`. |
-| `start_date` | ISO string | — | Range start when `range_mode` is `"absolute"`. |
-| `end_date` | ISO string | — | Range end when `range_mode` is `"absolute"`. |
+| Option       | Type                         | Default      | Description                                             |
+| ------------ | ---------------------------- | ------------ | ------------------------------------------------------- |
+| `range_mode` | `"relative"` \| `"absolute"` | `"relative"` | Relative rolling window or fixed absolute date range.   |
+| `hours`      | `number`                     | `24`         | Window size in hours when `range_mode` is `"relative"`. |
+| `start_date` | ISO string                   | —            | Range start when `range_mode` is `"absolute"`.          |
+| `end_date`   | ISO string                   | —            | Range end when `range_mode` is `"absolute"`.            |
 
 ### Display
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `show_date_picker` | `boolean` | `false` | Show the date-range picker control inside the graph. |
-| `show_entity_picker` | `boolean` | `false` | Show the entity/attribute picker control inside the graph. |
-| `show_legend` | `boolean` | `true` | Show the series legend. |
-| `show_tooltip` | `boolean` | `true` | Show hover tooltip. |
-| `show_grid` | `boolean` | `true` | Show grid lines. |
-| `show_scale` | `boolean` | `true` | Show axis ticks, lines, and labels. |
-| `show_controls` | `boolean` | `true` | Initial visibility state of the date/entity controls (when `show_controls_toggle` is enabled). |
-| `show_export_button` | `boolean` | `true` | Show the export button in the tools panel. Requires `show_tools_button: true`. |
-| `show_import_button` | `boolean` | `false` | Show the import button in the tools panel. Requires `show_tools_button: true`. |
-| `show_time_range_selector` | `boolean` | `true` | Show the zoom range selector in the tools panel. Requires `show_tools_button: true`. |
-| `disable_climate_overlay` | `boolean` | `false` | Disable the heating/cooling overlay rendered for climate entity series. |
+| Option                     | Type      | Default | Description                                                                                    |
+| -------------------------- | --------- | ------- | ---------------------------------------------------------------------------------------------- |
+| `show_date_picker`         | `boolean` | `false` | Show the date-range picker control inside the graph.                                           |
+| `show_entity_picker`       | `boolean` | `false` | Show the entity/attribute picker control inside the graph.                                     |
+| `show_legend`              | `boolean` | `true`  | Show the series legend.                                                                        |
+| `show_tooltip`             | `boolean` | `true`  | Show hover tooltip.                                                                            |
+| `show_grid`                | `boolean` | `true`  | Show grid lines.                                                                               |
+| `show_scale`               | `boolean` | `true`  | Show axis ticks, lines, and labels.                                                            |
+| `show_controls`            | `boolean` | `true`  | Initial visibility state of the date/entity controls (when `show_controls_toggle` is enabled). |
+| `show_export_button`       | `boolean` | `true`  | Show the export button in the tools panel. Requires `show_tools_button: true`.                 |
+| `show_import_button`       | `boolean` | `false` | Show the import button in the tools panel. Requires `show_tools_button: true`.                 |
+| `show_time_range_selector` | `boolean` | `true`  | Show the zoom range selector in the tools panel. Requires `show_tools_button: true`.           |
+| `disable_climate_overlay`  | `boolean` | `false` | Disable the heating/cooling overlay rendered for climate entity series.                        |
 
 ### Style
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `title` | `string` | — | Title displayed in the card header. |
-| `title_font_family` | `string` | — | CSS font-family for the title (inline card only). |
-| `title_font_size` | `string` | — | CSS font-size for the title (inline card only). |
-| `title_color` | `string` \| `number[]` | — | CSS color or RGB array `[r, g, b]` for the title. |
-| `line_mode` | `"stair"` \| `"line"` \| `"column"` | `"stair"` | Global render mode for numeric series. Can be overridden per series. |
-| `line_width` | `number` \| `string` | `2.5` | Global stroke width for line/stair series. Can be overridden per series. |
+| Option              | Type                                | Default   | Description                                                              |
+| ------------------- | ----------------------------------- | --------- | ------------------------------------------------------------------------ |
+| `title`             | `string`                            | —         | Title displayed in the card header.                                      |
+| `title_font_family` | `string`                            | —         | CSS font-family for the title (inline card only).                        |
+| `title_font_size`   | `string`                            | —         | CSS font-size for the title (inline card only).                          |
+| `title_color`       | `string` \| `number[]`              | —         | CSS color or RGB array `[r, g, b]` for the title.                        |
+| `line_mode`         | `"stair"` \| `"line"` \| `"column"` | `"stair"` | Global render mode for numeric series. Can be overridden per series.     |
+| `line_width`        | `number` \| `string`                | `2.5`     | Global stroke width for line/stair series. Can be overridden per series. |
 
 ### Header & toolbar buttons
 
 These buttons are rendered by the card above the `ha-better-history` component.
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `show_tools_button` | `boolean` | `false` | Show the tools (`mdi:tools`) button that opens the tools panel. |
-| `show_controls_toggle` | `boolean` | `false` | Show the chevron button that toggles date/entity controls visibility. Only meaningful when `show_date_picker` or `show_entity_picker` is enabled. |
+| Option                   | Type      | Default | Description                                                                                                                                            |
+| ------------------------ | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `show_tools_button`      | `boolean` | `false` | Show the tools (`mdi:tools`) button that opens the tools panel.                                                                                        |
+| `show_controls_toggle`   | `boolean` | `false` | Show the chevron button that toggles date/entity controls visibility. Only meaningful when `show_date_picker` or `show_entity_picker` is enabled.      |
 | `show_fullscreen_button` | `boolean` | `false` | Show the fullscreen button. On the inline card this uses the browser Fullscreen API; in the button card it toggles `ha-dialog`'s fullscreen attribute. |
-| `show_line_mode_buttons` | `boolean` | `true` | Show stair/line/column toggle buttons in the tools panel. Requires `show_tools_button: true`. |
+| `show_line_mode_buttons` | `boolean` | `true`  | Show stair/line/column toggle buttons in the tools panel. Requires `show_tools_button: true`.                                                          |
 
 ### Button card variant
 
 These options apply only to `custom:a-better-history-button-card`.
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `button_label` | `string` | `"History"` | Text label on the button. |
-| `button_icon` | `string` | `"mdi:chart-line"` | MDI icon shown on the button. |
-| `button_show_name` | `boolean` | `true` | Show the button label. |
-| `button_show_icon` | `boolean` | `true` | Show the button icon. |
-| `button_color` | `string` \| `number[]` | — | CSS color or RGB array `[r, g, b]` for the button icon and label. |
-| `button_hover_color` | `string` \| `number[]` | — | CSS color or RGB array for the hover halo. |
-| `button_hover_effect` | `boolean` | `true` | Enable the hover halo animation. |
+| Option                | Type                   | Default            | Description                                                       |
+| --------------------- | ---------------------- | ------------------ | ----------------------------------------------------------------- |
+| `button_label`        | `string`               | `"History"`        | Text label on the button.                                         |
+| `button_icon`         | `string`               | `"mdi:chart-line"` | MDI icon shown on the button.                                     |
+| `button_show_name`    | `boolean`              | `true`             | Show the button label.                                            |
+| `button_show_icon`    | `boolean`              | `true`             | Show the button icon.                                             |
+| `button_color`        | `string` \| `number[]` | —                  | CSS color or RGB array `[r, g, b]` for the button icon and label. |
+| `button_hover_color`  | `string` \| `number[]` | —                  | CSS color or RGB array for the hover halo.                        |
+| `button_hover_effect` | `boolean`              | `true`             | Enable the hover halo animation.                                  |
 
 ### Layout
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `grid_options` | `{ columns?: number\|string; rows?: number\|string }` | — | Written by the Lovelace layout panel — see [Layout & sizing](#layout--sizing). |
+| Option         | Type                                                  | Default | Description                                                                    |
+| -------------- | ----------------------------------------------------- | ------- | ------------------------------------------------------------------------------ |
+| `grid_options` | `{ columns?: number\|string; rows?: number\|string }` | —       | Written by the Lovelace layout panel — see [Layout & sizing](#layout--sizing). |
 
 ### Debug
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
+| Option              | Type      | Default | Description                                                                                                       |
+| ------------------- | --------- | ------- | ----------------------------------------------------------------------------------------------------------------- |
 | `debug_performance` | `boolean` | `false` | Enable performance profiling logs. **Activate only temporarily for profiling — never leave it on in production.** |
 
 ---
@@ -275,20 +278,20 @@ These options apply only to `custom:a-better-history-button-card`.
 
 Each item in the `series` list is a `CardSeriesConfig` object.
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `entity` | `string` | **required** | Entity ID. |
-| `attribute` | `string` \| `string[]` | — | Attribute dot-path(s). When omitted, the entity state is used. |
-| `label` | `string` | — | Legend label. Defaults to the entity friendly name. |
-| `color` | `string` | — | CSS color (e.g. `"#42a5f5"` or `"var(--primary-color)"`). |
-| `unit` | `string` | — | Override the unit label shown in the legend and tooltip for this series. Does **not** affect scale grouping — use `attribute_units` at the top level for that. |
-| `scale_group` | `string` | — | Shared Y-axis group name. Series with the same group share a scale. |
-| `scale_mode` | `"auto"` \| `"manual"` | `"auto"` | `"manual"` enables `scale_min`/`scale_max`. |
-| `scale_min` | `number` | — | Y-axis minimum when `scale_mode: manual`. |
-| `scale_max` | `number` | — | Y-axis maximum when `scale_mode: manual`. |
-| `line_mode` | `"stair"` \| `"line"` \| `"column"` | _(global)_ | Per-series render mode override. |
-| `line_width` | `number` \| `string` | _(global)_ | Per-series stroke width override. |
-| `forced` | `boolean` | `false` | Keep this series even when the entity picker removes all user selections. |
+| Option        | Type                                | Default      | Description                                                                                                                                                    |
+| ------------- | ----------------------------------- | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `entity`      | `string`                            | **required** | Entity ID.                                                                                                                                                     |
+| `attribute`   | `string` \| `string[]`              | —            | Attribute dot-path(s). When omitted, the entity state is used.                                                                                                 |
+| `label`       | `string`                            | —            | Legend label. Defaults to the entity friendly name.                                                                                                            |
+| `color`       | `string`                            | —            | CSS color (e.g. `"#42a5f5"` or `"var(--primary-color)"`).                                                                                                      |
+| `unit`        | `string`                            | —            | Override the unit label shown in the legend and tooltip for this series. Does **not** affect scale grouping — use `attribute_units` at the top level for that. |
+| `scale_group` | `string`                            | —            | Shared Y-axis group name. Series with the same group share a scale.                                                                                            |
+| `scale_mode`  | `"auto"` \| `"manual"`              | `"auto"`     | `"manual"` enables `scale_min`/`scale_max`.                                                                                                                    |
+| `scale_min`   | `number`                            | —            | Y-axis minimum when `scale_mode: manual`.                                                                                                                      |
+| `scale_max`   | `number`                            | —            | Y-axis maximum when `scale_mode: manual`.                                                                                                                      |
+| `line_mode`   | `"stair"` \| `"line"` \| `"column"` | _(global)_   | Per-series render mode override.                                                                                                                               |
+| `line_width`  | `number` \| `string`                | _(global)_   | Per-series stroke width override.                                                                                                                              |
+| `forced`      | `boolean`                           | `false`      | Keep this series even when the entity picker removes all user selections.                                                                                      |
 
 ---
 
