@@ -78,6 +78,12 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
       display: block;
       max-width: 160px;
     }
+
+    @media (min-width: 721px) {
+      .entities-tab {
+        min-height: 360px;
+      }
+    }
   `;
 
   hass?: HomeAssistant;
@@ -385,11 +391,13 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
 
   private _renderEntitiesTab(): TemplateResult {
     return html`
-      <abh-series-list-editor
-        .series=${this._config.series ?? []}
-        .hass=${this.hass}
-        @series-changed=${(e: CustomEvent<{ series: CardSeriesConfig[] }>) => this._onSeriesChanged(e)}
-      ></abh-series-list-editor>
+      <div class="entities-tab">
+        <abh-series-list-editor
+          .series=${this._config.series ?? []}
+          .hass=${this.hass}
+          @series-changed=${(e: CustomEvent<{ series: CardSeriesConfig[] }>) => this._onSeriesChanged(e)}
+        ></abh-series-list-editor>
+      </div>
     `;
   }
 

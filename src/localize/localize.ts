@@ -6,7 +6,7 @@ type HomeAssistantLocalize = {
 };
 
 const DEFAULT_LANGUAGE = "en";
-const SUPPORTED_LANGUAGES = new Set(["en", "fr"]);
+const SUPPORTED_LANGUAGES = new Set(["en", "fr", "cs", "de", "es", "el", "it", "pl", "ru", "sk", "bg", "ca", "da", "fi", "hu", "nl", "no", "pt", "zh"]);
 
 const HA_KEYS: Record<string, string> = {
   "common.loading": "ui.common.loading"
