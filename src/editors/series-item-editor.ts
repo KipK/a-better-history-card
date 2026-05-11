@@ -46,9 +46,11 @@ const SCHEMA: HaFormSchema[] = [
       }
     }
   },
-  { name: "line_width", selector: { number: { min: 1, max: 10 } } },
+  { name: "line_width", selector: { number: { min: 1, max: 5, mode: "box" } } },
   { name: "forced", selector: { boolean: {} } }
 ];
+const LINE_WIDTH_SCHEMA = SCHEMA.filter((item) => item.name === "line_width");
+const MAIN_SCHEMA = SCHEMA.filter((item) => item.name !== "line_width");
 
 const LABELS: Record<string, string> = {
   entity: "Entity",
@@ -81,8 +83,10 @@ export class SeriesItemEditor extends LitElement {
     ha-form {
       box-sizing: border-box;
       display: block;
-      margin-inline: 18px;
-      max-width: calc(100% - 36px);
+    }
+
+    .line-width-form {
+      max-width: 160px;
     }
   `;
 
@@ -90,9 +94,26 @@ export class SeriesItemEditor extends LitElement {
   hass?: HomeAssistant;
 
   private _valueChanged(event: HaFormChangedEvent<CardSeriesConfig>): void {
+    this._emitItem({ forced: true, ...event.detail.value });
+  }
+
+  private _lineWidthChanged(event: HaFormChangedEvent<CardSeriesConfig>): void {
+    const next = { forced: true, ...this.series };
+    const value = event.detail.value.line_width;
+
+    if (value === undefined || value === "") {
+      delete next.line_width;
+    } else {
+      next.line_width = value;
+    }
+
+    this._emitItem(next);
+  }
+
+  private _emitItem(item: CardSeriesConfig): void {
     this.dispatchEvent(
       new CustomEvent("item-changed", {
-        detail: { item: { forced: true, ...event.detail.value } },
+        detail: { item },
         bubbles: true,
         composed: true
       })
@@ -100,14 +121,22 @@ export class SeriesItemEditor extends LitElement {
   }
 
   protected render(): TemplateResult {
-    const data = { forced: true, line_width: 1, ...this.series };
+    const data = { forced: true, ...this.series };
     return html`
       <ha-form
         .hass=${this.hass}
         .data=${data}
-        .schema=${SCHEMA}
+        .schema=${MAIN_SCHEMA}
         .computeLabel=${(s: HaFormSchema) => LABELS[s.name] ?? s.name}
         @value-changed=${(e: HaFormChangedEvent<CardSeriesConfig>) => this._valueChanged(e)}
+      ></ha-form>
+      <ha-form
+        class="line-width-form"
+        .hass=${this.hass}
+        .data=${data}
+        .schema=${LINE_WIDTH_SCHEMA}
+        .computeLabel=${(s: HaFormSchema) => LABELS[s.name] ?? s.name}
+        @value-changed=${(e: HaFormChangedEvent<CardSeriesConfig>) => this._lineWidthChanged(e)}
       ></ha-form>
     `;
   }

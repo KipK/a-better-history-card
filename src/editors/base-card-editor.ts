@@ -111,10 +111,9 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
       width: 100%;
     }
 
-    .slider-safe-form {
-      box-sizing: border-box;
-      margin-inline: 18px;
-      max-width: calc(100% - 36px);
+    .line-width-form {
+      display: block;
+      max-width: 160px;
     }
   `;
 
@@ -189,7 +188,7 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
           }
         }
       },
-      { name: "line_width", selector: { number: { min: 1, max: 10 } } },
+      { name: "line_width", selector: { number: { min: 1, max: 5, mode: "box" } } },
       { name: "title_font_family", selector: { text: {} } },
       { name: "title_font_size", selector: { text: {} } },
       { name: "title_color", selector: { color_rgb: {} } }
@@ -245,13 +244,6 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
     return data;
   }
 
-  private _getStyleFormData(): Record<string, unknown> {
-    return {
-      ...this._getFormData(),
-      line_width: this._config.line_width ?? 1
-    };
-  }
-
   private _valueChanged(event: HaFormChangedEvent<Record<string, unknown>>): void {
     const raw = { ...event.detail.value };
 
@@ -260,6 +252,21 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
     }
 
     this._config = { ...this._config, ...(raw as unknown as ABetterHistoryCardConfig) };
+    this._emitConfig();
+  }
+
+  private _lineWidthChanged(event: HaFormChangedEvent<Record<string, unknown>>): void {
+    const raw = event.detail.value;
+    const next = { ...this._config };
+    const value = raw.line_width;
+
+    if (value === undefined || value === "") {
+      delete next.line_width;
+    } else {
+      next.line_width = value as number | string;
+    }
+
+    this._config = next;
     this._emitConfig();
   }
 
@@ -328,11 +335,19 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
 
   private _renderStyleTab(): TemplateResult {
     const schema = this._styleSchema();
+    const lineWidthSchema = schema.filter((item) => item.name === "line_width");
+    const mainSchema = this._withoutColorFields(schema).filter((item) => item.name !== "line_width");
 
     return html`
-      <div class="slider-safe-form">
-        ${this._renderSchemaForm(this._withoutColorFields(schema), this._getStyleFormData())}
-      </div>
+      ${this._renderSchemaForm(mainSchema)}
+      <ha-form
+        class="line-width-form"
+        .hass=${this.hass}
+        .data=${this._getFormData()}
+        .schema=${lineWidthSchema}
+        .computeLabel=${(s: HaFormSchema) => this._computeLabel(s)}
+        @value-changed=${(e: HaFormChangedEvent<Record<string, unknown>>) => this._lineWidthChanged(e)}
+      ></ha-form>
       ${this._renderColorGrid(this._colorFields(schema))}
     `;
   }
