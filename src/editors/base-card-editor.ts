@@ -20,7 +20,7 @@ const LABELS: Record<string, string> = {
   show_import_button: "Import button",
   show_export_button: "Export button",
   show_time_range_selector: "Time range selector",
-  show_controls: "Controls (chevron, initial state)",
+  show_controls: "Pickers initial state",
   disable_climate_overlay: "Disable climate overlay",
   title: "Title",
   title_font_family: "Title font family",

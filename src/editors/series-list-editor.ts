@@ -103,12 +103,6 @@ export class SeriesListEditor extends LitElement {
       flex: 0 0 auto;
     }
 
-    .add-manual-btn {
-      display: flex;
-      justify-content: center;
-      margin-top: 8px;
-      width: 100%;
-    }
   `;
 
   series: CardSeriesConfig[] = [];
@@ -132,10 +126,6 @@ export class SeriesListEditor extends LitElement {
         composed: true
       })
     );
-  }
-
-  private _addEmpty(): void {
-    this._emit([...this.series, { entity: "", forced: true }]);
   }
 
   private _remove(index: number): void {
@@ -206,12 +196,6 @@ export class SeriesListEditor extends LitElement {
       </div>
       <div class="series-list">
         ${this.series.map((item, i) => this._renderSeriesPanel(item, i))}
-      </div>
-      <div class="add-manual-btn">
-        <ha-button size="small" @click=${() => this._addEmpty()}>
-          <ha-icon icon="mdi:text-box-plus-outline" slot="start"></ha-icon>
-          Add manually
-        </ha-button>
       </div>
     `;
   }
