@@ -44,8 +44,17 @@ jobs:
         run: npm run build
 
       - name: Package HACS zip
+        shell: bash
         run: |
-          zip -r "release/a-better-history-card-${GITHUB_REF_NAME}.zip" dist README.md hacs.json CHANGELOG.md
+          set -euo pipefail
+
+          mkdir -p release
+
+          zip -r "release/a-better-history-card-${GITHUB_REF_NAME}.zip" \
+            dist \
+            README.md \
+            hacs.json \
+            CHANGELOG.md
 
       - name: Create draft GitHub release
         env:
