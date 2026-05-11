@@ -1,0 +1,60 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "*.*.*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build and draft release
+    runs-on: ubuntu-latest
+    if: ${{ !contains(github.ref_name, '-') }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+
+      - name: Validate release tag
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          tag="${GITHUB_REF_NAME}"
+          if [[ ! "${tag}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Tag '${tag}' must be a pure semver (e.g. 0.1.0). Pre-release suffixes are not allowed." >&2
+            exit 1
+          fi
+
+      - name: Set package.json version
+        run: npm version "${GITHUB_REF_NAME}" --no-git-tag-version
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Package HACS zip
+        run: |
+          zip -r "release/a-better-history-card-${GITHUB_REF_NAME}.zip" dist README.md hacs.json CHANGELOG.md
+
+      - name: Create draft GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          gh release create "${GITHUB_REF_NAME}" release/* \
+            --title "A Better History Card ${GITHUB_REF_NAME}" \
+            --notes "Release ${GITHUB_REF_NAME}" \
+            --draft
