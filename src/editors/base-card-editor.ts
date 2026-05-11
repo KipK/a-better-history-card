@@ -109,6 +109,10 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
     if (!tabs.find((t) => t.id === this._activeTab)) {
       this._activeTab = tabs[0]?.id ?? "";
     }
+    if (this._config._store_preview) {
+      this._config = this._withoutStorePreview(this._config);
+      queueMicrotask(() => this._emitConfig());
+    }
   }
 
   protected abstract _tabs(): Array<{ id: string; label: string }>;
@@ -269,6 +273,13 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
         composed: true
       })
     );
+  }
+
+  private _withoutStorePreview(config: ABetterHistoryCardConfig): ABetterHistoryCardConfig {
+    const next = { ...config };
+    delete next._store_preview;
+    delete next.entities;
+    return next;
   }
 
   protected render(): TemplateResult {

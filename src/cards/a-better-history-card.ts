@@ -32,8 +32,8 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
     return document.createElement(EDITOR_TAG);
   }
 
-  static getStubConfig(hass: HomeAssistant): ABetterHistoryCardConfig {
-    const states = hass.states;
+  static getStubConfig(hass?: HomeAssistant): ABetterHistoryCardConfig {
+    const states = hass?.states ?? {};
     const entityId =
       Object.keys(states).find(
         (id) => /^sensor\.[^.]*temperature/.test(id) || id.startsWith("climate.")
@@ -41,18 +41,17 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
       Object.keys(states).find(
         (id) => id.startsWith("sensor.") && !isNaN(Number(states[id]?.state))
       );
-    if (entityId) {
-      return {
-        type: CARD_TYPE,
-        entities: [entityId],
-        range_mode: "relative",
-        hours: 24,
-        show_entity_picker: true,
-        show_legend: true,
-        show_tooltip: true
-      };
-    }
-    return { type: CARD_TYPE };
+
+    return {
+      type: CARD_TYPE,
+      ...(entityId ? { entities: [entityId], _store_preview: true } : {}),
+      range_mode: "relative",
+      hours: 24,
+      show_entity_picker: true,
+      show_import_button: true,
+      show_legend: true,
+      show_tooltip: true
+    };
   }
 
   static properties = {
@@ -257,10 +256,6 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
 
     if (!cfg) {
       return html`<ha-card><div class="error">${localize(this.hass, "card.error.no_configuration")}</div></ha-card>`;
-    }
-
-    if (!cfg.entities?.length && !cfg.series?.length) {
-      return html`<ha-card><div class="error">${localize(this.hass, "card.error.no_entities")}</div></ha-card>`;
     }
 
     if (!this._historyElementReady) {

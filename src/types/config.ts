@@ -70,4 +70,7 @@ export interface ABetterHistoryCardConfig {
 
   // Debug
   debug_performance?: boolean;
+
+  // Internal store preview marker
+  _store_preview?: boolean;
 }

@@ -25,8 +25,8 @@ export class ABetterHistoryButtonCard extends LitElement implements LovelaceCard
     return document.createElement(BUTTON_EDITOR_TAG);
   }
 
-  static getStubConfig(hass: HomeAssistant): ABetterHistoryCardConfig {
-    const states = hass.states;
+  static getStubConfig(hass?: HomeAssistant): ABetterHistoryCardConfig {
+    const states = hass?.states ?? {};
     const entityId =
       Object.keys(states).find(
         (id) => /^sensor\.[^.]*temperature/.test(id) || id.startsWith("climate.")
@@ -34,18 +34,17 @@ export class ABetterHistoryButtonCard extends LitElement implements LovelaceCard
       Object.keys(states).find(
         (id) => id.startsWith("sensor.") && !isNaN(Number(states[id]?.state))
       );
-    if (entityId) {
-      return {
-        type: BUTTON_CARD_TYPE,
-        entities: [entityId],
-        range_mode: "relative",
-        hours: 24,
-        show_entity_picker: true,
-        show_legend: true,
-        show_tooltip: true
-      };
-    }
-    return { type: BUTTON_CARD_TYPE };
+
+    return {
+      type: BUTTON_CARD_TYPE,
+      ...(entityId ? { entities: [entityId], _store_preview: true } : {}),
+      range_mode: "relative",
+      hours: 24,
+      show_entity_picker: true,
+      show_import_button: true,
+      show_legend: true,
+      show_tooltip: true
+    };
   }
 
   static properties = {
