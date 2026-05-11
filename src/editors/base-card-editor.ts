@@ -113,8 +113,8 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
 
     .slider-safe-form {
       box-sizing: border-box;
-      margin-inline: 6px;
-      max-width: calc(100% - 12px);
+      margin-inline: 18px;
+      max-width: calc(100% - 36px);
     }
   `;
 
@@ -245,6 +245,13 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
     return data;
   }
 
+  private _getStyleFormData(): Record<string, unknown> {
+    return {
+      ...this._getFormData(),
+      line_width: this._config.line_width ?? 1
+    };
+  }
+
   private _valueChanged(event: HaFormChangedEvent<Record<string, unknown>>): void {
     const raw = { ...event.detail.value };
 
@@ -299,11 +306,11 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
     `;
   }
 
-  private _renderSchemaForm(schema: HaFormSchema[]): TemplateResult {
+  private _renderSchemaForm(schema: HaFormSchema[], data: Record<string, unknown> = this._getFormData()): TemplateResult {
     return html`
       <ha-form
         .hass=${this.hass}
-        .data=${this._getFormData()}
+        .data=${data}
         .schema=${schema}
         .computeLabel=${(s: HaFormSchema) => this._computeLabel(s)}
         @value-changed=${(e: HaFormChangedEvent<Record<string, unknown>>) => this._valueChanged(e)}
@@ -324,7 +331,7 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
 
     return html`
       <div class="slider-safe-form">
-        ${this._renderSchemaForm(this._withoutColorFields(schema))}
+        ${this._renderSchemaForm(this._withoutColorFields(schema), this._getStyleFormData())}
       </div>
       ${this._renderColorGrid(this._colorFields(schema))}
     `;

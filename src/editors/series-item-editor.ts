@@ -81,8 +81,8 @@ export class SeriesItemEditor extends LitElement {
     ha-form {
       box-sizing: border-box;
       display: block;
-      margin-inline: 6px;
-      max-width: calc(100% - 12px);
+      margin-inline: 18px;
+      max-width: calc(100% - 36px);
     }
   `;
 
@@ -100,7 +100,7 @@ export class SeriesItemEditor extends LitElement {
   }
 
   protected render(): TemplateResult {
-    const data = { forced: true, ...this.series };
+    const data = { forced: true, line_width: 1, ...this.series };
     return html`
       <ha-form
         .hass=${this.hass}
