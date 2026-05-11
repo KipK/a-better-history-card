@@ -5,6 +5,7 @@ import type { CardSeriesConfig } from "../types/config.js";
 import type { HomeAssistant } from "../types/ha.js";
 import { sourceToSeriesConfig } from "../data/source-to-series.js";
 import { ensureHaComponents } from "../ha/load-components.js";
+import { ensureTranslations, languageFromHass, localize } from "../localize/localize.js";
 
 const PICKER_ELEMENT_URL = new URL(
   /* @vite-ignore */ "lib/ha-better-history/picker.js",
@@ -111,11 +112,24 @@ export class SeriesListEditor extends LitElement {
   private _dragOverIndex = -1;
   private _pickerReady = false;
   private _componentsReady = false;
+  private _translationLanguage = "";
 
   override connectedCallback(): void {
     super.connectedCallback();
     ensureHaComponents().then(() => { this._componentsReady = true; });
     loadPickerElement().then(() => { this._pickerReady = true; });
+  }
+
+  protected override updated(): void {
+    void this._loadTranslations();
+  }
+
+  private async _loadTranslations(): Promise<void> {
+    const language = languageFromHass(this.hass);
+    if (language === this._translationLanguage) return;
+    this._translationLanguage = language;
+    await ensureTranslations(this.hass, language);
+    this.requestUpdate();
   }
 
   private _emit(series: CardSeriesConfig[]): void {
@@ -173,14 +187,14 @@ export class SeriesListEditor extends LitElement {
 
   private _seriesTitle(item: CardSeriesConfig): string {
     if (item.label) return item.label;
-    if (!item.entity) return "New series";
+    if (!item.entity) return localize(this.hass, "editor.series.new_series");
     const friendlyName = this.hass?.states[item.entity]?.attributes.friendly_name;
     return typeof friendlyName === "string" && friendlyName ? friendlyName : item.entity;
   }
 
   private _seriesSubtitle(item: CardSeriesConfig): string {
     const parts = [item.entity, item.attribute].filter((part): part is string => Boolean(part));
-    return parts.length > 0 ? parts.join(" · ") : "No entity selected";
+    return parts.length > 0 ? parts.join(" · ") : localize(this.hass, "editor.series.no_entity_selected");
   }
 
   protected render(): TemplateResult {
@@ -210,7 +224,7 @@ export class SeriesListEditor extends LitElement {
         </div>
         <ha-icon-button
           class="delete-btn"
-          .label=${"Remove"}
+          .label=${localize(this.hass, "editor.series.remove")}
           @click=${(event: Event) => {
             event.stopPropagation();
             this._remove(index);

@@ -4,6 +4,7 @@ import { normalizeConfig } from "../data/normalize-config.js";
 import type { ABetterHistoryCardConfig } from "../types/config.js";
 import { BUTTON_CARD_TYPE, BUTTON_EDITOR_TAG } from "../const.js";
 import type { HomeAssistant, LovelaceCard, LovelaceCardGridOptions } from "../types/ha.js";
+import { ensureTranslations, languageFromHass, localize } from "../localize/localize.js";
 
 function cssColor(value: string | number[] | undefined): string | undefined {
   if (typeof value === "string" && value.trim() !== "") {
@@ -91,9 +92,14 @@ export class ABetterHistoryButtonCard extends LitElement implements LovelaceCard
   hass?: HomeAssistant;
   private _config?: ABetterHistoryCardConfig;
   private _open = false;
+  private _translationLanguage = "";
 
   setConfig(config: unknown): void {
     this._config = { ...normalizeConfig(config as ABetterHistoryCardConfig) };
+  }
+
+  protected override updated(): void {
+    void this._loadTranslations();
   }
 
   getCardSize(): number {
@@ -117,10 +123,18 @@ export class ABetterHistoryButtonCard extends LitElement implements LovelaceCard
     this._open = false;
   }
 
+  private async _loadTranslations(): Promise<void> {
+    const language = languageFromHass(this.hass);
+    if (language === this._translationLanguage) return;
+    this._translationLanguage = language;
+    await ensureTranslations(this.hass, language);
+    this.requestUpdate();
+  }
+
   protected render(): TemplateResult {
     const cfg = this._config;
     const icon = cfg?.button_icon ?? "mdi:chart-line";
-    const label = cfg?.button_label ?? "History";
+    const label = cfg?.button_label ?? localize(this.hass, "dialog.title.history");
     const showName = cfg?.button_show_name !== false;
     const showIcon = cfg?.button_show_icon !== false;
     const hoverEffect = cfg?.button_hover_effect !== false;

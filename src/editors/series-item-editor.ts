@@ -1,71 +1,7 @@
 import { LitElement, css, html, type TemplateResult } from "lit";
 import type { CardSeriesConfig } from "../types/config.js";
 import type { HaFormChangedEvent, HaFormSchema, HomeAssistant } from "../types/ha.js";
-
-const SCHEMA: HaFormSchema[] = [
-  { name: "entity", selector: { entity: {} } },
-  { name: "attribute", selector: { text: {} } },
-  { name: "label", selector: { text: {} } },
-  { name: "color", selector: { text: {} } },
-  { name: "unit", selector: { text: {} } },
-  { name: "scale_group", selector: { text: {} } },
-  {
-    name: "scale_mode",
-    selector: {
-      select: {
-        mode: "dropdown",
-        options: [
-          { value: "auto", label: "Auto" },
-          { value: "manual", label: "Manual" }
-        ]
-      }
-    }
-  },
-  {
-    type: "conditional",
-    name: "scale_min",
-    conditions: [{ name: "scale_mode", value: "manual" }],
-    schema: [{ name: "scale_min", selector: { number: {} } }]
-  },
-  {
-    type: "conditional",
-    name: "scale_max",
-    conditions: [{ name: "scale_mode", value: "manual" }],
-    schema: [{ name: "scale_max", selector: { number: {} } }]
-  },
-  {
-    name: "line_mode",
-    selector: {
-      select: {
-        mode: "dropdown",
-        options: [
-          { value: "line", label: "Line" },
-          { value: "stair", label: "Stair" },
-          { value: "column", label: "Column" }
-        ]
-      }
-    }
-  },
-  { name: "line_width", selector: { number: { min: 1, max: 5, mode: "box" } } },
-  { name: "forced", selector: { boolean: {} } }
-];
-const LINE_WIDTH_SCHEMA = SCHEMA.filter((item) => item.name === "line_width");
-const MAIN_SCHEMA = SCHEMA.filter((item) => item.name !== "line_width");
-
-const LABELS: Record<string, string> = {
-  entity: "Entity",
-  attribute: "Attribute (dot path, leave blank for state)",
-  label: "Label",
-  color: "Color (CSS value)",
-  unit: "Unit",
-  scale_group: "Scale group",
-  scale_mode: "Scale mode",
-  scale_min: "Scale min",
-  scale_max: "Scale max",
-  line_mode: "Line mode",
-  line_width: "Line width",
-  forced: "Forced (always shown)"
-};
+import { ensureTranslations, languageFromHass, localize } from "../localize/localize.js";
 
 export class SeriesItemEditor extends LitElement {
   static properties = {
@@ -92,6 +28,73 @@ export class SeriesItemEditor extends LitElement {
 
   series: CardSeriesConfig = { entity: "" };
   hass?: HomeAssistant;
+  private _translationLanguage = "";
+
+  protected override updated(): void {
+    void this._loadTranslations();
+  }
+
+  private async _loadTranslations(): Promise<void> {
+    const language = languageFromHass(this.hass);
+    if (language === this._translationLanguage) return;
+    this._translationLanguage = language;
+    await ensureTranslations(this.hass, language);
+    this.requestUpdate();
+  }
+
+  private _schema(): HaFormSchema[] {
+    return [
+      { name: "entity", selector: { entity: {} } },
+      { name: "attribute", selector: { text: {} } },
+      { name: "label", selector: { text: {} } },
+      { name: "color", selector: { text: {} } },
+      { name: "unit", selector: { text: {} } },
+      { name: "scale_group", selector: { text: {} } },
+      {
+        name: "scale_mode",
+        selector: {
+          select: {
+            mode: "dropdown",
+            options: [
+              { value: "auto", label: localize(this.hass, "editor.option.auto") },
+              { value: "manual", label: localize(this.hass, "editor.option.manual") }
+            ]
+          }
+        }
+      },
+      {
+        type: "conditional",
+        name: "scale_min",
+        conditions: [{ name: "scale_mode", value: "manual" }],
+        schema: [{ name: "scale_min", selector: { number: {} } }]
+      },
+      {
+        type: "conditional",
+        name: "scale_max",
+        conditions: [{ name: "scale_mode", value: "manual" }],
+        schema: [{ name: "scale_max", selector: { number: {} } }]
+      },
+      {
+        name: "line_mode",
+        selector: {
+          select: {
+            mode: "dropdown",
+            options: [
+              { value: "line", label: localize(this.hass, "editor.option.line") },
+              { value: "stair", label: localize(this.hass, "editor.option.stair") },
+              { value: "column", label: localize(this.hass, "editor.option.column") }
+            ]
+          }
+        }
+      },
+      { name: "line_width", selector: { number: { min: 1, max: 5, mode: "box" } } },
+      { name: "forced", selector: { boolean: {} } }
+    ];
+  }
+
+  private _computeLabel(schema: HaFormSchema): string {
+    return localize(this.hass, `editor.field.${schema.name}`);
+  }
 
   private _valueChanged(event: HaFormChangedEvent<CardSeriesConfig>): void {
     this._emitItem({ forced: true, ...event.detail.value });
@@ -122,20 +125,24 @@ export class SeriesItemEditor extends LitElement {
 
   protected render(): TemplateResult {
     const data = { forced: true, ...this.series };
+    const schema = this._schema();
+    const lineWidthSchema = schema.filter((item) => item.name === "line_width");
+    const mainSchema = schema.filter((item) => item.name !== "line_width");
+
     return html`
       <ha-form
         .hass=${this.hass}
         .data=${data}
-        .schema=${MAIN_SCHEMA}
-        .computeLabel=${(s: HaFormSchema) => LABELS[s.name] ?? s.name}
+        .schema=${mainSchema}
+        .computeLabel=${(s: HaFormSchema) => this._computeLabel(s)}
         @value-changed=${(e: HaFormChangedEvent<CardSeriesConfig>) => this._valueChanged(e)}
       ></ha-form>
       <ha-form
         class="line-width-form"
         .hass=${this.hass}
         .data=${data}
-        .schema=${LINE_WIDTH_SCHEMA}
-        .computeLabel=${(s: HaFormSchema) => LABELS[s.name] ?? s.name}
+        .schema=${lineWidthSchema}
+        .computeLabel=${(s: HaFormSchema) => this._computeLabel(s)}
         @value-changed=${(e: HaFormChangedEvent<CardSeriesConfig>) => this._lineWidthChanged(e)}
       ></ha-form>
     `;

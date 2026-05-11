@@ -5,6 +5,7 @@ import { normalizeConfig } from "../data/normalize-config.js";
 import type { ABetterHistoryCardConfig } from "../types/config.js";
 import { CARD_TYPE, EDITOR_TAG } from "../const.js";
 import type { HomeAssistant, LovelaceCard, LovelaceCardGridOptions } from "../types/ha.js";
+import { ensureTranslations, languageFromHass, localize } from "../localize/localize.js";
 
 // Resolved at runtime relative to the bundle — do not let Vite resolve this path.
 const HISTORY_ELEMENT_URL = new URL(
@@ -133,6 +134,7 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
   private _dialogOpen = false;
   private _historyElementReady = customElements.get("ha-better-history") !== undefined;
   private _historyElementLoadStarted = false;
+  private _translationLanguage = "";
 
   setConfig(config: unknown): void {
     const raw = config as ABetterHistoryCardConfig;
@@ -142,6 +144,10 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
     this._config = { ...normalizeConfig(raw) };
     this._controlsVisible = this._config.show_controls ?? true;
     void this._loadHistoryElement();
+  }
+
+  protected override updated(): void {
+    void this._loadTranslations();
   }
 
   getCardSize(): number {
@@ -171,6 +177,14 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
       console.warn("[a-better-history-card] Failed to load ha-better-history:", error);
       this._historyElementLoadStarted = false;
     }
+  }
+
+  private async _loadTranslations(): Promise<void> {
+    const language = languageFromHass(this.hass);
+    if (language === this._translationLanguage) return;
+    this._translationLanguage = language;
+    await ensureTranslations(this.hass, language);
+    this.requestUpdate();
   }
 
   private _openDialog(): void {
@@ -203,20 +217,20 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
         ${hasButtons ? html`<div class="header-actions">
           ${cfg.show_tools_button
             ? html`<ha-icon-button
-                .label=${"Tools"}
+                .label=${localize(this.hass, "card.label.tools")}
                 ?active=${this._toolsOpen}
                 @click=${() => { this._toolsOpen = !this._toolsOpen; }}
               ><ha-icon icon="mdi:tools"></ha-icon></ha-icon-button>`
             : nothing}
           ${showChevron
             ? html`<ha-icon-button
-                .label=${this._controlsVisible ? "Hide controls" : "Show controls"}
+                .label=${localize(this.hass, this._controlsVisible ? "card.label.hide_controls" : "card.label.show_controls")}
                 @click=${() => { this._controlsVisible = !this._controlsVisible; }}
               ><ha-icon icon=${this._controlsVisible ? "mdi:chevron-up" : "mdi:chevron-down"}></ha-icon></ha-icon-button>`
             : nothing}
           ${cfg.show_fullscreen_button
             ? html`<ha-icon-button
-                .label=${"Fullscreen"}
+                .label=${localize(this.hass, "card.label.fullscreen")}
                 @click=${() => this._openDialog()}
               ><ha-icon icon="mdi:fullscreen"></ha-icon></ha-icon-button>`
             : nothing}
@@ -229,15 +243,15 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
     const cfg = this._config;
 
     if (!cfg) {
-      return html`<div class="error">No configuration.</div>`;
+      return html`<div class="error">${localize(this.hass, "card.error.no_configuration")}</div>`;
     }
 
     if (!cfg.entities?.length && !cfg.series?.length) {
-      return html`<div class="error">Configure at least one entity.</div>`;
+      return html`<div class="error">${localize(this.hass, "card.error.no_entities")}</div>`;
     }
 
     if (!this._historyElementReady) {
-      return html`<div class="loading">Loading history…</div>`;
+      return html`<div class="loading">${localize(this.hass, "dialog.loading_history")}</div>`;
     }
 
     const bhConfig = buildBetterHistoryConfig(cfg, !!cfg.title);

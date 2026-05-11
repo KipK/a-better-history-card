@@ -9,14 +9,14 @@ export class ABetterHistoryButtonCardEditor extends BaseCardEditor {
 
   protected _tabs(): Array<{ id: string; label: string }> {
     return [
-      { id: "entities", label: "Entities" },
-      { id: "range", label: "Range" },
-      { id: "display", label: "Display" },
-      { id: "style", label: "Style" },
-      { id: "header", label: "Header" },
-      ...(this._config.show_tools_button ? [{ id: "tools", label: "Tools" }] : []),
-      { id: "button", label: "Button" },
-      { id: "advanced", label: "Advanced" }
+      { id: "entities", label: this._localize("editor.tab.entities") },
+      { id: "range", label: this._localize("editor.tab.range") },
+      { id: "display", label: this._localize("editor.tab.display") },
+      { id: "style", label: this._localize("editor.tab.style") },
+      { id: "header", label: this._localize("editor.tab.header") },
+      ...(this._config.show_tools_button ? [{ id: "tools", label: this._localize("editor.tab.tools") }] : []),
+      { id: "button", label: this._localize("editor.tab.button") },
+      { id: "advanced", label: this._localize("editor.tab.advanced") }
     ];
   }
 

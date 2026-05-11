@@ -2,6 +2,7 @@ import { LitElement, css, html, nothing, type TemplateResult } from "lit";
 import { buildBetterHistoryConfig } from "../data/build-better-history-config.js";
 import type { ABetterHistoryCardConfig } from "../types/config.js";
 import type { HomeAssistant } from "../types/ha.js";
+import { ensureTranslations, languageFromHass, localize } from "../localize/localize.js";
 
 const HISTORY_ELEMENT_URL = new URL(
   /* @vite-ignore */ "lib/ha-better-history/define.js",
@@ -80,12 +81,14 @@ export class HistoryDialog extends LitElement {
   private _toolsOpen = false;
   private _historyElementReady = customElements.get("ha-better-history") !== undefined;
   private _historyElementLoadStarted = false;
+  private _translationLanguage = "";
   private _pickerOverlayOpen = false;
   private _suppressNextClose = false;
   private _suppressCloseTimer?: ReturnType<typeof setTimeout>;
 
   protected updated(): void {
     this._styleDialogHeader();
+    void this._loadTranslations();
     if (this.open) void this._loadHistoryElement();
   }
 
@@ -149,6 +152,14 @@ export class HistoryDialog extends LitElement {
     }
   }
 
+  private async _loadTranslations(): Promise<void> {
+    const language = languageFromHass(this.hass, this.language);
+    if (language === this._translationLanguage) return;
+    this._translationLanguage = language;
+    await ensureTranslations(this.hass, language);
+    this.requestUpdate();
+  }
+
   private _styleDialogHeader(): void {
     const dialog = this.renderRoot.querySelector("ha-dialog");
     const root = dialog?.shadowRoot;
@@ -171,7 +182,7 @@ export class HistoryDialog extends LitElement {
 
   protected render(): TemplateResult {
     const cfg = this.config;
-    const title = cfg?.title ?? "History";
+    const title = cfg?.title ?? localize(this.hass, "dialog.title.history", this.language);
 
     return html`
       <ha-dialog
@@ -186,7 +197,7 @@ export class HistoryDialog extends LitElement {
           ? html`<ha-icon-button
               slot="headerActionItems"
               class="btn btn-tools"
-              .label=${"Tools"}
+              .label=${localize(this.hass, "card.label.tools", this.language)}
               ?active=${this._toolsOpen}
               @click=${() => { this._toolsOpen = !this._toolsOpen; }}
             ><ha-icon icon="mdi:tools"></ha-icon></ha-icon-button>`
@@ -195,7 +206,7 @@ export class HistoryDialog extends LitElement {
           ? html`<ha-icon-button
               slot="headerActionItems"
               class="btn"
-              .label=${this._controlsVisible ? "Hide controls" : "Show controls"}
+              .label=${localize(this.hass, this._controlsVisible ? "card.label.hide_controls" : "card.label.show_controls", this.language)}
               @click=${() => { this._controlsVisible = !this._controlsVisible; }}
             ><ha-icon icon=${this._controlsVisible ? "mdi:chevron-up" : "mdi:chevron-down"}></ha-icon></ha-icon-button>`
           : nothing}
@@ -203,12 +214,12 @@ export class HistoryDialog extends LitElement {
           ? html`<ha-icon-button
               slot="headerActionItems"
               class="btn btn-fs"
-              .label=${this._fullscreen ? "Exit fullscreen" : "Fullscreen"}
+              .label=${localize(this.hass, this._fullscreen ? "dialog.label.exit_fullscreen" : "card.label.fullscreen", this.language)}
               @click=${() => { this._fullscreen = !this._fullscreen; }}
             ><ha-icon icon=${this._fullscreen ? "mdi:fullscreen-exit" : "mdi:fullscreen"}></ha-icon></ha-icon-button>`
           : nothing}
         ${this.open && !this._historyElementReady
-          ? html`<div class="loading">Loading history…</div>`
+          ? html`<div class="loading">${localize(this.hass, "dialog.loading_history", this.language)}</div>`
           : nothing}
         ${this.open && this._historyElementReady && cfg
           ? html`<ha-better-history

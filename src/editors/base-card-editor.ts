@@ -4,44 +4,7 @@ import type { CardSeriesConfig, ABetterHistoryCardConfig } from "../types/config
 import type { HaFormChangedEvent, HaFormSchema, HomeAssistant, LovelaceCardEditor } from "../types/ha.js";
 import { ensureDateRangePicker, ensureHaComponents } from "../ha/load-components.js";
 import { normalizeConfig } from "../data/normalize-config.js";
-
-const LABELS: Record<string, string> = {
-  series: "Series (JSON)",
-  range_mode: "Range mode",
-  hours: "Hours",
-  start_date: "Start date",
-  end_date: "End date",
-  show_date_picker: "Date picker",
-  show_entity_picker: "Entity picker",
-  show_legend: "Legend",
-  show_tooltip: "Tooltip",
-  show_grid: "Grid",
-  show_scale: "Scale",
-  show_import_button: "Import button",
-  show_export_button: "Export button",
-  show_time_range_selector: "Time range selector",
-  show_controls: "Pickers initial state",
-  disable_climate_overlay: "Disable climate overlay",
-  title: "Title",
-  title_font_family: "Title font family",
-  title_font_size: "Title font size",
-  title_color: "Title color",
-  line_mode: "Line mode",
-  line_width: "Line width",
-  show_tools_button: "Tools button",
-  show_controls_toggle: "Controls toggle button",
-  show_line_mode_buttons: "Line mode buttons",
-  button_label: "Button label",
-  button_icon: "Button icon",
-  button_show_name: "Show button name",
-  button_show_icon: "Show button icon",
-  button_color: "Button color",
-  button_hover_color: "Hover color",
-  button_hover_effect: "Hover effect",
-  show_fullscreen_button: "Fullscreen button",
-  attribute_units: "Attribute units (JSON object)",
-  debug_performance: "Debug performance"
-};
+import { ensureTranslations, languageFromHass, localize } from "../localize/localize.js";
 
 const COLOR_FIELD_NAMES = new Set(["title_color", "button_color", "button_hover_color"]);
 
@@ -122,11 +85,16 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
   protected _activeTab = "";
   private _componentsReady = false;
   private _dateRangePickerReady = false;
+  private _translationLanguage = "";
 
   override connectedCallback(): void {
     super.connectedCallback();
     ensureHaComponents().then(() => { this._componentsReady = true; });
     ensureDateRangePicker().then(() => { this._dateRangePickerReady = customElements.get("ha-date-range-picker") !== undefined; });
+  }
+
+  protected override updated(): void {
+    void this._loadTranslations();
   }
 
   setConfig(config: unknown): void {
@@ -140,6 +108,18 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
   protected abstract _tabs(): Array<{ id: string; label: string }>;
   protected abstract _schema(tab: string): HaFormSchema[];
 
+  protected _localize(key: string): string {
+    return localize(this.hass, key);
+  }
+
+  private async _loadTranslations(): Promise<void> {
+    const language = languageFromHass(this.hass);
+    if (language === this._translationLanguage) return;
+    this._translationLanguage = language;
+    await ensureTranslations(this.hass, language);
+    this.requestUpdate();
+  }
+
   // Shared schema builders
 
   protected _rangeSchema(): HaFormSchema[] {
@@ -150,8 +130,8 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
           select: {
             mode: "dropdown",
             options: [
-              { value: "relative", label: "Relative (hours)" },
-              { value: "absolute", label: "Absolute (date range)" }
+              { value: "relative", label: this._localize("editor.option.relative_hours") },
+              { value: "absolute", label: this._localize("editor.option.absolute_date_range") }
             ]
           }
         }
@@ -181,9 +161,9 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
           select: {
             mode: "dropdown",
             options: [
-              { value: "line", label: "Line" },
-              { value: "stair", label: "Stair" },
-              { value: "column", label: "Column" }
+              { value: "line", label: this._localize("editor.option.line") },
+              { value: "stair", label: this._localize("editor.option.stair") },
+              { value: "column", label: this._localize("editor.option.column") }
             ]
           }
         }
@@ -233,7 +213,7 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
   }
 
   private _computeLabel(schema: HaFormSchema): string {
-    return LABELS[schema.name] ?? schema.name;
+    return this._localize(`editor.field.${schema.name}`);
   }
 
   private _getFormData(): Record<string, unknown> {
@@ -425,7 +405,7 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
       ${this._config.range_mode === "absolute" && this._componentsReady && this._dateRangePickerReady
         ? html`
             <div class="date-range-section">
-              <span class="date-range-label">Date range</span>
+              <span class="date-range-label">${this._localize("editor.date_range")}</span>
               <ha-date-range-picker
                 .hass=${this.hass}
                 .startDate=${this._dateRangeStartDate()}
