@@ -131,7 +131,7 @@ export class HistoryDialog extends LitElement {
       return;
     }
     event.stopPropagation();
-    this.dispatchEvent(new CustomEvent("dialog-closed", { bubbles: true, composed: true }));
+    this.dispatchEvent(new CustomEvent("abh-dialog-closed", { bubbles: true }));
   }
 
   private _onPickerOverlayChanged(event: CustomEvent<{ open: boolean }>): void {

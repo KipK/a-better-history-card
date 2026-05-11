@@ -119,7 +119,8 @@ export class ABetterHistoryButtonCard extends LitElement implements LovelaceCard
     this._open = true;
   }
 
-  private _onDialogClosed(): void {
+  private _onDialogClosed(event: Event): void {
+    event.stopPropagation();
     this._open = false;
   }
 
@@ -160,7 +161,7 @@ export class ABetterHistoryButtonCard extends LitElement implements LovelaceCard
         .hass=${this.hass}
         .config=${cfg}
         .language=${language}
-        @dialog-closed=${this._onDialogClosed}
+        @abh-dialog-closed=${this._onDialogClosed}
       ></abh-history-dialog>
     `;
   }

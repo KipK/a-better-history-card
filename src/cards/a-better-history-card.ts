@@ -288,7 +288,7 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
           .hass=${this.hass}
           .config=${cfg}
           .language=${language}
-          @dialog-closed=${this._onDialogClosed}
+          @abh-dialog-closed=${this._onDialogClosed}
         ></abh-history-dialog>
       </ha-card>
     `;
