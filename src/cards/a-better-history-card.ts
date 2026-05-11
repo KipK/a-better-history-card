@@ -108,6 +108,14 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
       white-space: nowrap;
     }
 
+    .history-frame {
+      box-sizing: border-box;
+      display: flex;
+      flex: 1;
+      min-height: 0;
+      padding: 0 8px;
+    }
+
     ha-better-history {
       --better-history-min-height: 0px;
       --better-history-surface-overflow-y: hidden;
@@ -265,14 +273,16 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
     return html`
       <ha-card>
         ${this._renderHeader()}
-        <ha-better-history
-          .hass=${this.hass}
-          .config=${bhConfig}
-          .language=${language}
-          .toolsOpen=${this._toolsOpen}
-          .showControls=${this._controlsVisible}
-          style="width:100%;height:100%;"
-        ></ha-better-history>
+        <div class="history-frame">
+          <ha-better-history
+            .hass=${this.hass}
+            .config=${bhConfig}
+            .language=${language}
+            .toolsOpen=${this._toolsOpen}
+            .showControls=${this._controlsVisible}
+            style="width:100%;height:100%;"
+          ></ha-better-history>
+        </div>
         <abh-history-dialog
           .open=${this._dialogOpen}
           .hass=${this.hass}
