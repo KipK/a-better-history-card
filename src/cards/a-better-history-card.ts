@@ -7,12 +7,6 @@ import { CARD_TYPE, EDITOR_TAG } from "../const.js";
 import type { HomeAssistant, LovelaceCard, LovelaceCardGridOptions } from "../types/ha.js";
 import { ensureTranslations, languageFromHass, localize } from "../localize/localize.js";
 
-// Resolved at runtime relative to the bundle — do not let Vite resolve this path.
-const HISTORY_ELEMENT_URL = new URL(
-  /* @vite-ignore */ "lib/ha-better-history/define.js",
-  import.meta.url
-).toString();
-
 function cssColor(value: string | number[] | undefined): string | undefined {
   if (typeof value === "string" && value.trim() !== "") {
     const color = value.trim();
@@ -59,8 +53,7 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
     _config: { state: true },
     _toolsOpen: { state: true },
     _controlsVisible: { state: true },
-    _dialogOpen: { state: true },
-    _historyElementReady: { state: true }
+    _dialogOpen: { state: true }
   };
 
   static styles = css`
@@ -144,8 +137,6 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
   private _toolsOpen = false;
   private _controlsVisible = true;
   private _dialogOpen = false;
-  private _historyElementReady = customElements.get("ha-better-history") !== undefined;
-  private _historyElementLoadStarted = false;
   private _translationLanguage = "";
 
   setConfig(config: unknown): void {
@@ -155,7 +146,6 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
     }
     this._config = { ...normalizeConfig(raw) };
     this._controlsVisible = this._config.show_controls ?? true;
-    void this._loadHistoryElement();
   }
 
   protected override updated(): void {
@@ -175,20 +165,6 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
       min_columns: 6,
       min_rows: 2
     };
-  }
-
-  private async _loadHistoryElement(): Promise<void> {
-    if (this._historyElementReady || this._historyElementLoadStarted) return;
-    this._historyElementLoadStarted = true;
-
-    try {
-      await import(/* @vite-ignore */ HISTORY_ELEMENT_URL);
-      await customElements.whenDefined("ha-better-history");
-      this._historyElementReady = true;
-    } catch (error) {
-      console.warn("[a-better-history-card] Failed to load ha-better-history:", error);
-      this._historyElementLoadStarted = false;
-    }
   }
 
   private async _loadTranslations(): Promise<void> {
@@ -256,10 +232,6 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
 
     if (!cfg) {
       return html`<ha-card><div class="error">${localize(this.hass, "card.error.no_configuration")}</div></ha-card>`;
-    }
-
-    if (!this._historyElementReady) {
-      return html`<ha-card><div class="loading">${localize(this.hass, "dialog.loading_history")}</div></ha-card>`;
     }
 
     const bhConfig = buildBetterHistoryConfig(cfg, !!cfg.title);

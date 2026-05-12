@@ -4,12 +4,11 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "build": "vite build && npm run build:history-lib",
-    "build:history-lib": "node scripts/build-ha-better-history.mjs",
+    "build": "vite build",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@kipk/ha-better-history": "^0.1.6",
+    "@kipk/ha-better-history": "^0.1.7",
     "@kipk/load-ha-components": "^1.0.3",
     "lit": "^3.3.2"
   },

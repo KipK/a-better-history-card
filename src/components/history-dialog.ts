@@ -4,11 +4,6 @@ import type { ABetterHistoryCardConfig } from "../types/config.js";
 import type { HomeAssistant } from "../types/ha.js";
 import { ensureTranslations, languageFromHass, localize } from "../localize/localize.js";
 
-const HISTORY_ELEMENT_URL = new URL(
-  /* @vite-ignore */ "lib/ha-better-history/define.js",
-  import.meta.url
-).toString();
-
 export class HistoryDialog extends LitElement {
   static properties = {
     open: { type: Boolean },
@@ -18,7 +13,6 @@ export class HistoryDialog extends LitElement {
     _fullscreen: { state: true },
     _controlsVisible: { state: true },
     _toolsOpen: { state: true },
-    _historyElementReady: { state: true }
   };
 
   static styles = css`
@@ -48,15 +42,6 @@ export class HistoryDialog extends LitElement {
       }
     }
 
-    .loading {
-      align-items: center;
-      color: var(--secondary-text-color);
-      display: flex;
-      flex: 1;
-      justify-content: center;
-      min-height: 70vh;
-    }
-
     .history {
       display: flex;
       flex: 1 1 auto;
@@ -79,8 +64,6 @@ export class HistoryDialog extends LitElement {
   private _fullscreen = false;
   private _controlsVisible = true;
   private _toolsOpen = false;
-  private _historyElementReady = customElements.get("ha-better-history") !== undefined;
-  private _historyElementLoadStarted = false;
   private _translationLanguage = "";
   private _pickerOverlayOpen = false;
   private _suppressNextClose = false;
@@ -89,7 +72,6 @@ export class HistoryDialog extends LitElement {
   protected updated(): void {
     this._styleDialogHeader();
     void this._loadTranslations();
-    if (this.open) void this._loadHistoryElement();
   }
 
   connectedCallback(): void {
@@ -136,20 +118,6 @@ export class HistoryDialog extends LitElement {
 
   private _onPickerOverlayChanged(event: CustomEvent<{ open: boolean }>): void {
     this._pickerOverlayOpen = event.detail.open;
-  }
-
-  private async _loadHistoryElement(): Promise<void> {
-    if (this._historyElementReady || this._historyElementLoadStarted) return;
-    this._historyElementLoadStarted = true;
-
-    try {
-      await import(/* @vite-ignore */ HISTORY_ELEMENT_URL);
-      await customElements.whenDefined("ha-better-history");
-      this._historyElementReady = true;
-    } catch (error) {
-      console.warn("[a-better-history-card] Failed to load ha-better-history:", error);
-      this._historyElementLoadStarted = false;
-    }
   }
 
   private async _loadTranslations(): Promise<void> {
@@ -218,10 +186,7 @@ export class HistoryDialog extends LitElement {
               @click=${() => { this._fullscreen = !this._fullscreen; }}
             ><ha-icon icon=${this._fullscreen ? "mdi:fullscreen-exit" : "mdi:fullscreen"}></ha-icon></ha-icon-button>`
           : nothing}
-        ${this.open && !this._historyElementReady
-          ? html`<div class="loading">${localize(this.hass, "dialog.loading_history", this.language)}</div>`
-          : nothing}
-        ${this.open && this._historyElementReady && cfg
+        ${this.open && cfg
           ? html`<ha-better-history
               .hass=${this.hass}
               .config=${buildBetterHistoryConfig(cfg, true)}

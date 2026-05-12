@@ -1,3 +1,4 @@
+import "@kipk/ha-better-history";
 import { ABetterHistoryCard } from "./cards/a-better-history-card.js";
 import { ABetterHistoryButtonCard } from "./cards/a-better-history-button-card.js";
 import "./editors/a-better-history-card-editor.js";

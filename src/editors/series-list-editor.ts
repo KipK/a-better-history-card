@@ -7,25 +7,12 @@ import { sourceToSeriesConfig } from "../data/source-to-series.js";
 import { ensureHaComponents } from "../ha/load-components.js";
 import { ensureTranslations, languageFromHass, localize } from "../localize/localize.js";
 
-const PICKER_ELEMENT_URL = new URL(
-  /* @vite-ignore */ "lib/ha-better-history/picker.js",
-  import.meta.url
-).toString();
-
-let _pickerLoaded = false;
-async function loadPickerElement(): Promise<void> {
-  if (_pickerLoaded) return;
-  _pickerLoaded = true;
-  await import(/* @vite-ignore */ PICKER_ELEMENT_URL);
-}
-
 export class SeriesListEditor extends LitElement {
   static properties = {
     series: { attribute: false },
     hass: { attribute: false },
     _dragIndex: { state: true },
     _dragOverIndex: { state: true },
-    _pickerReady: { state: true },
     _componentsReady: { state: true }
   };
 
@@ -110,14 +97,12 @@ export class SeriesListEditor extends LitElement {
   hass?: HomeAssistant;
   private _dragIndex = -1;
   private _dragOverIndex = -1;
-  private _pickerReady = false;
   private _componentsReady = false;
   private _translationLanguage = "";
 
   override connectedCallback(): void {
     super.connectedCallback();
     ensureHaComponents().then(() => { this._componentsReady = true; });
-    loadPickerElement().then(() => { this._pickerReady = true; });
   }
 
   protected override updated(): void {
@@ -200,13 +185,11 @@ export class SeriesListEditor extends LitElement {
   protected render(): TemplateResult {
     return html`
       <div class="picker-section">
-        ${this._pickerReady
-          ? html`<abh-series-picker
-              .hass=${this.hass}
-              @sources-confirmed=${(e: CustomEvent<{ sources: HistorySource[] }>) =>
-                this._onSourcesConfirmed(e)}
-            ></abh-series-picker>`
-          : html``}
+        <abh-series-picker
+          .hass=${this.hass}
+          @sources-confirmed=${(e: CustomEvent<{ sources: HistorySource[] }>) =>
+            this._onSourcesConfirmed(e)}
+        ></abh-series-picker>
       </div>
       <div class="series-list">
         ${this.series.map((item, i) => this._renderSeriesPanel(item, i))}
