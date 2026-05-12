@@ -1,4 +1,4 @@
-//#region ../ha-better-history/node_modules/@lit/reactive-element/css-tag.js
+//#region node_modules/@lit/reactive-element/css-tag.js
 var e = globalThis, t = e.ShadowRoot && (e.ShadyCSS === void 0 || e.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, n = Symbol(), r = /* @__PURE__ */ new WeakMap(), i = class {
 	constructor(e, t, r) {
 		if (this._$cssResult$ = !0, r !== n) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
@@ -253,7 +253,7 @@ var C = class extends HTMLElement {
 };
 C.elementStyles = [], C.shadowRootOptions = { mode: "open" }, C[y("elementProperties")] = /* @__PURE__ */ new Map(), C[y("finalized")] = /* @__PURE__ */ new Map(), v?.({ ReactiveElement: C }), (h.reactiveElementVersions ??= []).push("2.1.2");
 //#endregion
-//#region ../ha-better-history/node_modules/lit-html/lit-html.js
+//#region node_modules/lit-html/lit-html.js
 var w = globalThis, T = (e) => e, E = w.trustedTypes, ee = E ? E.createPolicy("lit-html", { createHTML: (e) => e }) : void 0, D = "$lit$", O = `lit$${Math.random().toFixed(9).slice(2)}$`, te = "?" + O, ne = `<${te}>`, k = document, A = () => k.createComment(""), j = (e) => e === null || typeof e != "object" && typeof e != "function", M = Array.isArray, re = (e) => M(e) || typeof e?.[Symbol.iterator] == "function", N = "[ 	\n\f\r]", P = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, ie = /-->/g, ae = />/g, F = RegExp(`>|${N}(?:([^\\s"'>=/]+)(${N}*=${N}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`, "g"), oe = /'/g, se = /"/g, ce = /^(?:script|style|textarea|title)$/i, le = (e) => (t, ...n) => ({
 	_$litType$: e,
 	strings: t,
@@ -507,7 +507,7 @@ G._$litElement$ = !0, G.finalized = !0, W.litElementHydrateSupport?.({ LitElemen
 var xe = W.litElementPolyfillSupport;
 xe?.({ LitElement: G }), (W.litElementVersions ??= []).push("4.2.2");
 //#endregion
-//#region ../ha-better-history/node_modules/@kipk/load-ha-components/dist/load-ha-components.js
+//#region node_modules/@kipk/load-ha-components/dist/load-ha-components.js
 var Se = [
 	"ha-form",
 	"ha-icon",
@@ -3045,7 +3045,7 @@ function gn(e, t, n, r) {
 	return i > 3 && a && Object.defineProperty(t, n, a), a;
 }
 //#endregion
-//#region ../ha-better-history/node_modules/@lit/reactive-element/decorators/property.js
+//#region node_modules/@lit/reactive-element/decorators/property.js
 var _n = {
 	attribute: !0,
 	type: String,
@@ -3082,7 +3082,7 @@ function yn(e) {
 	})(e, t, n);
 }
 //#endregion
-//#region ../ha-better-history/node_modules/@lit/reactive-element/decorators/state.js
+//#region node_modules/@lit/reactive-element/decorators/state.js
 function bn(e) {
 	return yn({
 		...e,

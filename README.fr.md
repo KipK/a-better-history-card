@@ -57,11 +57,16 @@ series:
 
 ## Captures d'écran
 
+### Cartes
+
 ![Screenshot](./assets/screens/dialog.png)
 ![Screenshot](./assets/screens/attributes_picker.png)
 ![Screenshot](./assets/screens/card-1graph.png)
 ![Screenshot](./assets/screens/card-2graphs.png)
 
+### Ecran Configuration
+
+![Screenshot](./assets/screens/config.png)
 
 ---
 
