@@ -29,11 +29,11 @@ var e = globalThis, t = e.ShadowRoot && (e.ShadyCSS === void 0 || e.ShadyCSS.nat
 	let t = "";
 	for (let n of e.cssRules) t += n.cssText;
 	return a(t);
-})(e) : e, { is: l, defineProperty: u, getOwnPropertyDescriptor: d, getOwnPropertyNames: ee, getOwnPropertySymbols: te, getPrototypeOf: ne } = Object, f = globalThis, re = f.trustedTypes, ie = re ? re.emptyScript : "", ae = f.reactiveElementPolyfillSupport, p = (e, t) => e, m = {
+})(e) : e, { is: l, defineProperty: u, getOwnPropertyDescriptor: d, getOwnPropertyNames: f, getOwnPropertySymbols: p, getPrototypeOf: m } = Object, h = globalThis, g = h.trustedTypes, _ = g ? g.emptyScript : "", v = h.reactiveElementPolyfillSupport, y = (e, t) => e, ee = {
 	toAttribute(e, t) {
 		switch (t) {
 			case Boolean:
-				e = e ? ie : null;
+				e = e ? _ : null;
 				break;
 			case Object:
 			case Array: e = e == null ? e : JSON.stringify(e);
@@ -58,23 +58,23 @@ var e = globalThis, t = e.ShadowRoot && (e.ShadyCSS === void 0 || e.ShadyCSS.nat
 		}
 		return n;
 	}
-}, oe = (e, t) => !l(e, t), se = {
+}, b = (e, t) => !l(e, t), x = {
 	attribute: !0,
 	type: String,
-	converter: m,
+	converter: ee,
 	reflect: !1,
 	useDefault: !1,
-	hasChanged: oe
+	hasChanged: b
 };
-Symbol.metadata ??= Symbol("metadata"), f.litPropertyMetadata ??= /* @__PURE__ */ new WeakMap();
-var h = class extends HTMLElement {
+Symbol.metadata ??= Symbol("metadata"), h.litPropertyMetadata ??= /* @__PURE__ */ new WeakMap();
+var S = class extends HTMLElement {
 	static addInitializer(e) {
 		this._$Ei(), (this.l ??= []).push(e);
 	}
 	static get observedAttributes() {
 		return this.finalize(), this._$Eh && [...this._$Eh.keys()];
 	}
-	static createProperty(e, t = se) {
+	static createProperty(e, t = x) {
 		if (t.state && (t.attribute = !1), this._$Ei(), this.prototype.hasOwnProperty(e) && ((t = Object.create(t)).wrapped = !0), this.elementProperties.set(e, t), !t.noAccessor) {
 			let n = Symbol(), r = this.getPropertyDescriptor(e, n, t);
 			r !== void 0 && u(this.prototype, e, r);
@@ -100,17 +100,17 @@ var h = class extends HTMLElement {
 		};
 	}
 	static getPropertyOptions(e) {
-		return this.elementProperties.get(e) ?? se;
+		return this.elementProperties.get(e) ?? x;
 	}
 	static _$Ei() {
-		if (this.hasOwnProperty(p("elementProperties"))) return;
-		let e = ne(this);
+		if (this.hasOwnProperty(y("elementProperties"))) return;
+		let e = m(this);
 		e.finalize(), e.l !== void 0 && (this.l = [...e.l]), this.elementProperties = new Map(e.elementProperties);
 	}
 	static finalize() {
-		if (this.hasOwnProperty(p("finalized"))) return;
-		if (this.finalized = !0, this._$Ei(), this.hasOwnProperty(p("properties"))) {
-			let e = this.properties, t = [...ee(e), ...te(e)];
+		if (this.hasOwnProperty(y("finalized"))) return;
+		if (this.finalized = !0, this._$Ei(), this.hasOwnProperty(y("properties"))) {
+			let e = this.properties, t = [...f(e), ...p(e)];
 			for (let n of t) this.createProperty(n, e[n]);
 		}
 		let e = this[Symbol.metadata];
@@ -171,14 +171,14 @@ var h = class extends HTMLElement {
 	_$ET(e, t) {
 		let n = this.constructor.elementProperties.get(e), r = this.constructor._$Eu(e, n);
 		if (r !== void 0 && !0 === n.reflect) {
-			let i = (n.converter?.toAttribute === void 0 ? m : n.converter).toAttribute(t, n.type);
+			let i = (n.converter?.toAttribute === void 0 ? ee : n.converter).toAttribute(t, n.type);
 			this._$Em = e, i == null ? this.removeAttribute(r) : this.setAttribute(r, i), this._$Em = null;
 		}
 	}
 	_$AK(e, t) {
 		let n = this.constructor, r = n._$Eh.get(e);
 		if (r !== void 0 && this._$Em !== r) {
-			let e = n.getPropertyOptions(r), i = typeof e.converter == "function" ? { fromAttribute: e.converter } : e.converter?.fromAttribute === void 0 ? m : e.converter;
+			let e = n.getPropertyOptions(r), i = typeof e.converter == "function" ? { fromAttribute: e.converter } : e.converter?.fromAttribute === void 0 ? ee : e.converter;
 			this._$Em = r;
 			let a = i.fromAttribute(t, e.type);
 			this[r] = a ?? this._$Ej?.get(r) ?? a, this._$Em = null;
@@ -187,7 +187,7 @@ var h = class extends HTMLElement {
 	requestUpdate(e, t, n, r = !1, i) {
 		if (e !== void 0) {
 			let a = this.constructor;
-			if (!1 === r && (i = this[e]), n ??= a.getPropertyOptions(e), !((n.hasChanged ?? oe)(i, t) || n.useDefault && n.reflect && i === this._$Ej?.get(e) && !this.hasAttribute(a._$Eu(e, n)))) return;
+			if (!1 === r && (i = this[e]), n ??= a.getPropertyOptions(e), !((n.hasChanged ?? b)(i, t) || n.useDefault && n.reflect && i === this._$Ej?.get(e) && !this.hasAttribute(a._$Eu(e, n)))) return;
 			this.C(e, t, n);
 		}
 		!1 === this.isUpdatePending && (this._$ES = this._$EP());
@@ -251,87 +251,87 @@ var h = class extends HTMLElement {
 	updated(e) {}
 	firstUpdated(e) {}
 };
-h.elementStyles = [], h.shadowRootOptions = { mode: "open" }, h[p("elementProperties")] = /* @__PURE__ */ new Map(), h[p("finalized")] = /* @__PURE__ */ new Map(), ae?.({ ReactiveElement: h }), (f.reactiveElementVersions ??= []).push("2.1.2");
+S.elementStyles = [], S.shadowRootOptions = { mode: "open" }, S[y("elementProperties")] = /* @__PURE__ */ new Map(), S[y("finalized")] = /* @__PURE__ */ new Map(), v?.({ ReactiveElement: S }), (h.reactiveElementVersions ??= []).push("2.1.2");
 //#endregion
 //#region node_modules/lit-html/lit-html.js
-var g = globalThis, _ = (e) => e, v = g.trustedTypes, y = v ? v.createPolicy("lit-html", { createHTML: (e) => e }) : void 0, b = "$lit$", x = `lit$${Math.random().toFixed(9).slice(2)}$`, ce = "?" + x, le = `<${ce}>`, S = document, C = () => S.createComment(""), w = (e) => e === null || typeof e != "object" && typeof e != "function", T = Array.isArray, ue = (e) => T(e) || typeof e?.[Symbol.iterator] == "function", E = "[ 	\n\f\r]", D = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, O = /-->/g, k = />/g, A = RegExp(`>|${E}(?:([^\\s"'>=/]+)(${E}*=${E}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`, "g"), j = /'/g, M = /"/g, de = /^(?:script|style|textarea|title)$/i, N = ((e) => (t, ...n) => ({
+var C = globalThis, w = (e) => e, T = C.trustedTypes, te = T ? T.createPolicy("lit-html", { createHTML: (e) => e }) : void 0, ne = "$lit$", E = `lit$${Math.random().toFixed(9).slice(2)}$`, re = "?" + E, ie = `<${re}>`, D = document, ae = () => D.createComment(""), oe = (e) => e === null || typeof e != "object" && typeof e != "function", se = Array.isArray, ce = (e) => se(e) || typeof e?.[Symbol.iterator] == "function", le = "[ 	\n\f\r]", ue = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, de = /-->/g, fe = />/g, O = RegExp(`>|${le}(?:([^\\s"'>=/]+)(${le}*=${le}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`, "g"), pe = /'/g, me = /"/g, he = /^(?:script|style|textarea|title)$/i, ge = (e) => (t, ...n) => ({
 	_$litType$: e,
 	strings: t,
 	values: n
-}))(1), P = Symbol.for("lit-noChange"), F = Symbol.for("lit-nothing"), fe = /* @__PURE__ */ new WeakMap(), I = S.createTreeWalker(S, 129);
-function L(e, t) {
-	if (!T(e) || !e.hasOwnProperty("raw")) throw Error("invalid template strings array");
-	return y === void 0 ? t : y.createHTML(t);
+}), k = ge(1), A = ge(2), j = Symbol.for("lit-noChange"), M = Symbol.for("lit-nothing"), _e = /* @__PURE__ */ new WeakMap(), N = D.createTreeWalker(D, 129);
+function ve(e, t) {
+	if (!se(e) || !e.hasOwnProperty("raw")) throw Error("invalid template strings array");
+	return te === void 0 ? t : te.createHTML(t);
 }
-var pe = (e, t) => {
-	let n = e.length - 1, r = [], i, a = t === 2 ? "<svg>" : t === 3 ? "<math>" : "", o = D;
+var ye = (e, t) => {
+	let n = e.length - 1, r = [], i, a = t === 2 ? "<svg>" : t === 3 ? "<math>" : "", o = ue;
 	for (let t = 0; t < n; t++) {
 		let n = e[t], s, c, l = -1, u = 0;
-		for (; u < n.length && (o.lastIndex = u, c = o.exec(n), c !== null);) u = o.lastIndex, o === D ? c[1] === "!--" ? o = O : c[1] === void 0 ? c[2] === void 0 ? c[3] !== void 0 && (o = A) : (de.test(c[2]) && (i = RegExp("</" + c[2], "g")), o = A) : o = k : o === A ? c[0] === ">" ? (o = i ?? D, l = -1) : c[1] === void 0 ? l = -2 : (l = o.lastIndex - c[2].length, s = c[1], o = c[3] === void 0 ? A : c[3] === "\"" ? M : j) : o === M || o === j ? o = A : o === O || o === k ? o = D : (o = A, i = void 0);
-		let d = o === A && e[t + 1].startsWith("/>") ? " " : "";
-		a += o === D ? n + le : l >= 0 ? (r.push(s), n.slice(0, l) + b + n.slice(l) + x + d) : n + x + (l === -2 ? t : d);
+		for (; u < n.length && (o.lastIndex = u, c = o.exec(n), c !== null);) u = o.lastIndex, o === ue ? c[1] === "!--" ? o = de : c[1] === void 0 ? c[2] === void 0 ? c[3] !== void 0 && (o = O) : (he.test(c[2]) && (i = RegExp("</" + c[2], "g")), o = O) : o = fe : o === O ? c[0] === ">" ? (o = i ?? ue, l = -1) : c[1] === void 0 ? l = -2 : (l = o.lastIndex - c[2].length, s = c[1], o = c[3] === void 0 ? O : c[3] === "\"" ? me : pe) : o === me || o === pe ? o = O : o === de || o === fe ? o = ue : (o = O, i = void 0);
+		let d = o === O && e[t + 1].startsWith("/>") ? " " : "";
+		a += o === ue ? n + ie : l >= 0 ? (r.push(s), n.slice(0, l) + ne + n.slice(l) + E + d) : n + E + (l === -2 ? t : d);
 	}
-	return [L(e, a + (e[n] || "<?>") + (t === 2 ? "</svg>" : t === 3 ? "</math>" : "")), r];
-}, R = class e {
+	return [ve(e, a + (e[n] || "<?>") + (t === 2 ? "</svg>" : t === 3 ? "</math>" : "")), r];
+}, be = class e {
 	constructor({ strings: t, _$litType$: n }, r) {
 		let i;
 		this.parts = [];
-		let a = 0, o = 0, s = t.length - 1, c = this.parts, [l, u] = pe(t, n);
-		if (this.el = e.createElement(l, r), I.currentNode = this.el.content, n === 2 || n === 3) {
+		let a = 0, o = 0, s = t.length - 1, c = this.parts, [l, u] = ye(t, n);
+		if (this.el = e.createElement(l, r), N.currentNode = this.el.content, n === 2 || n === 3) {
 			let e = this.el.content.firstChild;
 			e.replaceWith(...e.childNodes);
 		}
-		for (; (i = I.nextNode()) !== null && c.length < s;) {
+		for (; (i = N.nextNode()) !== null && c.length < s;) {
 			if (i.nodeType === 1) {
-				if (i.hasAttributes()) for (let e of i.getAttributeNames()) if (e.endsWith(b)) {
-					let t = u[o++], n = i.getAttribute(e).split(x), r = /([.?@])?(.*)/.exec(t);
+				if (i.hasAttributes()) for (let e of i.getAttributeNames()) if (e.endsWith(ne)) {
+					let t = u[o++], n = i.getAttribute(e).split(E), r = /([.?@])?(.*)/.exec(t);
 					c.push({
 						type: 1,
 						index: a,
 						name: r[2],
 						strings: n,
-						ctor: r[1] === "." ? he : r[1] === "?" ? ge : r[1] === "@" ? _e : V
+						ctor: r[1] === "." ? we : r[1] === "?" ? Te : r[1] === "@" ? Ee : Ce
 					}), i.removeAttribute(e);
-				} else e.startsWith(x) && (c.push({
+				} else e.startsWith(E) && (c.push({
 					type: 6,
 					index: a
 				}), i.removeAttribute(e));
-				if (de.test(i.tagName)) {
-					let e = i.textContent.split(x), t = e.length - 1;
+				if (he.test(i.tagName)) {
+					let e = i.textContent.split(E), t = e.length - 1;
 					if (t > 0) {
-						i.textContent = v ? v.emptyScript : "";
-						for (let n = 0; n < t; n++) i.append(e[n], C()), I.nextNode(), c.push({
+						i.textContent = T ? T.emptyScript : "";
+						for (let n = 0; n < t; n++) i.append(e[n], ae()), N.nextNode(), c.push({
 							type: 2,
 							index: ++a
 						});
-						i.append(e[t], C());
+						i.append(e[t], ae());
 					}
 				}
-			} else if (i.nodeType === 8) if (i.data === ce) c.push({
+			} else if (i.nodeType === 8) if (i.data === re) c.push({
 				type: 2,
 				index: a
 			});
 			else {
 				let e = -1;
-				for (; (e = i.data.indexOf(x, e + 1)) !== -1;) c.push({
+				for (; (e = i.data.indexOf(E, e + 1)) !== -1;) c.push({
 					type: 7,
 					index: a
-				}), e += x.length - 1;
+				}), e += E.length - 1;
 			}
 			a++;
 		}
 	}
 	static createElement(e, t) {
-		let n = S.createElement("template");
+		let n = D.createElement("template");
 		return n.innerHTML = e, n;
 	}
 };
-function z(e, t, n = e, r) {
-	if (t === P) return t;
-	let i = r === void 0 ? n._$Cl : n._$Co?.[r], a = w(t) ? void 0 : t._$litDirective$;
-	return i?.constructor !== a && (i?._$AO?.(!1), a === void 0 ? i = void 0 : (i = new a(e), i._$AT(e, n, r)), r === void 0 ? n._$Cl = i : (n._$Co ??= [])[r] = i), i !== void 0 && (t = z(e, i._$AS(e, t.values), i, r)), t;
+function P(e, t, n = e, r) {
+	if (t === j) return t;
+	let i = r === void 0 ? n._$Cl : n._$Co?.[r], a = oe(t) ? void 0 : t._$litDirective$;
+	return i?.constructor !== a && (i?._$AO?.(!1), a === void 0 ? i = void 0 : (i = new a(e), i._$AT(e, n, r)), r === void 0 ? n._$Cl = i : (n._$Co ??= [])[r] = i), i !== void 0 && (t = P(e, i._$AS(e, t.values), i, r)), t;
 }
-var me = class {
+var xe = class {
 	constructor(e, t) {
 		this._$AV = [], this._$AN = void 0, this._$AD = e, this._$AM = t;
 	}
@@ -342,28 +342,28 @@ var me = class {
 		return this._$AM._$AU;
 	}
 	u(e) {
-		let { el: { content: t }, parts: n } = this._$AD, r = (e?.creationScope ?? S).importNode(t, !0);
-		I.currentNode = r;
-		let i = I.nextNode(), a = 0, o = 0, s = n[0];
+		let { el: { content: t }, parts: n } = this._$AD, r = (e?.creationScope ?? D).importNode(t, !0);
+		N.currentNode = r;
+		let i = N.nextNode(), a = 0, o = 0, s = n[0];
 		for (; s !== void 0;) {
 			if (a === s.index) {
 				let t;
-				s.type === 2 ? t = new B(i, i.nextSibling, this, e) : s.type === 1 ? t = new s.ctor(i, s.name, s.strings, this, e) : s.type === 6 && (t = new ve(i, this, e)), this._$AV.push(t), s = n[++o];
+				s.type === 2 ? t = new Se(i, i.nextSibling, this, e) : s.type === 1 ? t = new s.ctor(i, s.name, s.strings, this, e) : s.type === 6 && (t = new De(i, this, e)), this._$AV.push(t), s = n[++o];
 			}
-			a !== s?.index && (i = I.nextNode(), a++);
+			a !== s?.index && (i = N.nextNode(), a++);
 		}
-		return I.currentNode = S, r;
+		return N.currentNode = D, r;
 	}
 	p(e) {
 		let t = 0;
 		for (let n of this._$AV) n !== void 0 && (n.strings === void 0 ? n._$AI(e[t]) : (n._$AI(e, n, t), t += n.strings.length - 2)), t++;
 	}
-}, B = class e {
+}, Se = class e {
 	get _$AU() {
 		return this._$AM?._$AU ?? this._$Cv;
 	}
 	constructor(e, t, n, r) {
-		this.type = 2, this._$AH = F, this._$AN = void 0, this._$AA = e, this._$AB = t, this._$AM = n, this.options = r, this._$Cv = r?.isConnected ?? !0;
+		this.type = 2, this._$AH = M, this._$AN = void 0, this._$AA = e, this._$AB = t, this._$AM = n, this.options = r, this._$Cv = r?.isConnected ?? !0;
 	}
 	get parentNode() {
 		let e = this._$AA.parentNode, t = this._$AM;
@@ -376,7 +376,7 @@ var me = class {
 		return this._$AB;
 	}
 	_$AI(e, t = this) {
-		e = z(this, e, t), w(e) ? e === F || e == null || e === "" ? (this._$AH !== F && this._$AR(), this._$AH = F) : e !== this._$AH && e !== P && this._(e) : e._$litType$ === void 0 ? e.nodeType === void 0 ? ue(e) ? this.k(e) : this._(e) : this.T(e) : this.$(e);
+		e = P(this, e, t), oe(e) ? e === M || e == null || e === "" ? (this._$AH !== M && this._$AR(), this._$AH = M) : e !== this._$AH && e !== j && this._(e) : e._$litType$ === void 0 ? e.nodeType === void 0 ? ce(e) ? this.k(e) : this._(e) : this.T(e) : this.$(e);
 	}
 	O(e) {
 		return this._$AA.parentNode.insertBefore(e, this._$AB);
@@ -385,36 +385,36 @@ var me = class {
 		this._$AH !== e && (this._$AR(), this._$AH = this.O(e));
 	}
 	_(e) {
-		this._$AH !== F && w(this._$AH) ? this._$AA.nextSibling.data = e : this.T(S.createTextNode(e)), this._$AH = e;
+		this._$AH !== M && oe(this._$AH) ? this._$AA.nextSibling.data = e : this.T(D.createTextNode(e)), this._$AH = e;
 	}
 	$(e) {
-		let { values: t, _$litType$: n } = e, r = typeof n == "number" ? this._$AC(e) : (n.el === void 0 && (n.el = R.createElement(L(n.h, n.h[0]), this.options)), n);
+		let { values: t, _$litType$: n } = e, r = typeof n == "number" ? this._$AC(e) : (n.el === void 0 && (n.el = be.createElement(ve(n.h, n.h[0]), this.options)), n);
 		if (this._$AH?._$AD === r) this._$AH.p(t);
 		else {
-			let e = new me(r, this), n = e.u(this.options);
+			let e = new xe(r, this), n = e.u(this.options);
 			e.p(t), this.T(n), this._$AH = e;
 		}
 	}
 	_$AC(e) {
-		let t = fe.get(e.strings);
-		return t === void 0 && fe.set(e.strings, t = new R(e)), t;
+		let t = _e.get(e.strings);
+		return t === void 0 && _e.set(e.strings, t = new be(e)), t;
 	}
 	k(t) {
-		T(this._$AH) || (this._$AH = [], this._$AR());
+		se(this._$AH) || (this._$AH = [], this._$AR());
 		let n = this._$AH, r, i = 0;
-		for (let a of t) i === n.length ? n.push(r = new e(this.O(C()), this.O(C()), this, this.options)) : r = n[i], r._$AI(a), i++;
+		for (let a of t) i === n.length ? n.push(r = new e(this.O(ae()), this.O(ae()), this, this.options)) : r = n[i], r._$AI(a), i++;
 		i < n.length && (this._$AR(r && r._$AB.nextSibling, i), n.length = i);
 	}
 	_$AR(e = this._$AA.nextSibling, t) {
 		for (this._$AP?.(!1, !0, t); e !== this._$AB;) {
-			let t = _(e).nextSibling;
-			_(e).remove(), e = t;
+			let t = w(e).nextSibling;
+			w(e).remove(), e = t;
 		}
 	}
 	setConnected(e) {
 		this._$AM === void 0 && (this._$Cv = e, this._$AP?.(e));
 	}
-}, V = class {
+}, Ce = class {
 	get tagName() {
 		return this.element.tagName;
 	}
@@ -422,47 +422,47 @@ var me = class {
 		return this._$AM._$AU;
 	}
 	constructor(e, t, n, r, i) {
-		this.type = 1, this._$AH = F, this._$AN = void 0, this.element = e, this.name = t, this._$AM = r, this.options = i, n.length > 2 || n[0] !== "" || n[1] !== "" ? (this._$AH = Array(n.length - 1).fill(/* @__PURE__ */ new String()), this.strings = n) : this._$AH = F;
+		this.type = 1, this._$AH = M, this._$AN = void 0, this.element = e, this.name = t, this._$AM = r, this.options = i, n.length > 2 || n[0] !== "" || n[1] !== "" ? (this._$AH = Array(n.length - 1).fill(/* @__PURE__ */ new String()), this.strings = n) : this._$AH = M;
 	}
 	_$AI(e, t = this, n, r) {
 		let i = this.strings, a = !1;
-		if (i === void 0) e = z(this, e, t, 0), a = !w(e) || e !== this._$AH && e !== P, a && (this._$AH = e);
+		if (i === void 0) e = P(this, e, t, 0), a = !oe(e) || e !== this._$AH && e !== j, a && (this._$AH = e);
 		else {
 			let r = e, o, s;
-			for (e = i[0], o = 0; o < i.length - 1; o++) s = z(this, r[n + o], t, o), s === P && (s = this._$AH[o]), a ||= !w(s) || s !== this._$AH[o], s === F ? e = F : e !== F && (e += (s ?? "") + i[o + 1]), this._$AH[o] = s;
+			for (e = i[0], o = 0; o < i.length - 1; o++) s = P(this, r[n + o], t, o), s === j && (s = this._$AH[o]), a ||= !oe(s) || s !== this._$AH[o], s === M ? e = M : e !== M && (e += (s ?? "") + i[o + 1]), this._$AH[o] = s;
 		}
 		a && !r && this.j(e);
 	}
 	j(e) {
-		e === F ? this.element.removeAttribute(this.name) : this.element.setAttribute(this.name, e ?? "");
+		e === M ? this.element.removeAttribute(this.name) : this.element.setAttribute(this.name, e ?? "");
 	}
-}, he = class extends V {
+}, we = class extends Ce {
 	constructor() {
 		super(...arguments), this.type = 3;
 	}
 	j(e) {
-		this.element[this.name] = e === F ? void 0 : e;
+		this.element[this.name] = e === M ? void 0 : e;
 	}
-}, ge = class extends V {
+}, Te = class extends Ce {
 	constructor() {
 		super(...arguments), this.type = 4;
 	}
 	j(e) {
-		this.element.toggleAttribute(this.name, !!e && e !== F);
+		this.element.toggleAttribute(this.name, !!e && e !== M);
 	}
-}, _e = class extends V {
+}, Ee = class extends Ce {
 	constructor(e, t, n, r, i) {
 		super(e, t, n, r, i), this.type = 5;
 	}
 	_$AI(e, t = this) {
-		if ((e = z(this, e, t, 0) ?? F) === P) return;
-		let n = this._$AH, r = e === F && n !== F || e.capture !== n.capture || e.once !== n.once || e.passive !== n.passive, i = e !== F && (n === F || r);
+		if ((e = P(this, e, t, 0) ?? M) === j) return;
+		let n = this._$AH, r = e === M && n !== M || e.capture !== n.capture || e.once !== n.once || e.passive !== n.passive, i = e !== M && (n === M || r);
 		r && this.element.removeEventListener(this.name, this, n), i && this.element.addEventListener(this.name, this, e), this._$AH = e;
 	}
 	handleEvent(e) {
 		typeof this._$AH == "function" ? this._$AH.call(this.options?.host ?? this.element, e) : this._$AH.handleEvent(e);
 	}
-}, ve = class {
+}, De = class {
 	constructor(e, t, n) {
 		this.element = e, this.type = 6, this._$AN = void 0, this._$AM = t, this.options = n;
 	}
@@ -470,18 +470,18 @@ var me = class {
 		return this._$AM._$AU;
 	}
 	_$AI(e) {
-		z(this, e);
+		P(this, e);
 	}
-}, ye = g.litHtmlPolyfillSupport;
-ye?.(R, B), (g.litHtmlVersions ??= []).push("3.3.2");
-var be = (e, t, n) => {
+}, Oe = C.litHtmlPolyfillSupport;
+Oe?.(be, Se), (C.litHtmlVersions ??= []).push("3.3.2");
+var ke = (e, t, n) => {
 	let r = n?.renderBefore ?? t, i = r._$litPart$;
 	if (i === void 0) {
 		let e = n?.renderBefore ?? null;
-		r._$litPart$ = i = new B(t.insertBefore(C(), e), e, void 0, n ?? {});
+		r._$litPart$ = i = new Se(t.insertBefore(ae(), e), e, void 0, n ?? {});
 	}
 	return i._$AI(e), i;
-}, H = globalThis, U = class extends h {
+}, Ae = globalThis, F = class extends S {
 	constructor() {
 		super(...arguments), this.renderOptions = { host: this }, this._$Do = void 0;
 	}
@@ -491,7 +491,7 @@ var be = (e, t, n) => {
 	}
 	update(e) {
 		let t = this.render();
-		this.hasUpdated || (this.renderOptions.isConnected = this.isConnected), super.update(e), this._$Do = be(t, this.renderRoot, this.renderOptions);
+		this.hasUpdated || (this.renderOptions.isConnected = this.isConnected), super.update(e), this._$Do = ke(t, this.renderRoot, this.renderOptions);
 	}
 	connectedCallback() {
 		super.connectedCallback(), this._$Do?.setConnected(!0);
@@ -500,15 +500,5139 @@ var be = (e, t, n) => {
 		super.disconnectedCallback(), this._$Do?.setConnected(!1);
 	}
 	render() {
-		return P;
+		return j;
 	}
 };
-U._$litElement$ = !0, U.finalized = !0, H.litElementHydrateSupport?.({ LitElement: U });
-var xe = H.litElementPolyfillSupport;
-xe?.({ LitElement: U }), (H.litElementVersions ??= []).push("4.2.2");
+F._$litElement$ = !0, F.finalized = !0, Ae.litElementHydrateSupport?.({ LitElement: F });
+var je = Ae.litElementPolyfillSupport;
+je?.({ LitElement: F }), (Ae.litElementVersions ??= []).push("4.2.2");
+//#endregion
+//#region node_modules/@lit/reactive-element/decorators/property.js
+var Me = {
+	attribute: !0,
+	type: String,
+	converter: ee,
+	reflect: !1,
+	hasChanged: b
+}, Ne = (e = Me, t, n) => {
+	let { kind: r, metadata: i } = n, a = globalThis.litPropertyMetadata.get(i);
+	if (a === void 0 && globalThis.litPropertyMetadata.set(i, a = /* @__PURE__ */ new Map()), r === "setter" && ((e = Object.create(e)).wrapped = !0), a.set(n.name, e), r === "accessor") {
+		let { name: r } = n;
+		return {
+			set(n) {
+				let i = t.get.call(this);
+				t.set.call(this, n), this.requestUpdate(r, i, e, !0, n);
+			},
+			init(t) {
+				return t !== void 0 && this.C(r, void 0, e, t), t;
+			}
+		};
+	}
+	if (r === "setter") {
+		let { name: r } = n;
+		return function(n) {
+			let i = this[r];
+			t.call(this, n), this.requestUpdate(r, i, e, !0, n);
+		};
+	}
+	throw Error("Unsupported decorator location: " + r);
+};
+function I(e) {
+	return (t, n) => typeof n == "object" ? Ne(e, t, n) : ((e, t, n) => {
+		let r = t.hasOwnProperty(n);
+		return t.constructor.createProperty(n, e), r ? Object.getOwnPropertyDescriptor(t, n) : void 0;
+	})(e, t, n);
+}
+//#endregion
+//#region node_modules/@lit/reactive-element/decorators/state.js
+function L(e) {
+	return I({
+		...e,
+		state: !0,
+		attribute: !1
+	});
+}
+//#endregion
+//#region node_modules/@kipk/load-ha-components/dist/load-ha-components.js
+var Pe = [
+	"ha-form",
+	"ha-icon",
+	"ha-icon-button",
+	"ha-selector",
+	"ha-textfield",
+	"ha-icon-picker",
+	"ha-icon-button",
+	"ha-entity-picker",
+	"ha-select",
+	"ha-dialog",
+	"ha-sortable",
+	"ha-svg-icon",
+	"ha-alert",
+	"ha-button",
+	"ha-color-picker",
+	"ha-badge",
+	"ha-sankey-chart",
+	"mwc-button"
+], Fe = async (e) => {
+	let t = e || Pe;
+	try {
+		if (t.every((e) => customElements.get(e))) return;
+		await Promise.race([customElements.whenDefined("partial-panel-resolver"), new Promise((e, t) => setTimeout(() => t(/* @__PURE__ */ Error("Timeout waiting for partial-panel-resolver")), 1e4))]);
+		let e = document.createElement("partial-panel-resolver");
+		if (!e) throw Error("Failed to create partial-panel-resolver element");
+		if (e.hass = { panels: [{
+			url_path: "tmp",
+			component_name: "config"
+		}] }, typeof e._updateRoutes != "function") throw Error("partial-panel-resolver does not have _updateRoutes method");
+		if (e._updateRoutes(), !e.routerOptions?.routes?.tmp?.load) throw Error("Failed to create tmp route in partial-panel-resolver");
+		await Promise.race([e.routerOptions.routes.tmp.load(), new Promise((e, t) => setTimeout(() => t(/* @__PURE__ */ Error("Timeout loading tmp route")), 1e4))]), await Promise.race([customElements.whenDefined("ha-panel-config"), new Promise((e, t) => setTimeout(() => t(/* @__PURE__ */ Error("Timeout waiting for ha-panel-config")), 1e4))]);
+		let n = document.createElement("ha-panel-config");
+		if (!n) throw Error("Failed to create ha-panel-config element");
+		if (!n.routerOptions?.routes?.automation?.load) throw Error("ha-panel-config does not have automation route");
+		await Promise.race([n.routerOptions.routes.automation.load(), new Promise((e, t) => setTimeout(() => t(/* @__PURE__ */ Error("Timeout loading automation components")), 1e4))]);
+		let r = t.filter((e) => !customElements.get(e));
+		if (r.length > 0) throw Error(`Failed to load components: ${r.join(", ")}`);
+	} catch (e) {
+		console.error("Error loading Home Assistant form components:", e);
+		try {
+			if (window.customElements && window.customElements.get("home-assistant")) {
+				console.log("Attempting fallback loading method for HA components");
+				let e = new CustomEvent("ha-request-load-components", {
+					detail: { components: t },
+					bubbles: !0,
+					composed: !0
+				});
+				document.dispatchEvent(e);
+			}
+		} catch (e) {
+			console.error("Fallback loading method failed:", e);
+		}
+	}
+}, Ie = new Set(["unknown", "unavailable"]);
+function Le(e) {
+	return e == null || typeof e == "string" && Ie.has(e);
+}
+function Re(e) {
+	if (!(Le(e) || typeof e != "string" || e.trim() === "")) return e;
+}
+function ze(e) {
+	if (Le(e)) return;
+	if (typeof e == "number") return Number.isFinite(e) ? e : void 0;
+	if (typeof e != "string" || e.trim() === "") return;
+	let t = Number(e);
+	return Number.isFinite(t) ? t : void 0;
+}
+function R() {
+	return typeof performance < "u" ? performance.now() : Date.now();
+}
+function z(e, t, n) {
+	e && console.debug("[ha-better-history][perf]", t, n);
+}
+async function Be(e, t = {}) {
+	let n = Math.max(1, Math.floor(t.concurrency ?? 1)), r = [], i = 0, a = 0, o = 0, s = (n, r) => {
+		t.onEvent?.({
+			event: n,
+			taskId: r,
+			queuedCount: Math.max(e.length - i, 0),
+			activeCount: a,
+			completedCount: o
+		});
+	};
+	s("queue.start");
+	async function c() {
+		for (; i < e.length;) {
+			if (t.isCancelled?.()) {
+				s("queue.cancelled");
+				return;
+			}
+			let n = e[i++];
+			a += 1, s("queue.task_start", n.id);
+			try {
+				let e = typeof performance < "u" ? performance.now() : Date.now(), i = {
+					task: n,
+					value: await n.run(),
+					durationMs: (typeof performance < "u" ? performance.now() : Date.now()) - e
+				};
+				r.push(i), o += 1, s("queue.task_complete", n.id), await t.onResult?.(i);
+			} finally {
+				--a;
+			}
+		}
+	}
+	return await Promise.all(Array.from({ length: Math.min(n, e.length) }, () => c())), r;
+}
+var Ve = 6e4, He = 3, Ue = 350, We = 360 * 60 * 1e3, Ge = 3600 * 1e3, Ke = 720 * 60 * 1e3, qe = 2500, Je = 8e3, Ye = 15e3, Xe = 300, Ze = 700, Qe = 1100, $e = 80;
+function et(e) {
+	if (e.length <= 2) return e;
+	let t = [e[0]];
+	for (let n = 1; n < e.length - 1; n++) {
+		let r = e[n], i = e[n - 1], a = e[n + 1];
+		(r.value !== i.value || a.value !== r.value) && t.push(r);
+	}
+	return t.push(e[e.length - 1]), t;
+}
+var tt = class extends Error {
+	constructor(e) {
+		super(`History chunk timed out after ${e}ms`), this.name = "HistoryChunkTimeoutError";
+	}
+};
+function nt(e) {
+	return typeof e == "object" && !!e && !Array.isArray(e);
+}
+function rt(e, t) {
+	return t.reduce((e, t) => nt(e) ? e[t] : void 0, e);
+}
+function it(e) {
+	return e[e.length - 1] ?? "";
+}
+function at(e) {
+	return e instanceof Error ? e.message : String(e);
+}
+function ot(e) {
+	if (!nt(e)) return;
+	let t = e.status ?? e.statusCode ?? e.status_code;
+	return typeof t == "number" ? t : void 0;
+}
+function st(e) {
+	if (!nt(e)) return "";
+	let t = e.code;
+	return typeof t == "string" ? t.toLowerCase() : "";
+}
+function ct(e) {
+	if (e instanceof tt) return !0;
+	let t = ot(e);
+	if (t !== void 0) return t === 408 || t === 429 || t >= 500;
+	let n = at(e).toLowerCase(), r = `${st(e)} ${n}`;
+	return r.includes("timeout") || r.includes("timed out") || r.includes("network") || r.includes("failed to fetch") || r.includes("connection") || r.includes("temporarily unavailable") || r.includes("unavailable") || r.includes("aborted");
+}
+function lt(e, t) {
+	let n = Math.floor(Math.random() * Math.max(1, t));
+	return t * 2 ** Math.max(0, e - 1) + n;
+}
+function ut(e) {
+	return new Promise((t) => setTimeout(t, e));
+}
+function dt(e = 80) {
+	let t = globalThis.requestIdleCallback;
+	return t ? new Promise((n) => t(() => n(), { timeout: e })) : new Promise((e) => {
+		typeof requestAnimationFrame == "function" ? requestAnimationFrame(() => e()) : setTimeout(e, 0);
+	});
+}
+async function ft(e, t) {
+	let n;
+	try {
+		return await Promise.race([e, new Promise((e, r) => {
+			n = setTimeout(() => r(new tt(t)), t);
+		})]);
+	} finally {
+		n !== void 0 && clearTimeout(n);
+	}
+}
+function pt(e) {
+	if (typeof e == "number" && Number.isFinite(e)) return "number";
+	if (typeof e == "boolean") return "boolean";
+	if (typeof e == "string" && e !== "") return "string";
+}
+function mt(e) {
+	let t = pt(Number.isFinite(Number(e.state)) ? Number(e.state) : e.state), n = e.attributes.unit_of_measurement;
+	if (t) return {
+		id: `state:${e.entity_id}`,
+		kind: "entity_state",
+		entityId: e.entity_id,
+		label: e.attributes.friendly_name && typeof e.attributes.friendly_name == "string" ? e.attributes.friendly_name : e.entity_id,
+		valueType: t,
+		unit: t === "number" && typeof n == "string" && n !== "" ? n : void 0
+	};
+}
+function ht(e, t, n) {
+	let r = pt(rt(e.attributes, t));
+	if (r) return {
+		id: `attr:${e.entity_id}:${t.join(".")}`,
+		kind: "entity_attribute",
+		entityId: e.entity_id,
+		label: n ?? it(t),
+		path: t,
+		valueType: r
+	};
+}
+function gt(e, t) {
+	return t === "number" ? ze(e) : t === "boolean" ? typeof e == "boolean" ? e : void 0 : Re(e);
+}
+function _t(e, t) {
+	let n = e.attributes ?? e.a ?? {};
+	return gt(t.kind === "entity_state" ? e.state ?? e.s : rt(n, t.path ?? []), t.valueType);
+}
+function vt(e) {
+	if (typeof e.lu == "number") return e.lu * 1e3;
+	let t = e.last_changed ?? e.last_updated;
+	return t ? Date.parse(t) : NaN;
+}
+function yt(e, t, n) {
+	if (e.length === 0) return e;
+	let r = t.getTime(), i = Math.min(n.getTime(), Date.now()), a = [...e].sort((e, t) => e.time - t.time), o = a[0], s = a[a.length - 1];
+	return [
+		...o.time > r ? [{
+			time: r,
+			value: o.value
+		}] : [],
+		...a,
+		...s.time < i ? [{
+			time: i,
+			value: s.value
+		}] : []
+	];
+}
+function bt(e, t) {
+	let n = /* @__PURE__ */ new Map();
+	if (Array.isArray(e)) return e.forEach((e, r) => {
+		let i = e[0]?.entity_id ?? t[r];
+		i && n.set(i, e);
+	}), n;
+	for (let [t, r] of Object.entries(e)) Array.isArray(r) && n.set(t, r);
+	return n;
+}
+function xt(e, t, n = Date.now()) {
+	let r = e.states[t.entityId];
+	if (!r) return;
+	let i = {
+		entity_id: r.entity_id,
+		state: r.state,
+		last_changed: r.last_changed,
+		last_updated: r.last_updated,
+		attributes: r.attributes
+	}, a = _t(i, t), o = vt(i), s = Number.isFinite(o) ? o : n;
+	return a === void 0 || !Number.isFinite(s) ? void 0 : {
+		time: s,
+		value: a
+	};
+}
+function St(e, t, n, r) {
+	let i = xt(e, t, n.getTime());
+	return i ? [{
+		time: n.getTime(),
+		value: i.value
+	}, {
+		time: Math.min(r.getTime(), Date.now()),
+		value: i.value
+	}] : [];
+}
+var Ct = class {
+	constructor() {
+		this._entities = /* @__PURE__ */ new Map();
+	}
+	hasStates(e) {
+		return (this._entities.get(e)?.states.length ?? 0) > 0;
+	}
+	hasFullStates(e) {
+		let t = this._entities.get(e);
+		return t !== void 0 && t.fullCoverage.length > 0 && t.states.length > 0;
+	}
+	hasCoverage(e, t, n, r) {
+		let i = this._entities.get(e);
+		return i ? Tt(r === "full" ? i.fullCoverage : [...i.stateCoverage, ...i.fullCoverage], t.getTime(), n.getTime()) : !1;
+	}
+	missingIntervals(e, t, n, r) {
+		let i = this._entities.get(e);
+		return Dt(i ? r === "full" ? i.fullCoverage : [...i.stateCoverage, ...i.fullCoverage] : [], t.getTime(), n.getTime()).map((e) => ({
+			start: new Date(e.startTime),
+			end: new Date(e.endTime)
+		}));
+	}
+	integrate(e, t, n, r, i) {
+		let a = this._entities.get(e) ?? {
+			states: [],
+			stateCoverage: [],
+			fullCoverage: []
+		};
+		a.states = Ot([...a.states, ...t]), a.stateCoverage = wt([...a.stateCoverage, {
+			startTime: n.getTime(),
+			endTime: r.getTime()
+		}]), i === "full" && (a.fullCoverage = wt([...a.fullCoverage, {
+			startTime: n.getTime(),
+			endTime: r.getTime()
+		}])), this._entities.set(e, a);
+	}
+	buildSeries(e, t, n, r) {
+		let i = e.kind === "entity_attribute" ? "full" : "state", a = this.coverageEnd(e.entityId, n, r, i);
+		return Nt(e, this._entities.get(e.entityId)?.states ?? [], t, n, new Date(a));
+	}
+	coverageEnd(e, t, n, r) {
+		let i = this._entities.get(e);
+		return i ? Et(r === "full" ? i.fullCoverage : [...i.stateCoverage, ...i.fullCoverage], t.getTime(), n.getTime()) : n.getTime();
+	}
+};
+function wt(e) {
+	let t = e.filter((e) => e.endTime > e.startTime).sort((e, t) => e.startTime - t.startTime), n = [];
+	for (let e of t) {
+		let t = n[n.length - 1];
+		t && e.startTime <= t.endTime + 1 ? t.endTime = Math.max(t.endTime, e.endTime) : n.push({ ...e });
+	}
+	return n;
+}
+function Tt(e, t, n) {
+	return Et(e, t, n) >= n - 1;
+}
+function Et(e, t, n) {
+	if (n <= t) return n;
+	let r = t;
+	for (let t of wt(e)) if (!(t.endTime < r)) {
+		if (t.startTime > r + 1) break;
+		if (r = Math.max(r, t.endTime), r >= n - 1) return n;
+	}
+	return r;
+}
+function Dt(e, t, n) {
+	if (n <= t) return [];
+	let r = [], i = t;
+	for (let t of wt(e)) if (!(t.endTime <= i) && (t.startTime > i + 1 && r.push({
+		startTime: i,
+		endTime: Math.min(t.startTime, n)
+	}), i = Math.max(i, t.endTime), i >= n)) break;
+	return i < n && r.push({
+		startTime: i,
+		endTime: n
+	}), r;
+}
+function Ot(e) {
+	let t = /* @__PURE__ */ new Map();
+	for (let n of e) {
+		let e = vt(n);
+		Number.isFinite(e) && t.set(e, n);
+	}
+	return [...t.entries()].sort(([e], [t]) => e - t).map(([, e]) => e);
+}
+function kt(e, t) {
+	let n = t.normalizeDurationMs + t.mergeDurationMs + t.buildDurationMs, r = t.stateCount >= Ye || t.requestDurationMs >= Qe, i = r || t.stateCount >= Je || t.requestDurationMs >= Ze || n >= $e, a = t.stateCount <= qe && t.requestDurationMs <= Xe && n <= $e / 2;
+	return i && e > Ge ? {
+		nextChunkMs: Math.max(Ge, Math.floor(e / (r ? 4 : 2))),
+		reason: "decrease"
+	} : a && e < Ke ? {
+		nextChunkMs: Math.min(Ke, e * 2),
+		reason: "increase"
+	} : {
+		nextChunkMs: e,
+		reason: "keep"
+	};
+}
+async function At(e, t, n, r, i, a, o) {
+	if (e.callWS) return e.callWS({
+		type: "history/history_during_period",
+		start_time: n.toISOString(),
+		end_time: r.toISOString(),
+		entity_ids: t,
+		minimal_response: i,
+		no_attributes: a,
+		significant_changes_only: o
+	});
+	let s = new URLSearchParams({
+		filter_entity_id: t.join(","),
+		end_time: r.toISOString()
+	});
+	return i && s.set("minimal_response", "1"), a && s.set("no_attributes", "1"), o && s.set("significant_changes_only", "1"), e.callApi("GET", `history/period/${encodeURIComponent(n.toISOString())}?${s.toString()}`);
+}
+async function jt(e, t) {
+	let n = 1;
+	for (;;) {
+		if (t.isCancelled?.()) throw Error("History request cancelled");
+		let r = t.onPerformance ? R() : 0;
+		try {
+			t.onPerformance?.({
+				event: "history.chunk_attempt",
+				details: {
+					taskId: t.taskId,
+					attempt: n,
+					maxAttempts: t.maxAttempts,
+					timeoutMs: t.timeoutMs
+				}
+			});
+			let i = await ft(e(), t.timeoutMs);
+			return t.onPerformance?.({
+				event: "history.chunk_success",
+				details: {
+					taskId: t.taskId,
+					attempt: n,
+					durationMs: Math.round(R() - r)
+				}
+			}), i;
+		} catch (e) {
+			let i = ct(e), a = i && n < t.maxAttempts && !t.isCancelled?.();
+			if (t.onPerformance?.({
+				event: a ? "history.chunk_retry" : "history.chunk_error",
+				details: {
+					taskId: t.taskId,
+					attempt: n,
+					maxAttempts: t.maxAttempts,
+					retryable: i,
+					error: at(e),
+					durationMs: Math.round(R() - r)
+				}
+			}), !a) throw e;
+			await ut(lt(n, t.retryBaseDelayMs)), n += 1;
+		}
+	}
+}
+async function Mt(e, t, n, r, i, a, o = {}) {
+	if (!e.callWS && !e.callApi) throw Error("Home Assistant history API is unavailable");
+	let s = [...new Set(t.map((e) => e.entityId))], c = new Set(t.filter((e) => e.kind === "entity_attribute").map((e) => e.entityId)), l = s.filter((e) => !c.has(e)), u = s.filter((e) => c.has(e)), d = o.accumulator ?? new Ct(), f = [], p = Math.max(1, Math.floor(o.chunkTimeoutMs ?? Ve)), m = Math.max(1, Math.floor(o.maxChunkAttempts ?? He)), h = Math.max(0, Math.floor(o.chunkRetryBaseDelayMs ?? Ue)), g = (e, t) => jt(t, {
+		taskId: e,
+		timeoutMs: p,
+		maxAttempts: m,
+		retryBaseDelayMs: h,
+		isCancelled: o.isCancelled,
+		onPerformance: a
+	}), _ = /* @__PURE__ */ new Map(), v = (e, t, n, r, i, a, o) => {
+		let s = [
+			r,
+			t.toISOString(),
+			n.toISOString(),
+			i ? "minimal" : "full",
+			a ? "noattr" : "attrs",
+			o ? "significant" : "all"
+		].join("|"), c = _.get(s);
+		c ? c.entityIds.push(e) : _.set(s, {
+			entityIds: [e],
+			start: t,
+			end: n,
+			coverageKind: r,
+			minimalResponse: i,
+			noAttributes: a,
+			significantChangesOnly: o
+		});
+	}, y = [];
+	for (let e of l) for (let t of d.missingIntervals(e, n, r, "state")) v(e, t.start, t.end, "state", !0, !0, !0);
+	for (let e of u) for (let t of d.missingIntervals(e, n, r, "full")) y.push({
+		entityId: e,
+		start: t.start,
+		end: t.end
+	});
+	let ee = y.reduce((e, t) => {
+		let n = t.end.getTime() - t.start.getTime();
+		return e + Math.max(1, Math.ceil(n / We));
+	}, 0), b = _.size + ee, x = 0, S = /* @__PURE__ */ new Set(), C = async (s, c, l) => {
+		let u = x;
+		if (x += 1, o.isCancelled?.()) return {
+			stateCount: 0,
+			requestDurationMs: Math.round(l),
+			normalizeDurationMs: 0,
+			mergeDurationMs: 0,
+			buildDurationMs: 0
+		};
+		await dt();
+		let f = R(), p = bt(c, s.entityIds), m = R() - f, h = [...p.values()].reduce((e, t) => e + t.length, 0);
+		a?.({
+			event: "history.batch",
+			details: {
+				batchIndex: u,
+				batchCount: b,
+				entityCount: s.entityIds.length,
+				stateCount: h,
+				requestDurationMs: Math.round(l),
+				normalizeDurationMs: Math.round(m)
+			}
+		});
+		let g = R(), _ = /* @__PURE__ */ new Set();
+		for (let [e, t] of p) d.integrate(e, t, s.start, s.end, s.coverageKind), _.add(e), S.add(e);
+		let v = R() - g;
+		a?.({
+			event: "history.merge",
+			details: {
+				batchIndex: u,
+				entityCount: s.entityIds.length,
+				stateCount: h,
+				mergeDurationMs: Math.round(v)
+			}
+		});
+		let y = 0;
+		if (i) {
+			await dt();
+			let o = R();
+			for (let i of t) (_.has(i.entityId) || !w.has(i.id)) && (i.kind === "entity_attribute" ? d.hasFullStates(i.entityId) : d.hasStates(i.entityId)) && w.set(i.id, d.buildSeries(i, e, n, r));
+			let s = t.map((e) => w.get(e.id)).filter((e) => e !== void 0);
+			y = R() - o, a?.({
+				event: "history.progress_series",
+				details: {
+					batchIndex: u,
+					seriesCount: s.length,
+					pointCount: s.reduce((e, t) => e + t.points.length, 0),
+					buildDurationMs: Math.round(y)
+				}
+			}), i(s), await dt(120);
+		}
+		return {
+			stateCount: h,
+			requestDurationMs: Math.round(l),
+			normalizeDurationMs: Math.round(m),
+			mergeDurationMs: Math.round(v),
+			buildDurationMs: Math.round(y)
+		};
+	};
+	for (let t of _.values()) {
+		let n = t.coverageKind === "full" ? "attr" : "state", r = [...new Set(t.entityIds)], i = `${n}:${r.join(",")}:${t.start.toISOString()}:${t.end.toISOString()}`;
+		f.push({
+			id: i,
+			entityIds: r,
+			start: t.start,
+			end: t.end,
+			coverageKind: t.coverageKind,
+			run: () => g(i, () => At(e, r, t.start, t.end, t.minimalResponse, t.noAttributes, t.significantChangesOnly))
+		});
+	}
+	a?.({
+		event: "history.start",
+		details: {
+			sourceCount: t.length,
+			entityCount: s.length,
+			batchCount: b,
+			attributeChunkHours: We / 36e5,
+			minAttributeChunkHours: Ge / 36e5,
+			maxAttributeChunkHours: Ke / 36e5,
+			adaptiveAttributeChunks: y.length > 0,
+			cachedSourceCount: t.filter((e) => d.hasCoverage(e.entityId, n, r, e.kind === "entity_attribute" ? "full" : "state")).length,
+			chunkTimeoutMs: p,
+			maxChunkAttempts: m,
+			rangeHours: Math.round((r.getTime() - n.getTime()) / 36e3) / 100
+		}
+	});
+	let w = /* @__PURE__ */ new Map();
+	for (let i of t) (i.kind === "entity_attribute" ? d.hasFullStates(i.entityId) : d.hasStates(i.entityId)) && w.set(i.id, d.buildSeries(i, e, n, r));
+	await Be(f, {
+		concurrency: o.concurrency ?? 1,
+		isCancelled: o.isCancelled,
+		onEvent: (e) => {
+			a?.({
+				event: `history.${e.event}`,
+				details: {
+					taskId: e.taskId,
+					queuedCount: e.queuedCount,
+					activeCount: e.activeCount,
+					completedCount: e.completedCount
+				}
+			});
+		},
+		onResult: async ({ task: e, value: t, durationMs: n }) => {
+			await C(e, t, n);
+		}
+	});
+	let T = 0;
+	for (let t of y) {
+		let n = We;
+		for (let r = t.start.getTime(); r < t.end.getTime() && !o.isCancelled?.();) {
+			let i = new Date(r), o = new Date(Math.min(r + n, t.end.getTime())), s = o.getTime() - i.getTime(), c = `attr:${t.entityId}:${i.toISOString()}:${o.toISOString()}`;
+			a?.({
+				event: "history.queue.task_start",
+				details: {
+					taskId: c,
+					queuedCount: void 0,
+					activeCount: 1,
+					completedCount: T
+				}
+			});
+			let l = R(), u = await g(c, () => At(e, [t.entityId], i, o, !1, !1, !1)), d = R() - l;
+			T += 1, a?.({
+				event: "history.queue.task_complete",
+				details: {
+					taskId: c,
+					queuedCount: void 0,
+					activeCount: 0,
+					completedCount: T
+				}
+			});
+			let f = await C({
+				id: c,
+				entityIds: [t.entityId],
+				start: i,
+				end: o,
+				coverageKind: "full"
+			}, u, d), p = kt(n, f);
+			a?.({
+				event: "history.adaptive_chunk",
+				details: {
+					taskId: c,
+					entityId: t.entityId,
+					chunkHours: Math.round(s / 36e3) / 100,
+					nextChunkHours: Math.round(p.nextChunkMs / 36e3) / 100,
+					stateCount: f.stateCount,
+					requestDurationMs: f.requestDurationMs,
+					processingDurationMs: f.normalizeDurationMs + f.mergeDurationMs + f.buildDurationMs,
+					reason: p.reason
+				}
+			}), n = p.nextChunkMs, r = o.getTime();
+		}
+	}
+	let te = a ? R() : 0, ne = t.map((t) => {
+		let i = w.get(t.id);
+		return i && !S.has(t.entityId) ? i : d.buildSeries(t, e, n, r);
+	}), E = a ? R() - te : 0;
+	return a?.({
+		event: "history.final_series",
+		details: {
+			seriesCount: ne.length,
+			pointCount: ne.reduce((e, t) => e + t.points.length, 0),
+			buildDurationMs: Math.round(E)
+		}
+	}), ne;
+}
+function Nt(e, t, n, r, i) {
+	let a = t.flatMap((t) => {
+		let n = _t(t, e), r = vt(t);
+		return n !== void 0 && Number.isFinite(r) ? [{
+			time: r,
+			value: n
+		}] : [];
+	});
+	return {
+		source: e,
+		points: et(a.length > 0 ? yt(a, r, i) : St(n, e, r, i))
+	};
+}
+var Pt = 6e4, Ft = 48;
+function It(e) {
+	requestAnimationFrame(() => requestAnimationFrame(e));
+}
+function Lt(e) {
+	return e instanceof Error ? e.message : String(e);
+}
+function Rt(e) {
+	return `${e.kind === "entity_attribute" ? "full" : "state"}:${e.entityId}`;
+}
+function zt(e, t) {
+	if (e.length !== t.length) return !1;
+	for (let n = 0; n < e.length; n++) {
+		let r = e[n], i = t[n];
+		if (r.source.id !== i.source.id || r.points.length !== i.points.length) return !1;
+		for (let e = 0; e < r.points.length; e++) {
+			let t = r.points[e], n = i.points[e];
+			if (t.time !== n.time || t.value !== n.value) return !1;
+		}
+	}
+	return !0;
+}
+function Bt(e, t) {
+	let n = e.findIndex((e) => e.time === t.time);
+	if (n !== -1) {
+		if (e[n].value === t.value) return e;
+		let r = [...e];
+		return r[n] = t, r;
+	}
+	return [...e].reverse().find((e) => e.time < t.time)?.value === t.value ? e : [...e, t].sort((e, t) => e.time - t.time);
+}
+var Vt = class {
+	constructor(e) {
+		this.series = [], this.loading = !1, this.error = "", this.debugPerformance = !1, this._prevKey = "", this._nextSessionId = 0, this._progressUpdateScheduled = !1, this._lastProgressUpdateMs = 0, this.host = e, e.addController(this);
+	}
+	hostConnected() {}
+	hostDisconnected() {}
+	_createSession(e, t, n) {
+		this._session && (this._session.cancelled = !0);
+		let r = {
+			id: ++this._nextSessionId,
+			startTime: t.getTime(),
+			endTime: n.getTime(),
+			cancelled: !1,
+			activeLoads: 0,
+			sources: [...e],
+			sourceStates: new Map(e.map((e) => [e.id, "queued"])),
+			activeEntityLoads: /* @__PURE__ */ new Map(),
+			accumulator: new Ct()
+		};
+		return this._session = r, r;
+	}
+	_cancelSession() {
+		this._session && (this._session.cancelled = !0), this._session = void 0, this._progressUpdateScheduled = !1;
+	}
+	_activeSession(e, t) {
+		let n = this._session;
+		if (!(!n || n.cancelled)) return n.startTime === e.getTime() && n.endTime === t.getTime() ? n : void 0;
+	}
+	_isCurrentSession(e) {
+		return this._session === e && !e.cancelled;
+	}
+	_addSessionSources(e, t) {
+		let n = new Set(e.sources.map((e) => e.id));
+		for (let r of t) n.has(r.id) || (n.add(r.id), e.sources.push(r));
+	}
+	_hasActiveEntityLoad(e, t) {
+		return (e.activeEntityLoads.get(Rt(t)) ?? 0) > 0;
+	}
+	_beginLoad(e, t) {
+		e.activeLoads += 1;
+		for (let n of t) {
+			e.sourceStates.set(n.id, "loading");
+			let t = Rt(n);
+			e.activeEntityLoads.set(t, (e.activeEntityLoads.get(t) ?? 0) + 1);
+		}
+	}
+	_completeLoad(e, t) {
+		e.activeLoads = Math.max(0, e.activeLoads - 1);
+		for (let n of t) {
+			let t = Rt(n), r = Math.max(0, (e.activeEntityLoads.get(t) ?? 0) - 1);
+			r > 0 ? e.activeEntityLoads.set(t, r) : e.activeEntityLoads.delete(t);
+		}
+		this.loading = e.activeLoads > 0;
+	}
+	_sessionSources(e, t) {
+		return t.filter((t) => e.sourceStates.has(t.source.id));
+	}
+	_hasAccumulatorSeries(e, t) {
+		return t.kind === "entity_attribute" ? e.accumulator.hasFullStates(t.entityId) : e.accumulator.hasStates(t.entityId);
+	}
+	_availableSessionSeries(e, t, n, r, i) {
+		let a = this._sessionSources(e, i), o = new Set(a.map((e) => e.source.id));
+		for (let i of e.sources) o.has(i.id) || !e.sourceStates.has(i.id) || this._hasAccumulatorSeries(e, i) && (a.push(e.accumulator.buildSeries(i, t, n, r)), o.add(i.id));
+		return a;
+	}
+	_requestProgressUpdate(e) {
+		if (this._progressUpdateScheduled) return;
+		this._progressUpdateScheduled = !0;
+		let t = R() - this._lastProgressUpdateMs, n = Math.max(0, Ft - t);
+		setTimeout(() => {
+			requestAnimationFrame(() => {
+				this._progressUpdateScheduled = !1, this._isCurrentSession(e) && (this._lastProgressUpdateMs = R(), this.host.requestUpdate());
+			});
+		}, n);
+	}
+	fetch(e, t, n, r) {
+		let i = `${t.map((e) => e.id).join("|")}|${n.getTime()}|${r.getTime()}`;
+		if (i === this._prevKey && !this.error) return;
+		if (this._prevKey = i, t.length === 0) {
+			this.series = [], this.loading = !1, this.error = "", this.host.requestUpdate();
+			return;
+		}
+		if (!e) {
+			this.series = [], this.loading = !1, this.error = "No hass object", this.host.requestUpdate();
+			return;
+		}
+		let a = this._createSession(t, n, r), o = R();
+		this.series = [], this.loading = !0, this.error = "", this._beginLoad(a, t), this.debugPerformance && z(this.debugPerformance, "controller.fetch_start", {
+			sessionId: a.id,
+			sourceCount: t.length,
+			rangeHours: Math.round((r.getTime() - n.getTime()) / 36e3) / 100
+		}), this.host.requestUpdate(), Mt(e, a.sources, n, r, (t) => {
+			if (!this._isCurrentSession(a)) return;
+			let i = R(), o = this._availableSessionSeries(a, e, n, r, t);
+			this.series = this._mergeSeries(this.series.filter((e) => !a.sources.some((t) => t.id === e.source.id)), o);
+			for (let e of o) a.sourceStates.set(e.source.id, "partial");
+			this._requestProgressUpdate(a), this.debugPerformance && z(this.debugPerformance, "controller.progress_update", {
+				sessionId: a.id,
+				sourceCount: t.length,
+				pointCount: t.reduce((e, t) => e + t.points.length, 0),
+				updateDurationMs: Math.round(R() - i)
+			});
+		}, this.debugPerformance ? (e) => {
+			z(this.debugPerformance, e.event, e.details);
+		} : void 0, {
+			isCancelled: () => !this._isCurrentSession(a),
+			chunkTimeoutMs: Pt,
+			accumulator: a.accumulator
+		}).then((i) => {
+			this._isCurrentSession(a) && It(() => {
+				if (!this._isCurrentSession(a)) return;
+				let s = R(), c = this._availableSessionSeries(a, e, n, r, i), l = this._mergeSeries(this.series.filter((e) => !a.sources.some((t) => t.id === e.source.id)), c);
+				zt(this.series, l) || (this.series = l);
+				for (let e of c) a.sourceStates.set(e.source.id, "ready");
+				this._completeLoad(a, t), this.host.requestUpdate(), this.debugPerformance && z(this.debugPerformance, "controller.fetch_complete", {
+					sessionId: a.id,
+					sourceCount: i.length,
+					pointCount: i.reduce((e, t) => e + t.points.length, 0),
+					totalDurationMs: Math.round(R() - o),
+					updateDurationMs: Math.round(R() - s)
+				});
+			});
+		}).catch((e) => {
+			if (this._isCurrentSession(a)) {
+				for (let e of t) a.sourceStates.set(e.id, "error");
+				this.error = Lt(e), this._completeLoad(a, t), this.host.requestUpdate(), this.debugPerformance && z(this.debugPerformance, "controller.fetch_error", {
+					sessionId: a.id,
+					totalDurationMs: Math.round(R() - o),
+					error: this.error
+				});
+			}
+		});
+	}
+	setImportedSeries(e, t, n) {
+		this._cancelSession(), this.series = e, this.loading = !1, this.error = "", this._prevKey = `${e.map((e) => e.source.id).join("|")}|${t.getTime()}|${n.getTime()}`, this.host.requestUpdate();
+	}
+	setError(e) {
+		this._cancelSession(), this.loading = !1, this.error = e, this.host.requestUpdate();
+	}
+	addSources(e, t, n, r) {
+		if (!e || t.length === 0) return;
+		let i = this._activeSession(n, r) ?? this._createSession(this.series.map((e) => e.source), n, r), a = new Set([...this.series.map((e) => e.source.id), ...i.sourceStates.keys()]), o = t.filter((e) => !a.has(e.id));
+		if (o.length === 0) return;
+		let s = new Set(i.activeEntityLoads.keys());
+		this._addSessionSources(i, o);
+		let c = o.filter((e) => !this._hasActiveEntityLoad(i, e)), l = new Set(c.map((e) => e.id)), u = i.sources.filter((e) => l.has(e.id) || !s.has(Rt(e))), d = R();
+		for (let e of o) i.sourceStates.set(e.id, c.includes(e) ? "queued" : "loading");
+		if (c.length === 0) {
+			let t = this._availableSessionSeries(i, e, n, r, []);
+			if (t.length > 0) {
+				this._mergePartial(t);
+				for (let e of t) i.sourceStates.set(e.source.id, "partial");
+			}
+			this.loading = i.activeLoads > 0, this._requestProgressUpdate(i), this.debugPerformance && z(this.debugPerformance, "controller.add_sources_joined_active_load", {
+				sessionId: i.id,
+				sourceCount: o.length,
+				existingSourceCount: this.series.length
+			});
+			return;
+		}
+		this.loading = !0, this._beginLoad(i, c), this.debugPerformance && z(this.debugPerformance, "controller.add_sources_start", {
+			sessionId: i.id,
+			sourceCount: c.length,
+			joinedActiveSourceCount: o.length - c.length,
+			existingSourceCount: this.series.length,
+			rangeHours: Math.round((r.getTime() - n.getTime()) / 36e3) / 100
+		}), this.host.requestUpdate(), Mt(e, u, n, r, (t) => {
+			if (!this._isCurrentSession(i)) return;
+			let a = R(), o = this._availableSessionSeries(i, e, n, r, t);
+			this._mergePartial(o);
+			for (let e of o) i.sourceStates.set(e.source.id, "partial");
+			this._requestProgressUpdate(i), this.debugPerformance && z(this.debugPerformance, "controller.add_sources_progress", {
+				sessionId: i.id,
+				sourceCount: t.length,
+				pointCount: t.reduce((e, t) => e + t.points.length, 0),
+				mergeDurationMs: Math.round(R() - a)
+			});
+		}, this.debugPerformance ? (e) => {
+			z(this.debugPerformance, e.event, e.details);
+		} : void 0, {
+			isCancelled: () => !this._isCurrentSession(i),
+			chunkTimeoutMs: Pt,
+			accumulator: i.accumulator
+		}).then((t) => {
+			this._isCurrentSession(i) && It(() => {
+				if (!this._isCurrentSession(i)) return;
+				let a = R(), o = this._availableSessionSeries(i, e, n, r, t), s = this._mergeSeries(this.series, o);
+				zt(this.series, s) || (this.series = s);
+				for (let e of o) i.sourceStates.set(e.source.id, "ready");
+				this._completeLoad(i, c), this.host.requestUpdate(), this.debugPerformance && z(this.debugPerformance, "controller.add_sources_complete", {
+					sessionId: i.id,
+					sourceCount: t.length,
+					pointCount: t.reduce((e, t) => e + t.points.length, 0),
+					totalDurationMs: Math.round(R() - d),
+					mergeDurationMs: Math.round(R() - a)
+				});
+			});
+		}).catch((e) => {
+			if (this._isCurrentSession(i)) {
+				for (let e of c) i.sourceStates.set(e.id, "error");
+				this.error = Lt(e), this._completeLoad(i, c), this.host.requestUpdate(), this.debugPerformance && z(this.debugPerformance, "controller.add_sources_error", {
+					sessionId: i.id,
+					totalDurationMs: Math.round(R() - d),
+					error: this.error
+				});
+			}
+		});
+	}
+	updateLivePoints(e, t, n, r) {
+		if (!e || t.length === 0 || this.series.length === 0) return;
+		let i = n.getTime(), a = r.getTime(), o = !1, s = new Map(t.map((e) => [e.id, e])), c = this.series.map((t) => {
+			let n = s.get(t.source.id);
+			if (!n) return t;
+			let r = xt(e, n, a);
+			if (!r) return t;
+			let c = {
+				...r,
+				time: Math.min(Math.max(r.time, i), a)
+			}, l = Bt(t.points, c);
+			return l === t.points ? t : (o = !0, {
+				...t,
+				points: l
+			});
+		});
+		o && (this.series = c, this.host.requestUpdate());
+	}
+	_mergeSeries(e, t) {
+		let n = [...e];
+		for (let e of t) {
+			let t = n.findIndex((t) => t.source.id === e.source.id);
+			t === -1 ? n.push(e) : n[t] = e;
+		}
+		return n;
+	}
+	_mergePartial(e) {
+		this.series = this._mergeSeries(this.series, e);
+	}
+	removeSources(e) {
+		if (e.length === 0) return;
+		let t = new Set(e);
+		this.series = this.series.filter((e) => !t.has(e.source.id));
+		for (let t of e) this._session?.sourceStates.delete(t);
+		this._prevKey = this.series.map((e) => e.source.id).join("|") + "|", this.host.requestUpdate();
+	}
+}, Ht = [
+	"#ff9800",
+	"#42a5f5",
+	"#66bb6a",
+	"#ec407a",
+	"#ab47bc",
+	"#26a69a"
+], Ut = {
+	current_temperature: "#42a5f5",
+	temperature: "#ff9800"
+}, Wt = new Set(Object.values(Ut)), B = Ht.filter((e) => !Wt.has(e));
+function Gt(e) {
+	return B[e % B.length];
+}
+function Kt(e) {
+	return e.trim().toLowerCase();
+}
+function qt(e) {
+	return `hsl(${(e * 137.508 % 360).toFixed(1)} 68% 52%)`;
+}
+function Jt(e, t, n) {
+	if (!t.has(Kt(e))) return e;
+	let r = [
+		...B.slice(n % B.length),
+		...B.slice(0, n % B.length),
+		...Ht
+	];
+	for (let e of r) if (!t.has(Kt(e))) return e;
+	let i = n, a = qt(i);
+	for (; t.has(Kt(a));) i += 1, a = qt(i);
+	return a;
+}
+function Yt(e) {
+	return Kt(e);
+}
+var Xt = 214;
+function Zt(e) {
+	if (!Number.isFinite(e) || Number.isInteger(e)) return 0;
+	let t = e.toString().toLowerCase();
+	if (t.includes("e-")) {
+		let [e, n] = t.split("e-"), r = e.split(".")[1]?.length ?? 0;
+		return Math.min(r + Number(n), 4);
+	}
+	return Math.min(t.split(".")[1]?.length ?? 0, 4);
+}
+function Qt(e, t) {
+	let n = 10 ** t;
+	return Math.round(e * n) / n;
+}
+function $t(e, t, n = 5) {
+	if (!Number.isFinite(e) || !Number.isFinite(t)) return [e, t];
+	let r = Math.abs(t - e);
+	if (r < 1e-10) return [e];
+	let i = en(r / (Math.max(n, 2) - 1)), a = Math.floor(e / i) * i, o = Math.ceil(t / i) * i, s = i * 1e-8, c = [];
+	for (let e = a; e <= o + s; e += i) c.push(tn(e, i));
+	return c;
+}
+function en(e) {
+	if (e <= 0) return 1;
+	let t = Math.floor(Math.log10(Math.abs(e))), n = e / 10 ** t, r;
+	return r = n < 1.5 ? 1 : n < 3 ? 2 : n < 7 ? 5 : 10, r * 10 ** t;
+}
+function tn(e, t) {
+	let n = Math.max(0, -Math.floor(Math.log10(Math.abs(t) || 1)) + 1);
+	return parseFloat(e.toFixed(n));
+}
+function nn(e) {
+	let t = 0;
+	for (let n of e) {
+		let e = String(n), r = e.indexOf(".");
+		r !== -1 && (t = Math.max(t, e.length - r - 1));
+	}
+	return t;
+}
+function rn(e, t, n) {
+	let r = t - e;
+	if (r < 1e-6) {
+		let r = Math.max(Math.abs(t) * .05, 1);
+		return {
+			min: Qt(e - r, n),
+			max: Qt(t + r, n)
+		};
+	}
+	let i = Math.max(r * .08, 10 ** -n), a = 10 ** n, o = Math.ceil(i * a) / a;
+	return {
+		min: Qt(e - o, n),
+		max: Qt(t + o, n)
+	};
+}
+function an(e) {
+	return 28 + (Math.max(e, 1) - 1) * Xt + 180 + 18;
+}
+var on = .15, sn = 8;
+function cn(e) {
+	return Math.max(e.max - e.min, 1e-9);
+}
+function ln(e) {
+	return (e.min + e.max) / 2;
+}
+function un(e) {
+	return Math.log10(Math.max(Math.abs(e), 1e-9));
+}
+function dn(e, t) {
+	let n = Math.abs(un(cn(e)) - un(cn(t))), r = Math.abs(un(ln(e)) - un(ln(t))), i = e.unit && t.unit && e.unit !== t.unit ? .4 : 0;
+	return n + r * .6 + i;
+}
+function fn(e) {
+	if (e.length < 2) return !1;
+	let t = Math.min(...e.map((e) => e.min)), n = Math.max(...e.map((e) => e.max)), r = Math.max(n - t, 1e-9), i = e.map((e) => e.max - e.min).filter((e) => e > 1e-6);
+	if (i.length < 2) return !1;
+	let a = Math.min(...i), o = Math.max(...i);
+	return Math.min(...i.map((e) => e / r)) <= on && (o / Math.max(a, 1e-9) >= sn || r / a >= sn);
+}
+function pn(e) {
+	let t = e[0], n = e[1], r = -Infinity;
+	for (let i = 0; i < e.length; i++) for (let a = i + 1; a < e.length; a++) {
+		let o = dn(e[i], e[a]);
+		o > r && (r = o, t = e[i], n = e[a]);
+	}
+	return t.order <= n.order ? [t, n] : [n, t];
+}
+function mn(e) {
+	if (!fn(e)) return [e, []];
+	let [t, n] = pn(e), r = [], i = [];
+	for (let a of e) a.id === t.id ? r.push(a) : a.id === n.id ? i.push(a) : dn(a, t) <= dn(a, n) ? r.push(a) : i.push(a);
+	return [r, i];
+}
+function hn(e, t, n, r) {
+	let i = Math.min(...n.map((e) => e.min)), a = Math.max(...n.map((e) => e.max)), o = Math.max(...n.map((e) => e.precision)), s = rn(i, a, o), c = $t(s.min, s.max);
+	return {
+		ids: new Set(n.map((e) => e.id)),
+		graphKey: e,
+		axis: t,
+		min: s.min,
+		max: s.max,
+		precision: Math.max(o, nn(c)),
+		ticks: c,
+		top: r,
+		height: 180
+	};
+}
+function gn(e) {
+	let t = [];
+	for (let [n, r] of e.entries()) {
+		if (r.valueType !== "number" && r.valueType !== "boolean") continue;
+		let e = r.points.map((e) => Number(e.value)).filter((e) => Number.isFinite(e)), i = r.scaleMode === "manual" && r.scaleMin !== void 0 ? r.scaleMin : 0, a = r.scaleMode === "manual" && r.scaleMax !== void 0 ? r.scaleMax : 1, o = r.valueType === "boolean" ? 0 : e.length > 0 ? Math.min(...e) : Math.min(i, a), s = r.valueType === "boolean" ? 1 : e.length > 0 ? Math.max(...e) : Math.max(i, a), c = r.valueType === "boolean" || e.length === 0 ? 0 : Math.max(...e.map((e) => Zt(e))), l = r.valueType === "boolean" ? "group:boolean" : r.scaleGroupKey, u = t.find((e) => e.key === l);
+		u || (u = {
+			key: l,
+			series: []
+		}, t.push(u)), r.scaleMode === "manual" && (r.scaleMin !== void 0 && (o = Math.min(o, r.scaleMin)), r.scaleMax !== void 0 && (s = Math.max(s, r.scaleMax))), u.series.push({
+			id: r.id,
+			unit: r.unit,
+			min: o,
+			max: s,
+			precision: c,
+			order: n
+		});
+	}
+	return t.flatMap((e, t) => {
+		let [n, r] = e.key === "group:boolean" ? [e.series, []] : mn(e.series), i = 28 + t * Xt, a = hn(e.key, "left", n, i);
+		return r.length > 0 ? [a, hn(e.key, "right", r, i)] : [a];
+	});
+}
+function _n(e, t, n, r) {
+	let i = e.map((e) => ({
+		time: e.time,
+		value: Number(e.value)
+	})).filter((e) => Number.isFinite(e.value)), a = r * 4;
+	if (i.length <= a) return i;
+	let o = /* @__PURE__ */ new Map();
+	i.forEach((e, i) => {
+		let a = Math.floor(n + (e.time - t.start) / (t.end - t.start) * r), s = o.get(a);
+		s ? s.push({
+			...e,
+			index: i
+		}) : o.set(a, [{
+			...e,
+			index: i
+		}]);
+	});
+	let s = /* @__PURE__ */ new Map();
+	for (let e of o.values()) {
+		let t = e[0], n = e[e.length - 1], r = e.reduce((e, t) => t.value < e.value ? t : e, t), i = e.reduce((e, t) => t.value > e.value ? t : e, t);
+		for (let e of [
+			t,
+			r,
+			i,
+			n
+		]) s.set(e.index, e);
+	}
+	return [...s.values()].sort((e, t) => e.index - t.index).map(({ time: e, value: t }) => ({
+		time: e,
+		value: t
+	}));
+}
+function vn(e, t) {
+	return 40 + (e - t.start) / (t.end - t.start) * 640;
+}
+function yn(e, t) {
+	let n = t.max - t.min;
+	if (n < 1e-6) return t.top + t.height / 2;
+	let r = t.height - 10;
+	return t.top + 5 + r - (e - t.min) / n * r;
+}
+function bn(e, t) {
+	if (e.length === 0) return;
+	if (t <= e[0].time) return e[0].value;
+	let n = e[e.length - 1];
+	if (t >= n.time) return n.value;
+	for (let n = 0; n < e.length - 1; n++) {
+		let r = e[n], i = e[n + 1];
+		if (t >= r.time && t <= i.time) {
+			let e = i.time - r.time;
+			return e <= 0 ? r.value : r.value + (t - r.time) / e * (i.value - r.value);
+		}
+	}
+}
+function xn(e) {
+	let t = /* @__PURE__ */ new Map();
+	for (let n of e) {
+		if (!n.id.startsWith("attr:")) continue;
+		let e = n.id.split(":");
+		if (e.length < 3) continue;
+		let r = e[1], i = e.slice(2).join(":");
+		t.has(r) || t.set(r, {});
+		let a = t.get(r);
+		i === "current_temperature" || i === "temperature" && !a.temp ? a.temp = n.id : i === "hvac_action" && (a.hvac = n.id);
+	}
+	for (let [, e] of t) if (e.temp && e.hvac) return {
+		tempId: e.temp,
+		hvacId: e.hvac
+	};
+}
+function Sn(e, t, n) {
+	let r = xn(e);
+	if (!r) return [];
+	let i = e.find((e) => e.id === r.tempId), a = e.find((e) => e.id === r.hvacId);
+	if (!i || !a) return [];
+	let o = t.find((e) => e.ids.has(i.id));
+	if (!o) return [];
+	let s = i.points.map((e) => ({
+		time: e.time,
+		value: Number(e.value)
+	})).filter((e) => Number.isFinite(e.value)).sort((e, t) => e.time - t.time);
+	return s.length === 0 ? [] : Cn(a.points, n).filter((e) => e.value === "heating").reduce((e, t) => {
+		let n = e[e.length - 1];
+		return n && Math.abs(n.end - t.start) < 1 ? n.end = t.end : e.push({
+			start: t.start,
+			end: t.end
+		}), e;
+	}, []).flatMap(({ start: e, end: t }, r) => {
+		let i = [
+			{
+				time: e,
+				value: bn(s, e)
+			},
+			...s.filter((n) => n.time > e && n.time < t),
+			{
+				time: t,
+				value: bn(s, t)
+			}
+		].filter((e) => e.value !== void 0);
+		if (i.length === 0) return [];
+		let c = o.top + o.height, l = [
+			`${vn(e, n).toFixed(1)},${c.toFixed(1)}`,
+			...i.map((e) => `${vn(e.time, n).toFixed(1)},${yn(e.value, o).toFixed(1)}`),
+			`${vn(t, n).toFixed(1)},${c.toFixed(1)}`
+		].join(" ");
+		return [{
+			id: `${a.id}:heat:${r}`,
+			points: l
+		}];
+	});
+}
+function Cn(e, t) {
+	let n = Date.now(), r = [...e].sort((e, t) => e.time - t.time), i = r.findIndex((e) => e.time >= t.start), a = i === -1 ? r.length : i, o = a > 0 ? r.slice(a - 1) : r;
+	return o.flatMap((e, r) => {
+		let i = Math.max(e.time, t.start), a = Math.min(o[r + 1]?.time ?? t.end, t.end, n);
+		return a > i ? [{
+			start: i,
+			end: a,
+			value: e.value
+		}] : [];
+	});
+}
+function V(e, t) {
+	return 40 + (e - t.start) / (t.end - t.start) * 640;
+}
+function H(e, t) {
+	let n = t.max - t.min;
+	if (n < 1e-6) return t.top + t.height / 2;
+	let r = t.height - 10;
+	return t.top + 5 + r - (e - t.min) / n * r;
+}
+function wn(e, t) {
+	return t.find((t) => t.ids.has(e.id));
+}
+function Tn(e, t) {
+	let n = Date.now(), r = [...e.points].sort((e, t) => e.time - t.time), i = r.findIndex((e) => e.time >= t.start), a = i === -1 ? r.length : i, o = a > 0 ? r.slice(a - 1) : r;
+	return o.flatMap((e, r) => {
+		let i = Math.max(e.time, t.start), a = Math.min(o[r + 1]?.time ?? t.end, t.end, n);
+		return a > i ? [{
+			start: i,
+			end: a,
+			value: e.value
+		}] : [];
+	});
+}
+var En = new Set([
+	"off",
+	"idle",
+	"none",
+	"false"
+]);
+function Dn(e, t, n, r) {
+	if (typeof e == "boolean") return e ? t : "var(--better-history-muted-color, var(--secondary-text-color, #888))";
+	let i = String(e);
+	return En.has(i.toLowerCase()) ? "var(--better-history-muted-color, var(--secondary-text-color, #888))" : (n.has(i) || n.set(i, Ht[(r + n.size) % Ht.length]), n.get(i));
+}
+function On(e, t) {
+	return e + 34 + Math.max(t - 1, 0) * 14;
+}
+function kn(e, t, n, r) {
+	return e.flatMap((e) => {
+		if (e.valueType !== "number" && e.valueType !== "boolean" || e.lineMode === "column") return [];
+		let i = wn(e, t);
+		if (!i) return [];
+		let a = _n(An(e.points, n, e.lineMode, r), n, 40, 640), { points: o, pathLength: s } = e.lineMode === "line" ? Rn(a, n, i) : Ln(a, n, i);
+		return [{
+			id: e.id,
+			color: e.color,
+			points: o,
+			pathLength: s,
+			lineWidth: e.lineWidth
+		}];
+	});
+}
+function An(e, t, n, r) {
+	let i = e.map((e) => ({
+		time: e.time,
+		value: Number(e.value)
+	})).filter((e) => Number.isFinite(e.value)).sort((e, t) => e.time - t.time), a = i.filter((e) => e.time >= t.start && e.time <= t.end);
+	if (n === "line") return Mn(i, a, t);
+	let o = [...i].reverse().find((e) => e.time < t.start), s = o && (a.length === 0 || a[0].time > t.start) ? [{
+		time: t.start,
+		value: o.value
+	}, ...a] : a, c = s[s.length - 1];
+	return r.extendStairToEnd && c && c.time < t.end ? [...s, {
+		time: t.end,
+		value: c.value
+	}] : s;
+}
+function jn(e, t, n) {
+	if (!e || !t || e.time === t.time || e.time > n || t.time < n) return;
+	let r = (n - e.time) / (t.time - e.time);
+	return {
+		time: n,
+		value: e.value + (t.value - e.value) * r
+	};
+}
+function Mn(e, t, n) {
+	let r = [...e].reverse().find((e) => e.time < n.start), i = e.find((e) => e.time > n.start), a = [...e].reverse().find((e) => e.time < n.end), o = e.find((e) => e.time > n.end), s = t[0]?.time === n.start ? void 0 : jn(r, i, n.start), c = t[t.length - 1]?.time === n.end ? void 0 : jn(a, o, n.end);
+	return [
+		s,
+		...t,
+		c
+	].filter((e) => e !== void 0);
+}
+function Nn(e) {
+	return e.min <= 0 && e.max >= 0 ? 0 : e.min > 0 ? e.min : e.max;
+}
+function Pn(e, t, n) {
+	return e.flatMap((e) => {
+		if (e.valueType !== "number" && e.valueType !== "boolean" || e.lineMode !== "column") return [];
+		let r = wn(e, t);
+		if (!r) return [];
+		let i = H(Nn(r), r);
+		return Tn(e, n).flatMap((t, a) => {
+			let o = Number(t.value);
+			if (!Number.isFinite(o)) return [];
+			let s = V(t.start, n), c = V(t.end, n), l = H(o, r), u = Math.max(c - s, 1);
+			return [{
+				id: `${e.id}:${a}`,
+				x: s,
+				y: Math.min(l, i),
+				width: u,
+				height: Math.max(Math.abs(i - l), 1),
+				fill: e.color
+			}];
+		});
+	});
+}
+function Fn(e, t, n) {
+	let r = t + 10, i = 0;
+	return e.flatMap((e, t) => {
+		if (e.valueType === "number" || e.valueType === "boolean") return [];
+		let a = r + i * 14;
+		i += 1;
+		let o = /* @__PURE__ */ new Map();
+		return Tn(e, n).reduce((n, r) => {
+			let i = Dn(r.value, e.color, o, t), a = n[n.length - 1];
+			return a && a.fill === i && Math.abs(a.end - r.start) < 1 ? a.end = r.end : n.push({
+				start: r.start,
+				end: r.end,
+				fill: i
+			}), n;
+		}, []).map((t, r) => {
+			let i = V(t.start, n), o = Math.max(V(t.end, n) - i, 1);
+			return {
+				id: `${e.id}:${r}`,
+				x: i,
+				y: a,
+				width: o,
+				fill: t.fill
+			};
+		});
+	});
+}
+function In(e) {
+	return e.flatMap((e) => {
+		let t = e.height - 10;
+		return e.ticks.map((n) => ({
+			y: e.top + 5 + t - (n - e.min) / (e.max - e.min) * t,
+			value: zn(n, e.precision)
+		}));
+	});
+}
+function Ln(e, t, n) {
+	if (e.length === 0) return {
+		points: "",
+		pathLength: 0
+	};
+	if (e.length === 1) return {
+		points: `${V(e[0].time, t).toFixed(1)},${H(e[0].value, n).toFixed(1)}`,
+		pathLength: 0
+	};
+	let r = [], i = 0;
+	for (let a = 0; a < e.length - 1; a++) {
+		let o = e[a], s = e[a + 1], c = V(o.time, t), l = H(o.value, n), u = V(s.time, t), d = H(s.value, n);
+		a === 0 && r.push(`${c.toFixed(1)},${l.toFixed(1)}`), r.push(`${u.toFixed(1)},${l.toFixed(1)}`), r.push(`${u.toFixed(1)},${d.toFixed(1)}`), i += Math.abs(u - c) + Math.abs(d - l);
+	}
+	return {
+		points: r.join(" "),
+		pathLength: i
+	};
+}
+function Rn(e, t, n) {
+	if (e.length === 0) return {
+		points: "",
+		pathLength: 0
+	};
+	let r = 0, i;
+	return {
+		points: e.map((e) => {
+			let a = V(e.time, t), o = H(e.value, n);
+			return i && (r += Math.hypot(a - i.x, o - i.y)), i = {
+				x: a,
+				y: o
+			}, `${a.toFixed(1)},${o.toFixed(1)}`;
+		}).join(" "),
+		pathLength: r
+	};
+}
+function zn(e, t) {
+	return t <= 0 && Number.isInteger(e) ? String(e) : e.toFixed(t);
+}
+var Bn = 60 * 1e3, U = 60 * Bn, W = 24 * U, Vn = [
+	10 * Bn,
+	15 * Bn,
+	20 * Bn,
+	30 * Bn,
+	U,
+	2 * U,
+	3 * U,
+	4 * U,
+	6 * U,
+	8 * U,
+	12 * U,
+	W,
+	2 * W,
+	3 * W,
+	7 * W,
+	14 * W,
+	30 * W,
+	60 * W,
+	90 * W
+];
+function Hn(e, t) {
+	for (let n of Vn) if (e / n <= t) return n;
+	return Vn[Vn.length - 1];
+}
+function Un(e, t, n = 12) {
+	let r = t - e;
+	if (r <= 0) return [];
+	let i = Hn(r, n), a = [], o = Math.ceil(e / i) * i;
+	for (let e = o; e < t; e += i) {
+		let t = new Date(e);
+		a.push({
+			time: e,
+			bold: t.getHours() === 0 && t.getMinutes() === 0
+		});
+	}
+	return a;
+}
+function Wn(e, t) {
+	let n = new Date(e), r = t / W;
+	if (r > 88) {
+		let e = n.toLocaleString("default", { month: "short" }), t = n.getFullYear();
+		return n.getMonth() === 0 ? `${e} ${t}` : e;
+	}
+	if (r > 35) {
+		let e = n.toLocaleString("default", { month: "short" });
+		return `${n.getDate()} ${e}`;
+	}
+	if (r > 7) return `${n.getDate()}/${n.getMonth() + 1}`;
+	if (r > 2) return n.toLocaleString("default", { weekday: "short" });
+	let i = String(n.getHours()).padStart(2, "0"), a = String(n.getMinutes()).padStart(2, "0");
+	return r > .5 ? `${i}:${a}` : `${i}:${a}:${String(n.getSeconds()).padStart(2, "0")}`;
+}
+function Gn(e, t) {
+	let n = [], r;
+	for (let i of e) {
+		if (i.time < t.start) {
+			r = i;
+			continue;
+		}
+		if (i.time > t.end) break;
+		n.push(i);
+	}
+	return r ? [r, ...n] : n;
+}
+function Kn(e, t) {
+	return e.map((e) => ({
+		...e,
+		points: Gn(e.points, t)
+	}));
+}
+function qn(e) {
+	return e.valueType === "boolean" ? "group:boolean" : e.scaleGroupKey;
+}
+function Jn(e, t, n) {
+	let r = /* @__PURE__ */ new Map(), i = /* @__PURE__ */ new Map();
+	for (let t of e) {
+		if (t.valueType !== "number" && t.valueType !== "boolean") continue;
+		let e = qn(t);
+		i.set(e, [...i.get(e) ?? [], t]);
+	}
+	for (let e of t) {
+		if (e.valueType !== "number" && e.valueType !== "boolean") continue;
+		let t = qn(e);
+		r.set(t, [...r.get(t) ?? [], e]);
+	}
+	return [...i.entries()].flatMap(([e, t]) => Kn(r.get(e) ?? t, n));
+}
+function Yn(e, t, n, r = !1, i = 12, a = !0) {
+	let o = { extendStairToEnd: a }, s = gn(Jn(e, t, n)), c = new Set(s.map((e) => e.graphKey)).size, l = an(c), u = e.filter((e) => e.valueType !== "number" && e.valueType !== "boolean").length, d = Un(n.start, n.end, i), f = n.end - n.start;
+	return {
+		allSeries: e,
+		visibleSeries: t,
+		timeBounds: n,
+		extendStairToEnd: a,
+		numericScales: s,
+		plotBottom: l,
+		chartHeight: On(l, u),
+		numericLines: kn(t, s, n, o),
+		numericColumns: Pn(t, s, n),
+		segments: Fn(t, l, n),
+		heatingAreas: r ? [] : Sn(t, s, n),
+		yAxisLabels: In(s),
+		xAxisLabels: d.map((e) => ({
+			x: V(e.time, n),
+			label: Wn(e.time, f),
+			bold: e.bold
+		}))
+	};
+}
+function Xn(e, t, n, r, i) {
+	return e.filter((e) => (e.valueType === "number" || e.valueType === "boolean") && e.lineMode !== "column").flatMap((e) => {
+		let a = wn(e, t);
+		if (!a) return [];
+		let o = {
+			...a,
+			top: 28,
+			height: i
+		}, s = _n(An(e.points, n, e.lineMode, r), n, 40, 640), { points: c, pathLength: l } = e.lineMode === "line" ? Rn(s, n, o) : Ln(s, n, o);
+		return {
+			id: e.id,
+			color: e.color,
+			points: c,
+			pathLength: l,
+			lineWidth: e.lineWidth
+		};
+	});
+}
+function Zn(e, t, n, r) {
+	return e.filter((e) => (e.valueType === "number" || e.valueType === "boolean") && e.lineMode === "column").flatMap((e) => {
+		let i = wn(e, t);
+		if (!i) return [];
+		let a = {
+			...i,
+			top: 28,
+			height: r
+		}, o = H(Nn(a), a);
+		return Tn(e, n).flatMap((t, r) => {
+			let i = Number(t.value);
+			if (!Number.isFinite(i)) return [];
+			let s = V(t.start, n), c = V(t.end, n), l = H(i, a);
+			return [{
+				id: `${e.id}:${r}`,
+				x: s,
+				y: Math.min(l, o),
+				width: Math.max(c - s, 1),
+				height: Math.max(Math.abs(o - l), 1),
+				fill: e.color
+			}];
+		});
+	});
+}
+function Qn(e, t, n) {
+	return e.filter((e) => e.valueType !== "number" && e.valueType !== "boolean").flatMap((e, r) => {
+		let i = t + r * 14, a = /* @__PURE__ */ new Map();
+		return Tn(e, n).reduce((t, n) => {
+			let i = Dn(n.value, e.color, a, r), o = t[t.length - 1];
+			return o && o.fill === i && Math.abs(o.end - n.start) < 1 ? o.end = n.end : t.push({
+				start: n.start,
+				end: n.end,
+				fill: i
+			}), t;
+		}, []).map((t, r) => {
+			let a = V(t.start, n), o = Math.max(V(t.end, n) - a, 1);
+			return {
+				id: `${e.id}:${r}`,
+				x: a,
+				y: i,
+				width: o,
+				fill: t.fill
+			};
+		});
+	});
+}
+function $n(e) {
+	return e >= 160 ? 5 : e >= 100 ? 4 : e >= 64 ? 3 : 2;
+}
+function er(e, t) {
+	let n = t - 10, r = $n(t), i = e.ticks.length <= r ? e.ticks : $t(e.min, e.max, r), a = e.ticks === i ? e.precision : Math.max(e.precision, nn(i));
+	return i.map((t) => ({
+		y: 33 + n - (t - e.min) / (e.max - e.min) * n,
+		value: zn(t, a)
+	}));
+}
+function tr(e, t, n) {
+	let r = /* @__PURE__ */ new Set(), i = /* @__PURE__ */ new Map();
+	return {
+		allSeries: e.map((e, t) => {
+			let a = Jt(e.color, r, n * Ht.length + t);
+			return r.add(Yt(a)), i.set(e.id, a), a === e.color ? e : {
+				...e,
+				color: a
+			};
+		}),
+		visibleSeries: t.map((e) => {
+			let t = i.get(e.id);
+			return t && t !== e.color ? {
+				...e,
+				color: t
+			} : e;
+		})
+	};
+}
+function nr(e, t = 12, n = 180) {
+	let r = [], i = e.timeBounds, a = e.allSeries.filter((e) => e.valueType !== "number" && e.valueType !== "boolean"), o = e.visibleSeries.filter((e) => e.valueType !== "number" && e.valueType !== "boolean"), s = i.end - i.start, c = Un(i.start, i.end, t).map((e) => ({
+		x: V(e.time, i),
+		label: Wn(e.time, s),
+		bold: e.bold
+	}));
+	if (e.numericScales.length === 0 && a.length > 0) {
+		let e = o.length, t = 28 + n + 16 + 6, s = e > 0 ? 22 + e * 14 : 0, l = 28 + n + s + 18, u = l + 16, d = tr(a, o, 0);
+		r.push({
+			series: d.visibleSeries,
+			allSeries: d.allSeries,
+			scales: [],
+			graphHeight: n,
+			svgHeight: l,
+			canvasHeight: u,
+			lines: [],
+			columns: [],
+			segments: Qn(d.visibleSeries, t, i),
+			yLabels: [],
+			rightYLabels: [],
+			xLabels: c,
+			heatingAreas: []
+		});
+	}
+	let l = [...new Set(e.numericScales.map((e) => e.graphKey))];
+	for (let t = 0; t < l.length; t++) {
+		let s = l[t], u = e.numericScales.filter((e) => e.graphKey === s), d = u.find((e) => e.axis === "left") ?? u[0], f = u.find((e) => e.axis === "right"), p = new Set(u.flatMap((e) => [...e.ids])), m = e.allSeries.filter((e) => (e.valueType === "number" || e.valueType === "boolean") && qn(e) === s), h = e.visibleSeries.filter((e) => p.has(e.id)), g = t === 0 ? [...h, ...o] : h, _ = tr(t === 0 ? [...m, ...a] : m, g, t), v = _.visibleSeries.filter((e) => e.valueType !== "number" && e.valueType !== "boolean"), y = v.length, ee = 28 + n + 16 + 6, b = y > 0 ? 22 + y * 14 : 0, x = 28 + n + b + 18, S = x + 16, C = er(d, n), w = f ? er(f, n) : [], T = u.map((e) => ({
+			...e,
+			top: 28,
+			height: n
+		})), te = T.find((e) => e.axis === "left") ?? T[0];
+		r.push({
+			series: _.visibleSeries,
+			allSeries: _.allSeries,
+			scale: te,
+			scales: T,
+			graphHeight: n,
+			svgHeight: x,
+			canvasHeight: S,
+			lines: Xn(_.visibleSeries, T, i, { extendStairToEnd: e.extendStairToEnd }, n),
+			columns: Zn(_.visibleSeries, T, i, n),
+			segments: Qn(v, ee, i),
+			yLabels: C,
+			rightYLabels: w,
+			xLabels: c,
+			heatingAreas: e.heatingAreas.length > 0 ? Sn(e.visibleSeries, T, i) : []
+		});
+	}
+	return r;
+}
+var rr = class {
+	constructor(e) {
+		this.tooltip = void 0, this._series = [], this._cacheKey = "", this._timeBounds = {
+			start: 0,
+			end: 1
+		}, this._host = e, e.addController(this);
+	}
+	hostConnected() {}
+	hostDisconnected() {
+		this._frame !== void 0 && (cancelAnimationFrame(this._frame), this._frame = void 0);
+	}
+	sync(e, t, n, r, i) {
+		this._timeBounds = i, this._rebuildCache(e, t, n);
+	}
+	_rebuildCache(e, t, n) {
+		let r = `${t.map((e) => `${e.source.id}:${e.points.length}`).join("|")}::${n.join("|")}`;
+		this._fetchedRef === t && this._cacheKey === r || (this._fetchedRef = t, this._cacheKey = r, this._series = e.filter((e) => !n.includes(e.id)).flatMap((e) => {
+			let n = t.find((t) => t.source.id === e.id);
+			return !n || n.points.length === 0 ? [] : [{
+				id: e.id,
+				label: e.label,
+				color: e.color,
+				points: n.points
+			}];
+		}));
+	}
+	handlePointerMove(e) {
+		let t = this._svgPoint(e);
+		if (!t) {
+			this._clear();
+			return;
+		}
+		this._pendingPoint = t, this._frame === void 0 && (this._frame = requestAnimationFrame(() => {
+			this._frame = void 0, this._apply();
+		}));
+	}
+	handlePointerLeave() {
+		this._pendingPoint = void 0, this._clear();
+	}
+	_clear() {
+		this.tooltip !== void 0 && (this.tooltip = void 0, this._host.requestUpdate(), this._emit());
+	}
+	_apply() {
+		let e = this._pendingPoint;
+		if (!e) return;
+		let t = this._timeAt(e.x), n = this._series.filter((t) => e.activeIds.has(t.id)), r = this._nearestPoint(n, t);
+		if (!r) {
+			this.tooltip !== void 0 && (this.tooltip = void 0, this._host.requestUpdate(), this._emit());
+			return;
+		}
+		let i = r.time, a = n.flatMap((e) => {
+			let t = this._pointAtOrBefore(e.points, i);
+			return t ? [{
+				label: e.label,
+				color: e.color,
+				value: String(t.value)
+			}] : [];
+		});
+		if (a.length === 0) {
+			this.tooltip !== void 0 && (this.tooltip = void 0, this._host.requestUpdate(), this._emit());
+			return;
+		}
+		if (this.tooltip?.time === i && this.tooltip.activeLeft === e.activeLeft && this.tooltip.activeTop === e.activeTop && this.tooltip.activeWidth === e.activeWidth && this.tooltip.activeHeight === e.activeHeight && this.tooltip.activeKey === e.activeKey && Math.abs(this.tooltip.tooltipX - Math.min(Math.max(e.x, 120), 600)) < 1 && Math.abs(this.tooltip.y - this._tooltipY(e)) < 1 && this.tooltip.placement === this._placement(e)) return;
+		let o = Math.min(Math.max(e.x, 120), 600), s = this._tooltipY(e);
+		this.tooltip = {
+			x: V(i, this._timeBounds),
+			tooltipX: o,
+			y: s,
+			placement: this._placement(e),
+			activeLeft: e.activeLeft,
+			activeTop: e.activeTop,
+			activeWidth: e.activeWidth,
+			activeHeight: e.activeHeight,
+			activeKey: e.activeKey,
+			time: i,
+			values: a
+		}, this._host.requestUpdate(), this._emit();
+	}
+	_placement(e) {
+		let t = e.activeTop + e.activeHeight;
+		return e.touchLike ? e.y < e.activeTop + e.activeHeight / 2 ? "above" : "below" : t - e.y < 120 ? "above" : "below";
+	}
+	_tooltipY(e) {
+		let t = e.activeTop + e.activeHeight;
+		return e.touchLike ? this._placement(e) === "above" ? t - 10 : e.activeTop + 10 : Math.min(Math.max(e.y, e.activeTop + 28), t - 28);
+	}
+	_emit() {
+		this._host.dispatchEvent(new CustomEvent("tooltip-changed", {
+			detail: this.tooltip ? {
+				time: this.tooltip.time,
+				values: this.tooltip.values
+			} : null,
+			bubbles: !0,
+			composed: !0
+		}));
+	}
+	_nearest(e, t) {
+		if (e.length === 0) return;
+		let n = 0, r = e.length - 1;
+		for (; n < r;) {
+			let i = Math.floor((n + r) / 2);
+			e[i].time < t ? n = i + 1 : r = i;
+		}
+		let i = e[n], a = n > 0 ? e[n - 1] : void 0;
+		return a && Math.abs(a.time - t) < Math.abs(i.time - t) ? a : i;
+	}
+	_nearestPoint(e, t) {
+		let n, r = Infinity;
+		for (let i of e) {
+			let e = this._nearest(i.points, t);
+			if (!e) continue;
+			let a = Math.abs(e.time - t);
+			a < r && (n = e, r = a);
+		}
+		return n;
+	}
+	_pointAtOrBefore(e, t) {
+		if (e.length === 0) return;
+		let n = 0, r = e.length - 1;
+		for (; n < r;) {
+			let i = Math.ceil((n + r) / 2);
+			e[i].time <= t ? n = i : r = i - 1;
+		}
+		return e[n].time <= t ? e[n] : void 0;
+	}
+	_timeAt(e) {
+		let t = Math.min(Math.max((e - 40) / 640, 0), 1);
+		return this._timeBounds.start + t * (this._timeBounds.end - this._timeBounds.start);
+	}
+	_svgPoint(e) {
+		let t = e.currentTarget;
+		if (!(t instanceof Element)) return;
+		let n = e.composedPath().find((e) => e instanceof HTMLElement && e.classList.contains("graph-canvas"));
+		if (!n) return;
+		let r = new Set((n.dataset.seriesIds ?? "").split("|").filter((e) => e !== ""));
+		if (r.size === 0) return;
+		let i = t.getBoundingClientRect(), a = n.getBoundingClientRect();
+		if (e.clientX < a.left || e.clientX > a.right || e.clientY < a.top || e.clientY > a.bottom) return;
+		let o = a.left - i.left, s = a.top - i.top;
+		return {
+			x: 40 + (e.clientX - a.left) / a.width * 640,
+			y: e.clientY - i.top,
+			activeLeft: o,
+			activeTop: s,
+			activeWidth: a.width,
+			activeHeight: a.height,
+			activeIds: r,
+			activeKey: [...r].join("|"),
+			touchLike: e.pointerType === "touch" || window.matchMedia("(hover: none) and (pointer: coarse)").matches
+		};
+	}
+	renderTooltip() {
+		if (!this.tooltip) return M;
+		let e = this.tooltip.activeLeft + (this.tooltip.x - 40) / 640 * this.tooltip.activeWidth, t = this.tooltip.activeLeft + (this.tooltip.tooltipX - 40) / 640 * this.tooltip.activeWidth, n = this.tooltip.placement === "above" ? "translate(-50%, calc(-100% - 10px))" : "translate(-50%, 10px)";
+		return k`
+      <div class="tooltip-axis-pointer" style=${`left:${e.toFixed(1)}px;top:${this.tooltip.activeTop.toFixed(1)}px;height:${this.tooltip.activeHeight.toFixed(1)}px;`}></div>
+      <div
+        class="tooltip"
+        style=${`left:clamp(150px,${t.toFixed(1)}px,calc(100% - 150px));top:${this.tooltip.y.toFixed(1)}px;transform:${n};`}
+      >
+        <div class="tooltip-time">${new Date(this.tooltip.time).toLocaleString()}</div>
+        ${this.tooltip.values.map((e) => k`
+            <div class="tooltip-row">
+              <span class="tooltip-dot" style=${`background:${e.color}`}></span>
+              <span class="tooltip-label">${e.label}</span>
+              <span>${e.value}</span>
+            </div>
+          `)}
+      </div>
+    `;
+	}
+}, ir = "temperature";
+function ar(e) {
+	return e.join(".");
+}
+function or(e) {
+	return e?.toLowerCase() === ir;
+}
+function sr(e, t) {
+	if (!e || !t) return;
+	let n = t[ar(e)];
+	return typeof n == "string" && n !== "" ? n : void 0;
+}
+function cr(e) {
+	return {
+		id: e.id,
+		kind: e.attribute ? "entity_attribute" : "entity_state",
+		entityId: e.entity,
+		label: e.label,
+		path: e.attribute,
+		valueType: e.valueType,
+		unit: e.unit
+	};
+}
+var lr = 24, ur = "2.5", dr = [
+	"current_temperature",
+	"temperature",
+	"hvac_action"
+], fr = /°[CF]|[CFK]$/;
+function pr(e) {
+	return fr.test(e);
+}
+function mr(e) {
+	return e.scaleMode === "manual" && (e.scaleMin !== void 0 || e.scaleMax !== void 0);
+}
+function hr(e) {
+	return /* @__PURE__ */ new Date(Math.floor(e.getTime() / 1e3) * 1e3);
+}
+function gr(e) {
+	if (e !== void 0) return Array.isArray(e) ? e : e.split(".");
+}
+function _r(e) {
+	return e === "line" || e === "column" ? e : "stair";
+}
+function vr(e) {
+	return typeof e == "number" ? Number.isFinite(e) && e >= 0 ? String(e) : ur : typeof e == "string" && e.trim() !== "" ? e.trim() : ur;
+}
+function yr(e, t) {
+	return t ? `attr:${e}:${t.join(".")}` : `state:${e}`;
+}
+function br(e) {
+	return e[e.length - 1] ?? "";
+}
+function xr(e, t, n) {
+	let r = e?.states[t];
+	return r ? n ? ht(r, n)?.valueType ?? "string" : mt(r)?.valueType ?? "string" : "number";
+}
+function Sr(e, t, n, r) {
+	if (r) return r;
+	if (n) return br(n);
+	let i = e?.states[t]?.attributes.friendly_name;
+	return typeof i == "string" && i !== "" ? i : t;
+}
+function Cr(e, t, n, r, i) {
+	if (r !== void 0) return r || void 0;
+	if (n) return sr(n, i);
+	let a = e?.states[t]?.attributes.unit_of_measurement;
+	return typeof a == "string" && a !== "" ? a : void 0;
+}
+function wr(e, t, n, r) {
+	return n ? `group:${n}` : r === "number" && t ? `unit:${t}` : `series:${e}`;
+}
+function Tr(e, t, n, r, i, a) {
+	let o = gr(e.attribute), s = yr(e.entity, o), c = xr(n, e.entity, o), l = Cr(n, e.entity, o, e.unit, r);
+	return {
+		id: s,
+		entity: e.entity,
+		attribute: o,
+		forced: e.forced ?? !0,
+		label: Sr(n, e.entity, o, e.label),
+		color: e.color ?? Gt(t),
+		unit: l,
+		scaleGroupKey: wr(s, l, e.scaleGroup, c),
+		scaleMode: e.scaleMode ?? "auto",
+		scaleMin: e.scaleMin,
+		scaleMax: e.scaleMax,
+		lineMode: _r(e.lineMode ?? i),
+		lineWidth: vr(e.lineWidth ?? a),
+		valueType: c
+	};
+}
+function Er(e, t, n, r, i) {
+	let a = n?.states[e];
+	if (!a) {
+		let n = `state:${e}`;
+		return {
+			id: n,
+			entity: e,
+			forced: !0,
+			label: e,
+			color: Gt(t),
+			scaleGroupKey: `series:${n}`,
+			scaleMode: "auto",
+			lineMode: _r(r),
+			lineWidth: vr(i),
+			valueType: "number"
+		};
+	}
+	let o = mt(a);
+	if (o) return {
+		id: o.id,
+		entity: e,
+		forced: !0,
+		label: o.label,
+		color: Gt(t),
+		unit: o.unit,
+		scaleGroupKey: wr(o.id, o.unit, void 0, o.valueType),
+		scaleMode: "auto",
+		lineMode: _r(r),
+		lineWidth: vr(i),
+		valueType: o.valueType
+	};
+}
+function Dr(e, t) {
+	let n = t?.states[e];
+	if (!n) return;
+	let r = n.attributes, i = r.temperature_unit;
+	if (typeof i == "string" && i !== "") return i;
+	let a = r.unit_of_measurement;
+	if (typeof a == "string" && a !== "") return a;
+}
+function Or(e, t, n) {
+	if (e.attribute || !e.entity.startsWith("climate.") || !n?.states[e.entity]) return [e];
+	let r = Dr(e.entity, n);
+	return [e, ...dr.map((i) => {
+		let a = [i], o = yr(e.entity, a), s = xr(n, e.entity, a), c = Ut[i] ?? Gt(t()), l = i === "current_temperature" || i === "temperature" ? r : void 0, u = i === "hvac_action" ? void 0 : "temperature";
+		return {
+			id: o,
+			entity: e.entity,
+			attribute: a,
+			forced: e.forced,
+			label: i,
+			color: c,
+			unit: l,
+			scaleGroupKey: wr(o, l, u, s),
+			scaleMode: "auto",
+			lineMode: e.lineMode,
+			lineWidth: e.lineWidth,
+			valueType: s
+		};
+	})];
+}
+function kr(e) {
+	return e.find((e) => e.scaleGroupKey === "group:temperature" && e.unit && pr(e.unit))?.unit ?? e.find((e) => e.unit && pr(e.unit))?.unit;
+}
+function Ar(e) {
+	let t = kr(e), n = e.some((e) => e.scaleGroupKey === "group:temperature");
+	return e.map((e) => {
+		let r = or(e.unit), i = r && t ? t : e.unit, a = r && i && e.scaleGroupKey === "unit:temperature" ? `unit:${i}` : e.scaleGroupKey;
+		return n && e.valueType === "number" && i && pr(i) && a.startsWith("unit:") && !mr(e) && (a = "group:temperature"), i !== e.unit || a !== e.scaleGroupKey ? {
+			...e,
+			unit: i,
+			scaleGroupKey: a
+		} : e;
+	});
+}
+function jr(e) {
+	let { config: t, hass: n } = e, r = e.attributeUnits ?? t?.attributeUnits, i = t?.endDate ?? e.endDate ?? /* @__PURE__ */ new Date(), a = t?.hours ?? e.hours ?? lr, o = t?.startDate ?? e.startDate ?? /* @__PURE__ */ new Date(i.getTime() - a * 36e5), s = t?.lineMode ?? e.lineMode, c = t?.lineWidth ?? e.lineWidth, l;
+	l = t?.series && t.series.length > 0 ? t.series.map((e, t) => Tr(e, t, n, r, s, c)) : (t?.defaultEntities ?? e.entities ?? []).map((e, t) => Er(e, t, n, s, c)).filter((e) => e !== void 0);
+	let u = l.length;
+	return l = l.flatMap((e) => Or(e, () => u++, n)), l = Ar(l), {
+		startDate: hr(o),
+		endDate: hr(i),
+		showDatePicker: t?.showDatePicker ?? e.showDatePicker ?? !1,
+		showEntityPicker: t?.showEntityPicker ?? e.showEntityPicker ?? !1,
+		showLegend: t?.showLegend ?? e.showLegend ?? !0,
+		showTooltip: t?.showTooltip ?? e.showTooltip ?? !0,
+		showGrid: t?.showGrid ?? e.showGrid ?? !0,
+		showScale: t?.showScale ?? e.showScale ?? !0,
+		width: t?.width ?? e.width ?? "100%",
+		height: t?.height ?? e.height,
+		backgroundColor: t?.backgroundColor ?? e.backgroundColor,
+		title: t?.title ?? e.title,
+		titleFontFamily: t?.titleFontFamily ?? e.titleFontFamily,
+		titleFontSize: t?.titleFontSize ?? e.titleFontSize,
+		titleColor: t?.titleColor ?? e.titleColor,
+		language: e.language ?? n?.locale?.language ?? n?.language,
+		series: l,
+		disableClimateOverlay: t?.disableClimateOverlay ?? !1
+	};
+}
+var Mr = {
+	loading: "ui.common.loading",
+	empty: "ui.components.history_charts.no_history_found",
+	error: "ui.components.history_charts.error",
+	add_target: "ui.components.target-picker.add_target",
+	attributes: "ui.dialogs.more_info_control.attributes",
+	back: "ui.common.back",
+	search_entity: "ui.components.entity.entity-picker.search"
+}, Nr = {
+	en: {
+		no_series: "No series configured",
+		no_entity_selected: "No entity selected",
+		error_timeout: "The request timed out. Please try again.",
+		tools: "Tools",
+		view_range: "View range",
+		reset_zoom: "Reset zoom",
+		line_mode: "Display mode",
+		mode_stair: "Stair",
+		mode_line: "Line",
+		mode_column: "Columns",
+		export_data: "Export",
+		import_data: "Import",
+		search_entity: "Search entity",
+		search_attributes: "Search attributes",
+		no_matching_attributes: "No matching attributes",
+		attribute_results_limited: "Showing first 50 matches"
+	},
+	fr: {
+		no_series: "Aucune série configurée",
+		no_entity_selected: "Aucune entité sélectionnée",
+		error_timeout: "La requête a expiré. Veuillez réessayer.",
+		tools: "Outils",
+		view_range: "Plage affichée",
+		reset_zoom: "Réinitialiser le zoom",
+		line_mode: "Mode d'affichage",
+		mode_stair: "Escalier",
+		mode_line: "Ligne",
+		mode_column: "Colonnes",
+		export_data: "Exporter",
+		import_data: "Importer",
+		search_entity: "Rechercher une entité",
+		search_attributes: "Rechercher des attributs",
+		no_matching_attributes: "Aucun attribut correspondant",
+		attribute_results_limited: "50 premiers résultats affichés"
+	},
+	cs: {
+		no_series: "Není nakonfigurována žádná série",
+		no_entity_selected: "Nebyla vybrána žádná entita",
+		error_timeout: "Požadavek vypršel. Zkuste to prosím znovu.",
+		tools: "Nástroje",
+		view_range: "Rozsah zobrazení",
+		reset_zoom: "Obnovit přiblížení",
+		line_mode: "Režim zobrazení",
+		mode_stair: "Schody",
+		mode_line: "Čára",
+		mode_column: "Sloupce",
+		export_data: "Exportovat",
+		import_data: "Importovat",
+		search_attributes: "Hledat atributy",
+		no_matching_attributes: "Žádné odpovídající atributy",
+		attribute_results_limited: "Zobrazuje se prvních 50 shod"
+	},
+	de: {
+		no_series: "Keine Serie konfiguriert",
+		no_entity_selected: "Keine Entität ausgewählt",
+		error_timeout: "Die Anfrage ist abgelaufen. Bitte erneut versuchen.",
+		tools: "Werkzeuge",
+		view_range: "Anzeigebereich",
+		reset_zoom: "Zoom zurücksetzen",
+		line_mode: "Anzeigemodus",
+		mode_stair: "Stufen",
+		mode_line: "Linie",
+		mode_column: "Spalten",
+		export_data: "Exportieren",
+		import_data: "Importieren",
+		search_attributes: "Attribute suchen",
+		no_matching_attributes: "Keine passenden Attribute",
+		attribute_results_limited: "Die ersten 50 Treffer werden angezeigt"
+	},
+	el: {
+		no_series: "Δεν έχει ρυθμιστεί σειρά",
+		no_entity_selected: "Δεν έχει επιλεγεί οντότητα",
+		error_timeout: "Το αίτημα έληξε χρονικά. Παρακαλώ δοκιμάστε ξανά.",
+		tools: "Εργαλεία",
+		view_range: "Εύρος προβολής",
+		reset_zoom: "Επαναφορά ζουμ",
+		line_mode: "Λειτουργία εμφάνισης",
+		mode_stair: "Σκάλα",
+		mode_line: "Γραμμή",
+		mode_column: "Στήλες",
+		export_data: "Εξαγωγή",
+		import_data: "Εισαγωγή",
+		search_attributes: "Αναζήτηση χαρακτηριστικών",
+		no_matching_attributes: "Δεν βρέθηκαν χαρακτηριστικά",
+		attribute_results_limited: "Εμφανίζονται οι πρώτες 50 αντιστοιχίες"
+	},
+	it: {
+		no_series: "Nessuna serie configurata",
+		no_entity_selected: "Nessuna entità selezionata",
+		error_timeout: "La richiesta è scaduta. Riprova.",
+		tools: "Strumenti",
+		view_range: "Intervallo visualizzato",
+		reset_zoom: "Reimposta zoom",
+		line_mode: "Modalità di visualizzazione",
+		mode_stair: "Gradini",
+		mode_line: "Linea",
+		mode_column: "Colonne",
+		export_data: "Esporta",
+		import_data: "Importa",
+		search_attributes: "Cerca attributi",
+		no_matching_attributes: "Nessun attributo corrispondente",
+		attribute_results_limited: "Mostrate le prime 50 corrispondenze"
+	},
+	pl: {
+		no_series: "Nie skonfigurowano serii",
+		no_entity_selected: "Nie wybrano encji",
+		error_timeout: "Upłynął limit czasu żądania. Spróbuj ponownie.",
+		tools: "Narzędzia",
+		view_range: "Zakres widoku",
+		reset_zoom: "Resetuj powiększenie",
+		line_mode: "Tryb wyświetlania",
+		mode_stair: "Schodkowy",
+		mode_line: "Linia",
+		mode_column: "Kolumny",
+		export_data: "Eksportuj",
+		import_data: "Importuj",
+		search_attributes: "Szukaj atrybutów",
+		no_matching_attributes: "Brak pasujących atrybutów",
+		attribute_results_limited: "Pokazano pierwsze 50 wyników"
+	},
+	ru: {
+		no_series: "Серии не настроены",
+		no_entity_selected: "Сущность не выбрана",
+		error_timeout: "Время ожидания запроса истекло. Повторите попытку.",
+		tools: "Инструменты",
+		view_range: "Диапазон просмотра",
+		reset_zoom: "Сбросить масштаб",
+		line_mode: "Режим отображения",
+		mode_stair: "Ступени",
+		mode_line: "Линия",
+		mode_column: "Столбцы",
+		export_data: "Экспорт",
+		import_data: "Импорт",
+		search_attributes: "Поиск атрибутов",
+		no_matching_attributes: "Подходящие атрибуты не найдены",
+		attribute_results_limited: "Показаны первые 50 совпадений"
+	},
+	sk: {
+		no_series: "Nie je nakonfigurovaná žiadna séria",
+		no_entity_selected: "Nie je vybraná žiadna entita",
+		error_timeout: "Časový limit požiadavky vypršal. Skúste to znova.",
+		tools: "Nástroje",
+		view_range: "Rozsah zobrazenia",
+		reset_zoom: "Obnoviť priblíženie",
+		line_mode: "Režim zobrazenia",
+		mode_stair: "Schody",
+		mode_line: "Čiara",
+		mode_column: "Stĺpce",
+		export_data: "Exportovať",
+		import_data: "Importovať",
+		search_attributes: "Hľadať atribúty",
+		no_matching_attributes: "Žiadne zodpovedajúce atribúty",
+		attribute_results_limited: "Zobrazuje sa prvých 50 zhôd"
+	}
+};
+function G(e, t) {
+	let n = Mr[t];
+	if (n && e?.localize) {
+		let t = e.localize(n);
+		if (t) return t;
+	}
+	return Nr[e?.locale?.language?.split("-")[0] ?? e?.language?.split("-")[0] ?? "en"]?.[t] ?? Nr.en?.[t] ?? t;
+}
+var Pr = o`
+  :host {
+    display: flex;
+    flex-direction: column;
+    container-type: inline-size;
+    min-height: var(--better-history-min-height, 360px);
+    font-family: var(--better-history-font-family, inherit);
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .root {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .graph-title {
+    margin: 0 0 8px;
+    color: var(--better-history-title-color, var(--primary-text-color, inherit));
+    font-family: var(--better-history-title-font-family, inherit);
+    font-size: var(--better-history-title-font-size, var(--ha-font-size-xl, 20px));
+    font-weight: 500;
+    line-height: 1.25;
+  }
+
+  .chart-area {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .chart-surface {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow-y: var(--better-history-surface-overflow-y, auto);
+    padding-block: 16px;
+    flex: 1;
+    min-height: 0;
+  }
+
+  svg {
+    width: 100%;
+    display: block;
+    touch-action: pan-y;
+  }
+
+  .axis {
+    stroke: var(--better-history-border-color, var(--divider-color, #444));
+    stroke-width: 1;
+  }
+
+  .axis.tick {
+    stroke-width: 1;
+  }
+
+  .grid-line {
+    stroke: var(--better-history-border-color, var(--divider-color, #444));
+    stroke-width: 1;
+    opacity: 0.45;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .x-axis-label {
+    position: absolute;
+    font-size: 11px;
+    color: var(--better-history-muted-color, var(--secondary-text-color, #888));
+    font-family: inherit;
+    white-space: nowrap;
+    pointer-events: none;
+    transform: translateX(-50%);
+    box-sizing: border-box;
+    line-height: 1;
+  }
+
+  .x-axis-label--bold {
+    font-weight: 600;
+    color: var(--better-history-text-color, var(--primary-text-color, #fff));
+  }
+
+  .graph-separator {
+    stroke: var(--better-history-border-color, var(--divider-color, #444));
+    stroke-width: 1.2;
+    stroke-dasharray: 3 5;
+    opacity: 0.64;
+  }
+
+  .line {
+    fill: none;
+    stroke-width: var(--better-history-line-width, 2.5);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .column {
+    opacity: 0.62;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .segment {
+    opacity: 0.7;
+  }
+
+  .segment-border {
+    stroke-width: 1.5;
+    stroke-opacity: 0.6;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .climate-heating-area {
+    fill: var(--better-history-accent-color, var(--accent-color, #ff9800));
+    opacity: 0.22;
+  }
+
+  .y-axis-label {
+    position: absolute;
+    font-size: 11px;
+    color: var(--better-history-muted-color, var(--secondary-text-color, #888));
+    transform: translateY(-50%);
+    white-space: nowrap;
+    pointer-events: none;
+    box-sizing: border-box;
+    line-height: 1;
+    z-index: 1;
+  }
+
+  .y-axis-label--left,
+  .y-axis-label--right {
+    width: 100%;
+  }
+
+  .y-axis-label--left {
+    right: 0;
+    padding-right: var(--axis-label-gap);
+    text-align: right;
+  }
+
+  .y-axis-label--right {
+    left: 0;
+    padding-left: var(--axis-label-gap);
+    text-align: left;
+  }
+
+  .tooltip-axis-pointer {
+    position: absolute;
+    top: 0;
+    width: 0;
+    border-left: 1px dashed var(--better-history-info-color, var(--info-color, var(--primary-color, #03a9f4)));
+    opacity: 0.9;
+    pointer-events: none;
+    transform: translateX(-0.5px);
+    z-index: 2;
+  }
+
+  .chart-graphs {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+    contain: layout;
+  }
+
+  .graph-section {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .graph-row {
+    --axis-label-gap: 5px;
+    display: grid;
+    grid-template-columns: var(--axis-left-gutter, 0px) minmax(0, 1fr) var(--axis-right-gutter, 0px);
+    min-width: 0;
+  }
+
+  .axis-labels {
+    min-width: 0;
+    position: relative;
+  }
+
+  .graph-canvas {
+    min-width: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .graph-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 6px calc(40 / 720 * 100%) 0;
+    padding: 0 6px 8px 6px;
+    font-size: 12px;
+    color: var(--better-history-muted-color, var(--secondary-text-color, #888));
+    box-sizing: border-box;
+  }
+
+  .legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    min-width: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+  }
+
+  .legend-item[hidden-series] {
+    opacity: 0.38;
+  }
+
+  .swatch {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    flex: 0 0 auto;
+    box-sizing: border-box;
+  }
+
+  .legend-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 160px;
+  }
+
+  .tooltip {
+    position: absolute;
+    z-index: 2;
+    min-width: 170px;
+    width: max-content;
+    max-width: min(300px, calc(100% - 16px));
+    padding: 8px;
+    border-radius: var(--better-history-radius, 8px);
+    background: color-mix(in srgb, var(--better-history-bg, var(--card-background-color, #1e1e2e)) 88%, #000 12%);
+    border: 1px solid var(--better-history-border-color, var(--divider-color, #444));
+    box-shadow: 0 8px 20px rgb(0 0 0 / 28%);
+    color: var(--better-history-text-color, var(--primary-text-color, #fff));
+    font-size: 12px;
+    pointer-events: none;
+    box-sizing: border-box;
+    transition: left 90ms ease-out, top 90ms ease-out;
+    will-change: left, top, transform;
+  }
+
+  .tooltip-time {
+    margin-bottom: 6px;
+    color: var(--better-history-muted-color, var(--secondary-text-color, #888));
+    font-size: 11px;
+  }
+
+  .tooltip-row {
+    display: grid;
+    grid-template-columns: 8px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 6px;
+    margin-top: 3px;
+  }
+
+  .tooltip-label {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .tooltip-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  .empty,
+  .error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 20px;
+    color: var(--better-history-muted-color, var(--secondary-text-color, #888));
+    text-align: center;
+    font-size: 13px;
+    box-sizing: border-box;
+  }
+
+  .error {
+    color: #ff6b6b;
+  }
+
+  .controls-bar {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin: 0 calc(40 / 720 * 100%) 8px;
+    box-sizing: border-box;
+  }
+
+  .tool-icon-button,
+  .mode-button,
+  .tool-action-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--better-history-border-color, var(--divider-color, #444));
+    background: transparent;
+    color: var(--better-history-muted-color, var(--secondary-text-color, #888));
+    cursor: pointer;
+    box-sizing: border-box;
+    font: inherit;
+  }
+
+  .mode-button[active] {
+    color: var(--better-history-text-color, var(--primary-text-color, #fff));
+    background: color-mix(in srgb, var(--better-history-info-color, var(--info-color, var(--primary-color, #03a9f4))) 18%, transparent);
+    border-color: var(--better-history-info-color, var(--info-color, var(--primary-color, #03a9f4)));
+  }
+
+  .tool-icon-button ha-icon,
+  .mode-button ha-icon,
+  .tool-action-button ha-icon {
+    --mdc-icon-size: 18px;
+  }
+
+  .tools-panel {
+    display: block;
+    margin: 0 calc(40 / 720 * 100%) 8px;
+    padding: 7px 8px;
+    border: 1px solid var(--better-history-border-color, var(--divider-color, #444));
+    border-radius: var(--better-history-radius, 8px);
+    background: color-mix(in srgb, var(--better-history-bg, var(--card-background-color, #1e1e2e)) 96%, var(--primary-text-color, #fff) 4%);
+    box-sizing: border-box;
+  }
+
+  .tool-range {
+    min-width: 0;
+  }
+
+  .tool-range-row,
+  .tool-actions,
+  .range-values {
+    display: flex;
+    align-items: center;
+  }
+
+  .tool-range-row {
+    gap: 8px;
+  }
+
+  .tool-range-control {
+    flex: 1 1 auto;
+    min-width: 120px;
+  }
+
+  .tool-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+    color: var(--better-history-text-color, var(--primary-text-color, #fff));
+    font-size: 11px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .tool-label ha-icon {
+    --mdc-icon-size: 16px;
+    color: var(--better-history-muted-color, var(--secondary-text-color, #888));
+  }
+
+  .tool-icon-button {
+    width: 24px;
+    height: 24px;
+    border-radius: var(--better-history-radius, 8px);
+  }
+
+  .range-values {
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 0;
+    color: var(--better-history-muted-color, var(--secondary-text-color, #888));
+    font-size: 10px;
+  }
+
+  .range-slider-stack {
+    position: relative;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    padding: 0 2px;
+  }
+
+  .range-slider-stack::before {
+    content: "";
+    position: absolute;
+    left: 2px;
+    right: 2px;
+    top: 50%;
+    height: 3px;
+    border-radius: 999px;
+    background:
+      linear-gradient(
+        90deg,
+        transparent,
+        color-mix(in srgb, var(--better-history-border-color, var(--divider-color, #444)) 72%, transparent) 12%,
+        color-mix(in srgb, var(--better-history-border-color, var(--divider-color, #444)) 72%, transparent) 88%,
+        transparent
+      );
+    transform: translateY(-50%);
+    box-shadow: inset 0 1px 1px rgb(0 0 0 / 14%);
+  }
+
+  .range-selection {
+    position: absolute;
+    top: 50%;
+    height: 12px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--better-history-info-color, var(--info-color, var(--primary-color, #03a9f4))) 16%, transparent);
+    transform: translateY(-50%);
+    pointer-events: none;
+    box-shadow: 0 0 8px color-mix(in srgb, var(--better-history-info-color, var(--info-color, var(--primary-color, #03a9f4))) 26%, transparent);
+    z-index: 1;
+  }
+
+  .range-selection,
+  .range-selection-hit {
+    min-width: 0;
+  }
+
+  .range-selection::before,
+  .range-selection-hit::before {
+    content: "";
+    position: absolute;
+    left: 6px;
+    right: 6px;
+    top: 50%;
+    height: 2px;
+    border-radius: inherit;
+    background: color-mix(in srgb, var(--better-history-info-color, var(--info-color, var(--primary-color, #03a9f4))) 82%, var(--primary-text-color, #fff) 18%);
+    transform: translateY(-50%);
+  }
+
+  .range-selection-hit {
+    position: absolute;
+    left: 2px;
+    right: 2px;
+    top: 0;
+    bottom: 0;
+    min-width: 18px;
+    border-radius: 999px;
+    background: transparent;
+    cursor: grab;
+    pointer-events: auto;
+    touch-action: none;
+    z-index: 1;
+  }
+
+  .range-selection-hit::before {
+    display: none;
+  }
+
+  .range-selection-hit[dragging] {
+    cursor: grabbing;
+  }
+
+  .range-slider {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    margin: 0;
+    appearance: none;
+    background: transparent;
+    cursor: ew-resize;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .range-slider::-webkit-slider-runnable-track {
+    height: 24px;
+    background: transparent;
+  }
+
+  .range-slider::-moz-range-track {
+    height: 24px;
+    background: transparent;
+  }
+
+  .range-slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 12px;
+    height: 18px;
+    margin-top: 3px;
+    border: 0;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--better-history-info-color, var(--info-color, var(--primary-color, #03a9f4))) 86%, var(--primary-text-color, #fff) 14%);
+    box-shadow:
+      0 0 0 2px color-mix(in srgb, var(--better-history-bg, var(--card-background-color, #1e1e2e)) 88%, transparent),
+      0 1px 4px rgb(0 0 0 / 18%);
+    pointer-events: auto;
+  }
+
+  .range-slider::-moz-range-thumb {
+    width: 12px;
+    height: 18px;
+    border: 0;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--better-history-info-color, var(--info-color, var(--primary-color, #03a9f4))) 86%, var(--primary-text-color, #fff) 14%);
+    box-shadow:
+      0 0 0 2px color-mix(in srgb, var(--better-history-bg, var(--card-background-color, #1e1e2e)) 88%, transparent),
+      0 1px 4px rgb(0 0 0 / 18%);
+    pointer-events: auto;
+  }
+
+  .range-slider:focus-visible::-webkit-slider-thumb {
+    outline: 1px solid var(--better-history-info-color, var(--info-color, var(--primary-color, #03a9f4)));
+    outline-offset: 3px;
+  }
+
+  .range-slider:focus-visible::-moz-range-thumb {
+    outline: 1px solid var(--better-history-info-color, var(--info-color, var(--primary-color, #03a9f4)));
+    outline-offset: 3px;
+  }
+
+  .tool-actions {
+    justify-content: flex-end;
+    gap: 6px;
+    min-width: 0;
+  }
+
+  .mode-switch {
+    display: inline-flex;
+    overflow: hidden;
+    border-radius: var(--better-history-radius, 8px);
+    border: 1px solid var(--better-history-border-color, var(--divider-color, #444));
+  }
+
+  .mode-button {
+    width: 30px;
+    height: 30px;
+    border: 0;
+    border-right: 1px solid var(--better-history-border-color, var(--divider-color, #444));
+    transition: background-color 120ms ease;
+  }
+
+  .mode-button:last-child {
+    border-right: 0;
+  }
+
+  .tool-action-button {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border-radius: var(--better-history-radius, 8px);
+    color: var(--better-history-text-color, var(--primary-text-color, #fff));
+    font-size: 12px;
+    transition: background-color 120ms ease;
+  }
+
+  .mode-button:hover,
+  .tool-action-button:not(:disabled):hover {
+    background: color-mix(in srgb, var(--primary-color, #03a9f4) 12%, transparent);
+  }
+
+  .tool-reset-button {
+    flex: 0 0 auto;
+  }
+
+  .tool-action-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.42;
+    color: var(--better-history-muted-color, var(--disabled-text-color, var(--secondary-text-color, #888)));
+    background: color-mix(in srgb, var(--better-history-muted-color, var(--secondary-text-color, #888)) 12%, transparent);
+    border-color: color-mix(in srgb, var(--better-history-muted-color, var(--divider-color, #444)) 55%, transparent);
+  }
+
+  @container (max-width: 360px) {
+    .tool-range-row {
+      flex-wrap: wrap;
+    }
+
+    .tool-range-control {
+      flex: 1 1 0;
+      min-width: 0;
+    }
+
+    .tool-actions {
+      flex: 1 1 100%;
+    }
+
+    .tool-actions {
+      justify-content: flex-end;
+    }
+  }
+
+  @container (max-width: 560px) {
+    .date-picker-wrapper,
+    .entity-picker {
+      flex-basis: 100%;
+      width: 100%;
+    }
+
+    .entity-add-trigger {
+      width: fit-content;
+      max-width: 100%;
+    }
+  }
+
+  @media (hover: none) and (pointer: coarse) {
+    .controls-bar {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .tools-panel {
+      grid-template-columns: 1fr;
+      padding: 8px;
+    }
+
+    .tool-actions {
+      justify-content: flex-end;
+    }
+
+    .range-slider-stack,
+    .range-slider::-webkit-slider-runnable-track,
+    .range-slider::-moz-range-track {
+      height: 30px;
+    }
+
+    .range-selection {
+      height: 18px;
+    }
+
+    .range-selection-hit {
+      min-width: 24px;
+    }
+
+    .range-slider::-webkit-slider-thumb {
+      width: 14px;
+      height: 22px;
+      margin-top: 4px;
+    }
+
+    .range-slider::-moz-range-thumb {
+      width: 14px;
+      height: 22px;
+    }
+
+    .date-picker-wrapper {
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .date-picker-wrapper ha-date-range-picker {
+      width: 100%;
+    }
+  }
+
+  .date-picker-wrapper {
+    flex: 0 1 auto;
+    width: fit-content;
+    max-width: 100%;
+    min-width: 0;
+    overflow: visible;
+  }
+
+  .date-picker-wrapper ha-date-range-picker {
+    display: block;
+  }
+
+  .entity-picker {
+    position: relative;
+    flex: 1 1 220px;
+    min-width: 0;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .entity-trigger {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .entity-add-trigger {
+    width: fit-content;
+  }
+
+  .entity-add-trigger ha-icon {
+    --mdc-icon-size: 20px;
+  }
+
+  .history-loading-indicator {
+    position: absolute;
+    top: 16px;
+    right: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 24px;
+    padding: 0 8px;
+    border: 1px solid var(--better-history-border-color, var(--divider-color, #444));
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--better-history-bg, var(--card-background-color, #1e1e2e)) 88%, var(--primary-color, #03a9f4) 12%);
+    color: var(--better-history-muted-color, var(--secondary-text-color, #888));
+    box-shadow: 0 2px 8px rgb(0 0 0 / 14%);
+    font-size: 11px;
+    line-height: 1;
+    pointer-events: none;
+    transform: translateY(-50%);
+    z-index: 1;
+  }
+
+  .history-loading-spinner {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid color-mix(in srgb, var(--better-history-muted-color, var(--secondary-text-color, #888)) 28%, transparent);
+    border-top-color: var(--better-history-info-color, var(--info-color, var(--primary-color, #03a9f4)));
+    box-sizing: border-box;
+    animation: better-history-spin 850ms linear infinite;
+  }
+
+  @keyframes better-history-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .entity-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+    width: 100%;
+  }
+
+  .entity-menu,
+  .entity-select-menu {
+    position: fixed;
+    top: -9999px;
+    left: -9999px;
+    display: none;
+    width: min(420px, calc(100vw - 48px));
+    max-height: 420px;
+    padding: 12px;
+    overflow: hidden;
+    border: var(--wa-panel-border-width, 1px) var(--wa-panel-border-style, solid) var(--wa-color-surface-border, var(--divider-color, rgba(0, 0, 0, 0.12)));
+    border-radius: var(--wa-panel-border-radius, var(--ha-dialog-border-radius, var(--ha-border-radius-3xl, 24px)));
+    background: var(--wa-color-surface-raised, var(--card-background-color, #fff));
+    box-shadow: var(--wa-shadow-m, var(--ha-box-shadow-m, 0 4px 8px rgba(0, 0, 0, 0.08)));
+    box-sizing: border-box;
+    z-index: 100;
+  }
+
+  .entity-menu[open],
+  .entity-select-menu[open] {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .entity-select-menu[open] {
+    grid-template-rows: auto minmax(0, auto);
+    max-height: 360px;
+  }
+
+  .entity-select-results {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-height: 0;
+    overflow-y: auto;
+  }
+
+  .entity-select-result {
+    background: transparent;
+    border: 0;
+    border-radius: var(--better-history-radius, 8px);
+    color: var(--better-history-text-color, var(--primary-text-color, #fff));
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    font: inherit;
+    gap: 1px;
+    min-width: 0;
+    padding: 8px;
+    text-align: left;
+  }
+
+  .entity-select-result:hover {
+    background: rgba(var(--rgb-primary-text-color, 255, 255, 255), 0.08);
+  }
+
+  .entity-menu-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .entity-menu-title {
+    font-size: var(--wa-font-size-m, var(--ha-font-size-m, 14px));
+    font-weight: var(--wa-font-weight-body, var(--ha-font-weight-normal, 400));
+    color: var(--wa-color-text-normal, var(--primary-text-color));
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-right: 8px;
+  }
+
+  .entity-menu-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border: 0;
+    background: transparent;
+    color: var(--better-history-muted-color, var(--secondary-text-color, #888));
+    cursor: pointer;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .entity-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    min-width: 0;
+  }
+
+  .source-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    height: 32px;
+    padding: 0 8px 0 3px;
+    border-radius: 20px;
+    border: var(--wa-border-width-md, 1.5px) solid;
+    background: var(--card-background-color, var(--better-history-bg, #1e1e2e));
+    box-sizing: border-box;
+    max-width: 100%;
+    overflow: hidden;
+    flex-shrink: 0;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .source-chip[draggable="true"] {
+    cursor: grab;
+  }
+
+  .source-chip[draggable="true"]:active {
+    cursor: grabbing;
+  }
+
+  .source-chip[dragging] {
+    opacity: 0.48;
+    outline: 2px solid var(--better-history-info-color, var(--info-color, var(--primary-color, #03a9f4)));
+    outline-offset: 2px;
+  }
+
+  .source-chip.entity-source-chip {
+    border-color: var(--ha-color-green-80, #81c784);
+  }
+
+  .source-chip.attr-source-chip {
+    border-color: var(--ha-color-amber-80, #ffb74d);
+  }
+
+  .source-chip-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .entity-source-chip .source-chip-icon {
+    background: color-mix(in srgb, var(--ha-color-green-80, #81c784) 20%, transparent);
+  }
+
+  .attr-source-chip .source-chip-icon {
+    background: color-mix(in srgb, var(--ha-color-amber-80, #ffb74d) 20%, transparent);
+  }
+
+  .source-chip-icon ha-icon {
+    --mdc-icon-size: 16px;
+  }
+
+  .source-chip-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: var(--wa-font-size-s, 13px);
+    color: var(--primary-text-color, var(--better-history-text-color, #fff));
+  }
+
+  .source-chip-remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--secondary-text-color, #888);
+    cursor: pointer;
+    flex-shrink: 0;
+    padding: 0;
+    font-size: 12px;
+    line-height: 1;
+  }
+
+  .source-chip-remove:hover {
+    background: color-mix(in srgb, var(--secondary-text-color, #888) 15%, transparent);
+    color: var(--primary-text-color, #fff);
+  }
+
+  .entity-browser {
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .entity-browser-title {
+    font-size: var(--wa-font-size-m, var(--ha-font-size-m, 14px));
+    font-weight: var(--wa-font-weight-body, var(--ha-font-weight-normal, 400));
+    color: var(--wa-color-text-normal, var(--primary-text-color));
+    margin-bottom: 2px;
+  }
+
+  .entity-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    min-width: 0;
+    margin-bottom: 6px;
+    color: var(--better-history-muted-color, var(--secondary-text-color, #888));
+    font-size: 12px;
+  }
+
+  .entity-crumb {
+    border: 0;
+    background: transparent;
+    color: inherit;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+  }
+
+  .entity-breadcrumb-sep {
+    opacity: 0.5;
+  }
+
+  .entity-browser-list {
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .entity-browser-entries {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .entity-browser-entry {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 6px 8px;
+    border-radius: var(--better-history-radius, 8px);
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--better-history-text-color, var(--primary-text-color, #fff));
+  }
+
+  .entity-browser-entry:hover {
+    background: rgba(var(--rgb-primary-text-color, 255, 255, 255), 0.08);
+  }
+
+  .entity-browser-entry--disabled {
+    cursor: default;
+    opacity: 0.45;
+  }
+
+  .entity-browser-entry--disabled:hover {
+    background: transparent;
+  }
+
+  .entity-browser-entry--present {
+    cursor: default;
+    color: var(--ha-color-amber-80, #ffb74d);
+    background: color-mix(in srgb, var(--ha-color-amber-80, #ffb74d) 14%, transparent);
+    box-shadow: inset 3px 0 0 var(--ha-color-amber-80, #ffb74d);
+  }
+
+  .entity-browser-entry--present:hover {
+    background: color-mix(in srgb, var(--ha-color-amber-80, #ffb74d) 14%, transparent);
+  }
+
+  .entity-browser-entry--removable {
+    cursor: pointer;
+  }
+
+  .entity-browser-entry--removable:hover {
+    background: color-mix(in srgb, var(--ha-color-amber-80, #ffb74d) 22%, transparent);
+  }
+
+  .entity-browser-entry--present .entity-browser-entry-type,
+  .entity-browser-entry--present .entity-browser-entry-arrow {
+    color: inherit;
+    opacity: 0.78;
+  }
+
+  .entity-browser-entry-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    gap: 1px;
+  }
+
+  .entity-browser-entry-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .entity-browser-entry-secondary {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--better-history-muted-color, var(--secondary-text-color, #888));
+    font-size: 11px;
+    line-height: 1.25;
+  }
+
+  .entity-browser-entry-type,
+  .entity-browser-entry-arrow {
+    color: var(--better-history-muted-color, var(--secondary-text-color, #888));
+    font-size: 11px;
+    flex-shrink: 0;
+  }
+
+  .entity-browser-search {
+    width: 100%;
+    margin: 4px 0 6px;
+  }
+
+  .entity-browser-search-input {
+    width: 100%;
+    height: 32px;
+    padding: 0 10px;
+    border: 1px solid var(--better-history-border-color, var(--divider-color, #444));
+    border-radius: var(--better-history-radius, 8px);
+    background: color-mix(in srgb, var(--wa-color-surface-raised, var(--card-background-color, #fff)) 92%, var(--primary-text-color, #000) 8%);
+    box-sizing: border-box;
+    color: var(--better-history-text-color, var(--primary-text-color, #fff));
+    font: inherit;
+    font-size: 13px;
+    outline: none;
+  }
+
+  .entity-browser-search-input::placeholder {
+    color: var(--better-history-muted-color, var(--secondary-text-color, #888));
+  }
+
+  .entity-browser-search-input:focus {
+    border-color: var(--better-history-accent-color, var(--primary-color, #03a9f4));
+    box-shadow: 0 0 0 1px var(--better-history-accent-color, var(--primary-color, #03a9f4));
+  }
+
+  .entity-browser-search-results {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .entity-browser-search-empty,
+  .entity-browser-search-count {
+    padding: 8px;
+    color: var(--better-history-muted-color, var(--secondary-text-color, #888));
+    font-size: 12px;
+  }
+
+  .entity-browser-back {
+    padding: 6px 8px;
+    cursor: pointer;
+    font-size: 12px;
+    color: var(--better-history-accent-color, var(--primary-color, #03a9f4));
+    border-radius: var(--ha-card-border-radius, 12px);
+  }
+
+  .entity-browser-back:hover {
+    background: rgba(var(--rgb-primary-text-color, 255, 255, 255), 0.08);
+  }
+
+  .entity-browser-entity {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: var(--better-history-radius, 8px);
+    border: 1px solid var(--better-history-border-color, var(--divider-color, #444));
+    color: var(--better-history-text-color, var(--primary-text-color, #fff));
+    cursor: pointer;
+    margin-bottom: 6px;
+  }
+
+  .entity-browser-entity:hover {
+    background: color-mix(in srgb, var(--better-history-accent-color, var(--primary-color, #03a9f4)) 10%, transparent);
+  }
+
+  .entity-browser-entity--disabled {
+    cursor: default;
+    opacity: 0.45;
+    border-style: dashed;
+  }
+
+  .entity-browser-entity--disabled:hover {
+    background: transparent;
+  }
+
+  .entity-browser-entity--present {
+    cursor: default;
+    color: var(--ha-color-green-80, #81c784);
+    border-color: color-mix(in srgb, var(--ha-color-green-80, #81c784) 62%, var(--better-history-border-color, var(--divider-color, #444)));
+    background: color-mix(in srgb, var(--ha-color-green-80, #81c784) 14%, transparent);
+    box-shadow: inset 3px 0 0 var(--ha-color-green-80, #81c784);
+  }
+
+  .entity-browser-entity--present:hover {
+    background: color-mix(in srgb, var(--ha-color-green-80, #81c784) 14%, transparent);
+  }
+
+  .entity-browser-entity--removable {
+    cursor: pointer;
+  }
+
+  .entity-browser-entity--removable:hover {
+    background: color-mix(in srgb, var(--ha-color-green-80, #81c784) 22%, transparent);
+  }
+
+  .entity-browser-entity-id {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--better-history-text-color, var(--primary-text-color, #fff));
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .entity-browser-section-title {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--better-history-muted-color, var(--secondary-text-color, #888));
+    padding: 2px 8px 4px;
+    margin-top: 2px;
+  }
+
+  .entity-browser-empty {
+    padding: 12px;
+    color: var(--better-history-muted-color, var(--secondary-text-color, #888));
+    font-size: 13px;
+    text-align: center;
+  }
+`, Fr = [
+	"ha-icon",
+	"ha-button",
+	"ha-icon-button",
+	"ha-svg-icon",
+	"ha-entity-picker",
+	"ha-md-list",
+	"ha-md-list-item",
+	"ha-input-chip",
+	"ha-assist-chip",
+	"ha-generic-picker"
+], Ir;
+function Lr() {
+	return Ir ??= Fe(Fr), Ir;
+}
+var Rr;
+function zr() {
+	return Rr ??= Br(), Rr;
+}
+async function Br() {
+	if (!customElements.get("ha-date-range-picker")) try {
+		await Promise.race([customElements.whenDefined("partial-panel-resolver"), new Promise((e, t) => setTimeout(() => t(/* @__PURE__ */ Error("timeout")), 1e4))]);
+		let e = document.createElement("partial-panel-resolver");
+		e.hass = { panels: [{
+			url_path: "history",
+			component_name: "history"
+		}] }, e._updateRoutes(), await e.routerOptions?.routes?.history?.load(), await customElements.whenDefined("ha-date-range-picker");
+	} catch (e) {
+		console.warn("[ha-better-history] Failed to load ha-date-range-picker:", e);
+	}
+}
+function Vr() {
+	return customElements.get("ha-date-range-picker") !== void 0;
+}
+async function Hr() {
+	await zr();
+}
+function Ur(e, t, n, r) {
+	return k`
+    <div class="date-picker-wrapper">
+      <ha-date-range-picker
+        .hass=${e}
+        .startDate=${t}
+        .endDate=${n}
+        time-picker
+        extended-presets
+        @value-changed=${(e) => {
+		let t = e.detail, n = t.value?.startDate ?? t.startDate, i = t.value?.endDate ?? t.endDate;
+		n instanceof Date && i instanceof Date && r(n, i);
+	}}
+      ></ha-date-range-picker>
+    </div>
+  `;
+}
+var Wr = 8, Gr = 50, Kr = 20, qr = [
+	{
+		name: "search_labels.entityName",
+		weight: 10
+	},
+	{
+		name: "search_labels.friendlyName",
+		weight: 8
+	},
+	{
+		name: "search_labels.deviceName",
+		weight: 7
+	},
+	{
+		name: "search_labels.areaName",
+		weight: 6
+	},
+	{
+		name: "search_labels.domainName",
+		weight: 6
+	},
+	{
+		name: "search_labels.entityId",
+		weight: 3
+	}
+];
+function K(e) {
+	return typeof e == "object" && !!e && !Array.isArray(e);
+}
+function Jr(e) {
+	return typeof e.attributes.friendly_name == "string" ? e.attributes.friendly_name : e.entity_id;
+}
+function Yr(e) {
+	return typeof e == "string" && e.trim() !== "" ? e : void 0;
+}
+function Xr(...e) {
+	return e.find((e) => Yr(e) !== void 0);
+}
+function Zr(e) {
+	return e.split(".")[0] ?? e;
+}
+function Qr(e) {
+	return e.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+}
+function $r(e, t) {
+	let n = Jr(t), r = e.entities?.[t.entity_id], i = r?.device_id ? e.devices?.[r.device_id] : void 0, a = r?.area_id ?? i?.area_id, o = a ? e.areas?.[a] : void 0, s = Xr(r?.name_by_user, r?.name, r?.original_name, n) ?? t.entity_id, c = Xr(i?.name_by_user, i?.name), l = Xr(o?.name), u = Zr(t.entity_id);
+	return {
+		id: t.entity_id,
+		primary: n,
+		secondary: t.entity_id,
+		sorting_label: [n, t.entity_id].join("_"),
+		search_labels: {
+			entityName: s,
+			friendlyName: n,
+			deviceName: c ?? null,
+			areaName: l ?? null,
+			domainName: u,
+			entityId: t.entity_id
+		}
+	};
+}
+function ei(e, t) {
+	return e ? (t ?? Object.values(e.states).filter((e) => e !== void 0)).map((t) => $r(e, t)) : [];
+}
+function ti(e, t) {
+	if (e === t) return 0;
+	if (Math.abs(e.length - t.length) > 2) return 3;
+	let n = Array.from({ length: t.length + 1 }, (e, t) => t), r = Array(t.length + 1);
+	for (let i = 1; i <= e.length; i += 1) {
+		r[0] = i;
+		for (let a = 1; a <= t.length; a += 1) {
+			let o = e[i - 1] === t[a - 1] ? 0 : 1;
+			r[a] = Math.min(r[a - 1] + 1, n[a] + 1, n[a - 1] + o);
+		}
+		n.splice(0, n.length, ...r);
+	}
+	return n[t.length] ?? 3;
+}
+function ni(e) {
+	return [
+		e.primary,
+		e.secondary,
+		e.id,
+		...Object.values(e.search_labels).filter((e) => typeof e == "string")
+	].filter((e) => typeof e == "string").map(Qr);
+}
+function ri(e, t) {
+	let n;
+	for (let r of t) {
+		if (r === e) {
+			n = Math.max(n ?? 0, 120);
+			continue;
+		}
+		let t = r.split(/[\s_.-]+/).filter(Boolean);
+		if (t.some((t) => t === e)) {
+			n = Math.max(n ?? 0, 110);
+			continue;
+		}
+		if (t.some((t) => t.startsWith(e))) {
+			n = Math.max(n ?? 0, 95);
+			continue;
+		}
+		if (r.includes(e)) {
+			n = Math.max(n ?? 0, 80);
+			continue;
+		}
+		e.length >= 4 && t.some((t) => ti(e, t) <= 1) && (n = Math.max(n ?? 0, 65));
+	}
+	return n;
+}
+function ii(e, t, n = Kr) {
+	let r = Qr(t).split(/\s+/).filter(Boolean);
+	return r.length === 0 ? [] : e.map((e) => {
+		let t = ni(e), n = 0;
+		for (let e of r) {
+			let r = ri(e, t);
+			if (r === void 0) return;
+			n += r;
+		}
+		return {
+			item: e,
+			score: n
+		};
+	}).filter((e) => e !== void 0).sort((e, t) => t.score - e.score || e.item.primary.localeCompare(t.item.primary)).slice(0, n).map((e) => e.item);
+}
+var ai = !1;
+async function oi() {
+	ai || (ai = !0, await Lr());
+}
+function si() {
+	return customElements.get("ha-generic-picker") !== void 0;
+}
+function ci(e) {
+	let t = e.selectedEntityId && e.hass ? e.hass.states[e.selectedEntityId] : void 0, n = Si(e);
+	return k`
+    <div class="entity-picker"
+      @picker-opened=${e.onEntityPickerOpened}
+      @picker-closed=${e.onEntityPickerClosed}
+    >
+      <div class="entity-menu" ?open=${e.menuOpen} @click=${(e) => e.stopPropagation()}>
+        <div class="entity-menu-top">
+          <span class="entity-menu-title">${t ? Jr(t) : ""}</span>
+          <button class="entity-menu-close" @click=${e.onCloseMenu}>&#x2715;</button>
+        </div>
+        ${mi(e)}
+      </div>
+      ${e.hideEmptyPickerState ? li(e) : k`
+        <ha-generic-picker
+          class="entity-trigger"
+          .hass=${e.hass}
+          .addButtonLabel=${G(e.hass, "add_target")}
+          .value=${""}
+          .getItems=${e.getItems}
+          .emptyLabel=${""}
+          .searchLabel=${G(e.hass, "search_entity")}
+          .searchKeys=${qr}
+          @value-changed=${(t) => {
+		let n = t.detail.value;
+		n && e.onEntitySelected(n);
+	}}
+        ></ha-generic-picker>
+      `}
+      ${e.loading ? k`
+            <div class="history-loading-indicator" role="status" aria-label=${G(e.hass, "loading")}>
+              <span class="history-loading-spinner"></span>
+              <span class="history-loading-text">${G(e.hass, "loading")}</span>
+            </div>
+          ` : M}
+      ${n.length > 0 ? k`
+        <div
+          class="entity-row"
+          @dragover=${(t) => e.onSourceDragOver(void 0, t)}
+          @drop=${(t) => e.onSourceDrop(void 0, t)}
+        >
+          ${n.map((t) => fi(t, e))}
+        </div>
+      ` : M}
+    </div>
+  `;
+}
+function li(e) {
+	let t = G(e.hass, "add_target"), n = G(e.hass, "search_entity"), r = e.entitySearch ?? "", i = r.trim() ? e.getAdditionalItems(r).filter(ui) : [];
+	return k`
+    <ha-button
+      class="entity-trigger entity-add-trigger"
+      size="small"
+      appearance="filled"
+      @click=${e.onEntityPickerOpened}
+    >
+      <ha-icon icon="mdi:playlist-plus" slot="start"></ha-icon>
+      ${t}
+    </ha-button>
+    <div class="entity-select-menu" ?open=${e.entityPickerOpen} @click=${(e) => e.stopPropagation()}>
+      <input
+        class="entity-browser-search-input"
+        type="search"
+        .value=${r}
+        placeholder=${n}
+        aria-label=${n}
+        @input=${(t) => e.onEntitySearchChanged?.(t.target.value)}
+        @click=${(e) => e.stopPropagation()}
+        @keydown=${(e) => e.stopPropagation()}
+      />
+      ${i.length > 0 ? k`
+        <div class="entity-select-results">
+          ${i.map((t) => k`
+            <button
+              class="entity-select-result"
+              @click=${() => {
+		e.onEntitySearchChanged?.(""), e.onEntitySelected(t.id);
+	}}
+            >
+              <span class="entity-browser-entry-label">${t.primary}</span>
+              ${t.secondary ? k`<span class="entity-browser-entry-secondary">${t.secondary}</span>` : M}
+            </button>
+          `)}
+        </div>
+      ` : M}
+    </div>
+  `;
+}
+function ui(e) {
+	return K(e) && typeof e.id == "string" && typeof e.primary == "string";
+}
+function di(e) {
+	let t = e.attributes.icon;
+	return typeof t == "string" && t ? t : {
+		climate: "mdi:thermostat",
+		sensor: "mdi:eye",
+		binary_sensor: "mdi:radiobox-marked",
+		light: "mdi:lightbulb",
+		switch: "mdi:toggle-switch",
+		input_boolean: "mdi:toggle-switch",
+		fan: "mdi:fan",
+		cover: "mdi:window-shutter",
+		lock: "mdi:lock",
+		media_player: "mdi:cast",
+		vacuum: "mdi:robot-vacuum",
+		camera: "mdi:camera",
+		weather: "mdi:weather-partly-cloudy",
+		device_tracker: "mdi:map-marker",
+		person: "mdi:account",
+		sun: "mdi:white-balance-sunny",
+		alarm_control_panel: "mdi:shield",
+		automation: "mdi:robot",
+		script: "mdi:script-text",
+		scene: "mdi:palette",
+		timer: "mdi:timer"
+	}[e.entity_id.split(".")[0]] ?? "mdi:bookmark";
+}
+function fi(e, t) {
+	let n = bi(e.id, t), r = vi(e.id, t), i = e.kind === "entity_state", a = t.hass?.states[e.entityId], o = i ? "entity-source-chip" : "attr-source-chip", s = t.draggingSourceId === e.id;
+	return k`
+    <div
+      class="source-chip ${o}"
+      draggable=${r && !n}
+      ?dragging=${s}
+      @dragstart=${(i) => {
+		r && !n && t.onSourceDragStart(e.id, i);
+	}}
+      @dragend=${() => t.onSourceDragEnd()}
+      @dragover=${(i) => {
+		r && !n && t.onSourceDragOver(e.id, i);
+	}}
+      @drop=${(n) => t.onSourceDrop(e.id, n)}
+    >
+      <span class="source-chip-icon">
+        ${i && a ? k`<ha-icon .icon=${di(a)}></ha-icon>` : k`<ha-icon .icon=${pi(e.valueType)}></ha-icon>`}
+      </span>
+      <span class="source-chip-label">${e.label}</span>
+      ${n ? M : k`<button
+            class="source-chip-remove"
+            @click=${(n) => {
+		n.preventDefault(), t.onSourceRemoved(e.id);
+	}}
+          >&#x2715;</button>`}
+    </div>
+  `;
+}
+function pi(e) {
+	switch (e) {
+		case "number": return "mdi:chart-line";
+		case "string": return "mdi:text";
+		case "boolean": return "mdi:toggle-switch";
+		default: return "mdi:code-tags";
+	}
+}
+function mi(e) {
+	let t = e.selectedEntityId && e.hass ? e.hass.states[e.selectedEntityId] : void 0, n = e.path, r = t ? (() => {
+		if (n.length === 0) return t.attributes;
+		let e = t.attributes;
+		for (let t of n) {
+			if (!K(e)) return;
+			e = e[t];
+		}
+		return e;
+	})() : void 0;
+	return k`
+    <div class="entity-browser">
+      ${hi(t, e)}
+      <div class="entity-browser-list">
+        ${t ? gi(t, n, K(r) ? r : {}, e) : k`<div class="entity-browser-empty">${G(e.hass, "no_entity_selected")}</div>`}
+      </div>
+    </div>
+  `;
+}
+function hi(e, t) {
+	return !e || t.path.length === 0 ? k`` : k`
+    <div class="entity-breadcrumb">
+      ${t.path.map((e, n) => k`
+          ${n > 0 ? k`<span class="entity-breadcrumb-sep">/</span>` : M}
+          <button class="entity-crumb" @click=${() => t.onBreadcrumbClick(t.path.slice(0, n + 1))}>${e}</button>
+        `)}
+    </div>
+  `;
+}
+function gi(e, t, n, r) {
+	let i = Object.entries(n).sort(([e], [t]) => e.localeCompare(t)), a = i.some(([n, r]) => K(r) ? !0 : pt(r) !== void 0 && !!ht(e, [...t, n]));
+	return k`
+    <div class="entity-browser-entries">
+      ${t.length > 0 ? k`
+            <div class="entity-browser-back" @click=${() => r.onBreadcrumbClick(t.slice(0, -1))}>
+              &#x2190; ${G(r.hass, "back")}
+            </div>
+          ` : k`
+            ${Ti(e, r)}
+            ${a ? k`
+                  <div class="entity-browser-section-title">${G(r.hass, "attributes")}</div>
+                  ${_i(r)}
+                ` : M}
+          `}
+      ${t.length === 0 && r.attributeSearch.trim() ? Oi(e, r) : i.map(([n, i]) => Ei(e, n, i, t, r))}
+    </div>
+  `;
+}
+function _i(e) {
+	let t = G(e.hass, "search_attributes");
+	return k`
+    <div class="entity-browser-search">
+      <input
+        class="entity-browser-search-input"
+        type="search"
+        .value=${e.attributeSearch}
+        placeholder=${t}
+        aria-label=${t}
+        @input=${(t) => e.onAttributeSearchChanged(t.target.value)}
+        @click=${(e) => e.stopPropagation()}
+        @keydown=${(e) => e.stopPropagation()}
+      />
+    </div>
+  `;
+}
+function vi(e, t) {
+	return t.selectedSources.some((t) => t.id === e);
+}
+function yi(e, t) {
+	return (t.resolved?.series ?? []).some((t) => t.id === e);
+}
+function bi(e, t) {
+	return (t.resolved?.series ?? []).some((t) => t.id === e && t.forced !== !1);
+}
+function xi(e) {
+	return {
+		id: e.id,
+		kind: e.attribute ? "entity_attribute" : "entity_state",
+		entityId: e.entity,
+		label: e.label,
+		path: e.attribute,
+		valueType: e.valueType,
+		unit: e.unit
+	};
+}
+function Si(e) {
+	let t = [...(e.resolved?.series ?? []).filter((e) => e.forced === !1).map(xi), ...e.selectedSources], n = /* @__PURE__ */ new Set();
+	return t.filter((e) => n.has(e.id) ? !1 : (n.add(e.id), !0));
+}
+function Ci(e, t) {
+	let n = t.selectedSources.some((t) => t.entityId === e), r = (t.resolved?.series ?? []).some((t) => t.entity === e);
+	return n || r;
+}
+function wi(e, t) {
+	if (!e.entity_id.startsWith("climate.")) return !1;
+	let n = t.selectedSources.some((t) => t.entityId.startsWith("climate.") && t.entityId !== e.entity_id), r = (t.resolved?.series ?? []).some((t) => t.entity.startsWith("climate.") && t.entity !== e.entity_id);
+	return n || r;
+}
+function Ti(e, t) {
+	let n = mt(e);
+	return n ? wi(e, t) ? k`
+      <div class="entity-browser-entity entity-browser-entity--disabled">
+        <span class="entity-browser-entry-label">${e.entity_id}</span>
+      </div>
+    ` : vi(n.id, t) ? k`
+      <div class="entity-browser-entity entity-browser-entity--present entity-browser-entity--removable" @click=${() => t.onSourceRemoved(n.id)}>
+        <span class="entity-browser-entry-label">${e.entity_id}</span>
+      </div>
+    ` : yi(n.id, t) ? bi(n.id, t) ? k`
+      <div class="entity-browser-entity entity-browser-entity--present entity-browser-entity--forced">
+        <span class="entity-browser-entry-label">${e.entity_id}</span>
+      </div>
+    ` : k`
+        <div class="entity-browser-entity entity-browser-entity--present entity-browser-entity--removable" @click=${() => t.onSourceRemoved(n.id)}>
+          <span class="entity-browser-entry-label">${e.entity_id}</span>
+        </div>
+      ` : Ci(e.entity_id, t) ? k`
+      <div class="entity-browser-entity entity-browser-entity--disabled">
+        <span class="entity-browser-entry-label">${e.entity_id}</span>
+      </div>
+    ` : k`
+    <div class="entity-browser-entity" @click=${() => t.onSourceAdded(n)}>
+      <span class="entity-browser-entry-label">${e.entity_id}</span>
+    </div>
+  ` : M;
+}
+function Ei(e, t, n, r, i) {
+	if (K(n)) return k`
+      <div class="entity-browser-entry" @click=${() => i.onBreadcrumbClick([...r, t])}>
+        <span class="entity-browser-entry-label">${t}</span>
+        <span class="entity-browser-entry-arrow">&#x203A;</span>
+      </div>
+    `;
+	let a = pt(n), o = [...r, t];
+	if (!a) return M;
+	let s = ht(e, o);
+	return s ? Di({
+		label: t,
+		source: s,
+		type: a,
+		opts: i
+	}) : M;
+}
+function Di(e) {
+	let { label: t, source: n, type: r, opts: i, secondary: a } = e, o = k`
+    <span class="entity-browser-entry-text">
+      <span class="entity-browser-entry-label">${t}</span>
+      ${a ? k`<span class="entity-browser-entry-secondary">${a}</span>` : M}
+    </span>
+    <span class="entity-browser-entry-type">${r}</span>
+  `;
+	return vi(n.id, i) ? k`
+      <div class="entity-browser-entry entity-browser-entry--present entity-browser-entry--removable" @click=${() => i.onSourceRemoved(n.id)}>
+        ${o}
+      </div>
+    ` : yi(n.id, i) ? bi(n.id, i) ? k`
+      <div class="entity-browser-entry entity-browser-entry--present entity-browser-entry--forced">
+        ${o}
+      </div>
+    ` : k`
+        <div class="entity-browser-entry entity-browser-entry--present entity-browser-entry--removable" @click=${() => i.onSourceRemoved(n.id)}>
+          ${o}
+        </div>
+      ` : k`
+    <div class="entity-browser-entry" @click=${() => i.onSourceAdded(n)}>
+      ${o}
+    </div>
+  `;
+}
+function Oi(e, t) {
+	let n = ki(e, e.attributes, t.attributeSearch), r = n.slice(0, Gr);
+	return r.length === 0 ? k`<div class="entity-browser-search-empty">${G(t.hass, "no_matching_attributes")}</div>` : k`
+    <div class="entity-browser-search-results">
+      ${r.map((e) => Di({
+		label: e.key,
+		source: e.source,
+		type: e.valueType,
+		opts: t,
+		secondary: e.dottedPath
+	}))}
+      ${n.length > r.length ? k`<div class="entity-browser-search-count">${G(t.hass, "attribute_results_limited")}</div>` : M}
+    </div>
+  `;
+}
+function ki(e, t, n) {
+	let r = n.trim().toLocaleLowerCase();
+	if (!r) return [];
+	let i = [], a = (t, n, o) => {
+		if (!(o > Wr)) for (let [s, c] of Object.entries(t)) {
+			let t = [...n, s];
+			if (K(c)) {
+				a(c, t, o + 1);
+				continue;
+			}
+			let l = pt(c), u = l ? ht(e, t) : void 0;
+			!l || !u || Ai(t, c).includes(r) && i.push({
+				key: s,
+				dottedPath: t.join("."),
+				valueType: l,
+				source: u
+			});
+		}
+	};
+	return a(t, [], 0), i.sort((e, t) => {
+		let n = ji(e, r), i = ji(t, r);
+		return n === i ? e.dottedPath.length === t.dottedPath.length ? e.dottedPath.localeCompare(t.dottedPath) : e.dottedPath.length - t.dottedPath.length : n - i;
+	});
+}
+function Ai(e, t) {
+	let n = typeof t == "string" || typeof t == "number" || typeof t == "boolean" ? String(t) : "";
+	return [
+		...e,
+		e.join("."),
+		n
+	].join(" ").toLocaleLowerCase();
+}
+function ji(e, t) {
+	let n = e.key.toLocaleLowerCase(), r = e.dottedPath.toLocaleLowerCase();
+	return n.startsWith(t) ? 0 : r.startsWith(t) ? 1 : n.includes(t) ? 2 : r.includes(t) ? 3 : 4;
+}
+function q(e, t, n, r) {
+	var i = arguments.length, a = i < 3 ? t : r === null ? r = Object.getOwnPropertyDescriptor(t, n) : r, o;
+	if (typeof Reflect == "object" && typeof Reflect.decorate == "function") a = Reflect.decorate(e, t, n, r);
+	else for (var s = e.length - 1; s >= 0; s--) (o = e[s]) && (a = (i < 3 ? o(a) : i > 3 ? o(t, n, a) : o(t, n)) || a);
+	return i > 3 && a && Object.defineProperty(t, n, a), a;
+}
+var Mi = /°[CF]|[CFK]$/, Ni = 60, Pi = 1e3, Fi = 24, Ii = 720, Li = 48, Ri = .34, zi = .72, Bi = 720, Vi = 2, Hi = [
+	"current_temperature",
+	"temperature",
+	"hvac_action"
+], Ui = new Set(["current_temperature", "temperature"]), Wi = 5;
+function Gi(e) {
+	let t = 0;
+	for (let n of e) n >= "0" && n <= "9" ? t += 6.2 : n === "." || n === "," ? t += 3.2 : n === "-" ? t += 4 : t += 6.2;
+	return Math.ceil(t);
+}
+function Ki(e) {
+	let t = Math.max(0, ...e.map((e) => Gi(e.value)));
+	return t > 0 ? `${t + Wi}px` : "0px";
+}
+function qi(e) {
+	return Mi.test(e);
+}
+var J = class extends F {
+	constructor(...e) {
+		super(...e), this.hours = 24, this.showDatePicker = !1, this.showEntityPicker = !1, this.showImportButton = !1, this.showExportButton = !0, this.showTimeRangeSelector = !0, this.showLineModeButtons = !0, this.showLegend = !0, this.showTooltip = !0, this.showGrid = !0, this.showScale = !0, this.showControls = !0, this.debugPerformance = !1, this.toolsOpen = !1, this._hiddenSeriesIds = [], this._liveNow = Date.now(), this._datePickerReady = !1, this._entityComponentsReady = !1, this._attributeMenuOpen = !1, this._attributeSearch = "", this._path = [], this._selectedSources = [], this._removedConfigSourceIds = [], this._customEntityIds = [], this._entityPickerOpen = !1, this._data = new Vt(this), this._tooltip = new rr(this), this._prevClipX = /* @__PURE__ */ new Map(), this._prevStartTime = 0, this._prevEndTime = 0, this._prevContainerWidth = 0, this._wasLoading = !1, this._suppressLineAnimation = !1, this._pendingAddedSources = [], this._dragDropCommitted = !1, this._lastPickerOverlayOpen = !1, this._lastPointerDownInside = !1, this._importedSeriesMeta = /* @__PURE__ */ new Map(), this._importedDataActive = !1, this._containerWidth = 0, this._chartSurfaceHeight = 0, this._chartSurfaceConstrained = !1, this._lastFetchKey = "", this._lastFetchSources = [], this._lastHassResolveTime = 0, this._getEntityPickerItems = () => ei(this.hass), this._getAdditionalEntityPickerItems = (e) => {
+			if (!this.hass || !e?.trim()) return [];
+			let t = new Set(this._pickerEntities().map((e) => e.entity_id));
+			return ii(ei(this.hass, Object.values(this.hass.states).filter((e) => e !== void 0).filter((e) => !t.has(e.entity_id))), e);
+		}, this._handleDocumentPointerDown = (e) => {
+			this._lastPointerDownInside = this._isEventInsideAttributeOverlay(e), this._attributeMenuOpen && (this._lastPointerDownInside || (e.stopPropagation(), e.stopImmediatePropagation()));
+		}, this._handleDocumentClick = (e) => {
+			if (!this._attributeMenuOpen) {
+				this._lastPointerDownInside = !1;
+				return;
+			}
+			let t = this._lastPointerDownInside;
+			this._lastPointerDownInside = !1, !t && (this._isEventInsideAttributeOverlay(e) || (e.preventDefault(), e.stopPropagation(), e.stopImmediatePropagation(), this._closeAttributeMenu()));
+		};
+	}
+	static {
+		this.styles = Pr;
+	}
+	connectedCallback() {
+		super.connectedCallback(), Lr(), document.addEventListener("pointerdown", this._handleDocumentPointerDown, !0), document.addEventListener("click", this._handleDocumentClick, !0), this._resizeObserver = new ResizeObserver((e) => {
+			for (let t of e) if (t.target === this) {
+				let e = Math.round(t.contentRect.width);
+				e !== this._containerWidth && (this._containerWidth = e);
+			} else t.target === this._observedChartSurface && this._syncChartSurfaceSize(t.contentRect.height);
+		}), this._resizeObserver.observe(this);
+	}
+	disconnectedCallback() {
+		super.disconnectedCallback(), document.removeEventListener("pointerdown", this._handleDocumentPointerDown, !0), document.removeEventListener("click", this._handleDocumentClick, !0), this._resizeObserver?.disconnect(), this._resizeObserver = void 0, this._sourceAddBatchTimer !== void 0 && (clearTimeout(this._sourceAddBatchTimer), this._sourceAddBatchTimer = void 0), this._stopLiveClock();
+	}
+	_maxXTicks() {
+		if (this._containerWidth <= 0) return 12;
+		let e = Math.max(3, Math.floor(this._containerWidth * 640 / (720 * 50)));
+		return this._chartSurfaceHeight > 0 && this._chartSurfaceHeight < 120 ? Math.max(3, Math.min(e, Math.floor(this._chartSurfaceHeight / 24))) : e;
+	}
+	_observeChartSurface() {
+		let e = this.renderRoot.querySelector(".chart-surface");
+		e !== this._observedChartSurface && (this._observedChartSurface && this._resizeObserver?.unobserve(this._observedChartSurface), this._observedChartSurface = e ?? void 0, e ? (this._resizeObserver?.observe(e), this._syncChartSurfaceSize(e.getBoundingClientRect().height)) : this._chartSurfaceHeight !== 0 && (this._chartSurfaceHeight = 0, this._chartSurfaceConstrained = !1));
+	}
+	_syncChartSurfaceSize(e) {
+		let t = Math.round(e), n = this._observedChartSurface?.querySelector(".chart-graphs"), r = n ? Math.round(n.offsetHeight) : 0, i = r < t - Vi || t < r - Vi, a = t < this._chartSurfaceHeight - Vi, o = this._graphGroupRenderCache?.graphHeight ?? 180, s = this._chartSurfaceConstrained && o !== 180;
+		if (i || a || s) {
+			this._chartSurfaceHeight !== t && (this._chartSurfaceHeight = t), this._chartSurfaceConstrained ||= !0;
+			return;
+		}
+		this._chartSurfaceHeight !== 0 && (this._chartSurfaceHeight = 0), this._chartSurfaceConstrained &&= !1;
+	}
+	_effectiveStartDate() {
+		return this._rangeStart ?? this.startDate ?? this.config?.startDate ?? /* @__PURE__ */ new Date(Date.now() - (this.config?.hours ?? this.hours ?? 24) * 36e5);
+	}
+	_effectiveEndDate() {
+		let e = this._requestedEndDate(), t = this._liveNow || Date.now();
+		return e.getTime() > t ? new Date(t) : e;
+	}
+	_requestedEndDate() {
+		return this._rangeEnd ?? this.endDate ?? this.config?.endDate ?? /* @__PURE__ */ new Date();
+	}
+	_rangeExtendsFuture() {
+		return this._requestedEndDate().getTime() > Date.now();
+	}
+	_syncLiveClock() {
+		if (!this._rangeExtendsFuture()) {
+			this._stopLiveClock();
+			return;
+		}
+		if (this._liveNowTimer !== void 0) return;
+		let e = Date.now();
+		this._viewEnd &&= new Date(e), this._liveNow = e, this._liveNowTimer = setInterval(() => {
+			if (!this._rangeExtendsFuture()) {
+				this._stopLiveClock();
+				return;
+			}
+			let e = this._effectiveEndDate().getTime(), t = !this._viewEnd || Math.abs(this._viewEnd.getTime() - e) <= Pi * 2, n = Date.now();
+			this._liveNow = n, t && (this._viewEnd = new Date(n));
+		}, Pi);
+	}
+	_stopLiveClock() {
+		this._liveNowTimer !== void 0 && (clearInterval(this._liveNowTimer), this._liveNowTimer = void 0);
+	}
+	_effectiveLineMode() {
+		return this._runtimeLineMode ?? this.config?.lineMode ?? this.lineMode;
+	}
+	_effectiveViewRange() {
+		let e = this._resolved?.startDate ?? this._effectiveStartDate(), t = this._rangeExtendsFuture() ? this._effectiveEndDate() : this._resolved?.endDate ?? this._effectiveEndDate(), n = this._viewStart && this._viewStart.getTime() >= e.getTime() ? this._viewStart : e, r = this._viewEnd && this._viewEnd.getTime() <= t.getTime() ? this._viewEnd : t;
+		if (r.getTime() <= n.getTime()) return {
+			start: e,
+			end: t
+		};
+		let i = this._minViewSpanMs();
+		if (r.getTime() - n.getTime() >= i) return {
+			start: n,
+			end: r
+		};
+		let a = e.getTime(), o = t.getTime(), s = Math.min(Math.max(n.getTime(), a), o - i);
+		return {
+			start: new Date(s),
+			end: new Date(s + i)
+		};
+	}
+	_pickerEntities() {
+		return this.hass ? [...this.config?.defaultEntities ?? [], ...this._customEntityIds].filter((e) => typeof e == "string" && e !== "").filter((e, t, n) => n.indexOf(e) === t).map((e) => this.hass?.states[e]).filter((e) => e !== void 0) : [];
+	}
+	_fetchSources() {
+		let e = [], t = /* @__PURE__ */ new Set();
+		if (this._resolved && !this._importedDataActive) for (let n of this._activeResolvedSeries()) t.has(n.id) || (t.add(n.id), e.push(cr(n)));
+		for (let n of this._selectedSources) for (let r of this._expandedSelectedSources(n)) t.has(r.id) || (t.add(r.id), e.push(r));
+		return e;
+	}
+	_isDefaultSource(e) {
+		return this._activeResolvedSeries().some((t) => t.id === e.id && t.forced !== !1);
+	}
+	_activeResolvedSeries() {
+		return this._resolved ? this._resolved.series.filter((e) => !this._removedConfigSourceIds.includes(e.id)) : [];
+	}
+	_activeResolvedConfig() {
+		if (this._resolved) return {
+			...this._resolved,
+			series: this._activeResolvedSeries()
+		};
+	}
+	_reconcileRemovedConfigSourceIds(e) {
+		if (this._removedConfigSourceIds.length === 0) return;
+		let t = new Set(e.series.filter((e) => e.forced === !1).map((e) => e.id)), n = this._removedConfigSourceIds.filter((e) => t.has(e));
+		n.length !== this._removedConfigSourceIds.length && (this._removedConfigSourceIds = n);
+	}
+	_resolvedTemperatureUnit() {
+		return this._resolved?.series.find((e) => e.scaleGroupKey === "group:temperature" && e.unit && qi(e.unit))?.unit;
+	}
+	willUpdate(e) {
+		this._data.debugPerformance = this.debugPerformance || this.config?.debugPerformance === !0;
+		let t = this._effectiveStartDate().getTime(), n = this._effectiveEndDate().getTime(), r = this._rangeExtendsFuture();
+		this._syncLiveClock(), e.has("hass") && r && this._data.updateLivePoints(this.hass, this._lastFetchSources, new Date(t), new Date(n));
+		let i = t !== this._prevStartTime || n !== this._prevEndTime, a = this._containerWidth !== this._prevContainerWidth, o = e.has("_rangeStart") || e.has("_rangeEnd") || e.has("startDate") || e.has("endDate") || e.has("config") || e.has("hours");
+		(i || a) && (r && i && !a && !o || this._prevClipX.clear(), this._prevStartTime = t, this._prevEndTime = n, this._prevContainerWidth = this._containerWidth), this._data.loading && this._data.series.length === 0 && this._prevClipX.clear();
+		let s = /* @__PURE__ */ "_rangeStart._rangeEnd._selectedSources._removedConfigSourceIds.hass.config.entities.hours.startDate.endDate.showDatePicker.showEntityPicker.showLegend.showTooltip.showGrid.showScale.width.height.lineMode.lineWidth.backgroundColor.graphTitle.titleFontFamily.titleFontSize.titleColor.language.debugPerformance.attributeUnits._runtimeLineMode".split(".");
+		if (s.some((t) => e.has(t))) {
+			let t = !s.some((t) => t !== "hass" && e.has(t));
+			if ((e.has("config") || e.has("entities")) && (this._importedDataActive = !1, this._importedSeriesMeta.clear()), t) {
+				let e = Math.floor(Date.now() / 1e3) * 1e3;
+				if (r && this._lastFetchKey) {
+					this._lastHassResolveTime = e;
+					return;
+				}
+				if (e === this._lastHassResolveTime && this._lastFetchKey) return;
+				this._lastHassResolveTime = e;
+			}
+			let n = jr({
+				config: this.config,
+				entities: this.entities,
+				hours: this.hours,
+				startDate: this._effectiveStartDate(),
+				endDate: this._effectiveEndDate(),
+				showDatePicker: this.showDatePicker,
+				showEntityPicker: this.showEntityPicker,
+				showLegend: this.showLegend,
+				showTooltip: this.showTooltip,
+				showGrid: this.showGrid,
+				showScale: this.showScale,
+				width: this.width,
+				height: this.height,
+				lineMode: this._effectiveLineMode(),
+				lineWidth: this.lineWidth,
+				backgroundColor: this.backgroundColor,
+				title: this.graphTitle,
+				titleFontFamily: this.titleFontFamily,
+				titleFontSize: this.titleFontSize,
+				titleColor: this.titleColor,
+				language: this.language,
+				hass: this.hass,
+				attributeUnits: this.attributeUnits
+			});
+			this._reconcileRemovedConfigSourceIds(n), this._resolved = n, !this._rangeStart && !this._rangeEnd && (this._rangeStart = n.startDate, this._rangeEnd = n.endDate), !this._viewStart && !this._viewEnd && (this._viewStart = n.startDate, this._viewEnd = n.endDate);
+			let i = this._fetchSources(), a = i.map((e) => e.id).sort().join("|"), o = `${a}|${n.startDate.getTime()}|${n.endDate.getTime()}`;
+			if (o !== this._lastFetchKey) {
+				let e = a === this._lastFetchKey.split("|").slice(0, -2).join("|") && this._lastFetchKey !== "";
+				if (this._lastFetchSources.length > 0 && !e) {
+					let e = new Set(this._lastFetchSources.map((e) => e.id)), t = new Set(i.map((e) => e.id)), r = i.filter((t) => !e.has(t.id)), a = this._lastFetchSources.filter((e) => !t.has(e.id)).map((e) => e.id);
+					r.length > 0 && a.length === 0 ? (this._lastFetchKey = o, this._lastFetchSources = i, this._data.addSources(this.hass, r, n.startDate, n.endDate)) : a.length > 0 && r.length === 0 ? (this._lastFetchKey = o, this._lastFetchSources = i, this._data.removeSources(a)) : (this._lastFetchKey = o, this._lastFetchSources = i, this._data.fetch(this.hass, i, n.startDate, n.endDate));
+				} else this._lastFetchKey = o, this._lastFetchSources = i, this._data.fetch(this.hass, i, n.startDate, n.endDate);
+			}
+			n.showDatePicker && !this._datePickerReady && Hr().then(() => {
+				this._datePickerReady = Vr(), this.requestUpdate();
+			}), n.showEntityPicker && !this._entityComponentsReady && oi().then(() => {
+				this._entityComponentsReady = si(), this.requestUpdate();
+			});
+		}
+	}
+	updated(e) {
+		this._observeChartSurface(), e.has("_attributeMenuOpen") && this._attributeMenuOpen && this._positionEntityMenu(), (e.has("_attributeMenuOpen") || e.has("_entityPickerOpen")) && this._emitPickerOverlayState(), this._animateClipPaths(), this._wasLoading = this._data.loading;
+	}
+	_emitPickerOverlayState() {
+		let e = this._attributeMenuOpen || this._entityPickerOpen;
+		e !== this._lastPickerOverlayOpen && (this._lastPickerOverlayOpen = e, this.dispatchEvent(new CustomEvent("picker-overlay-changed", {
+			detail: { open: e },
+			bubbles: !0,
+			composed: !0
+		})));
+	}
+	_onDateRangeChanged(e, t) {
+		this._rangeStart = e, this._rangeEnd = t, this._viewStart = e, this._viewEnd = t, this.dispatchEvent(new CustomEvent("range-changed", {
+			detail: {
+				startDate: e,
+				endDate: t
+			},
+			bubbles: !0,
+			composed: !0
+		})), this.requestUpdate();
+	}
+	_pickScaleGroup(e, t) {
+		if (e.valueType !== "number") return `series:${e.id}`;
+		let n = e.entityId.startsWith("climate.") && e.path?.length === 1 && Ui.has(e.path[0]);
+		if (e.unit) {
+			let n = t.find((t) => t.unit === e.unit && t.valueType === "number");
+			if (n) return n.scaleGroupKey;
+			let r = this._resolved?.series.find((t) => t.unit === e.unit && t.valueType === "number");
+			if (r) return r.scaleGroupKey;
+			let i = this._resolved?.series.find((e) => e.scaleGroupKey === "group:temperature");
+			if (i && qi(e.unit)) return i.scaleGroupKey;
+		}
+		if (n) {
+			let e = t.find((e) => e.valueType === "number" && e.unit !== void 0 && qi(e.unit));
+			return e ? e.scaleGroupKey : "group:temperature";
+		}
+		return e.unit ? `unit:${e.unit}` : `series:${e.id}`;
+	}
+	_defaultLineMode() {
+		let e = this._effectiveLineMode();
+		return e === "line" || e === "column" ? e : "stair";
+	}
+	_defaultLineWidth() {
+		let e = this.config?.lineWidth ?? this.lineWidth;
+		return typeof e == "number" ? Number.isFinite(e) && e >= 0 ? String(e) : "2.5" : typeof e == "string" && e.trim() !== "" ? e.trim() : "2.5";
+	}
+	_showImportButton() {
+		return this.showImportButton || this.config?.showImportButton === !0;
+	}
+	_showExportButton() {
+		return this.config?.showExportButton !== !1 && this.showExportButton;
+	}
+	_showTimeRangeSelector() {
+		return this.config?.showTimeRangeSelector !== !1 && this.showTimeRangeSelector;
+	}
+	_allSeriesHaveExplicitLineMode() {
+		if (this._selectedSources.length > 0) return !1;
+		if (this.config?.lineMode != null) return !0;
+		let e = this.config?.series;
+		return e && e.length > 0 ? e.every((e) => e.lineMode != null) : !1;
+	}
+	_showLineModeButtons() {
+		return this._allSeriesHaveExplicitLineMode() ? !1 : this.config?.showLineModeButtons !== !1 && this.showLineModeButtons;
+	}
+	_hasForcedConfigSeries() {
+		return this._activeResolvedSeries().some((e) => e.forced !== !1);
+	}
+	_buildRenderSeries() {
+		if (!this._resolved && !this._importedDataActive) return [];
+		let e = this._importedDataActive ? [] : this._activeResolvedSeries().flatMap((e) => {
+			let t = this._data.series.find((t) => t.source.id === e.id);
+			return [{
+				id: e.id,
+				label: e.label,
+				color: e.color,
+				unit: e.unit,
+				scaleGroupKey: e.scaleGroupKey,
+				scaleMode: e.scaleMode,
+				scaleMin: e.scaleMin,
+				scaleMax: e.scaleMax,
+				lineMode: this._runtimeLineMode ?? e.lineMode,
+				lineWidth: e.lineWidth,
+				valueType: e.valueType,
+				points: t?.points ?? []
+			}];
+		});
+		for (let t of this._selectedSources) for (let n of this._expandedSelectedSources(t)) {
+			if (e.some((e) => e.id === n.id)) continue;
+			let t = this._data.series.find((e) => e.source.id === n.id);
+			if (!t) continue;
+			let r = e.length, i = this._pickScaleGroup(n, e), a = n.entityId.startsWith("climate.") && n.path?.length === 1 ? n.path[0] : void 0;
+			e.push({
+				id: n.id,
+				label: n.label,
+				color: this._importedSeriesMeta.get(n.id)?.color ?? (a ? Ut[a] : void 0) ?? Gt(r),
+				unit: n.unit,
+				scaleGroupKey: i,
+				scaleMode: "auto",
+				lineMode: this._runtimeLineMode ?? this._importedSeriesMeta.get(n.id)?.lineMode ?? this._defaultLineMode(),
+				lineWidth: this._defaultLineWidth(),
+				valueType: n.valueType,
+				points: t?.points ?? []
+			});
+		}
+		return e;
+	}
+	_chartSourceKey() {
+		return [...(this._importedDataActive ? [] : this._activeResolvedSeries()).map((e) => [
+			e.id,
+			e.label,
+			e.color,
+			e.unit ?? "",
+			e.scaleGroupKey,
+			e.scaleMode,
+			e.scaleMin ?? "",
+			e.scaleMax ?? "",
+			e.lineMode,
+			e.lineWidth,
+			e.valueType
+		].join("~")) ?? [], ...this._selectedSources.flatMap((e) => this._expandedSelectedSources(e)).map((e) => [
+			e.id,
+			e.label,
+			e.kind,
+			e.unit ?? "",
+			e.valueType,
+			this._defaultLineMode(),
+			this._defaultLineWidth()
+		].join("~"))].join("|");
+	}
+	_chartData() {
+		let e = this._hiddenSeriesIds.join("|"), t = this._chartSourceKey(), n = this._chartRenderCache, r = this._effectiveViewRange(), i = r.start.getTime(), a = r.end.getTime(), o = this._containerWidth, s = !this._data.loading;
+		if (n && n.seriesRef === this._data.series && n.sourceKey === t && n.hiddenKey === e && n.startTime === i && n.endTime === a && n.extendStairToEnd === s && n.containerWidth === o) return n.data;
+		let c = this._maxXTicks(), l = this._buildRenderSeries(), u = l.filter((e) => !this._hiddenSeriesIds.includes(e.id)), d = {
+			start: i,
+			end: Math.max(a, i + 1)
+		}, f = this._data.debugPerformance, p = f ? R() : 0, m = Yn(l, u, d, this._resolved?.disableClimateOverlay ?? !1, c, s), h = f ? R() - p : 0;
+		return f && z(f, "chart.build_data", {
+			allSeriesCount: l.length,
+			visibleSeriesCount: u.length,
+			pointCount: u.reduce((e, t) => e + t.points.length, 0),
+			groupCount: m.numericScales.length,
+			segmentCount: m.segments.length,
+			lineCount: m.numericLines.length,
+			buildDurationMs: Math.round(h)
+		}), this._chartRenderCache = {
+			seriesRef: this._data.series,
+			sourceKey: t,
+			hiddenKey: e,
+			startTime: i,
+			endTime: a,
+			extendStairToEnd: s,
+			containerWidth: o,
+			data: m
+		}, m;
+	}
+	_graphGroups(e) {
+		let t = this._maxXTicks(), n = this._graphHeightFor(e), r = this._graphGroupRenderCache;
+		if (r && r.dataRef === e && r.maxXTicks === t && r.graphHeight === n) return r.groups;
+		let i = nr(e, t, n);
+		return this._graphGroupRenderCache = {
+			dataRef: e,
+			maxXTicks: t,
+			graphHeight: n,
+			groups: i
+		}, i;
+	}
+	_graphHeightFor(e) {
+		if (!this._chartSurfaceConstrained || this._chartSurfaceHeight <= 0) return 180;
+		let t = Math.max(new Set(e.numericScales.map((e) => e.graphKey)).size, +!!e.allSeries.some((e) => e.valueType !== "number" && e.valueType !== "boolean"), 1), n = e.allSeries.filter((e) => e.valueType !== "number" && e.valueType !== "boolean").length, r = t * 62 + (n > 0 ? 10 + n * 14 : 0), i = this._chartSurfaceHeight - r, a = this._containerWidth > 0 ? this._containerWidth * 640 / 720 : 640, o = Math.max(180, Math.min(Math.floor(a * Ri), Math.floor(this._chartSurfaceHeight / t * zi), Bi)), s = Math.floor(Math.max(0, i) / t);
+		return Math.max(Li, Math.min(s, o));
+	}
+	_renderGraphGroup(e) {
+		let t = this._resolved?.showLegend ?? !0, n = this._resolved?.showGrid ?? !0, r = this._resolved?.showScale ?? !0, i = e.series.map((e) => e.id).join("|"), a = r ? Ki(e.yLabels) : "0px", o = r ? Ki(e.rightYLabels) : "0px", s = 28 + e.graphHeight, c = s + 3, l = s + 16 + 6;
+		return k`
+      <div class="graph-section">
+        <div class="graph-row" style=${`--axis-label-gap:${Wi}px;--axis-left-gutter:${a};--axis-right-gutter:${o};`}>
+          <div class="axis-labels axis-labels--left" style="height:${e.canvasHeight}px">
+            ${r ? e.yLabels.map((e) => k`<span class="y-axis-label y-axis-label--left" style="top:${e.y.toFixed(1)}px;">${e.value}</span>`) : M}
+          </div>
+          <div class="graph-canvas" data-series-ids=${i} style="height:${e.canvasHeight}px">
+            <svg
+              viewBox="${40} 0 ${640} ${e.svgHeight}"
+              height="${e.svgHeight}"
+              preserveAspectRatio="none"
+            >
+              ${n ? e.xLabels.map((e) => A`
+                      <line class="grid-line grid-line--vertical" x1=${e.x.toFixed(1)} y1=${18} x2=${e.x.toFixed(1)} y2=${s}></line>
+                    `) : M}
+              ${n ? e.yLabels.map((e) => A`
+                      <line class="grid-line grid-line--horizontal" x1=${40} y1=${e.y.toFixed(1)} x2=${680} y2=${e.y.toFixed(1)}></line>
+                    `) : M}
+              <defs>
+                ${e.lines.map((t) => {
+			let n = t.id.replace(/[^a-zA-Z0-9]/g, "_");
+			return A`
+                    <clipPath id=${`clip-${n}`}>
+                      <rect id=${`rect-${n}`} x="0" y="0" width="0" height=${e.svgHeight}></rect>
+                    </clipPath>
+                  `;
+		})}
+              </defs>
+              ${e.heatingAreas.map((e) => A`<polygon class="climate-heating-area" points=${e.points}></polygon>`)}
+              ${e.columns.map((e) => A`<rect class="column" x=${e.x.toFixed(1)} y=${e.y.toFixed(1)} width=${e.width.toFixed(1)} height=${e.height.toFixed(1)} fill=${e.fill}></rect>`)}
+              ${e.lines.map((e) => {
+			let t = `clip-${e.id.replace(/[^a-zA-Z0-9]/g, "_")}`, n = e.points.split(" "), r = n[n.length - 1], i = r ? parseFloat(r.split(",")[0]) : 0, a = this._prevClipX.get(e.id) ?? 0, o = !this._suppressLineAnimation && i > a;
+			return A`<polyline class="line" style=${`--better-history-line-width:${e.lineWidth};`} clip-path="url(#${t})" data-line-id=${e.id} data-animate-clip=${o ? "true" : M} data-target-x=${i} points=${e.points} stroke=${e.color}></polyline>`;
+		})}
+              ${e.segments.map((e) => A`<rect class="segment" x=${e.x} y=${e.y} width=${e.width} height="9" fill=${e.fill}></rect>`)}
+              ${e.series.filter((e) => e.valueType !== "number" && e.valueType !== "boolean").map((e, t) => A`<rect class="segment-border" x=${40} y=${l + t * 14} width=${640} height="9" fill="none" stroke=${e.color}></rect>`)}
+              ${r ? A`<line class="axis" x1=${40} y1=${18} x2=${40} y2=${s}></line>` : M}
+              ${r && e.rightYLabels.length > 0 ? A`<line class="axis" x1=${680} y1=${18} x2=${680} y2=${s}></line>` : M}
+              ${r ? A`<line class="axis" x1=${40} y1=${s} x2=${680} y2=${s}></line>` : M}
+              ${r && e.scale ? e.yLabels.map((e) => A`
+                      <line class="axis tick" x1=${40} y1=${e.y.toFixed(1)} x2=${44} y2=${e.y.toFixed(1)}></line>
+                    `) : M}
+              ${r ? e.rightYLabels.map((e) => A`
+                      <line class="axis tick" x1=${676} y1=${e.y.toFixed(1)} x2=${680} y2=${e.y.toFixed(1)}></line>
+                    `) : M}
+            </svg>
+            ${r ? e.xLabels.map((e) => {
+			let t = ((e.x - 40) / 640 * 100).toFixed(2);
+			return k`<span class="x-axis-label ${e.bold ? "x-axis-label--bold" : ""}" style="left:${t}%;top:${c}px;">${e.label}</span>`;
+		}) : M}
+          </div>
+          <div class="axis-labels axis-labels--right" style="height:${e.canvasHeight}px">
+            ${r ? e.rightYLabels.map((e) => k`<span class="y-axis-label y-axis-label--right" style="top:${e.y.toFixed(1)}px;">${e.value}</span>`) : M}
+          </div>
+        </div>
+        ${t && e.allSeries.length > 0 ? k`
+            <div class="graph-legend">
+              ${e.allSeries.map((e) => k`
+                  <button class="legend-item" ?hidden-series=${this._hiddenSeriesIds.includes(e.id)} @click=${() => this._toggleSeries(e.id)}>
+                    <span class="swatch" style=${e.valueType === "string" ? `background:color-mix(in srgb,${e.color} 30%,transparent);border:1px solid ${e.color};` : `background:${e.color};`}></span>
+                    <span class="legend-label">${e.label}</span>
+                  </button>
+                `)}
+            </div>
+          ` : M}
+      </div>
+    `;
+	}
+	_animateClipPaths() {
+		let e = this.renderRoot;
+		e && e.querySelectorAll("polyline[data-line-id]").forEach((t) => {
+			let n = t.getAttribute("data-line-id"), r = Number(t.getAttribute("data-target-x"));
+			if (!n || !Number.isFinite(r)) return;
+			let i = this._prevClipX.get(n) ?? 0, a = n.replace(/[^a-zA-Z0-9]/g, "_"), o = e.querySelector(`#rect-${a}`);
+			if (o instanceof SVGRectElement) {
+				if (t.getAttribute("data-animate-clip") !== "true") {
+					o.style.removeProperty("transition"), o.setAttribute("width", r.toString()), this._prevClipX.set(n, r);
+					return;
+				}
+				o.style.setProperty("transition", "none"), o.setAttribute("width", i.toString()), o.getBoundingClientRect(), o.style.setProperty("transition", "width 0.9s cubic-bezier(0.25, 0.1, 0.25, 1)"), o.setAttribute("width", r.toString()), this._prevClipX.set(n, r);
+			}
+			t.removeAttribute("data-animate-clip");
+		});
+	}
+	_renderChartBody() {
+		if (this._data.error) {
+			let e = /timed?\s*out/i.test(this._data.error);
+			return k`<div class="error">${G(this.hass, e ? "error_timeout" : "error")}</div>`;
+		}
+		if (!this._resolved || this._resolved.series.length === 0 && this._selectedSources.length === 0) return M;
+		let e = this._chartData(), t = e.visibleSeries.some((e) => e.points.length > 0), n = this._resolved.showTooltip, r = this._graphGroups(e), i = r.length > 0 && (t || this._data.loading);
+		this._suppressLineAnimation = this._wasLoading && !this._data.loading;
+		let a = r.reduce((e, t) => e + t.canvasHeight, 0);
+		if (t && n) {
+			let t = r.flatMap((e) => e.allSeries.map((e) => ({
+				id: e.id,
+				label: e.label,
+				color: e.color
+			})));
+			this._tooltip.sync(t, this._data.series, this._hiddenSeriesIds, a, e.timeBounds);
+		}
+		return k`
+      <div class="chart-surface">
+        ${i ? k`
+              <div class="chart-graphs"
+                @pointermove=${n ? (e) => this._tooltip.handlePointerMove(e) : M}
+                @pointerleave=${n ? () => this._tooltip.handlePointerLeave() : M}
+              >
+                ${r.map((e) => this._renderGraphGroup(e))}
+                ${n ? this._tooltip.renderTooltip() : M}
+              </div>` : this._data.loading ? M : k`<div class="empty">${G(this.hass, "empty")}</div>`}
+      </div>
+    `;
+	}
+	_renderEntityPickerUI() {
+		return !this._resolved?.showEntityPicker || !this._entityComponentsReady ? M : ci({
+			hass: this.hass,
+			menuOpen: this._attributeMenuOpen,
+			entityPickerOpen: this._entityPickerOpen,
+			selectedEntityId: this._selectedEntityId,
+			path: this._path,
+			selectedSources: this._selectedSources,
+			draggingSourceId: this._draggingSourceId,
+			resolved: this._activeResolvedConfig(),
+			loading: this._data.loading,
+			attributeSearch: this._attributeSearch,
+			getItems: this._getEntityPickerItems,
+			getAdditionalItems: this._getAdditionalEntityPickerItems,
+			onEntityPickerOpened: () => this._onEntityPickerOpened(),
+			onEntityPickerClosed: () => this._onEntityPickerClosed(),
+			onEntitySelected: (e) => this._onEntitySelected(e),
+			onAttributeSearchChanged: (e) => {
+				this._attributeSearch = e;
+			},
+			onSourceAdded: (e) => this._addSource(e),
+			onSourceRemoved: (e) => this._removeSource(e),
+			onSourceDragStart: (e, t) => this._onSourceDragStart(e, t),
+			onSourceDragOver: (e, t) => this._onSourceDragOver(e, t),
+			onSourceDragEnd: () => this._onSourceDragEnd(),
+			onSourceDrop: (e, t) => this._onSourceDrop(e, t),
+			onBreadcrumbClick: (e) => {
+				this._path = e;
+			},
+			onCloseMenu: () => this._closeAttributeMenu()
+		});
+	}
+	_rangePercent(e, t) {
+		let n = this._resolved?.startDate.getTime() ?? this._effectiveStartDate().getTime(), r = this._rangeExtendsFuture() ? this._effectiveEndDate().getTime() : this._resolved?.endDate.getTime() ?? this._effectiveEndDate().getTime(), i = Math.max(r - n, 1), a = e?.getTime() ?? t.getTime();
+		return Math.round((a - n) / i * 1e3);
+	}
+	_loadedRangeMs() {
+		let e = this._resolved?.startDate.getTime() ?? this._effectiveStartDate().getTime(), t = this._rangeExtendsFuture() ? this._effectiveEndDate().getTime() : this._resolved?.endDate.getTime() ?? this._effectiveEndDate().getTime(), n = Math.max(t, e + 1);
+		return {
+			start: e,
+			end: n,
+			span: n - e
+		};
+	}
+	_rangeSliderTrackWidthPx(e) {
+		let t = (e?.closest(".range-slider-stack") ?? this.renderRoot.querySelector(".range-slider-stack"))?.getBoundingClientRect().width ?? 0;
+		return t > 0 ? t : void 0;
+	}
+	_minViewSpanMs(e = this._rangeSliderTrackWidthPx()) {
+		let { span: t } = this._loadedRangeMs(), n = Math.max(e ?? Ii, Fi), r = Math.ceil(t * Fi / n), i = Math.min(6e4, Math.max(1, Math.floor(t / 1e3)));
+		return Math.min(t, Math.max(1, r, i));
+	}
+	_minViewRangeStep(e) {
+		let t = this._loadedRangeMs();
+		return Math.max(1, Math.ceil(this._minViewSpanMs(e) / t.span * 1e3));
+	}
+	_setViewRangeMs(e, t, n) {
+		let r = this._loadedRangeMs(), i = this._minViewSpanMs(n), a = Math.max(t - e, i), o = Math.min(a, r.span), s = Math.min(Math.max(e, r.start), r.end - o), c = s + o;
+		this._viewStart = new Date(s), this._viewEnd = new Date(c), this.dispatchEvent(new CustomEvent("view-range-changed", {
+			detail: {
+				start: this._viewStart,
+				end: this._viewEnd
+			},
+			bubbles: !0,
+			composed: !0
+		}));
+	}
+	_dateFromRangePercent(e) {
+		let t = this._resolved?.startDate.getTime() ?? this._effectiveStartDate().getTime(), n = this._rangeExtendsFuture() ? this._effectiveEndDate().getTime() : this._resolved?.endDate.getTime() ?? this._effectiveEndDate().getTime();
+		return new Date(t + Math.max(0, Math.min(1e3, e)) / 1e3 * (n - t));
+	}
+	_formatRangeDate(e) {
+		return e.toLocaleString(this._resolved?.language ?? void 0, {
+			month: "short",
+			day: "numeric",
+			hour: "2-digit",
+			minute: "2-digit"
+		});
+	}
+	_setViewRangePart(e, t) {
+		let n = t.currentTarget, r = Number(n.value), i = this._rangeSliderTrackWidthPx(n), a = this._effectiveViewRange(), o = this._rangePercent(a.start, a.start), s = this._rangePercent(a.end, a.end), c = this._minViewRangeStep(i), l;
+		e === "start" ? (l = Math.min(Math.max(r, 0), s - c), n.value = String(l), this._setViewRangeMs(this._dateFromRangePercent(l).getTime(), a.end.getTime(), i)) : (l = Math.max(Math.min(r, 1e3), o + c), n.value = String(l), this._setViewRangeMs(a.start.getTime(), this._dateFromRangePercent(l).getTime(), i));
+	}
+	_onRangeSelectionPointerDown(e) {
+		if (e.button !== 0) return;
+		let t = e.currentTarget, n = t.closest(".range-slider-stack");
+		if (!(n instanceof HTMLElement)) return;
+		let r = n.getBoundingClientRect();
+		if (r.width <= 0) return;
+		let i = this._loadedRangeMs(), a = this._effectiveViewRange(), o = a.start.getTime(), s = a.end.getTime() - o;
+		if (s >= i.span - 1) return;
+		e.preventDefault(), e.stopPropagation();
+		let c = e.clientX;
+		t.setPointerCapture(e.pointerId), t.toggleAttribute("dragging", !0);
+		let l = (e) => {
+			e.preventDefault();
+			let t = (e.clientX - c) / r.width * i.span, n = Math.min(Math.max(o + t, i.start), i.end - s);
+			this._setViewRangeMs(n, n + s);
+		}, u = () => {
+			t.toggleAttribute("dragging", !1), t.removeEventListener("pointermove", l), t.removeEventListener("pointerup", u), t.removeEventListener("pointercancel", u);
+		};
+		t.addEventListener("pointermove", l), t.addEventListener("pointerup", u), t.addEventListener("pointercancel", u);
+	}
+	_resetViewRange() {
+		this._resolved && (this._viewStart = this._resolved.startDate, this._viewEnd = this._rangeExtendsFuture() ? this._effectiveEndDate() : this._resolved.endDate, this.dispatchEvent(new CustomEvent("view-range-changed", {
+			detail: {
+				start: this._viewStart,
+				end: this._viewEnd
+			},
+			bubbles: !0,
+			composed: !0
+		})));
+	}
+	_setRuntimeLineMode(e) {
+		this._runtimeLineMode = e;
+	}
+	_exportData() {
+		let e = this._effectiveViewRange(), t = this._buildRenderSeries().filter((e) => !this._hiddenSeriesIds.includes(e.id)).map((t) => ({
+			id: t.id,
+			entityId: t.id.startsWith("attr:") ? t.id.slice(5).split(":")[0] : t.id.replace(/^state:/, ""),
+			attribute: t.id.startsWith("attr:") ? t.id.slice(5).split(":").slice(1).join(":") : void 0,
+			label: t.label,
+			unit: t.unit,
+			valueType: t.valueType,
+			lineMode: t.lineMode,
+			color: t.color,
+			points: t.points.filter((t) => t.time >= e.start.getTime() && t.time <= e.end.getTime()).map((e) => ({
+				timestamp: new Date(e.time).toISOString(),
+				value: e.value
+			}))
+		})), n = {
+			format: "ha-better-history-series-v1",
+			exportedAt: (/* @__PURE__ */ new Date()).toISOString(),
+			loadedRange: {
+				start: this._resolved?.startDate.toISOString(),
+				end: (this._rangeExtendsFuture() ? this._effectiveEndDate() : this._resolved?.endDate)?.toISOString()
+			},
+			viewRange: {
+				start: e.start.toISOString(),
+				end: e.end.toISOString()
+			},
+			series: t
+		}, r = new Blob([JSON.stringify(n, null, 2)], { type: "application/json" }), i = URL.createObjectURL(r), a = document.createElement("a"), o = (/* @__PURE__ */ new Date()).toISOString().replace(/[:.]/g, "-");
+		a.href = i, a.download = `ha-better-history-${o}.json`, a.click(), URL.revokeObjectURL(i);
+	}
+	_importData() {
+		let e = document.createElement("input");
+		e.type = "file", e.accept = "application/json,.json", e.addEventListener("change", () => {
+			let t = e.files?.[0];
+			t && t.text().then((e) => this._applyImportedData(JSON.parse(e))).catch(() => this._data.setError("Invalid import file"));
+		}, { once: !0 }), e.click();
+	}
+	_applyImportedData(e) {
+		if (!this._isExportPayload(e)) {
+			this._data.setError("Unsupported import format");
+			return;
+		}
+		let t = this._parseImportedSeries(e.series ?? []);
+		if (!t) {
+			this._data.setError("Invalid import data");
+			return;
+		}
+		let n = this._parseDate(e.viewRange?.start), r = this._parseDate(e.viewRange?.end), i = this._parseDate(e.loadedRange?.start) ?? n, a = this._parseDate(e.loadedRange?.end) ?? r;
+		if (!n || !r || !i || !a || i.getTime() >= a.getTime()) {
+			this._data.setError("Invalid import range");
+			return;
+		}
+		this._importedSeriesMeta = t.meta, this._importedDataActive = !0, this._selectedSources = t.series.map((e) => e.source), this._removedConfigSourceIds = [], this._rangeStart = i, this._rangeEnd = a, this._viewStart = n, this._viewEnd = r, this._hiddenSeriesIds = [], this._prevClipX.clear(), this._chartRenderCache = void 0, this._graphGroupRenderCache = void 0;
+		let o = this._selectedSources.map((e) => e.id).sort().join("|");
+		this._lastFetchKey = `${o}|${i.getTime()}|${a.getTime()}`, this._lastFetchSources = [...this._selectedSources], this._data.setImportedSeries(t.series, i, a), this.dispatchEvent(new CustomEvent("data-imported", {
+			detail: {
+				start: i,
+				end: a,
+				seriesCount: t.series.length
+			},
+			bubbles: !0,
+			composed: !0
+		}));
+	}
+	_isExportPayload(e) {
+		return typeof e == "object" && !!e && e.format === "ha-better-history-series-v1";
+	}
+	_parseImportedSeries(e) {
+		let t = [], n = /* @__PURE__ */ new Map();
+		for (let r of e) {
+			if (typeof r != "object" || !r) return;
+			let e = r, i = typeof e.id == "string" && e.id.trim() !== "" ? e.id : void 0, a = typeof e.entityId == "string" && e.entityId.trim() !== "" ? e.entityId : void 0, o = typeof e.label == "string" && e.label.trim() !== "" ? e.label : i, s = e.valueType === "number" || e.valueType === "boolean" || e.valueType === "string" ? e.valueType : void 0, c = Array.isArray(e.points) ? e.points : void 0;
+			if (!i || !a || !o || !s || !c) return;
+			let l = typeof e.attribute == "string" && e.attribute.trim() !== "" ? e.attribute : void 0, u = {
+				id: i,
+				kind: l ? "entity_attribute" : "entity_state",
+				entityId: a,
+				label: o,
+				path: l?.split("."),
+				valueType: s,
+				unit: typeof e.unit == "string" ? e.unit : void 0
+			}, d = c.map((e) => this._parseImportedPoint(e, s)).filter((e) => e !== void 0).sort((e, t) => e.time - t.time);
+			t.push({
+				source: u,
+				points: d
+			}), n.set(i, {
+				color: typeof e.color == "string" && e.color.trim() !== "" ? e.color : void 0,
+				lineMode: e.lineMode === "line" || e.lineMode === "column" || e.lineMode === "stair" ? e.lineMode : void 0
+			});
+		}
+		return {
+			series: t,
+			meta: n
+		};
+	}
+	_parseImportedPoint(e, t) {
+		if (typeof e != "object" || !e) return;
+		let n = e, r = Date.parse(String(n.timestamp ?? "")), i = n.value;
+		if (Number.isFinite(r) && (t === "number" && typeof i == "number" && Number.isFinite(i) || t === "boolean" && typeof i == "boolean" || t === "string" && typeof i == "string")) return {
+			time: r,
+			value: i
+		};
+	}
+	_parseDate(e) {
+		if (typeof e != "string") return;
+		let t = Date.parse(e);
+		return Number.isFinite(t) ? new Date(t) : void 0;
+	}
+	_renderToolsPanel() {
+		if (!this.toolsOpen || !this._resolved) return M;
+		let e = this._effectiveViewRange(), t = this._rangePercent(e.start, this._resolved.startDate), n = this._rangePercent(e.end, this._resolved.endDate), r = this._defaultLineMode(), i = this._showTimeRangeSelector(), a = this._showLineModeButtons(), o = this._showExportButton(), s = this._showImportButton();
+		return !i && !a && !o && !s ? M : k`
+      <div class="tools-panel">
+        <div class="tool-range">
+          <div class="tool-range-row">
+            ${i ? k`
+                <div class="tool-range-control">
+                  <div class="range-values">
+                    <span>${this._formatRangeDate(e.start)}</span>
+                    <span>${this._formatRangeDate(e.end)}</span>
+                  </div>
+                  <div class="range-slider-stack">
+                    <div
+                      class="range-selection"
+                      style="left:${t / 10}%;right:${100 - n / 10}%;"
+                    ></div>
+                    <div
+                      class="range-selection-hit"
+                      @pointerdown=${(e) => this._onRangeSelectionPointerDown(e)}
+                    ></div>
+                    <input class="range-slider" type="range" min="0" max="1000" .value=${String(t)} @input=${(e) => this._setViewRangePart("start", e)} />
+                    <input class="range-slider" type="range" min="0" max="1000" .value=${String(n)} @input=${(e) => this._setViewRangePart("end", e)} />
+                  </div>
+                </div>
+                <button
+                  class="tool-action-button tool-reset-button"
+                  title=${G(this.hass, "reset_zoom")}
+                  aria-label=${G(this.hass, "reset_zoom")}
+                  @click=${() => this._resetViewRange()}
+                >
+                  <ha-icon .icon=${"mdi:restore"}></ha-icon>
+                </button>
+              ` : M}
+            <div class="tool-actions">
+              ${a ? k`
+                <div class="mode-switch" role="group" aria-label=${G(this.hass, "line_mode")}>
+                  ${[
+			[
+				"stair",
+				"mdi:stairs",
+				"mode_stair"
+			],
+			[
+				"line",
+				"mdi:chart-line",
+				"mode_line"
+			],
+			[
+				"column",
+				"mdi:chart-bar",
+				"mode_column"
+			]
+		].map(([e, t, n]) => k`
+                    <button
+                      class="mode-button"
+                      ?active=${r === e}
+                      title=${G(this.hass, n)}
+                      @click=${() => this._setRuntimeLineMode(e)}
+                    >
+                      <ha-icon .icon=${t}></ha-icon>
+                    </button>
+                  `)}
+                </div>
+              ` : M}
+              ${o ? k`
+                  <button
+                    class="tool-action-button"
+                    title=${G(this.hass, "export_data")}
+                    aria-label=${G(this.hass, "export_data")}
+                    @click=${() => this._exportData()}
+                  >
+                    <ha-icon .icon=${"mdi:download"}></ha-icon>
+                  </button>
+                ` : M}
+              ${s ? k`
+                  <button
+                    class="tool-action-button"
+                    title=${G(this.hass, "import_data")}
+                    aria-label=${G(this.hass, "import_data")}
+                    ?disabled=${this._hasForcedConfigSeries()}
+                    @click=${() => this._importData()}
+                  >
+                    <ha-icon .icon=${"mdi:upload"}></ha-icon>
+                  </button>
+                ` : M}
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+	}
+	render() {
+		let e = this._resolved?.width ?? "100%", t = this._resolved?.backgroundColor ?? "transparent", n = this._resolved?.title?.trim(), r = [
+			this._resolved?.titleFontFamily ? `font-family:${this._resolved.titleFontFamily};` : "",
+			this._resolved?.titleFontSize ? `font-size:${this._resolved.titleFontSize};` : "",
+			this._resolved?.titleColor ? `color:${this._resolved.titleColor};` : ""
+		].join("");
+		return k`
+      <div class="root" style="width:${e};background:${t};">
+        ${n ? k`<div class="graph-title" style=${r}>${n}</div>` : M}
+        ${this.showControls ? k`<div class="controls-bar">
+              ${this._renderDatePicker()}
+              ${this._renderEntityPickerUI()}
+            </div>` : M}
+        ${this._renderToolsPanel()}
+        <div class="chart-area">
+          ${this._renderChartBody()}
+        </div>
+      </div>
+    `;
+	}
+	_toggleSeries(e) {
+		let t = !this._hiddenSeriesIds.includes(e);
+		this._hiddenSeriesIds = t ? [...this._hiddenSeriesIds, e] : this._hiddenSeriesIds.filter((t) => t !== e), this.dispatchEvent(new CustomEvent("series-toggled", {
+			detail: {
+				id: e,
+				hidden: t
+			},
+			bubbles: !0,
+			composed: !0
+		}));
+	}
+	_renderDatePicker() {
+		return !this._resolved?.showDatePicker || !this._datePickerReady ? M : Ur(this.hass, this._resolved.startDate, this._resolved.endDate, (e, t) => this._onDateRangeChanged(e, t));
+	}
+	_positionEntityMenu() {
+		let e = this.renderRoot?.querySelector(".entity-trigger"), t = this.renderRoot?.querySelector(".entity-menu");
+		if (!e || !t) return;
+		t.style.top = "0", t.style.left = "0", t.style.right = "", t.style.width = "";
+		let n = t.getBoundingClientRect(), r = e.getBoundingClientRect(), i = this.getBoundingClientRect(), a = i.bottom - 8 - r.bottom - 8;
+		t.style.maxHeight = `${Math.min(Math.max(a, 120), 420)}px`, t.style.top = `${r.bottom - n.top + 6}px`;
+		let o = i.left + 8, s = i.right - 8, c = s - o, l = Math.min(420, c);
+		t.style.width = `${l}px`;
+		let u;
+		window.matchMedia("(hover: hover) and (pointer: fine)").matches ? (u = r.left, u = Math.min(u, s - l), u = Math.max(u, o)) : (u = o, t.style.width = `${c}px`), t.style.left = `${u - n.left}px`, t.style.right = "";
+	}
+	_closeAttributeMenu() {
+		this._attributeMenuOpen = !1, this._entityPickerOpen = !1, this._attributeSearch = "";
+	}
+	_onEntitySelected(e) {
+		new Set(this._pickerEntities().map((e) => e.entity_id)).has(e) || (this._customEntityIds = [...this._customEntityIds, e]), this._selectedEntityId = e, this._path = [], this._attributeSearch = "", this._entityPickerOpen = !1, this._attributeMenuOpen = !0;
+	}
+	_onEntityPickerOpened() {
+		this._entityPickerOpen = !0, this._attributeMenuOpen = !1;
+	}
+	_onEntityPickerClosed() {
+		this._entityPickerOpen = !1;
+	}
+	_isEventInsideAttributeOverlay(e) {
+		let t = e.composedPath(), n = this.renderRoot?.querySelector(".entity-menu");
+		if (n && this._pathContainsElement(t, n)) return !0;
+		let r = this.renderRoot?.querySelector(".entity-trigger");
+		if (r && this._pathContainsElement(t, r)) return !0;
+		for (let e of t) {
+			if (e === this) break;
+			if (!(e instanceof HTMLElement)) continue;
+			let t = e.localName;
+			if (t === "ha-generic-picker" || t === "ha-combo-box" || t === "vaadin-combo-box-overlay" || t === "mwc-menu-surface" || t === "ha-md-list" || t === "md-menu") return !0;
+		}
+		return !1;
+	}
+	_pathContainsElement(e, t) {
+		return e.some((e) => e instanceof Node && t.contains(e));
+	}
+	_sourceWithAttributeUnit(e) {
+		if (e.kind !== "entity_attribute" || !e.path) return e;
+		let t = sr(e.path, this.attributeUnits ?? this.config?.attributeUnits), n = or(t) ? this._resolvedTemperatureUnit() ?? t : t;
+		return !n || e.unit === n ? e : {
+			...e,
+			unit: n
+		};
+	}
+	_expandedSelectedSources(e) {
+		if (e.kind !== "entity_state" || !e.entityId.startsWith("climate.")) return [this._sourceWithAttributeUnit(e)];
+		let t = this.hass?.states[e.entityId];
+		if (!t) return [this._sourceWithAttributeUnit(e)];
+		let n = typeof t.attributes.temperature_unit == "string" && t.attributes.temperature_unit !== "" ? t.attributes.temperature_unit : typeof t.attributes.unit_of_measurement == "string" && t.attributes.unit_of_measurement !== "" ? t.attributes.unit_of_measurement : void 0, r = Hi.map((r) => {
+			let i = ht(t, [r]), a = {
+				id: `attr:${e.entityId}:${r}`,
+				kind: "entity_attribute",
+				entityId: e.entityId,
+				label: r,
+				path: [r],
+				valueType: r === "hvac_action" ? "string" : "number",
+				unit: Ui.has(r) ? n : void 0
+			}, o = i ?? a;
+			return Ui.has(r) && n ? {
+				...o,
+				unit: n
+			} : o;
+		});
+		return [this._sourceWithAttributeUnit(e), ...r.map((e) => this._sourceWithAttributeUnit(e))];
+	}
+	_addSource(e) {
+		if (this._resolved?.series.find((t) => t.id === e.id && t.forced === !1 && this._removedConfigSourceIds.includes(t.id))) {
+			this._removedConfigSourceIds = this._removedConfigSourceIds.filter((t) => t !== e.id), this._hiddenSeriesIds = this._hiddenSeriesIds.filter((t) => t !== e.id);
+			return;
+		}
+		if (this._selectedSources.some((t) => t.id === e.id) || this._pendingAddedSources.some((t) => t.id === e.id) || (this._resolved?.series ?? []).some((t) => t.id === e.id)) return;
+		let t = this._sourceWithAttributeUnit(e);
+		this._pendingAddedSources = [...this._pendingAddedSources, t], this.dispatchEvent(new CustomEvent("series-added", {
+			detail: { source: t },
+			bubbles: !0,
+			composed: !0
+		})), this._sourceAddBatchTimer !== void 0 && clearTimeout(this._sourceAddBatchTimer), this._sourceAddBatchTimer = setTimeout(() => this._flushPendingAddedSources(), Ni);
+	}
+	_flushPendingAddedSources() {
+		if (this._sourceAddBatchTimer = void 0, this._pendingAddedSources.length === 0) return;
+		let e = new Set(this._selectedSources.map((e) => e.id)), t = this._pendingAddedSources.filter((t) => !e.has(t.id));
+		this._pendingAddedSources = [], t.length !== 0 && (this._selectedSources = [...this._selectedSources, ...t], this.requestUpdate());
+	}
+	_removeSource(e) {
+		let t = this._selectedSources.find((t) => t.id === e);
+		if (this._pendingAddedSources = this._pendingAddedSources.filter((t) => t.id !== e), this._activeResolvedSeries().find((t) => t.id === e && t.forced === !1)) {
+			this._removedConfigSourceIds = [...this._removedConfigSourceIds, e], this._hiddenSeriesIds = this._hiddenSeriesIds.filter((t) => t !== e), this._data.removeSources([e]), this.dispatchEvent(new CustomEvent("series-removed", {
+				detail: { sourceId: e },
+				bubbles: !0,
+				composed: !0
+			}));
+			return;
+		}
+		!t || this._isDefaultSource(t) || (this._selectedSources = this._selectedSources.filter((t) => t.id !== e), this._hiddenSeriesIds = this._hiddenSeriesIds.filter((t) => t !== e), this.dispatchEvent(new CustomEvent("series-removed", {
+			detail: { sourceId: e },
+			bubbles: !0,
+			composed: !0
+		})), this.requestUpdate());
+	}
+	_onSourceDragStart(e, t) {
+		let n = this._selectedSources.find((t) => t.id === e);
+		if (!n || this._isDefaultSource(n)) {
+			t.preventDefault();
+			return;
+		}
+		this._draggingSourceId = e, this._dragStartSourceIds = this._selectedSources.map((e) => e.id), this._dragDropCommitted = !1, t.dataTransfer?.setData("text/plain", e), t.dataTransfer && (t.dataTransfer.effectAllowed = "move");
+	}
+	_onSourceDragEnd() {
+		if (!this._dragDropCommitted && this._dragStartSourceIds) {
+			let e = new Map(this._dragStartSourceIds.map((e, t) => [e, t]));
+			this._selectedSources = [...this._selectedSources].sort((t, n) => (e.get(t.id) ?? 2 ** 53 - 1) - (e.get(n.id) ?? 2 ** 53 - 1));
+		}
+		this._draggingSourceId = void 0, this._dragStartSourceIds = void 0, this._dragDropCommitted = !1;
+	}
+	_onSourceDragOver(e, t) {
+		t.preventDefault(), t.stopPropagation(), t.dataTransfer && (t.dataTransfer.dropEffect = "move");
+		let n = this._draggingSourceId ?? t.dataTransfer?.getData("text/plain");
+		n && this._previewSourceOrder(n, e);
+	}
+	_onSourceDrop(e, t) {
+		t.preventDefault(), t.stopPropagation();
+		let n = this._draggingSourceId ?? t.dataTransfer?.getData("text/plain");
+		n && (this._previewSourceOrder(n, e), this._dragDropCommitted = !0, this.dispatchEvent(new CustomEvent("series-reordered", {
+			detail: { sourceIds: this._selectedSources.map((e) => e.id) },
+			bubbles: !0,
+			composed: !0
+		})), this.requestUpdate());
+	}
+	_previewSourceOrder(e, t) {
+		if (e === t) return;
+		let n = this._selectedSources.find((t) => t.id === e);
+		if (!n || this._isDefaultSource(n)) return;
+		let r = this._selectedSources.filter((t) => t.id !== e), i = t ? r.findIndex((e) => e.id === t) : r.length;
+		if (i < 0) return;
+		let a = [
+			...r.slice(0, i),
+			n,
+			...r.slice(i)
+		];
+		a.map((e) => e.id).join("|") !== this._selectedSources.map((e) => e.id).join("|") && (this._selectedSources = a, this.requestUpdate());
+	}
+};
+q([I({ attribute: !1 })], J.prototype, "hass", void 0), q([I({ attribute: !1 })], J.prototype, "config", void 0), q([I({ attribute: !1 })], J.prototype, "entities", void 0), q([I({ attribute: !1 })], J.prototype, "attributeUnits", void 0), q([I({ type: Number })], J.prototype, "hours", void 0), q([I({ attribute: !1 })], J.prototype, "startDate", void 0), q([I({ attribute: !1 })], J.prototype, "endDate", void 0), q([I({
+	type: Boolean,
+	attribute: "show-date-picker"
+})], J.prototype, "showDatePicker", void 0), q([I({
+	type: Boolean,
+	attribute: "show-entity-picker"
+})], J.prototype, "showEntityPicker", void 0), q([I({
+	type: Boolean,
+	attribute: "show-import-button"
+})], J.prototype, "showImportButton", void 0), q([I({
+	type: Boolean,
+	attribute: "show-export-button"
+})], J.prototype, "showExportButton", void 0), q([I({
+	type: Boolean,
+	attribute: "show-time-range-selector"
+})], J.prototype, "showTimeRangeSelector", void 0), q([I({
+	type: Boolean,
+	attribute: "show-line-mode-buttons"
+})], J.prototype, "showLineModeButtons", void 0), q([I({
+	type: Boolean,
+	attribute: "show-legend"
+})], J.prototype, "showLegend", void 0), q([I({
+	type: Boolean,
+	attribute: "show-tooltip"
+})], J.prototype, "showTooltip", void 0), q([I({
+	type: Boolean,
+	attribute: "show-grid"
+})], J.prototype, "showGrid", void 0), q([I({
+	type: Boolean,
+	attribute: "show-scale"
+})], J.prototype, "showScale", void 0), q([I({
+	type: Boolean,
+	attribute: "show-controls"
+})], J.prototype, "showControls", void 0), q([I()], J.prototype, "width", void 0), q([I()], J.prototype, "height", void 0), q([I({ attribute: "line-mode" })], J.prototype, "lineMode", void 0), q([I({ attribute: "line-width" })], J.prototype, "lineWidth", void 0), q([I({ attribute: "background-color" })], J.prototype, "backgroundColor", void 0), q([I({ attribute: "graph-title" })], J.prototype, "graphTitle", void 0), q([I({ attribute: "title-font-family" })], J.prototype, "titleFontFamily", void 0), q([I({ attribute: "title-font-size" })], J.prototype, "titleFontSize", void 0), q([I({ attribute: "title-color" })], J.prototype, "titleColor", void 0), q([I()], J.prototype, "language", void 0), q([I({
+	type: Boolean,
+	attribute: "debug-performance"
+})], J.prototype, "debugPerformance", void 0), q([I({
+	type: Boolean,
+	attribute: "tools-open"
+})], J.prototype, "toolsOpen", void 0), q([L()], J.prototype, "_resolved", void 0), q([L()], J.prototype, "_hiddenSeriesIds", void 0), q([L()], J.prototype, "_rangeStart", void 0), q([L()], J.prototype, "_rangeEnd", void 0), q([L()], J.prototype, "_viewStart", void 0), q([L()], J.prototype, "_viewEnd", void 0), q([L()], J.prototype, "_liveNow", void 0), q([L()], J.prototype, "_datePickerReady", void 0), q([L()], J.prototype, "_entityComponentsReady", void 0), q([L()], J.prototype, "_runtimeLineMode", void 0), q([L()], J.prototype, "_attributeMenuOpen", void 0), q([L()], J.prototype, "_attributeSearch", void 0), q([L()], J.prototype, "_selectedEntityId", void 0), q([L()], J.prototype, "_path", void 0), q([L()], J.prototype, "_selectedSources", void 0), q([L()], J.prototype, "_removedConfigSourceIds", void 0), q([L()], J.prototype, "_customEntityIds", void 0), q([L()], J.prototype, "_entityPickerOpen", void 0), q([L()], J.prototype, "_draggingSourceId", void 0), q([L()], J.prototype, "_importedDataActive", void 0), q([L()], J.prototype, "_containerWidth", void 0), q([L()], J.prototype, "_chartSurfaceHeight", void 0), q([L()], J.prototype, "_chartSurfaceConstrained", void 0);
+var Y = class extends F {
+	constructor(...e) {
+		super(...e), this._selectedSources = [], this._attributeMenuOpen = !1, this._entityPickerOpen = !1, this._entitySearch = "", this._path = [], this._attributeSearch = "", this._componentsReady = !1, this._customEntityIds = [], this._lastPointerDownInside = !1, this._handleDocumentPointerDown = (e) => {
+			this._lastPointerDownInside = this._isEventInsideAttributeOverlay(e), this._attributeMenuOpen && (this._lastPointerDownInside || (e.stopPropagation(), e.stopImmediatePropagation()));
+		}, this._handleDocumentClick = (e) => {
+			if (!this._attributeMenuOpen && !this._entityPickerOpen) {
+				this._lastPointerDownInside = !1;
+				return;
+			}
+			let t = this._lastPointerDownInside;
+			if (this._lastPointerDownInside = !1, !t && !this._isEventInsideAttributeOverlay(e)) {
+				if (this._entityPickerOpen && !this._attributeMenuOpen) {
+					this._entityPickerOpen = !1, this._entitySearch = "";
+					return;
+				}
+				e.preventDefault(), e.stopPropagation(), e.stopImmediatePropagation(), this._closeAttributeMenu();
+			}
+		}, this._getItems = () => ei(this.hass), this._getAdditionalItems = (e) => {
+			if (!this.hass || !e?.trim()) return [];
+			let t = new Set(this._pickerEntities().map((e) => e.entity_id));
+			return ii(ei(this.hass, Object.values(this.hass.states).filter((e) => e !== void 0).filter((e) => !t.has(e.entity_id))), e);
+		};
+	}
+	static {
+		this.styles = [Pr, o`
+      :host {
+        display: block;
+      }
+    `];
+	}
+	connectedCallback() {
+		super.connectedCallback(), document.addEventListener("pointerdown", this._handleDocumentPointerDown, !0), document.addEventListener("click", this._handleDocumentClick, !0), oi().then(() => {
+			this._componentsReady = !0;
+		});
+	}
+	disconnectedCallback() {
+		super.disconnectedCallback(), document.removeEventListener("pointerdown", this._handleDocumentPointerDown, !0), document.removeEventListener("click", this._handleDocumentClick, !0);
+	}
+	willUpdate(e) {
+		e.has("initialSources") && this.initialSources && (this._selectedSources = [...this.initialSources]), (e.has("_attributeMenuOpen") && this._attributeMenuOpen || e.has("_entityPickerOpen") && this._entityPickerOpen) && this.updateComplete.then(() => this._positionEntityMenu());
+	}
+	_isEventInsideAttributeOverlay(e) {
+		let t = e.composedPath(), n = this.renderRoot?.querySelector(".entity-menu[open], .entity-select-menu[open]");
+		if (n && this._pathContainsElement(t, n)) return !0;
+		let r = this.renderRoot?.querySelector(".entity-trigger");
+		if (r && this._pathContainsElement(t, r)) return !0;
+		for (let e of t) {
+			if (e === this) break;
+			if (!(e instanceof HTMLElement)) continue;
+			let t = e.localName;
+			if (t === "ha-generic-picker" || t === "ha-combo-box" || t === "vaadin-combo-box-overlay" || t === "mwc-menu-surface" || t === "ha-md-list" || t === "md-menu") return !0;
+		}
+		return !1;
+	}
+	_pathContainsElement(e, t) {
+		return e.some((e) => e instanceof Node && t.contains(e));
+	}
+	_positionEntityMenu() {
+		let e = this.renderRoot?.querySelector(".entity-trigger"), t = this.renderRoot?.querySelector(".entity-menu[open], .entity-select-menu[open]");
+		if (!e || !t) return;
+		t.style.top = "0", t.style.left = "0", t.style.right = "", t.style.width = "";
+		let n = t.getBoundingClientRect(), r = e.getBoundingClientRect(), i = this.getBoundingClientRect(), a = i.bottom - 8 - r.bottom - 8;
+		t.style.maxHeight = `${Math.min(Math.max(a, 120), 420)}px`, t.style.top = `${r.bottom - n.top + 6}px`;
+		let o = i.left + 8, s = i.right - 8, c = s - o, l = Math.min(420, c);
+		t.style.width = `${l}px`;
+		let u;
+		window.matchMedia("(hover: hover) and (pointer: fine)").matches ? (u = r.left, u = Math.min(u, s - l), u = Math.max(u, o)) : (u = o, t.style.width = `${c}px`), t.style.left = `${u - n.left}px`, t.style.right = "";
+	}
+	_pickerEntities() {
+		return this.hass ? this._customEntityIds.filter((e) => typeof e == "string" && e !== "").filter((e, t, n) => n.indexOf(e) === t).map((e) => this.hass?.states[e]).filter((e) => e !== void 0) : [];
+	}
+	_onEntitySelected(e) {
+		new Set(this._pickerEntities().map((e) => e.entity_id)).has(e) || (this._customEntityIds = [...this._customEntityIds, e]), this._selectedEntityId = e, this._entitySearch = "", this._path = [], this._attributeSearch = "", this._entityPickerOpen = !1, this._attributeMenuOpen = !0;
+	}
+	_closeAttributeMenu() {
+		this._attributeMenuOpen = !1, this._entityPickerOpen = !1, this._entitySearch = "", this._attributeSearch = "", this._selectedSources.length > 0 && (this._confirm(), this._selectedSources = []);
+	}
+	_addSource(e) {
+		this._selectedSources.some((t) => t.id === e.id) || (this._selectedSources = [...this._selectedSources, e]);
+	}
+	_removeSource(e) {
+		this._selectedSources = this._selectedSources.filter((t) => t.id !== e);
+	}
+	_confirm() {
+		this.dispatchEvent(new CustomEvent("sources-confirmed", {
+			detail: { sources: [...this._selectedSources] },
+			bubbles: !0,
+			composed: !0
+		}));
+	}
+	render() {
+		return this._componentsReady ? k`
+      ${ci({
+			hass: this.hass,
+			menuOpen: this._attributeMenuOpen,
+			entityPickerOpen: this._entityPickerOpen,
+			selectedEntityId: this._selectedEntityId,
+			entitySearch: this._entitySearch,
+			path: this._path,
+			selectedSources: this._selectedSources,
+			draggingSourceId: void 0,
+			resolved: void 0,
+			loading: !1,
+			attributeSearch: this._attributeSearch,
+			getItems: this._getItems,
+			getAdditionalItems: this._getAdditionalItems,
+			onEntityPickerOpened: () => {
+				this._entityPickerOpen = !0, this._attributeMenuOpen = !1;
+			},
+			onEntityPickerClosed: () => {
+				this._entityPickerOpen = !1;
+			},
+			onEntitySelected: (e) => this._onEntitySelected(e),
+			onEntitySearchChanged: (e) => {
+				this._entitySearch = e;
+			},
+			onAttributeSearchChanged: (e) => {
+				this._attributeSearch = e;
+			},
+			onSourceAdded: (e) => this._addSource(e),
+			onSourceRemoved: (e) => this._removeSource(e),
+			onSourceDragStart: () => {},
+			onSourceDragOver: () => {},
+			onSourceDragEnd: () => {},
+			onSourceDrop: () => {},
+			onBreadcrumbClick: (e) => {
+				this._path = e;
+			},
+			onCloseMenu: () => this._closeAttributeMenu(),
+			hideEmptyPickerState: this._pickerEntities().length === 0
+		})}
+    ` : k``;
+	}
+};
+q([I({ attribute: !1 })], Y.prototype, "hass", void 0), q([I({ attribute: !1 })], Y.prototype, "initialSources", void 0), q([L()], Y.prototype, "_selectedSources", void 0), q([L()], Y.prototype, "_attributeMenuOpen", void 0), q([L()], Y.prototype, "_entityPickerOpen", void 0), q([L()], Y.prototype, "_selectedEntityId", void 0), q([L()], Y.prototype, "_entitySearch", void 0), q([L()], Y.prototype, "_path", void 0), q([L()], Y.prototype, "_attributeSearch", void 0), q([L()], Y.prototype, "_componentsReady", void 0), q([L()], Y.prototype, "_customEntityIds", void 0), customElements.get("abh-series-picker") || customElements.define("abh-series-picker", Y), customElements.get("ha-better-history") || customElements.define("ha-better-history", J);
 //#endregion
 //#region src/data/build-better-history-config.ts
-function Se(e) {
+function Ji(e) {
 	if (typeof e == "string" && e.trim() !== "") {
 		let t = e.trim();
 		return /^[a-z][a-z0-9-]*$/i.test(t) ? `var(--${t}-color, ${t})` : t;
@@ -521,7 +5645,7 @@ function Se(e) {
 		r
 	].every((e) => Number.isFinite(e))) return `rgb(${t}, ${n}, ${r})`;
 }
-function Ce(e) {
+function Yi(e) {
 	return {
 		entity: e.entity,
 		...e.attribute !== void 0 && { attribute: e.attribute },
@@ -537,18 +5661,18 @@ function Ce(e) {
 		...e.line_width !== void 0 && { lineWidth: e.line_width }
 	};
 }
-function W(e, t) {
+function Xi(e, t) {
 	let n = {};
-	if (e.series && (n.series = e.series.map(Ce)), e.entities && (n.defaultEntities = e.entities), e.attribute_units && (n.attributeUnits = e.attribute_units), e.range_mode === "absolute" ? (e.start_date && (n.startDate = new Date(e.start_date)), e.end_date && (n.endDate = new Date(e.end_date))) : n.hours = e.hours ?? 24, e.show_date_picker !== void 0 && (n.showDatePicker = e.show_date_picker), e.show_entity_picker !== void 0 && (n.showEntityPicker = e.show_entity_picker), e.show_legend !== void 0 && (n.showLegend = e.show_legend), e.show_tooltip !== void 0 && (n.showTooltip = e.show_tooltip), e.show_grid !== void 0 && (n.showGrid = e.show_grid), e.show_scale !== void 0 && (n.showScale = e.show_scale), e.show_import_button !== void 0 && (n.showImportButton = e.show_import_button), e.show_export_button !== void 0 && (n.showExportButton = e.show_export_button), e.show_time_range_selector !== void 0 && (n.showTimeRangeSelector = e.show_time_range_selector), e.disable_climate_overlay !== void 0 && (n.disableClimateOverlay = e.disable_climate_overlay), !t) {
+	if (e.series && (n.series = e.series.map(Yi)), e.entities && (n.defaultEntities = e.entities), e.attribute_units && (n.attributeUnits = e.attribute_units), e.range_mode === "absolute" ? (e.start_date && (n.startDate = new Date(e.start_date)), e.end_date && (n.endDate = new Date(e.end_date))) : n.hours = e.hours ?? 24, e.show_date_picker !== void 0 && (n.showDatePicker = e.show_date_picker), e.show_entity_picker !== void 0 && (n.showEntityPicker = e.show_entity_picker), e.show_legend !== void 0 && (n.showLegend = e.show_legend), e.show_tooltip !== void 0 && (n.showTooltip = e.show_tooltip), e.show_grid !== void 0 && (n.showGrid = e.show_grid), e.show_scale !== void 0 && (n.showScale = e.show_scale), e.show_import_button !== void 0 && (n.showImportButton = e.show_import_button), e.show_export_button !== void 0 && (n.showExportButton = e.show_export_button), e.show_time_range_selector !== void 0 && (n.showTimeRangeSelector = e.show_time_range_selector), e.disable_climate_overlay !== void 0 && (n.disableClimateOverlay = e.disable_climate_overlay), !t) {
 		e.title !== void 0 && (n.title = e.title), e.title_font_family !== void 0 && (n.titleFontFamily = e.title_font_family), e.title_font_size !== void 0 && (n.titleFontSize = e.title_font_size);
-		let t = Se(e.title_color);
+		let t = Ji(e.title_color);
 		t !== void 0 && (n.titleColor = t);
 	}
 	return e.line_mode !== void 0 && (n.lineMode = e.line_mode), e.line_width !== void 0 && (n.lineWidth = e.line_width), e.show_line_mode_buttons !== void 0 && (n.showLineModeButtons = e.show_line_mode_buttons), e.debug_performance !== void 0 && (n.debugPerformance = e.debug_performance), n;
 }
 //#endregion
 //#region src/localize/localize.ts
-var G = "en", we = new Set([
+var X = "en", Zi = new Set([
 	"en",
 	"fr",
 	"cs",
@@ -568,54 +5692,50 @@ var G = "en", we = new Set([
 	"no",
 	"pt",
 	"zh"
-]), Te = { "common.loading": "ui.common.loading" }, K = {}, q = {};
-function Ee(e) {
+]), Qi = { "common.loading": "ui.common.loading" }, $i = {}, ea = {};
+function ta(e) {
 	return new URL(
 		/* @vite-ignore */
 		`translations/${e}.json`,
 		import.meta.url
 	).toString();
 }
-function J(e, t) {
-	let n = (t ?? e?.locale?.language ?? e?.language ?? G).split("-")[0]?.toLowerCase() ?? G;
-	return we.has(n) ? n : G;
+function Z(e, t) {
+	let n = (t ?? e?.locale?.language ?? e?.language ?? X).split("-")[0]?.toLowerCase() ?? X;
+	return Zi.has(n) ? n : X;
 }
-function De(e) {
+function na(e) {
 	return (e.split(".").at(-1) ?? e).replace(/_/g, " ").replace(/^\w/, (e) => e.toUpperCase());
 }
-async function Oe(e) {
-	if (!K[e]) return q[e] || (q[e] = fetch(Ee(e)).then((e) => {
+async function ra(e) {
+	if (!$i[e]) return ea[e] || (ea[e] = fetch(ta(e)).then((e) => {
 		if (!e.ok) throw Error(`HTTP ${e.status}`);
 		return e.json();
 	}).then((t) => {
-		K[e] = t;
+		$i[e] = t;
 	}).catch((t) => {
-		console.warn(`[a-better-history-card] Failed to load ${e} translations:`, t), K[e] = {};
+		console.warn(`[a-better-history-card] Failed to load ${e} translations:`, t), $i[e] = {};
 	}).finally(() => {
-		delete q[e];
-	})), q[e];
+		delete ea[e];
+	})), ea[e];
 }
-async function Y(e, t) {
-	let n = J(e, t), r = n === G ? [G] : [G, n];
-	return await Promise.all(r.map((e) => Oe(e))), n;
+async function Q(e, t) {
+	let n = Z(e, t), r = n === X ? [X] : [X, n];
+	return await Promise.all(r.map((e) => ra(e))), n;
 }
-function X(e, t, n) {
-	let r = Te[t], i = e?.localize;
+function $(e, t, n) {
+	let r = Qi[t], i = e?.localize;
 	if (r && i) {
 		let e = i(r);
 		if (e) return e;
 	}
-	return K[J(e, n)]?.[t] ?? K[G]?.[t] ?? De(t);
+	return $i[Z(e, n)]?.[t] ?? $i[X]?.[t] ?? na(t);
 }
 //#endregion
 //#region src/components/history-dialog.ts
-var ke = new URL(
-	/* @vite-ignore */
-	"lib/ha-better-history/define.js",
-	import.meta.url
-).toString(), Ae = class extends U {
+var ia = class extends F {
 	constructor(...e) {
-		super(...e), this.open = !1, this._fullscreen = !1, this._controlsVisible = !0, this._toolsOpen = !1, this._historyElementReady = customElements.get("ha-better-history") !== void 0, this._historyElementLoadStarted = !1, this._translationLanguage = "", this._pickerOverlayOpen = !1, this._suppressNextClose = !1, this._onDocPointerDown = () => {
+		super(...e), this.open = !1, this._fullscreen = !1, this._controlsVisible = !0, this._toolsOpen = !1, this._translationLanguage = "", this._pickerOverlayOpen = !1, this._suppressNextClose = !1, this._onDocPointerDown = () => {
 			!this.open || !this._pickerOverlayOpen || (this._suppressNextClose = !0, this._suppressCloseTimer !== void 0 && clearTimeout(this._suppressCloseTimer), this._suppressCloseTimer = setTimeout(() => {
 				this._suppressNextClose = !1, this._suppressCloseTimer = void 0;
 			}, 1e3));
@@ -629,8 +5749,7 @@ var ke = new URL(
 			language: {},
 			_fullscreen: { state: !0 },
 			_controlsVisible: { state: !0 },
-			_toolsOpen: { state: !0 },
-			_historyElementReady: { state: !0 }
+			_toolsOpen: { state: !0 }
 		};
 	}
 	static {
@@ -661,15 +5780,6 @@ var ke = new URL(
       }
     }
 
-    .loading {
-      align-items: center;
-      color: var(--secondary-text-color);
-      display: flex;
-      flex: 1;
-      justify-content: center;
-      min-height: 70vh;
-    }
-
     .history {
       display: flex;
       flex: 1 1 auto;
@@ -686,7 +5796,7 @@ var ke = new URL(
   `;
 	}
 	updated() {
-		this._styleDialogHeader(), this._loadTranslations(), this.open && this._loadHistoryElement();
+		this._styleDialogHeader(), this._loadTranslations();
 	}
 	connectedCallback() {
 		super.connectedCallback(), document.addEventListener("pointerdown", this._onDocPointerDown, !0);
@@ -706,22 +5816,9 @@ var ke = new URL(
 	_onPickerOverlayChanged(e) {
 		this._pickerOverlayOpen = e.detail.open;
 	}
-	async _loadHistoryElement() {
-		if (!(this._historyElementReady || this._historyElementLoadStarted)) {
-			this._historyElementLoadStarted = !0;
-			try {
-				await import(
-					/* @vite-ignore */
-					ke
-), await customElements.whenDefined("ha-better-history"), this._historyElementReady = !0;
-			} catch (e) {
-				console.warn("[a-better-history-card] Failed to load ha-better-history:", e), this._historyElementLoadStarted = !1;
-			}
-		}
-	}
 	async _loadTranslations() {
-		let e = J(this.hass, this.language);
-		e !== this._translationLanguage && (this._translationLanguage = e, await Y(this.hass, e), this.requestUpdate());
+		let e = Z(this.hass, this.language);
+		e !== this._translationLanguage && (this._translationLanguage = e, await Q(this.hass, e), this.requestUpdate());
 	}
 	_styleDialogHeader() {
 		let e = this.renderRoot.querySelector("ha-dialog")?.shadowRoot;
@@ -730,8 +5827,8 @@ var ke = new URL(
 		t.dataset.abhHeader = "true", t.textContent = "\n      .mdc-dialog__title, .header-title, .title {\n        min-width: 0;\n        overflow: hidden;\n        text-overflow: ellipsis;\n        white-space: nowrap;\n      }\n      .header, .dialog-header, .mdc-dialog__header { gap: 12px; }\n      [name=\"headerActionItems\"], slot[name=\"headerActionItems\"] { flex: 0 0 auto; }\n    ", e.appendChild(t);
 	}
 	render() {
-		let e = this.config, t = e?.title ?? X(this.hass, "dialog.title.history", this.language);
-		return N`
+		let e = this.config, t = e?.title ?? $(this.hass, "dialog.title.history", this.language);
+		return k`
       <ha-dialog
         .open=${this.open}
         .headerTitle=${t}
@@ -740,49 +5837,48 @@ var ke = new URL(
         ?fullscreen=${this._fullscreen}
         @closed=${(e) => this._onDialogClosed(e)}
       >
-        ${e?.show_tools_button ? N`<ha-icon-button
+        ${e?.show_tools_button ? k`<ha-icon-button
               slot="headerActionItems"
               class="btn btn-tools"
-              .label=${X(this.hass, "card.label.tools", this.language)}
+              .label=${$(this.hass, "card.label.tools", this.language)}
               ?active=${this._toolsOpen}
               @click=${() => {
 			this._toolsOpen = !this._toolsOpen;
 		}}
-            ><ha-icon icon="mdi:tools"></ha-icon></ha-icon-button>` : F}
-        ${e?.show_controls_toggle && (e?.show_date_picker || e?.show_entity_picker) ? N`<ha-icon-button
+            ><ha-icon icon="mdi:tools"></ha-icon></ha-icon-button>` : M}
+        ${e?.show_controls_toggle && (e?.show_date_picker || e?.show_entity_picker) ? k`<ha-icon-button
               slot="headerActionItems"
               class="btn"
-              .label=${X(this.hass, this._controlsVisible ? "card.label.hide_controls" : "card.label.show_controls", this.language)}
+              .label=${$(this.hass, this._controlsVisible ? "card.label.hide_controls" : "card.label.show_controls", this.language)}
               @click=${() => {
 			this._controlsVisible = !this._controlsVisible;
 		}}
-            ><ha-icon icon=${this._controlsVisible ? "mdi:chevron-up" : "mdi:chevron-down"}></ha-icon></ha-icon-button>` : F}
-        ${e?.show_fullscreen_button ? N`<ha-icon-button
+            ><ha-icon icon=${this._controlsVisible ? "mdi:chevron-up" : "mdi:chevron-down"}></ha-icon></ha-icon-button>` : M}
+        ${e?.show_fullscreen_button ? k`<ha-icon-button
               slot="headerActionItems"
               class="btn btn-fs"
-              .label=${X(this.hass, this._fullscreen ? "dialog.label.exit_fullscreen" : "card.label.fullscreen", this.language)}
+              .label=${$(this.hass, this._fullscreen ? "dialog.label.exit_fullscreen" : "card.label.fullscreen", this.language)}
               @click=${() => {
 			this._fullscreen = !this._fullscreen;
 		}}
-            ><ha-icon icon=${this._fullscreen ? "mdi:fullscreen-exit" : "mdi:fullscreen"}></ha-icon></ha-icon-button>` : F}
-        ${this.open && !this._historyElementReady ? N`<div class="loading">${X(this.hass, "dialog.loading_history", this.language)}</div>` : F}
-        ${this.open && this._historyElementReady && e ? N`<ha-better-history
+            ><ha-icon icon=${this._fullscreen ? "mdi:fullscreen-exit" : "mdi:fullscreen"}></ha-icon></ha-icon-button>` : M}
+        ${this.open && e ? k`<ha-better-history
               .hass=${this.hass}
-              .config=${W(e, !0)}
+              .config=${Xi(e, !0)}
               .language=${this.language}
               .showControls=${this._controlsVisible}
               .toolsOpen=${this._toolsOpen}
               @picker-overlay-changed=${(e) => this._onPickerOverlayChanged(e)}
               class="history"
-            ></ha-better-history>` : F}
+            ></ha-better-history>` : M}
       </ha-dialog>
     `;
 	}
 };
-customElements.get("abh-history-dialog") || customElements.define("abh-history-dialog", Ae);
+customElements.get("abh-history-dialog") || customElements.define("abh-history-dialog", ia);
 //#endregion
 //#region src/data/normalize-config.ts
-function Z(e) {
+function aa(e) {
 	return {
 		range_mode: "relative",
 		hours: 24,
@@ -802,12 +5898,10 @@ function Z(e) {
 }
 //#endregion
 //#region src/const.ts
-var je = "A Better History Card", Me = "custom:a-better-history-card", Ne = "a-better-history-card", Pe = "a-better-history-card-editor", Fe = "custom:a-better-history-button-card", Ie = "a-better-history-button-card", Le = "a-better-history-button-card-editor", Re = new URL(
-	/* @vite-ignore */
-	"lib/ha-better-history/define.js",
-	import.meta.url
-).toString();
-function ze(e) {
+var oa = "A Better History Card", sa = "custom:a-better-history-card", ca = "a-better-history-card", la = "a-better-history-card-editor", ua = "custom:a-better-history-button-card", da = "a-better-history-button-card", fa = "a-better-history-button-card-editor";
+//#endregion
+//#region src/cards/a-better-history-card.ts
+function pa(e) {
 	if (typeof e == "string" && e.trim() !== "") {
 		let t = e.trim();
 		return /^[a-z][a-z0-9-]*$/i.test(t) ? `var(--${t}-color, ${t})` : t;
@@ -820,17 +5914,17 @@ function ze(e) {
 		r
 	].every((e) => Number.isFinite(e))) return `rgb(${t}, ${n}, ${r})`;
 }
-var Be = class extends U {
+var ma = class extends F {
 	constructor(...e) {
-		super(...e), this._toolsOpen = !1, this._controlsVisible = !0, this._dialogOpen = !1, this._historyElementReady = customElements.get("ha-better-history") !== void 0, this._historyElementLoadStarted = !1, this._translationLanguage = "";
+		super(...e), this._toolsOpen = !1, this._controlsVisible = !0, this._dialogOpen = !1, this._translationLanguage = "";
 	}
 	static getConfigElement() {
-		return document.createElement(Pe);
+		return document.createElement(la);
 	}
 	static getStubConfig(e) {
 		let t = e?.states ?? {}, n = Object.keys(t).find((e) => /^sensor\.[^.]*temperature/.test(e) || e.startsWith("climate.")) ?? Object.keys(t).find((e) => e.startsWith("sensor.") && !isNaN(Number(t[e]?.state)));
 		return {
-			type: Me,
+			type: sa,
 			...n ? {
 				entities: [n],
 				_store_preview: !0
@@ -849,8 +5943,7 @@ var Be = class extends U {
 			_config: { state: !0 },
 			_toolsOpen: { state: !0 },
 			_controlsVisible: { state: !0 },
-			_dialogOpen: { state: !0 },
-			_historyElementReady: { state: !0 }
+			_dialogOpen: { state: !0 }
 		};
 	}
 	static {
@@ -932,7 +6025,7 @@ var Be = class extends U {
 	}
 	setConfig(e) {
 		let t = e;
-		!t.entities?.length && t.series?.length, this._config = { ...Z(t) }, this._controlsVisible = this._config.show_controls ?? !0, this._loadHistoryElement();
+		!t.entities?.length && t.series?.length, this._config = { ...aa(t) }, this._controlsVisible = this._config.show_controls ?? !0;
 	}
 	updated() {
 		this._loadTranslations();
@@ -949,22 +6042,9 @@ var Be = class extends U {
 			min_rows: 2
 		};
 	}
-	async _loadHistoryElement() {
-		if (!(this._historyElementReady || this._historyElementLoadStarted)) {
-			this._historyElementLoadStarted = !0;
-			try {
-				await import(
-					/* @vite-ignore */
-					Re
-), await customElements.whenDefined("ha-better-history"), this._historyElementReady = !0;
-			} catch (e) {
-				console.warn("[a-better-history-card] Failed to load ha-better-history:", e), this._historyElementLoadStarted = !1;
-			}
-		}
-	}
 	async _loadTranslations() {
-		let e = J(this.hass);
-		e !== this._translationLanguage && (this._translationLanguage = e, await Y(this.hass, e), this.requestUpdate());
+		let e = Z(this.hass);
+		e !== this._translationLanguage && (this._translationLanguage = e, await Q(this.hass, e), this.requestUpdate());
 	}
 	_openDialog() {
 		this._dialogOpen = !0;
@@ -974,43 +6054,42 @@ var Be = class extends U {
 	}
 	_renderHeader() {
 		let e = this._config, t = e?.title, n = !!(e?.show_controls_toggle && (e?.show_date_picker || e?.show_entity_picker)), r = e?.show_tools_button || n || e?.show_fullscreen_button;
-		if (!t && !r) return F;
-		let i = ze(e?.title_color), a = [
+		if (!t && !r) return M;
+		let i = pa(e?.title_color), a = [
 			e?.title_font_family ? `font-family:${e.title_font_family};` : "",
 			e?.title_font_size ? `font-size:${e.title_font_size};` : "",
 			i ? `color:${i};` : ""
 		].join("");
-		return N`
+		return k`
       <div class="header">
-        ${t ? N`<div class="card-title" style=${a}>${t}</div>` : F}
-        ${r ? N`<div class="header-actions">
-          ${e.show_tools_button ? N`<ha-icon-button
-                .label=${X(this.hass, "card.label.tools")}
+        ${t ? k`<div class="card-title" style=${a}>${t}</div>` : M}
+        ${r ? k`<div class="header-actions">
+          ${e.show_tools_button ? k`<ha-icon-button
+                .label=${$(this.hass, "card.label.tools")}
                 ?active=${this._toolsOpen}
                 @click=${() => {
 			this._toolsOpen = !this._toolsOpen;
 		}}
-              ><ha-icon icon="mdi:tools"></ha-icon></ha-icon-button>` : F}
-          ${n ? N`<ha-icon-button
-                .label=${X(this.hass, this._controlsVisible ? "card.label.hide_controls" : "card.label.show_controls")}
+              ><ha-icon icon="mdi:tools"></ha-icon></ha-icon-button>` : M}
+          ${n ? k`<ha-icon-button
+                .label=${$(this.hass, this._controlsVisible ? "card.label.hide_controls" : "card.label.show_controls")}
                 @click=${() => {
 			this._controlsVisible = !this._controlsVisible;
 		}}
-              ><ha-icon icon=${this._controlsVisible ? "mdi:chevron-up" : "mdi:chevron-down"}></ha-icon></ha-icon-button>` : F}
-          ${e.show_fullscreen_button ? N`<ha-icon-button
-                .label=${X(this.hass, "card.label.fullscreen")}
+              ><ha-icon icon=${this._controlsVisible ? "mdi:chevron-up" : "mdi:chevron-down"}></ha-icon></ha-icon-button>` : M}
+          ${e.show_fullscreen_button ? k`<ha-icon-button
+                .label=${$(this.hass, "card.label.fullscreen")}
                 @click=${() => this._openDialog()}
-              ><ha-icon icon="mdi:fullscreen"></ha-icon></ha-icon-button>` : F}
-        </div>` : F}
+              ><ha-icon icon="mdi:fullscreen"></ha-icon></ha-icon-button>` : M}
+        </div>` : M}
       </div>
     `;
 	}
 	render() {
 		let e = this._config;
-		if (!e) return N`<ha-card><div class="error">${X(this.hass, "card.error.no_configuration")}</div></ha-card>`;
-		if (!this._historyElementReady) return N`<ha-card><div class="loading">${X(this.hass, "dialog.loading_history")}</div></ha-card>`;
-		let t = W(e, !!e.title), n = this.hass?.locale?.language ?? this.hass?.language;
-		return N`
+		if (!e) return k`<ha-card><div class="error">${$(this.hass, "card.error.no_configuration")}</div></ha-card>`;
+		let t = Xi(e, !!e.title), n = this.hass?.locale?.language ?? this.hass?.language;
+		return k`
       <ha-card>
         ${this._renderHeader()}
         <div class="history-frame">
@@ -1036,7 +6115,7 @@ var Be = class extends U {
 };
 //#endregion
 //#region src/cards/a-better-history-button-card.ts
-function Ve(e) {
+function ha(e) {
 	if (typeof e == "string" && e.trim() !== "") {
 		let t = e.trim();
 		return /^[a-z][a-z0-9-]*$/i.test(t) ? `var(--${t}-color, ${t})` : t;
@@ -1049,17 +6128,17 @@ function Ve(e) {
 		r
 	].every((e) => Number.isFinite(e))) return `rgb(${t}, ${n}, ${r})`;
 }
-var He = class extends U {
+var ga = class extends F {
 	constructor(...e) {
 		super(...e), this._open = !1, this._translationLanguage = "";
 	}
 	static getConfigElement() {
-		return document.createElement(Le);
+		return document.createElement(fa);
 	}
 	static getStubConfig(e) {
 		let t = e?.states ?? {}, n = Object.keys(t).find((e) => /^sensor\.[^.]*temperature/.test(e) || e.startsWith("climate.")) ?? Object.keys(t).find((e) => e.startsWith("sensor.") && !isNaN(Number(t[e]?.state)));
 		return {
-			type: Fe,
+			type: ua,
 			...n ? {
 				entities: [n],
 				_store_preview: !0
@@ -1116,7 +6195,7 @@ var He = class extends U {
   `;
 	}
 	setConfig(e) {
-		this._config = { ...Z(e) };
+		this._config = { ...aa(e) };
 	}
 	updated() {
 		this._loadTranslations();
@@ -1139,16 +6218,16 @@ var He = class extends U {
 		e.stopPropagation(), this._open = !1;
 	}
 	async _loadTranslations() {
-		let e = J(this.hass);
-		e !== this._translationLanguage && (this._translationLanguage = e, await Y(this.hass, e), this.requestUpdate());
+		let e = Z(this.hass);
+		e !== this._translationLanguage && (this._translationLanguage = e, await Q(this.hass, e), this.requestUpdate());
 	}
 	render() {
-		let e = this._config, t = e?.button_icon ?? "mdi:chart-line", n = e?.button_label ?? X(this.hass, "dialog.title.history"), r = e?.button_show_name !== !1, i = e?.button_show_icon !== !1, a = e?.button_hover_effect !== !1, o = Ve(e?.button_color), s = Ve(e?.button_hover_color), c = this.hass?.locale?.language ?? this.hass?.language, l = [];
-		return o && l.push(`--_btn-color: ${o}`), s && l.push(`--_btn-hover-color: ${s}`), l.push(`--_btn-hover-shadow: ${a ? "0 0 0 2px var(--_btn-hover-color, var(--primary-color))" : "none"}`), N`
+		let e = this._config, t = e?.button_icon ?? "mdi:chart-line", n = e?.button_label ?? $(this.hass, "dialog.title.history"), r = e?.button_show_name !== !1, i = e?.button_show_icon !== !1, a = e?.button_hover_effect !== !1, o = ha(e?.button_color), s = ha(e?.button_hover_color), c = this.hass?.locale?.language ?? this.hass?.language, l = [];
+		return o && l.push(`--_btn-color: ${o}`), s && l.push(`--_btn-hover-color: ${s}`), l.push(`--_btn-hover-shadow: ${a ? "0 0 0 2px var(--_btn-hover-color, var(--primary-color))" : "none"}`), k`
       <ha-card style=${l.join("; ")} @click=${this._openDialog}>
         <div class="btn-content">
-          ${i ? N`<ha-icon icon=${t}></ha-icon>` : null}
-          ${r ? N`<span class="label">${n}</span>` : null}
+          ${i ? k`<ha-icon icon=${t}></ha-icon>` : null}
+          ${r ? k`<span class="label">${n}</span>` : null}
         </div>
       </ha-card>
       <abh-history-dialog
@@ -1160,7 +6239,7 @@ var He = class extends U {
       ></abh-history-dialog>
     `;
 	}
-}, Ue = class extends U {
+}, _a = class extends F {
 	constructor(...e) {
 		super(...e), this.series = { entity: "" }, this._translationLanguage = "";
 	}
@@ -1192,8 +6271,8 @@ var He = class extends U {
 		this._loadTranslations();
 	}
 	async _loadTranslations() {
-		let e = J(this.hass);
-		e !== this._translationLanguage && (this._translationLanguage = e, await Y(this.hass, e), this.requestUpdate());
+		let e = Z(this.hass);
+		e !== this._translationLanguage && (this._translationLanguage = e, await Q(this.hass, e), this.requestUpdate());
 	}
 	_schema() {
 		let e = this.series.scale_mode === "manual" ? [{
@@ -1234,10 +6313,10 @@ var He = class extends U {
 					mode: "dropdown",
 					options: [{
 						value: "auto",
-						label: X(this.hass, "editor.option.auto")
+						label: $(this.hass, "editor.option.auto")
 					}, {
 						value: "manual",
-						label: X(this.hass, "editor.option.manual")
+						label: $(this.hass, "editor.option.manual")
 					}]
 				} }
 			},
@@ -1249,15 +6328,15 @@ var He = class extends U {
 					options: [
 						{
 							value: "line",
-							label: X(this.hass, "editor.option.line")
+							label: $(this.hass, "editor.option.line")
 						},
 						{
 							value: "stair",
-							label: X(this.hass, "editor.option.stair")
+							label: $(this.hass, "editor.option.stair")
 						},
 						{
 							value: "column",
-							label: X(this.hass, "editor.option.column")
+							label: $(this.hass, "editor.option.column")
 						}
 					]
 				} }
@@ -1277,7 +6356,7 @@ var He = class extends U {
 		];
 	}
 	_computeLabel(e) {
-		return X(this.hass, `editor.field.${e.name}`);
+		return $(this.hass, `editor.field.${e.name}`);
 	}
 	_valueChanged(e) {
 		this._emitItem({
@@ -1304,7 +6383,7 @@ var He = class extends U {
 			forced: !0,
 			...this.series
 		}, t = this._schema(), n = t.filter((e) => e.name === "line_width"), r = t.filter((e) => e.name !== "line_width");
-		return N`
+		return k`
       <ha-form
         .hass=${this.hass}
         .data=${e}
@@ -1323,10 +6402,10 @@ var He = class extends U {
     `;
 	}
 };
-customElements.get("abh-series-item-editor") || customElements.define("abh-series-item-editor", Ue);
+customElements.get("abh-series-item-editor") || customElements.define("abh-series-item-editor", _a);
 //#endregion
 //#region src/data/source-to-series.ts
-function We(e) {
+function va(e) {
 	return {
 		entity: e.entityId,
 		attribute: e.kind === "entity_attribute" && e.path ? e.path.join(".") : void 0,
@@ -1334,77 +6413,23 @@ function We(e) {
 	};
 }
 //#endregion
-//#region node_modules/@kipk/load-ha-components/dist/load-ha-components.js
-var Ge = [
-	"ha-form",
-	"ha-icon",
-	"ha-icon-button",
-	"ha-selector",
-	"ha-textfield",
-	"ha-icon-picker",
-	"ha-icon-button",
-	"ha-entity-picker",
-	"ha-select",
-	"ha-dialog",
-	"ha-sortable",
-	"ha-svg-icon",
-	"ha-alert",
-	"ha-button",
-	"ha-color-picker",
-	"ha-badge",
-	"ha-sankey-chart",
-	"mwc-button"
-], Ke = async (e) => {
-	let t = e || Ge;
-	try {
-		if (t.every((e) => customElements.get(e))) return;
-		await Promise.race([customElements.whenDefined("partial-panel-resolver"), new Promise((e, t) => setTimeout(() => t(/* @__PURE__ */ Error("Timeout waiting for partial-panel-resolver")), 1e4))]);
-		let e = document.createElement("partial-panel-resolver");
-		if (!e) throw Error("Failed to create partial-panel-resolver element");
-		if (e.hass = { panels: [{
-			url_path: "tmp",
-			component_name: "config"
-		}] }, typeof e._updateRoutes != "function") throw Error("partial-panel-resolver does not have _updateRoutes method");
-		if (e._updateRoutes(), !e.routerOptions?.routes?.tmp?.load) throw Error("Failed to create tmp route in partial-panel-resolver");
-		await Promise.race([e.routerOptions.routes.tmp.load(), new Promise((e, t) => setTimeout(() => t(/* @__PURE__ */ Error("Timeout loading tmp route")), 1e4))]), await Promise.race([customElements.whenDefined("ha-panel-config"), new Promise((e, t) => setTimeout(() => t(/* @__PURE__ */ Error("Timeout waiting for ha-panel-config")), 1e4))]);
-		let n = document.createElement("ha-panel-config");
-		if (!n) throw Error("Failed to create ha-panel-config element");
-		if (!n.routerOptions?.routes?.automation?.load) throw Error("ha-panel-config does not have automation route");
-		await Promise.race([n.routerOptions.routes.automation.load(), new Promise((e, t) => setTimeout(() => t(/* @__PURE__ */ Error("Timeout loading automation components")), 1e4))]);
-		let r = t.filter((e) => !customElements.get(e));
-		if (r.length > 0) throw Error(`Failed to load components: ${r.join(", ")}`);
-	} catch (e) {
-		console.error("Error loading Home Assistant form components:", e);
-		try {
-			if (window.customElements && window.customElements.get("home-assistant")) {
-				console.log("Attempting fallback loading method for HA components");
-				let e = new CustomEvent("ha-request-load-components", {
-					detail: { components: t },
-					bubbles: !0,
-					composed: !0
-				});
-				document.dispatchEvent(e);
-			}
-		} catch (e) {
-			console.error("Fallback loading method failed:", e);
-		}
-	}
-}, qe = [
+//#region src/ha/load-components.ts
+var ya = [
 	"ha-form",
 	"ha-icon",
 	"ha-icon-button",
 	"ha-button",
 	"ha-color-picker",
 	"ha-expansion-panel"
-], Q;
-function Je() {
-	return Q ??= Ke(qe), Q;
+], ba;
+function xa() {
+	return ba ??= Fe(ya), ba;
 }
-var Ye;
-function Xe() {
-	return Ye ??= Ze(), Ye;
+var Sa;
+function Ca() {
+	return Sa ??= wa(), Sa;
 }
-async function Ze() {
+async function wa() {
 	if (!customElements.get("ha-date-range-picker")) try {
 		await Promise.race([customElements.whenDefined("partial-panel-resolver"), new Promise((e, t) => setTimeout(() => t(/* @__PURE__ */ Error("timeout")), 1e4))]);
 		let e = document.createElement("partial-panel-resolver");
@@ -1418,20 +6443,9 @@ async function Ze() {
 }
 //#endregion
 //#region src/editors/series-list-editor.ts
-var Qe = new URL(
-	/* @vite-ignore */
-	"lib/ha-better-history/picker.js",
-	import.meta.url
-).toString(), $e = !1;
-async function et() {
-	$e || ($e = !0, await import(
-		/* @vite-ignore */
-		Qe
-));
-}
-var tt = class extends U {
+var Ta = class extends F {
 	constructor(...e) {
-		super(...e), this.series = [], this._dragIndex = -1, this._dragOverIndex = -1, this._pickerReady = !1, this._componentsReady = !1, this._translationLanguage = "";
+		super(...e), this.series = [], this._dragIndex = -1, this._dragOverIndex = -1, this._componentsReady = !1, this._translationLanguage = "";
 	}
 	static {
 		this.properties = {
@@ -1439,7 +6453,6 @@ var tt = class extends U {
 			hass: { attribute: !1 },
 			_dragIndex: { state: !0 },
 			_dragOverIndex: { state: !0 },
-			_pickerReady: { state: !0 },
 			_componentsReady: { state: !0 }
 		};
 	}
@@ -1522,18 +6535,16 @@ var tt = class extends U {
   `;
 	}
 	connectedCallback() {
-		super.connectedCallback(), Je().then(() => {
+		super.connectedCallback(), xa().then(() => {
 			this._componentsReady = !0;
-		}), et().then(() => {
-			this._pickerReady = !0;
 		});
 	}
 	updated() {
 		this._loadTranslations();
 	}
 	async _loadTranslations() {
-		let e = J(this.hass);
-		e !== this._translationLanguage && (this._translationLanguage = e, await Y(this.hass, e), this.requestUpdate());
+		let e = Z(this.hass);
+		e !== this._translationLanguage && (this._translationLanguage = e, await Q(this.hass, e), this.requestUpdate());
 	}
 	_emit(e) {
 		this.dispatchEvent(new CustomEvent("series-changed", {
@@ -1566,26 +6577,26 @@ var tt = class extends U {
 		this._dragIndex = -1, this._dragOverIndex = -1;
 	}
 	_onSourcesConfirmed(e) {
-		let t = e.detail.sources.map(We);
+		let t = e.detail.sources.map(va);
 		t.length > 0 && this._emit([...this.series, ...t]);
 	}
 	_seriesTitle(e) {
 		if (e.label) return e.label;
-		if (!e.entity) return X(this.hass, "editor.series.new_series");
+		if (!e.entity) return $(this.hass, "editor.series.new_series");
 		let t = this.hass?.states[e.entity]?.attributes.friendly_name;
 		return typeof t == "string" && t ? t : e.entity;
 	}
 	_seriesSubtitle(e) {
 		let t = [e.entity, e.attribute].filter((e) => !!e);
-		return t.length > 0 ? t.join(" · ") : X(this.hass, "editor.series.no_entity_selected");
+		return t.length > 0 ? t.join(" · ") : $(this.hass, "editor.series.no_entity_selected");
 	}
 	render() {
-		return N`
+		return k`
       <div class="picker-section">
-        ${this._pickerReady ? N`<abh-series-picker
-              .hass=${this.hass}
-              @sources-confirmed=${(e) => this._onSourcesConfirmed(e)}
-            ></abh-series-picker>` : N``}
+        <abh-series-picker
+          .hass=${this.hass}
+          @sources-confirmed=${(e) => this._onSourcesConfirmed(e)}
+        ></abh-series-picker>
       </div>
       <div class="series-list">
         ${this.series.map((e, t) => this._renderSeriesPanel(e, t))}
@@ -1593,7 +6604,7 @@ var tt = class extends U {
     `;
 	}
 	_renderSeriesPanel(e, t) {
-		let n = N`
+		let n = k`
       <div class="series-summary">
         <ha-icon class="drag-handle" icon="mdi:drag"></ha-icon>
         <div>
@@ -1602,13 +6613,13 @@ var tt = class extends U {
         </div>
         <ha-icon-button
           class="delete-btn"
-          .label=${X(this.hass, "editor.series.remove")}
+          .label=${$(this.hass, "editor.series.remove")}
           @click=${(e) => {
 			e.stopPropagation(), this._remove(t);
 		}}
         ><ha-icon icon="mdi:close"></ha-icon></ha-icon-button>
       </div>
-    `, r = N`
+    `, r = k`
       <div class="series-details">
         <abh-series-item-editor
           .series=${e}
@@ -1617,7 +6628,7 @@ var tt = class extends U {
         ></abh-series-item-editor>
       </div>
     `;
-		return this._componentsReady ? N`
+		return this._componentsReady ? k`
       <ha-expansion-panel
         class="series-panel"
         outlined
@@ -1631,18 +6642,18 @@ var tt = class extends U {
         <div slot="header">${n}</div>
         ${r}
       </ha-expansion-panel>
-    ` : N`${n}${r}`;
+    ` : k`${n}${r}`;
 	}
 };
-customElements.get("abh-series-list-editor") || customElements.define("abh-series-list-editor", tt);
+customElements.get("abh-series-list-editor") || customElements.define("abh-series-list-editor", Ta);
 //#endregion
 //#region src/editors/base-card-editor.ts
-var nt = new Set([
+var Ea = new Set([
 	"title_color",
 	"button_color",
 	"button_hover_color"
 ]);
-function rt(e) {
+function Da(e) {
 	if (typeof e == "string" && e.trim() !== "") return e.trim();
 	if (!Array.isArray(e) || e.length < 3) return;
 	let [t, n, r] = e.map((e) => Number(e));
@@ -1652,7 +6663,7 @@ function rt(e) {
 		r
 	].every((e) => Number.isFinite(e))) return `rgb(${t}, ${n}, ${r})`;
 }
-var it = class extends U {
+var Oa = class extends F {
 	constructor(...e) {
 		super(...e), this._config = { type: "" }, this._activeTab = "", this._componentsReady = !1, this._dateRangePickerReady = !1, this._translationLanguage = "";
 	}
@@ -1726,9 +6737,9 @@ var it = class extends U {
   `;
 	}
 	connectedCallback() {
-		super.connectedCallback(), Je().then(() => {
+		super.connectedCallback(), xa().then(() => {
 			this._componentsReady = !0;
-		}), Xe().then(() => {
+		}), Ca().then(() => {
 			this._dateRangePickerReady = customElements.get("ha-date-range-picker") !== void 0;
 		});
 	}
@@ -1736,16 +6747,16 @@ var it = class extends U {
 		this._loadTranslations();
 	}
 	setConfig(e) {
-		this._config = { ...Z(e) };
+		this._config = { ...aa(e) };
 		let t = this._tabs();
 		t.find((e) => e.id === this._activeTab) || (this._activeTab = t[0]?.id ?? ""), this._config._store_preview && (this._config = this._withoutStorePreview(this._config), queueMicrotask(() => this._emitConfig()));
 	}
 	_localize(e) {
-		return X(this.hass, e);
+		return $(this.hass, e);
 	}
 	async _loadTranslations() {
-		let e = J(this.hass);
-		e !== this._translationLanguage && (this._translationLanguage = e, await Y(this.hass, e), this.requestUpdate());
+		let e = Z(this.hass);
+		e !== this._translationLanguage && (this._translationLanguage = e, await Q(this.hass, e), this.requestUpdate());
 	}
 	_rangeSchema() {
 		return [{
@@ -1968,9 +6979,9 @@ var it = class extends U {
 	}
 	render() {
 		let e = this._tabs(), t = e.find((e) => e.id === this._activeTab)?.id ?? e[0]?.id ?? "";
-		return N`
+		return k`
       <div class="tabs">
-        ${e.map((e) => N`
+        ${e.map((e) => k`
             <button
               class="tab"
               ?active=${e.id === t}
@@ -1980,7 +6991,7 @@ var it = class extends U {
             >${e.label}</button>
           `)}
       </div>
-      ${t === "entities" ? this._renderEntitiesTab() : t === "range" ? this._renderRangeTab() : t === "style" ? this._renderStyleTab() : t === "button" ? this._renderButtonTab() : N`
+      ${t === "entities" ? this._renderEntitiesTab() : t === "range" ? this._renderRangeTab() : t === "style" ? this._renderStyleTab() : t === "button" ? this._renderButtonTab() : k`
         <ha-form
           .hass=${this.hass}
           .data=${this._getFormData()}
@@ -1992,7 +7003,7 @@ var it = class extends U {
     `;
 	}
 	_renderSchemaForm(e, t = this._getFormData()) {
-		return N`
+		return k`
       <ha-form
         .hass=${this.hass}
         .data=${t}
@@ -2003,14 +7014,14 @@ var it = class extends U {
     `;
 	}
 	_withoutColorFields(e) {
-		return e.filter((e) => !nt.has(e.name));
+		return e.filter((e) => !Ea.has(e.name));
 	}
 	_colorFields(e) {
-		return e.filter((e) => nt.has(e.name));
+		return e.filter((e) => Ea.has(e.name));
 	}
 	_renderStyleTab() {
 		let e = this._styleSchema(), t = e.filter((e) => e.name === "line_width"), n = this._withoutColorFields(e).filter((e) => e.name !== "line_width");
-		return N`
+		return k`
       ${this._renderSchemaForm(n)}
       <ha-form
         class="line-width-form"
@@ -2025,20 +7036,20 @@ var it = class extends U {
 	}
 	_renderButtonTab() {
 		let e = this._buttonSchema();
-		return N`
+		return k`
       ${this._renderSchemaForm(this._withoutColorFields(e))}
       ${this._renderColorGrid(this._colorFields(e))}
     `;
 	}
 	_renderColorGrid(e) {
-		return N`
+		return k`
       <div class="color-grid">
         ${e.map((e) => this._renderColorField(e))}
       </div>
     `;
 	}
 	_renderColorField(e) {
-		return N`
+		return k`
       <ha-color-picker
         class="color-picker"
         .label=${this._computeLabel(e)}
@@ -2059,11 +7070,11 @@ var it = class extends U {
 		].every((e) => Number.isFinite(e))) return `rgb(${n}, ${r}, ${i})`;
 	}
 	_colorChanged(e, t) {
-		let n = { ...this._config }, r = rt(t.detail.value);
+		let n = { ...this._config }, r = Da(t.detail.value);
 		r === void 0 || r === "" ? delete n[e] : n[e] = r, this._config = n, this._emitConfig();
 	}
 	_renderEntitiesTab() {
-		return N`
+		return k`
       <div class="entities-tab">
         <abh-series-list-editor
           .series=${this._config.series ?? []}
@@ -2074,7 +7085,7 @@ var it = class extends U {
     `;
 	}
 	_renderRangeTab() {
-		return N`
+		return k`
       <ha-form
         .hass=${this.hass}
         .data=${this._getFormData()}
@@ -2082,7 +7093,7 @@ var it = class extends U {
         .computeLabel=${(e) => this._computeLabel(e)}
         @value-changed=${(e) => this._valueChanged(e)}
       ></ha-form>
-      ${this._config.range_mode === "absolute" && this._componentsReady && this._dateRangePickerReady ? N`
+      ${this._config.range_mode === "absolute" && this._componentsReady && this._dateRangePickerReady ? k`
             <div class="date-range-section">
               <span class="date-range-label">${this._localize("editor.date_range")}</span>
               <ha-date-range-picker
@@ -2094,7 +7105,7 @@ var it = class extends U {
                 @value-changed=${(e) => this._dateRangeChanged(e)}
               ></ha-date-range-picker>
             </div>
-          ` : N``}
+          ` : k``}
     `;
 	}
 	_dateRangeStartDate() {
@@ -2117,7 +7128,7 @@ var it = class extends U {
 			end_date: r.toISOString()
 		}, this._emitConfig());
 	}
-}, at = class extends it {
+}, ka = class extends Oa {
 	_tabs() {
 		return [
 			{
@@ -2162,10 +7173,10 @@ var it = class extends U {
 		}
 	}
 };
-customElements.get("a-better-history-card-editor") || customElements.define(Pe, at);
+customElements.get("a-better-history-card-editor") || customElements.define(la, ka);
 //#endregion
 //#region src/editors/a-better-history-button-card-editor.ts
-var ot = class extends it {
+var Aa = class extends Oa {
 	_styleSchema() {
 		return super._styleSchema().filter((e) => e.name !== "title_color");
 	}
@@ -2218,18 +7229,18 @@ var ot = class extends it {
 		}
 	}
 };
-customElements.get("a-better-history-button-card-editor") || customElements.define(Le, ot), customElements.get("a-better-history-card") || customElements.define(Ne, Be), customElements.get("a-better-history-button-card") || customElements.define(Ie, He), window.customCards = window.customCards ?? [];
-var $ = window.customCards;
-$.filter((e) => e.type === "a-better-history-card" || e.type === "custom:a-better-history-card" || e.type === "a-better-history-button-card" || e.type === "custom:a-better-history-button-card").forEach((e) => {
-	$.splice($.indexOf(e), 1);
-}), $.push({
-	type: Ne,
-	name: je,
+customElements.get("a-better-history-button-card-editor") || customElements.define(fa, Aa), customElements.get("a-better-history-card") || customElements.define(ca, ma), customElements.get("a-better-history-button-card") || customElements.define(da, ga), window.customCards = window.customCards ?? [];
+var ja = window.customCards;
+ja.filter((e) => e.type === "a-better-history-card" || e.type === "custom:a-better-history-card" || e.type === "a-better-history-button-card" || e.type === "custom:a-better-history-button-card").forEach((e) => {
+	ja.splice(ja.indexOf(e), 1);
+}), ja.push({
+	type: ca,
+	name: oa,
 	description: "Display history charts directly in your dashboard.",
 	preview: !0
-}), $.push({
-	type: Ie,
-	name: `${je} Button`,
+}), ja.push({
+	type: da,
+	name: `${oa} Button`,
 	description: "Button that opens a history chart dialog.",
 	preview: !0
 });
