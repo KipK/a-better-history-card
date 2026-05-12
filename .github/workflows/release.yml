@@ -41,7 +41,7 @@ jobs:
         run: |
           set -euo pipefail
 
-          gh release create "${GITHUB_REF_NAME}" release/* \
+          gh release create "${GITHUB_REF_NAME}" \
             --title "A Better History Card ${GITHUB_REF_NAME}" \
             --notes "Release ${GITHUB_REF_NAME}" \
             --draft
