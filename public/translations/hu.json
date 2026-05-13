@@ -19,7 +19,7 @@
   "editor.field.button_label": "Gomb címke",
   "editor.field.button_show_icon": "Gomb ikon megjelenítése",
   "editor.field.button_show_name": "Gomb név megjelenítése",
-  "editor.field.color": "Szín (CSS érték)",
+  "editor.field.color": "Szín",
   "editor.field.debug_performance": "Teljesítmény hibakeresés",
   "editor.field.disable_climate_overlay": "Klíma átfedés letiltása",
   "editor.field.end_date": "Befejezés dátuma",

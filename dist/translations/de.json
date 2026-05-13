@@ -19,7 +19,7 @@
   "editor.field.button_label": "Schaltflächen-Beschriftung",
   "editor.field.button_show_icon": "Schaltflächen-Symbol anzeigen",
   "editor.field.button_show_name": "Schaltflächen-Bezeichnung anzeigen",
-  "editor.field.color": "Farbe (CSS-Wert)",
+  "editor.field.color": "Farbe",
   "editor.field.debug_performance": "Leistungs-Debugging",
   "editor.field.disable_climate_overlay": "Klima-Überlagerung deaktivieren",
   "editor.field.end_date": "Enddatum",

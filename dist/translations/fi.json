@@ -19,7 +19,7 @@
   "editor.field.button_label": "Painikkeen nimiö",
   "editor.field.button_show_icon": "Näytä painikkeen kuvake",
   "editor.field.button_show_name": "Näytä painikkeen nimi",
-  "editor.field.color": "Väri (CSS-arvo)",
+  "editor.field.color": "Väri",
   "editor.field.debug_performance": "Suorituskyvyn vianetsintä",
   "editor.field.disable_climate_overlay": "Poista ilmastokerros käytöstä",
   "editor.field.end_date": "Päättymispäivä",

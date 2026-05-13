@@ -1,4 +1,4 @@
-import { LitElement, css, html, nothing, type TemplateResult } from "lit";
+import { LitElement, css, html, nothing, type PropertyValues, type TemplateResult } from "lit";
 import { buildBetterHistoryConfig } from "../data/build-better-history-config.js";
 import type { ABetterHistoryCardConfig } from "../types/config.js";
 import type { HomeAssistant } from "../types/ha.js";
@@ -13,6 +13,7 @@ export class HistoryDialog extends LitElement {
     _fullscreen: { state: true },
     _controlsVisible: { state: true },
     _toolsOpen: { state: true },
+    _graphVisible: { state: true },
   };
 
   static styles = css`
@@ -64,6 +65,7 @@ export class HistoryDialog extends LitElement {
   private _fullscreen = false;
   private _controlsVisible = true;
   private _toolsOpen = false;
+  private _graphVisible?: boolean;
   private _translationLanguage = "";
   private _pickerOverlayOpen = false;
   private _suppressNextClose = false;
@@ -72,6 +74,12 @@ export class HistoryDialog extends LitElement {
   protected updated(): void {
     this._styleDialogHeader();
     void this._loadTranslations();
+  }
+
+  protected willUpdate(changed: PropertyValues): void {
+    if (changed.has("config")) {
+      this._graphVisible = undefined;
+    }
   }
 
   connectedCallback(): void {
@@ -118,6 +126,20 @@ export class HistoryDialog extends LitElement {
 
   private _onPickerOverlayChanged(event: CustomEvent<{ open: boolean }>): void {
     this._pickerOverlayOpen = event.detail.open;
+  }
+
+  private _onGraphVisibilityChanged(event: CustomEvent<{ visible: boolean }>): void {
+    this._graphVisible = event.detail.visible;
+    if (!this._graphVisible) this._toolsOpen = false;
+  }
+
+  private _hasConfiguredGraphTargets(cfg: ABetterHistoryCardConfig | undefined): boolean {
+    return !!(cfg?.entities?.length || cfg?.series?.length);
+  }
+
+  private _toolsDisabled(cfg: ABetterHistoryCardConfig | undefined): boolean {
+    return this._graphVisible === false
+      || (this._graphVisible === undefined && !this._hasConfiguredGraphTargets(cfg));
   }
 
   private async _loadTranslations(): Promise<void> {
@@ -167,6 +189,7 @@ export class HistoryDialog extends LitElement {
               class="btn btn-tools"
               .label=${localize(this.hass, "card.label.tools", this.language)}
               ?active=${this._toolsOpen}
+              ?disabled=${this._toolsDisabled(cfg)}
               @click=${() => { this._toolsOpen = !this._toolsOpen; }}
             ><ha-icon icon="mdi:tools"></ha-icon></ha-icon-button>`
           : nothing}
@@ -194,6 +217,7 @@ export class HistoryDialog extends LitElement {
               .showControls=${this._controlsVisible}
               .toolsOpen=${this._toolsOpen}
               @picker-overlay-changed=${(e: CustomEvent<{ open: boolean }>) => this._onPickerOverlayChanged(e)}
+              @graph-visibility-changed=${(e: CustomEvent<{ visible: boolean }>) => this._onGraphVisibilityChanged(e)}
               class="history"
             ></ha-better-history>`
           : nothing}

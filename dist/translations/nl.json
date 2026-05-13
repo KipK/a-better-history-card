@@ -19,7 +19,7 @@
   "editor.field.button_label": "Knoplabel",
   "editor.field.button_show_icon": "Knoppictogram tonen",
   "editor.field.button_show_name": "Knopnaam tonen",
-  "editor.field.color": "Kleur (CSS-waarde)",
+  "editor.field.color": "Kleur",
   "editor.field.debug_performance": "Prestaties debuggen",
   "editor.field.disable_climate_overlay": "Klimaatoverlay uitschakelen",
   "editor.field.end_date": "Einddatum",

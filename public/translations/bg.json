@@ -19,7 +19,7 @@
   "editor.field.button_label": "Надпис на бутона",
   "editor.field.button_show_icon": "Показване на икона",
   "editor.field.button_show_name": "Показване на име",
-  "editor.field.color": "Цвят (CSS стойност)",
+  "editor.field.color": "Цвят",
   "editor.field.debug_performance": "Отстраняване на грешки в производителността",
   "editor.field.disable_climate_overlay": "Деактивиране на климатичното наслагване",
   "editor.field.end_date": "Крайна дата",

@@ -19,7 +19,7 @@
   "editor.field.button_label": "Popisek tlačítka",
   "editor.field.button_show_icon": "Zobrazit ikonu tlačítka",
   "editor.field.button_show_name": "Zobrazit název tlačítka",
-  "editor.field.color": "Barva (hodnota CSS)",
+  "editor.field.color": "Barva",
   "editor.field.debug_performance": "Ladění výkonu",
   "editor.field.disable_climate_overlay": "Zakázat překrytí klimatu",
   "editor.field.end_date": "Datum ukončení",

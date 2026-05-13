@@ -19,7 +19,7 @@
   "editor.field.button_label": "Etichetta pulsante",
   "editor.field.button_show_icon": "Mostra icona pulsante",
   "editor.field.button_show_name": "Mostra nome pulsante",
-  "editor.field.color": "Colore (valore CSS)",
+  "editor.field.color": "Colore",
   "editor.field.debug_performance": "Debug prestazioni",
   "editor.field.disable_climate_overlay": "Disattiva sovrapposizione clima",
   "editor.field.end_date": "Data di fine",

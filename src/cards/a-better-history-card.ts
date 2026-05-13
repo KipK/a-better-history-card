@@ -53,7 +53,8 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
     _config: { state: true },
     _toolsOpen: { state: true },
     _controlsVisible: { state: true },
-    _dialogOpen: { state: true }
+    _dialogOpen: { state: true },
+    _graphVisible: { state: true }
   };
 
   static styles = css`
@@ -137,6 +138,7 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
   private _toolsOpen = false;
   private _controlsVisible = true;
   private _dialogOpen = false;
+  private _graphVisible?: boolean;
   private _translationLanguage = "";
 
   setConfig(config: unknown): void {
@@ -146,6 +148,7 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
     }
     this._config = { ...normalizeConfig(raw) };
     this._controlsVisible = this._config.show_controls ?? true;
+    this._graphVisible = undefined;
   }
 
   protected override updated(): void {
@@ -184,6 +187,20 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
     this._dialogOpen = false;
   }
 
+  private _onGraphVisibilityChanged(event: CustomEvent<{ visible: boolean }>): void {
+    this._graphVisible = event.detail.visible;
+    if (!this._graphVisible) this._toolsOpen = false;
+  }
+
+  private _hasConfiguredGraphTargets(cfg: ABetterHistoryCardConfig | undefined): boolean {
+    return !!(cfg?.entities?.length || cfg?.series?.length);
+  }
+
+  private _toolsDisabled(cfg: ABetterHistoryCardConfig | undefined): boolean {
+    return this._graphVisible === false
+      || (this._graphVisible === undefined && !this._hasConfiguredGraphTargets(cfg));
+  }
+
   private _renderHeader(): TemplateResult | typeof nothing {
     const cfg = this._config;
     const title = cfg?.title;
@@ -207,6 +224,7 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
             ? html`<ha-icon-button
                 .label=${localize(this.hass, "card.label.tools")}
                 ?active=${this._toolsOpen}
+                ?disabled=${this._toolsDisabled(cfg)}
                 @click=${() => { this._toolsOpen = !this._toolsOpen; }}
               ><ha-icon icon="mdi:tools"></ha-icon></ha-icon-button>`
             : nothing}
@@ -247,6 +265,7 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
             .language=${language}
             .toolsOpen=${this._toolsOpen}
             .showControls=${this._controlsVisible}
+            @graph-visibility-changed=${(e: CustomEvent<{ visible: boolean }>) => this._onGraphVisibilityChanged(e)}
             style="width:100%;height:100%;"
           ></ha-better-history>
         </div>

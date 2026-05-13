@@ -8,6 +8,7 @@ export function sourceToSeriesConfig(source: HistorySource): CardSeriesConfig {
       source.kind === "entity_attribute" && source.path
         ? source.path.join(".")
         : undefined,
+    unit: source.unit,
     forced: true,
   };
 }

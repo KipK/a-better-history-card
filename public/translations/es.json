@@ -19,7 +19,7 @@
   "editor.field.button_label": "Etiqueta del botón",
   "editor.field.button_show_icon": "Mostrar icono del botón",
   "editor.field.button_show_name": "Mostrar nombre del botón",
-  "editor.field.color": "Color (valor CSS)",
+  "editor.field.color": "Color",
   "editor.field.debug_performance": "Depuración de rendimiento",
   "editor.field.disable_climate_overlay": "Desactivar superposición climática",
   "editor.field.end_date": "Fecha de fin",

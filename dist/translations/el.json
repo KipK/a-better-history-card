@@ -19,7 +19,7 @@
   "editor.field.button_label": "Ετικέτα κουμπιού",
   "editor.field.button_show_icon": "Εμφάνιση εικονιδίου κουμπιού",
   "editor.field.button_show_name": "Εμφάνιση ονόματος κουμπιού",
-  "editor.field.color": "Χρώμα (τιμή CSS)",
+  "editor.field.color": "Χρώμα",
   "editor.field.debug_performance": "Αποσφαλμάτωση απόδοσης",
   "editor.field.disable_climate_overlay": "Απενεργοποίηση επικάλυψης κλίματος",
   "editor.field.end_date": "Ημερομηνία τέλους",

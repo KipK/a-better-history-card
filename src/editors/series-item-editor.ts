@@ -3,6 +3,16 @@ import type { CardSeriesConfig } from "../types/config.js";
 import type { HaFormChangedEvent, HaFormSchema, HomeAssistant } from "../types/ha.js";
 import { ensureTranslations, languageFromHass, localize } from "../localize/localize.js";
 
+function cssColor(value: string | number[] | undefined): string | undefined {
+  if (typeof value === "string" && value.trim() !== "") return value.trim();
+  if (!Array.isArray(value) || value.length < 3) return undefined;
+
+  const [r, g, b] = value.map((part) => Number(part));
+  if (![r, g, b].every((part) => Number.isFinite(part))) return undefined;
+
+  return `rgb(${r}, ${g}, ${b})`;
+}
+
 export class SeriesItemEditor extends LitElement {
   static properties = {
     series: { attribute: false },
@@ -23,6 +33,13 @@ export class SeriesItemEditor extends LitElement {
 
     .line-width-form {
       max-width: 160px;
+    }
+
+    .color-picker {
+      display: block;
+      margin-top: 8px;
+      max-width: 260px;
+      width: 100%;
     }
   `;
 
@@ -54,7 +71,6 @@ export class SeriesItemEditor extends LitElement {
       { name: "entity", selector: { entity: {} } },
       { name: "attribute", selector: { text: {} } },
       { name: "label", selector: { text: {} } },
-      { name: "color", selector: { text: {} } },
       { name: "unit", selector: { text: {} } },
       { name: "scale_group", selector: { text: {} } },
       {
@@ -93,7 +109,9 @@ export class SeriesItemEditor extends LitElement {
   }
 
   private _valueChanged(event: HaFormChangedEvent<CardSeriesConfig>): void {
-    this._emitItem({ forced: true, ...event.detail.value });
+    const value = { forced: true, ...event.detail.value };
+
+    this._emitItem(this._withDefaultUnit(value));
   }
 
   private _lineWidthChanged(event: HaFormChangedEvent<CardSeriesConfig>): void {
@@ -119,11 +137,43 @@ export class SeriesItemEditor extends LitElement {
     );
   }
 
+  private _withDefaultUnit(item: CardSeriesConfig): CardSeriesConfig {
+    if (item.unit || item.entity === this.series.entity) return item;
+
+    const unit = this._entityUnit(item.entity);
+    return unit ? { ...item, unit } : item;
+  }
+
+  private _entityUnit(entityId: string | undefined): string | undefined {
+    if (!entityId) return undefined;
+
+    const unit = this.hass?.states[entityId]?.attributes.unit_of_measurement;
+    return typeof unit === "string" && unit.trim() !== "" ? unit : undefined;
+  }
+
+  private _colorValue(): string | undefined {
+    return this.series.color?.trim() || undefined;
+  }
+
+  private _colorChanged(event: CustomEvent<{ value?: string | number[] }>): void {
+    const next = { forced: true, ...this.series };
+    const value = cssColor(event.detail.value);
+
+    if (value === undefined || value === "") {
+      delete next.color;
+    } else {
+      next.color = value;
+    }
+
+    this._emitItem(next);
+  }
+
   protected render(): TemplateResult {
     const data = { forced: true, ...this.series };
     const schema = this._schema();
     const lineWidthSchema = schema.filter((item) => item.name === "line_width");
     const mainSchema = schema.filter((item) => item.name !== "line_width");
+    const colorSchema: HaFormSchema = { name: "color", selector: { color_rgb: {} } };
 
     return html`
       <ha-form
@@ -141,6 +191,12 @@ export class SeriesItemEditor extends LitElement {
         .computeLabel=${(s: HaFormSchema) => this._computeLabel(s)}
         @value-changed=${(e: HaFormChangedEvent<CardSeriesConfig>) => this._lineWidthChanged(e)}
       ></ha-form>
+      <ha-color-picker
+        class="color-picker"
+        .label=${this._computeLabel(colorSchema)}
+        .value=${this._colorValue()}
+        @value-changed=${(event: CustomEvent<{ value?: string | number[] }>) => this._colorChanged(event)}
+      ></ha-color-picker>
     `;
   }
 }

@@ -19,7 +19,7 @@
   "editor.field.button_label": "Rótulo do botão",
   "editor.field.button_show_icon": "Mostrar ícone do botão",
   "editor.field.button_show_name": "Mostrar nome do botão",
-  "editor.field.color": "Cor (valor CSS)",
+  "editor.field.color": "Cor ",
   "editor.field.debug_performance": "Depurar desempenho",
   "editor.field.disable_climate_overlay": "Desativar sobreposição climática",
   "editor.field.end_date": "Data de fim",

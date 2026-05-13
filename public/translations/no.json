@@ -19,7 +19,7 @@
   "editor.field.button_label": "Knappeetikett",
   "editor.field.button_show_icon": "Vis knappikon",
   "editor.field.button_show_name": "Vis knappnavn",
-  "editor.field.color": "Farge (CSS-verdi)",
+  "editor.field.color": "Farge",
   "editor.field.debug_performance": "Feilsøk ytelse",
   "editor.field.disable_climate_overlay": "Deaktiver klimaoverlegg",
   "editor.field.end_date": "Sluttdato",

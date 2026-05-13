@@ -19,7 +19,7 @@
   "editor.field.button_label": "Etykieta przycisku",
   "editor.field.button_show_icon": "Pokaż ikonę przycisku",
   "editor.field.button_show_name": "Pokaż nazwę przycisku",
-  "editor.field.color": "Kolor (wartość CSS)",
+  "editor.field.color": "Kolor",
   "editor.field.debug_performance": "Debugowanie wydajności",
   "editor.field.disable_climate_overlay": "Wyłącz nakładkę klimatu",
   "editor.field.end_date": "Data końcowa",

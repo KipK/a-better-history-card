@@ -19,7 +19,7 @@
   "editor.field.button_label": "Knapetiket",
   "editor.field.button_show_icon": "Vis knapikon",
   "editor.field.button_show_name": "Vis knapnavn",
-  "editor.field.color": "Farve (CSS-værdi)",
+  "editor.field.color": "Farve",
   "editor.field.debug_performance": "Fejlfinding af ydeevne",
   "editor.field.disable_climate_overlay": "Deaktiver klimaoverlejring",
   "editor.field.end_date": "Slutdato",

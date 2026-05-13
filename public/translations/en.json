@@ -19,7 +19,7 @@
   "editor.field.button_label": "Button label",
   "editor.field.button_show_icon": "Show button icon",
   "editor.field.button_show_name": "Show button name",
-  "editor.field.color": "Color (CSS value)",
+  "editor.field.color": "Color",
   "editor.field.debug_performance": "Debug performance",
   "editor.field.disable_climate_overlay": "Disable climate overlay",
   "editor.field.end_date": "End date",
