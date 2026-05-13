@@ -1,9 +1,11 @@
-import "@kipk/ha-better-history";
+import { defineHaBetterHistory } from "@kipk/ha-better-history";
 import { ABetterHistoryCard } from "./cards/a-better-history-card.js";
 import { ABetterHistoryButtonCard } from "./cards/a-better-history-button-card.js";
 import "./editors/a-better-history-card-editor.js";
 import "./editors/a-better-history-button-card-editor.js";
-import { BUTTON_CARD_TAG, BUTTON_CARD_TYPE, CARD_TAG, CARD_TYPE, NAME } from "./const.js";
+import { BUTTON_CARD_TAG, BUTTON_CARD_TYPE, CARD_TAG, CARD_TYPE, HISTORY_TAG, NAME } from "./const.js";
+
+defineHaBetterHistory(HISTORY_TAG);
 
 if (!customElements.get(CARD_TAG)) {
   customElements.define(CARD_TAG, ABetterHistoryCard);

@@ -2,6 +2,7 @@ export const NAME = "A Better History Card";
 
 export const CARD_TYPE = "custom:a-better-history-card";
 export const CARD_TAG = "a-better-history-card";
+export const HISTORY_TAG = "a-better-history-card-history";
 export const EDITOR_TAG = "a-better-history-card-editor";
 
 export const BUTTON_CARD_TYPE = "custom:a-better-history-button-card";

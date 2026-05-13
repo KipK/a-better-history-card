@@ -210,7 +210,7 @@ export class HistoryDialog extends LitElement {
             ><ha-icon icon=${this._fullscreen ? "mdi:fullscreen-exit" : "mdi:fullscreen"}></ha-icon></ha-icon-button>`
           : nothing}
         ${this.open && cfg
-          ? html`<ha-better-history
+          ? html`<a-better-history-card-history
               .hass=${this.hass}
               .config=${buildBetterHistoryConfig(cfg, true)}
               .language=${this.language}
@@ -219,7 +219,7 @@ export class HistoryDialog extends LitElement {
               @picker-overlay-changed=${(e: CustomEvent<{ open: boolean }>) => this._onPickerOverlayChanged(e)}
               @graph-visibility-changed=${(e: CustomEvent<{ visible: boolean }>) => this._onGraphVisibilityChanged(e)}
               class="history"
-            ></ha-better-history>`
+            ></a-better-history-card-history>`
           : nothing}
       </ha-dialog>
     `;

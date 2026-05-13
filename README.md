@@ -330,3 +330,6 @@ grid_options:
 This card bundles the
 [`@kipk/ha-better-history`](https://www.npmjs.com/package/@kipk/ha-better-history)
 web component. You do not need to install it separately — it is included in the card bundle.
+The bundle registers its embedded history component as
+`<a-better-history-card-history>` so it can coexist with other cards that may
+bundle a different local `ha-better-history` version during development.

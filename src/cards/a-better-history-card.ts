@@ -109,7 +109,7 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
       padding: 0 8px;
     }
 
-    ha-better-history {
+    a-better-history-card-history {
       --better-history-min-height: 0px;
       --better-history-surface-overflow-y: hidden;
       flex: 1;
@@ -259,7 +259,7 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
       <ha-card>
         ${this._renderHeader()}
         <div class="history-frame">
-          <ha-better-history
+          <a-better-history-card-history
             .hass=${this.hass}
             .config=${bhConfig}
             .language=${language}
@@ -267,7 +267,7 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
             .showControls=${this._controlsVisible}
             @graph-visibility-changed=${(e: CustomEvent<{ visible: boolean }>) => this._onGraphVisibilityChanged(e)}
             style="width:100%;height:100%;"
-          ></ha-better-history>
+          ></a-better-history-card-history>
         </div>
         <abh-history-dialog
           .open=${this._dialogOpen}
