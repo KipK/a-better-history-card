@@ -26,12 +26,14 @@ customCards.push({
   type: CARD_TAG,
   name: NAME,
   description: "Display history charts directly in your dashboard.",
-  preview: true
+  preview: true,
+  documentationURL: "https://github.com/KipK/a-better-history-card#readme"
 });
 
 customCards.push({
   type: BUTTON_CARD_TAG,
   name: `${NAME} Button`,
   description: "Button that opens a history chart dialog.",
-  preview: true
+  preview: true,
+  documentationURL: "https://github.com/KipK/a-better-history-card#readme"
 });

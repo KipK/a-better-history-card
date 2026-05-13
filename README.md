@@ -317,7 +317,7 @@ These values are stored in the `grid_options` config key, which Home Assistant w
 ```yaml
 grid_options:
   columns: 12
-  rows: 6
+  rows: auto
 ```
 
 > **Tip:** The graph fills its host element. A taller `rows` value gives more vertical space to the
