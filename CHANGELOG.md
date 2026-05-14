@@ -27,4 +27,4 @@
 ## [0.1.4]
 
 - update ha-better-history to 0.2.1
-  ; set units and scale group to attributes and entities from the graph by right click/long press the attributes chips
+  . set units and scale group to attributes and entities from the graph by right click/long press the attributes chips
