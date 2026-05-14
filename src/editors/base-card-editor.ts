@@ -6,7 +6,7 @@ import { ensureDateRangePicker, ensureHaComponents } from "../ha/load-components
 import { normalizeConfig } from "../data/normalize-config.js";
 import { ensureTranslations, languageFromHass, localize } from "../localize/localize.js";
 
-const COLOR_FIELD_NAMES = new Set(["title_color", "button_color", "button_hover_color"]);
+const COLOR_FIELD_NAMES = new Set(["title_color", "card_background_color", "button_color", "button_hover_color"]);
 
 function cssColor(value: string | number[] | undefined): string | undefined {
   if (typeof value === "string" && value.trim() !== "") return value.trim();
@@ -78,6 +78,11 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
     .line-width-form {
       display: block;
       max-width: 160px;
+    }
+
+    .background-opacity-form {
+      display: block;
+      margin-top: 16px;
     }
 
     .hours-field {
@@ -216,7 +221,9 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
       { name: "line_width", selector: { number: { min: 1, max: 5, mode: "box" } } },
       { name: "title_font_family", selector: { text: {} } },
       { name: "title_font_size", selector: { text: {} } },
-      { name: "title_color", selector: { color_rgb: {} } }
+      { name: "title_color", selector: { color_rgb: {} } },
+      { name: "card_background_color", selector: { color_rgb: {} } },
+      { name: "card_background_opacity", selector: { number: { min: 0, max: 100, mode: "slider", unit_of_measurement: "%" } } }
     ];
   }
 
@@ -368,7 +375,9 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
   private _renderStyleTab(): TemplateResult {
     const schema = this._styleSchema();
     const lineWidthSchema = schema.filter((item) => item.name === "line_width");
-    const mainSchema = this._withoutColorFields(schema).filter((item) => item.name !== "line_width");
+    const backgroundOpacitySchema = schema.filter((item) => item.name === "card_background_opacity");
+    const mainSchema = this._withoutColorFields(schema)
+      .filter((item) => item.name !== "line_width" && item.name !== "card_background_opacity");
 
     return html`
       ${this._renderSchemaForm(mainSchema)}
@@ -381,6 +390,9 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
         @value-changed=${(e: HaFormChangedEvent<Record<string, unknown>>) => this._lineWidthChanged(e)}
       ></ha-form>
       ${this._renderColorGrid(this._colorFields(schema))}
+      <div class="background-opacity-form">
+        ${this._renderSchemaForm(backgroundOpacitySchema)}
+      </div>
     `;
   }
 

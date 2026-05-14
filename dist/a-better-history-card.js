@@ -7177,7 +7177,12 @@ function Ko(e) {
 		r
 	].every((e) => Number.isFinite(e))) return `rgb(${t}, ${n}, ${r})`;
 }
-var qo = class extends X {
+function qo(e) {
+	if (e == null || e === "") return;
+	let t = Number(e);
+	if (Number.isFinite(t)) return Math.min(100, Math.max(0, t));
+}
+var Jo = class extends X {
 	constructor(...e) {
 		super(...e), this._toolsOpen = !1, this._controlsVisible = !0, this._dialogOpen = !1, this._translationLanguage = "";
 	}
@@ -7218,6 +7223,7 @@ var qo = class extends X {
     }
 
     ha-card {
+      background: var(--_card-bg, var(--ha-card-background, var(--card-background-color)));
       display: flex;
       flex-direction: column;
       height: 100%;
@@ -7325,6 +7331,10 @@ var qo = class extends X {
 	_toolsDisabled(e) {
 		return this._graphVisible === !1 || this._graphVisible === void 0 && !this._hasConfiguredGraphTargets(e);
 	}
+	_cardStyle() {
+		let e = Ko(this._config?.card_background_color), t = qo(this._config?.card_background_opacity);
+		return e && t !== void 0 ? `--_card-bg: color-mix(in srgb, ${e} ${t}%, transparent);` : e ? `--_card-bg: ${e};` : t === void 0 ? "" : `--_card-bg: color-mix(in srgb, var(--ha-card-background, var(--card-background-color)) ${t}%, transparent);`;
+	}
 	_renderHeader() {
 		let e = this._config, t = e?.title, n = !!(e?.show_controls_toggle && (e?.show_date_picker || e?.show_entity_picker)), r = e?.show_tools_button || n || e?.show_fullscreen_button;
 		if (!t && !r) return J;
@@ -7364,7 +7374,7 @@ var qo = class extends X {
 		if (!e) return q`<ha-card><div class="error">${$(this.hass, "card.error.no_configuration")}</div></ha-card>`;
 		let t = Do(e, !!e.title), n = this.hass?.locale?.language ?? this.hass?.language;
 		return q`
-      <ha-card>
+      <ha-card style=${this._cardStyle()}>
         ${this._renderHeader()}
         <div class="history-frame">
           <a-better-history-card-history
@@ -7390,7 +7400,7 @@ var qo = class extends X {
 };
 //#endregion
 //#region src/cards/a-better-history-button-card.ts
-function Jo(e) {
+function Yo(e) {
 	if (typeof e == "string" && e.trim() !== "") {
 		let t = e.trim();
 		return /^[a-z][a-z0-9-]*$/i.test(t) ? `var(--${t}-color, ${t})` : t;
@@ -7403,7 +7413,12 @@ function Jo(e) {
 		r
 	].every((e) => Number.isFinite(e))) return `rgb(${t}, ${n}, ${r})`;
 }
-var Yo = class extends X {
+function Xo(e) {
+	if (e == null || e === "") return;
+	let t = Number(e);
+	if (Number.isFinite(t)) return Math.min(100, Math.max(0, t));
+}
+var Zo = class extends X {
 	constructor(...e) {
 		super(...e), this._open = !1, this._translationLanguage = "";
 	}
@@ -7441,6 +7456,7 @@ var Yo = class extends X {
 
     ha-card {
       align-items: center;
+      background: var(--_card-bg, var(--ha-card-background, var(--card-background-color)));
       cursor: pointer;
       display: flex;
       justify-content: center;
@@ -7497,9 +7513,9 @@ var Yo = class extends X {
 		e !== this._translationLanguage && (this._translationLanguage = e, await Fo(this.hass, e), this.requestUpdate());
 	}
 	render() {
-		let e = this._config, t = e?.button_icon ?? "mdi:chart-line", n = e?.button_label ?? $(this.hass, "dialog.title.history"), r = e?.button_show_name !== !1, i = e?.button_show_icon !== !1, a = e?.button_hover_effect !== !1, o = Jo(e?.button_color), s = Jo(e?.button_hover_color), c = this.hass?.locale?.language ?? this.hass?.language, l = [];
-		return o && l.push(`--_btn-color: ${o}`), s && l.push(`--_btn-hover-color: ${s}`), l.push(`--_btn-hover-shadow: ${a ? "0 0 0 2px var(--_btn-hover-color, var(--primary-color))" : "none"}`), q`
-      <ha-card style=${l.join("; ")} @click=${this._openDialog}>
+		let e = this._config, t = e?.button_icon ?? "mdi:chart-line", n = e?.button_label ?? $(this.hass, "dialog.title.history"), r = e?.button_show_name !== !1, i = e?.button_show_icon !== !1, a = e?.button_hover_effect !== !1, o = Yo(e?.button_color), s = Yo(e?.button_hover_color), c = Yo(e?.card_background_color), l = Xo(e?.card_background_opacity), u = this.hass?.locale?.language ?? this.hass?.language, d = [];
+		return o && d.push(`--_btn-color: ${o}`), s && d.push(`--_btn-hover-color: ${s}`), c && l !== void 0 ? d.push(`--_card-bg: color-mix(in srgb, ${c} ${l}%, transparent)`) : c ? d.push(`--_card-bg: ${c}`) : l !== void 0 && d.push(`--_card-bg: color-mix(in srgb, var(--ha-card-background, var(--card-background-color)) ${l}%, transparent)`), d.push(`--_btn-hover-shadow: ${a ? "0 0 0 2px var(--_btn-hover-color, var(--primary-color))" : "none"}`), q`
+      <ha-card style=${d.join("; ")} @click=${this._openDialog}>
         <div class="btn-content">
           ${i ? q`<ha-icon icon=${t}></ha-icon>` : null}
           ${r ? q`<span class="label">${n}</span>` : null}
@@ -7509,7 +7525,7 @@ var Yo = class extends X {
         .open=${this._open}
         .hass=${this.hass}
         .config=${e}
-        .language=${c}
+        .language=${u}
         @abh-dialog-closed=${this._onDialogClosed}
       ></abh-history-dialog>
     `;
@@ -7517,7 +7533,7 @@ var Yo = class extends X {
 };
 //#endregion
 //#region src/editors/series-item-editor.ts
-function Xo(e) {
+function Qo(e) {
 	if (typeof e == "string" && e.trim() !== "") return e.trim();
 	if (!Array.isArray(e) || e.length < 3) return;
 	let [t, n, r] = e.map((e) => Number(e));
@@ -7527,7 +7543,7 @@ function Xo(e) {
 		r
 	].every((e) => Number.isFinite(e))) return `rgb(${t}, ${n}, ${r})`;
 }
-var Zo = class extends X {
+var $o = class extends X {
 	constructor(...e) {
 		super(...e), this.series = { entity: "" }, this._translationLanguage = "";
 	}
@@ -7690,7 +7706,7 @@ var Zo = class extends X {
 		let t = {
 			forced: !0,
 			...this.series
-		}, n = Xo(e.detail.value);
+		}, n = Qo(e.detail.value);
 		n === void 0 || n === "" ? delete t.color : t.color = n, this._emitItem(t);
 	}
 	render() {
@@ -7727,10 +7743,10 @@ var Zo = class extends X {
     `;
 	}
 };
-customElements.get("abh-series-item-editor") || customElements.define("abh-series-item-editor", Zo);
+customElements.get("abh-series-item-editor") || customElements.define("abh-series-item-editor", $o);
 //#endregion
 //#region src/data/source-to-series.ts
-function Qo(e) {
+function es(e) {
 	let t = e;
 	return {
 		entity: e.entityId,
@@ -7742,7 +7758,7 @@ function Qo(e) {
 }
 //#endregion
 //#region node_modules/@kipk/load-ha-components/dist/load-ha-components.js
-var $o = [
+var ts = [
 	"ha-form",
 	"ha-icon",
 	"ha-icon-button",
@@ -7761,8 +7777,8 @@ var $o = [
 	"ha-badge",
 	"ha-sankey-chart",
 	"mwc-button"
-], es = async (e) => {
-	let t = e || $o;
+], ns = async (e) => {
+	let t = e || ts;
 	try {
 		if (t.every((e) => customElements.get(e))) return;
 		await Promise.race([customElements.whenDefined("partial-panel-resolver"), new Promise((e, t) => setTimeout(() => t(/* @__PURE__ */ Error("Timeout waiting for partial-panel-resolver")), 1e4))]);
@@ -7796,22 +7812,22 @@ var $o = [
 			console.error("Fallback loading method failed:", e);
 		}
 	}
-}, ts = [
+}, rs = [
 	"ha-form",
 	"ha-icon",
 	"ha-icon-button",
 	"ha-button",
 	"ha-color-picker",
 	"ha-expansion-panel"
-], ns;
-function rs() {
-	return ns ??= es(ts), ns;
-}
-var is;
+], is;
 function as() {
-	return is ??= os(), is;
+	return is ??= ns(rs), is;
 }
-async function os() {
+var os;
+function ss() {
+	return os ??= cs(), os;
+}
+async function cs() {
 	if (!customElements.get("ha-date-range-picker")) try {
 		await Promise.race([customElements.whenDefined("partial-panel-resolver"), new Promise((e, t) => setTimeout(() => t(/* @__PURE__ */ Error("timeout")), 1e4))]);
 		let e = document.createElement("partial-panel-resolver");
@@ -7825,7 +7841,7 @@ async function os() {
 }
 //#endregion
 //#region src/editors/series-list-editor.ts
-var ss = class extends X {
+var ls = class extends X {
 	constructor(...e) {
 		super(...e), this.series = [], this._dragIndex = -1, this._dragOverIndex = -1, this._componentsReady = !1, this._translationLanguage = "";
 	}
@@ -7917,7 +7933,7 @@ var ss = class extends X {
   `;
 	}
 	connectedCallback() {
-		super.connectedCallback(), rs().then(() => {
+		super.connectedCallback(), as().then(() => {
 			this._componentsReady = !0;
 		});
 	}
@@ -7959,7 +7975,7 @@ var ss = class extends X {
 		this._dragIndex = -1, this._dragOverIndex = -1;
 	}
 	_onSourcesConfirmed(e) {
-		let t = e.detail.sources.map(Qo);
+		let t = e.detail.sources.map(es);
 		t.length > 0 && this._emit([...this.series, ...t]);
 	}
 	_seriesTitle(e) {
@@ -8028,15 +8044,16 @@ var ss = class extends X {
     ` : q`${n}${r}`;
 	}
 };
-customElements.get("abh-series-list-editor") || customElements.define("abh-series-list-editor", ss);
+customElements.get("abh-series-list-editor") || customElements.define("abh-series-list-editor", ls);
 //#endregion
 //#region src/editors/base-card-editor.ts
-var cs = new Set([
+var us = new Set([
 	"title_color",
+	"card_background_color",
 	"button_color",
 	"button_hover_color"
 ]);
-function ls(e) {
+function ds(e) {
 	if (typeof e == "string" && e.trim() !== "") return e.trim();
 	if (!Array.isArray(e) || e.length < 3) return;
 	let [t, n, r] = e.map((e) => Number(e));
@@ -8046,7 +8063,7 @@ function ls(e) {
 		r
 	].every((e) => Number.isFinite(e))) return `rgb(${t}, ${n}, ${r})`;
 }
-var us = class extends X {
+var fs = class extends X {
 	constructor(...e) {
 		super(...e), this._config = { type: "" }, this._activeTab = "", this._hoursDraft = "", this._editingHours = !1, this._componentsReady = !1, this._dateRangePickerReady = !1, this._translationLanguage = "";
 	}
@@ -8113,6 +8130,11 @@ var us = class extends X {
       max-width: 160px;
     }
 
+    .background-opacity-form {
+      display: block;
+      margin-top: 16px;
+    }
+
     .hours-field {
       display: block;
       margin-top: 16px;
@@ -8151,9 +8173,9 @@ var us = class extends X {
   `;
 	}
 	connectedCallback() {
-		super.connectedCallback(), rs().then(() => {
+		super.connectedCallback(), as().then(() => {
 			this._componentsReady = !0;
-		}), as().then(() => {
+		}), ss().then(() => {
 			this._dateRangePickerReady = customElements.get("ha-date-range-picker") !== void 0;
 		});
 	}
@@ -8264,6 +8286,19 @@ var us = class extends X {
 			{
 				name: "title_color",
 				selector: { color_rgb: {} }
+			},
+			{
+				name: "card_background_color",
+				selector: { color_rgb: {} }
+			},
+			{
+				name: "card_background_opacity",
+				selector: { number: {
+					min: 0,
+					max: 100,
+					mode: "slider",
+					unit_of_measurement: "%"
+				} }
 			}
 		];
 	}
@@ -8425,15 +8460,15 @@ var us = class extends X {
     `;
 	}
 	_withoutColorFields(e) {
-		return e.filter((e) => !cs.has(e.name));
+		return e.filter((e) => !us.has(e.name));
 	}
 	_colorFields(e) {
-		return e.filter((e) => cs.has(e.name));
+		return e.filter((e) => us.has(e.name));
 	}
 	_renderStyleTab() {
-		let e = this._styleSchema(), t = e.filter((e) => e.name === "line_width"), n = this._withoutColorFields(e).filter((e) => e.name !== "line_width");
+		let e = this._styleSchema(), t = e.filter((e) => e.name === "line_width"), n = e.filter((e) => e.name === "card_background_opacity"), r = this._withoutColorFields(e).filter((e) => e.name !== "line_width" && e.name !== "card_background_opacity");
 		return q`
-      ${this._renderSchemaForm(n)}
+      ${this._renderSchemaForm(r)}
       <ha-form
         class="line-width-form"
         .hass=${this.hass}
@@ -8443,6 +8478,9 @@ var us = class extends X {
         @value-changed=${(e) => this._lineWidthChanged(e)}
       ></ha-form>
       ${this._renderColorGrid(this._colorFields(e))}
+      <div class="background-opacity-form">
+        ${this._renderSchemaForm(n)}
+      </div>
     `;
 	}
 	_renderButtonTab() {
@@ -8481,7 +8519,7 @@ var us = class extends X {
 		].every((e) => Number.isFinite(e))) return `rgb(${n}, ${r}, ${i})`;
 	}
 	_colorChanged(e, t) {
-		let n = { ...this._config }, r = ls(t.detail.value);
+		let n = { ...this._config }, r = ds(t.detail.value);
 		r === void 0 || r === "" ? delete n[e] : n[e] = r, this._config = n, this._emitConfig();
 	}
 	_renderEntitiesTab() {
@@ -8577,7 +8615,7 @@ var us = class extends X {
 			end_date: r.toISOString()
 		}, this._emitConfig());
 	}
-}, ds = class extends us {
+}, ps = class extends fs {
 	_tabs() {
 		return [
 			{
@@ -8622,10 +8660,10 @@ var us = class extends X {
 		}
 	}
 };
-customElements.get("a-better-history-card-editor") || customElements.define(Ho, ds);
+customElements.get("a-better-history-card-editor") || customElements.define(Ho, ps);
 //#endregion
 //#region src/editors/a-better-history-button-card-editor.ts
-var fs = class extends us {
+var ms = class extends fs {
 	_styleSchema() {
 		return super._styleSchema().filter((e) => e.name !== "title_color");
 	}
@@ -8678,17 +8716,17 @@ var fs = class extends us {
 		}
 	}
 };
-customElements.get("a-better-history-button-card-editor") || customElements.define(Go, fs), va(Vo), customElements.get("a-better-history-card") || customElements.define(Bo, qo), customElements.get("a-better-history-button-card") || customElements.define(Wo, Yo), window.customCards = window.customCards ?? [];
-var ps = window.customCards;
-ps.filter((e) => e.type === "a-better-history-card" || e.type === "custom:a-better-history-card" || e.type === "a-better-history-button-card" || e.type === "custom:a-better-history-button-card").forEach((e) => {
-	ps.splice(ps.indexOf(e), 1);
-}), ps.push({
+customElements.get("a-better-history-button-card-editor") || customElements.define(Go, ms), va(Vo), customElements.get("a-better-history-card") || customElements.define(Bo, Jo), customElements.get("a-better-history-button-card") || customElements.define(Wo, Zo), window.customCards = window.customCards ?? [];
+var hs = window.customCards;
+hs.filter((e) => e.type === "a-better-history-card" || e.type === "custom:a-better-history-card" || e.type === "a-better-history-button-card" || e.type === "custom:a-better-history-button-card").forEach((e) => {
+	hs.splice(hs.indexOf(e), 1);
+}), hs.push({
 	type: Bo,
 	name: Ro,
 	description: "Display history charts directly in your dashboard.",
 	preview: !0,
 	documentationURL: "https://github.com/KipK/a-better-history-card#readme"
-}), ps.push({
+}), hs.push({
 	type: Wo,
 	name: `${Ro} Button`,
 	description: "Button that opens a history chart dialog.",

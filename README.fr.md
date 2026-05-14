@@ -263,6 +263,8 @@ Toutes les options sont facultatives sauf indication contraire. Les valeurs par 
 | `title_font_family` | `string`                            | —         | Famille de police CSS pour le titre (carte inline uniquement).                             |
 | `title_font_size`   | `string`                            | —         | Taille de police CSS pour le titre (carte inline uniquement).                              |
 | `title_color`       | `string` \| `number[]`              | —         | Couleur CSS ou tableau RGB `[r, g, b]` pour le titre.                                      |
+| `card_background_color` | `string` \| `number[]`           | Fond HA   | Couleur CSS ou tableau RGB `[r, g, b]` pour le fond de la carte.                           |
+| `card_background_opacity` | `number`                       | `100`     | Opacité du fond de carte de `0` à `100`; une valeur plus basse rend la carte plus transparente. |
 | `line_mode`         | `"stair"` \| `"line"` \| `"column"` | `"stair"` | Mode de rendu global pour les séries numériques. Peut être surchargé par série.            |
 | `line_width`        | `number` \| `string`                | `2.5`     | Épaisseur de trait globale pour les séries ligne/escalier. Peut être surchargée par série. |
 

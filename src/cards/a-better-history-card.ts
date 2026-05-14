@@ -21,6 +21,15 @@ function cssColor(value: string | number[] | undefined): string | undefined {
   return `rgb(${r}, ${g}, ${b})`;
 }
 
+function normalizedOpacity(value: unknown): number | undefined {
+  if (value === undefined || value === null || value === "") return undefined;
+
+  const opacity = Number(value);
+  if (!Number.isFinite(opacity)) return undefined;
+
+  return Math.min(100, Math.max(0, opacity));
+}
+
 export class ABetterHistoryCard extends LitElement implements LovelaceCard {
   static getConfigElement(): HTMLElement {
     return document.createElement(EDITOR_TAG);
@@ -64,6 +73,7 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
     }
 
     ha-card {
+      background: var(--_card-bg, var(--ha-card-background, var(--card-background-color)));
       display: flex;
       flex-direction: column;
       height: 100%;
@@ -201,6 +211,25 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
       || (this._graphVisible === undefined && !this._hasConfiguredGraphTargets(cfg));
   }
 
+  private _cardStyle(): string {
+    const color = cssColor(this._config?.card_background_color);
+    const opacity = normalizedOpacity(this._config?.card_background_opacity);
+
+    if (color && opacity !== undefined) {
+      return `--_card-bg: color-mix(in srgb, ${color} ${opacity}%, transparent);`;
+    }
+
+    if (color) {
+      return `--_card-bg: ${color};`;
+    }
+
+    if (opacity !== undefined) {
+      return `--_card-bg: color-mix(in srgb, var(--ha-card-background, var(--card-background-color)) ${opacity}%, transparent);`;
+    }
+
+    return "";
+  }
+
   private _renderHeader(): TemplateResult | typeof nothing {
     const cfg = this._config;
     const title = cfg?.title;
@@ -256,7 +285,7 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
     const language = this.hass?.locale?.language ?? this.hass?.language;
 
     return html`
-      <ha-card>
+      <ha-card style=${this._cardStyle()}>
         ${this._renderHeader()}
         <div class="history-frame">
           <a-better-history-card-history

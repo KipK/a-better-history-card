@@ -20,6 +20,15 @@ function cssColor(value: string | number[] | undefined): string | undefined {
   return `rgb(${r}, ${g}, ${b})`;
 }
 
+function normalizedOpacity(value: unknown): number | undefined {
+  if (value === undefined || value === null || value === "") return undefined;
+
+  const opacity = Number(value);
+  if (!Number.isFinite(opacity)) return undefined;
+
+  return Math.min(100, Math.max(0, opacity));
+}
+
 export class ABetterHistoryButtonCard extends LitElement implements LovelaceCard {
   static getConfigElement(): HTMLElement {
     return document.createElement(BUTTON_EDITOR_TAG);
@@ -60,6 +69,7 @@ export class ABetterHistoryButtonCard extends LitElement implements LovelaceCard
 
     ha-card {
       align-items: center;
+      background: var(--_card-bg, var(--ha-card-background, var(--card-background-color)));
       cursor: pointer;
       display: flex;
       justify-content: center;
@@ -140,11 +150,20 @@ export class ABetterHistoryButtonCard extends LitElement implements LovelaceCard
     const hoverEffect = cfg?.button_hover_effect !== false;
     const color = cssColor(cfg?.button_color);
     const hoverColor = cssColor(cfg?.button_hover_color);
+    const backgroundColor = cssColor(cfg?.card_background_color);
+    const backgroundOpacity = normalizedOpacity(cfg?.card_background_opacity);
     const language = this.hass?.locale?.language ?? this.hass?.language;
 
     const cardStyleParts: string[] = [];
     if (color) cardStyleParts.push(`--_btn-color: ${color}`);
     if (hoverColor) cardStyleParts.push(`--_btn-hover-color: ${hoverColor}`);
+    if (backgroundColor && backgroundOpacity !== undefined) {
+      cardStyleParts.push(`--_card-bg: color-mix(in srgb, ${backgroundColor} ${backgroundOpacity}%, transparent)`);
+    } else if (backgroundColor) {
+      cardStyleParts.push(`--_card-bg: ${backgroundColor}`);
+    } else if (backgroundOpacity !== undefined) {
+      cardStyleParts.push(`--_card-bg: color-mix(in srgb, var(--ha-card-background, var(--card-background-color)) ${backgroundOpacity}%, transparent)`);
+    }
     cardStyleParts.push(`--_btn-hover-shadow: ${hoverEffect ? "0 0 0 2px var(--_btn-hover-color, var(--primary-color))" : "none"}`);
     const cardStyle = cardStyleParts.join("; ");
 

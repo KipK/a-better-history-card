@@ -49,6 +49,8 @@ export interface ABetterHistoryCardConfig {
   title_font_family?: string;
   title_font_size?: string;
   title_color?: string | number[];
+  card_background_color?: string | number[];
+  card_background_opacity?: number;
   line_mode?: BetterHistoryLineMode;
   line_width?: number | string;
 

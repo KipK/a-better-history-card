@@ -19,6 +19,8 @@
   "editor.field.button_label": "Libellé du bouton",
   "editor.field.button_show_icon": "Afficher l'icône du bouton",
   "editor.field.button_show_name": "Afficher le nom du bouton",
+  "editor.field.card_background_color": "Couleur du fond de carte",
+  "editor.field.card_background_opacity": "Opacité du fond de carte",
   "editor.field.color": "Couleur",
   "editor.field.debug_performance": "Performance debug",
   "editor.field.disable_climate_overlay": "Désactiver la surcouche climat",

@@ -31,5 +31,6 @@
 
 ## [0.1.5] dev
 
+- add card background color and opacity style options
 - displayed charts now have implicit numeric group names by position (1,2,3,... )
 - few fixes and UI/UX improvement in ha-better-history components

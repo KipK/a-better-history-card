@@ -259,6 +259,8 @@ All options are optional unless noted. Defaults come from `normalizeConfig()`.
 | `title_font_family` | `string`                            | —         | CSS font-family for the title (inline card only).                        |
 | `title_font_size`   | `string`                            | —         | CSS font-size for the title (inline card only).                          |
 | `title_color`       | `string` \| `number[]`              | —         | CSS color or RGB array `[r, g, b]` for the title.                        |
+| `card_background_color` | `string` \| `number[]`           | HA card background | CSS color or RGB array `[r, g, b]` for the card background.       |
+| `card_background_opacity` | `number`                       | `100`     | Card background opacity from `0` to `100`; lower values make the card more transparent. |
 | `line_mode`         | `"stair"` \| `"line"` \| `"column"` | `"stair"` | Global render mode for numeric series. Can be overridden per series.     |
 | `line_width`        | `number` \| `string`                | `2.5`     | Global stroke width for line/stair series. Can be overridden per series. |
 

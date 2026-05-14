@@ -19,6 +19,8 @@
   "editor.field.button_label": "Button label",
   "editor.field.button_show_icon": "Show button icon",
   "editor.field.button_show_name": "Show button name",
+  "editor.field.card_background_color": "Card background color",
+  "editor.field.card_background_opacity": "Card background opacity",
   "editor.field.color": "Color",
   "editor.field.debug_performance": "Debug performance",
   "editor.field.disable_climate_overlay": "Disable climate overlay",
