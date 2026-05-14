@@ -72,7 +72,7 @@ export class SeriesItemEditor extends LitElement {
       { name: "attribute", selector: { text: {} } },
       { name: "label", selector: { text: {} } },
       { name: "unit", selector: { text: {} } },
-      { name: "scale_group", selector: { text: {} } },
+      { name: "group", selector: { text: {} } },
       {
         name: "scale_mode",
         selector: {
@@ -110,6 +110,7 @@ export class SeriesItemEditor extends LitElement {
 
   private _valueChanged(event: HaFormChangedEvent<CardSeriesConfig>): void {
     const value = { forced: true, ...event.detail.value };
+    if (value.group !== undefined) delete value.scale_group;
 
     this._emitItem(this._withDefaultUnit(value));
   }
@@ -169,7 +170,7 @@ export class SeriesItemEditor extends LitElement {
   }
 
   protected render(): TemplateResult {
-    const data = { forced: true, ...this.series };
+    const data = { forced: true, ...this.series, group: this.series.group ?? this.series.scale_group };
     const schema = this._schema();
     const lineWidthSchema = schema.filter((item) => item.name === "line_width");
     const mainSchema = schema.filter((item) => item.name !== "line_width");

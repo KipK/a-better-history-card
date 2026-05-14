@@ -2,7 +2,7 @@
 
 A pair of Lovelace cards for Home Assistant that expose the full capabilities of the
 [`@kipk/ha-better-history`](https://www.npmjs.com/package/@kipk/ha-better-history) web component —
-multi-entity history graphs with per-series styling, scale groups, climate overlays, and more.
+multi-entity history graphs with per-series styling, groups, climate overlays, and more.
 
 ## Variants
 
@@ -25,28 +25,28 @@ battery level of a sensor, the power draw of a smart plug, the position of a cov
 are invisible to the built-in history.
 
 `ha-better-history` graphs attributes as first-class series. You can mix state series and attribute
-series on the same graph, with independent colors, labels, and Y-axis scale groups:
+series on the same graph, with independent colors, labels, and groups:
 
 ```yaml
 series:
   - entity: climate.living_room
     attribute: current_temperature   # not visible in native HA history
     label: Indoor temp
-    scale_group: temperature
+    group: temperature
   - entity: sensor.outdoor_temperature
     label: Outdoor temp
-    scale_group: temperature         # shares the same Y-axis
+    group: temperature               # shares the same graph
 ```
 
 > Because HA attributes carry no unit metadata, declare units via `attribute_units` so series
 > can be matched onto a shared scale — see the [`attribute_units`](#data) option.
 > Attribute chips added with the visual picker can also be edited directly: right-click the chip
-> (or long-press on touch) to set its `unit` and `scale_group` before it is saved to the card config.
+> (or long-press on touch) to set its `unit` and `group` before it is saved to the card config.
 
 ### Other highlights
 
 - **Multi-entity, multi-attribute** — combine as many series as needed on one graph.
-- **Scale groups** — group series onto a shared Y-axis by unit or explicit `scale_group` (e.g. all temperatures together, all humidity readings together).
+- **Groups** — group series onto the same graph by unit or explicit `group` (e.g. all temperatures together, all humidity readings together).
 - **Per-series styling** — color, line mode (stair / line / column), and line width per series.
 - **Climate overlay** — heating/cooling state visualized as a background band on climate series.
 - **Flexible time range** — rolling relative window (e.g. last 48 h) or fixed absolute date range, with an optional date-range picker in the graph.
@@ -110,16 +110,21 @@ The editor is organized into tabs:
 
 You can configure every option through the UI without writing any YAML.
 
-### Attribute chip unit and scale group
+### Attribute chip unit and group
 
 When adding attributes with the visual series picker, each selected attribute appears as a chip.
 Right-click an attribute chip, or long-press it on touch screens, to open a small editor with:
 
 - **Unit** — saved as the series `unit`, shown in the legend/tooltip, and used by the graph when choosing compatible scales.
-- **Scale group** — saved as `scale_group`; attributes with the same group share the same Y-axis.
+- **Group** — saved as `group`; attributes with the same group share the same graph.
+
+Purely numeric groups (`1`, `2`, etc.) are special graph-order aliases: `1` joins the first
+existing numeric graph, `2` joins the second, and so on. This is useful when you want a newly added
+attribute to join a graph that is already lower in the chart without renaming every series in that
+graph.
 
 This is useful when attributes were added from the picker and you want to group them without editing
-YAML manually. For example, set multiple temperature attributes to unit `°C` and scale group
+YAML manually. For example, set multiple temperature attributes to unit `°C` and group
 `temperature` to render them together on one graph.
 
 ---
@@ -157,19 +162,19 @@ series:
     attribute: current_temperature
     label: Indoor temp
     color: "#42a5f5"
-    scale_group: temperature
+    group: temperature
     line_mode: line
     line_width: 2.5
   - entity: climate.living_room
     attribute: humidity
     label: Humidity
     color: "#66bb6a"
-    scale_group: humidity
+    group: humidity
     unit: "%"
   - entity: sensor.outdoor_temperature
     label: Outdoor temp
     color: "#ef5350"
-    scale_group: temperature
+    group: temperature
 attribute_units:
   climate.living_room.humidity: "%"
 ```
@@ -209,7 +214,7 @@ All options are optional unless noted. Defaults come from `normalizeConfig()`.
 > read the unit automatically. Entity _attributes_ (e.g. `current_temperature` on a `climate`
 > entity, `battery` on a device tracker, etc.) carry **no unit metadata** — Home Assistant simply
 > does not expose it. Without a declared unit, `ha-better-history` cannot match the attribute
-> against other series for Y-axis scale grouping or tooltip display.
+> against other series for grouping or tooltip display.
 >
 > Declare the unit for every attribute series you want to match:
 >
@@ -220,7 +225,7 @@ All options are optional unless noted. Defaults come from `normalizeConfig()`.
 > ```
 >
 > The key format is `entity_id.attribute_name`. The value is the unit string shown in the tooltip
-> and used to group series onto a shared Y-axis via `scale_group`.
+> and used to group compatible series via `group`.
 >
 > For attributes added through the visual picker, you can set the unit directly from the attribute
 > chip popup instead of maintaining a global `attribute_units` entry.
@@ -304,20 +309,21 @@ These options apply only to `custom:a-better-history-button-card`.
 
 Each item in the `series` list is a `CardSeriesConfig` object.
 
-| Option        | Type                                | Default      | Description                                                                                                                                                    |
-| ------------- | ----------------------------------- | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `entity`      | `string`                            | **required** | Entity ID.                                                                                                                                                     |
-| `attribute`   | `string` \| `string[]`              | —            | Attribute dot-path(s). When omitted, the entity state is used.                                                                                                 |
-| `label`       | `string`                            | —            | Legend label. Defaults to the entity friendly name.                                                                                                            |
-| `color`       | `string`                            | —            | CSS color (e.g. `"#42a5f5"` or `"var(--primary-color)"`).                                                                                                      |
-| `unit`        | `string`                            | —            | Override the unit label shown in the legend and tooltip for this series. Also lets picker-added attributes use that unit for compatible scale grouping.        |
-| `scale_group` | `string`                            | —            | Shared Y-axis group name. Series with the same group share a scale.                                                                                            |
-| `scale_mode`  | `"auto"` \| `"manual"`              | `"auto"`     | `"manual"` enables `scale_min`/`scale_max`.                                                                                                                    |
-| `scale_min`   | `number`                            | —            | Y-axis minimum when `scale_mode: manual`.                                                                                                                      |
-| `scale_max`   | `number`                            | —            | Y-axis maximum when `scale_mode: manual`.                                                                                                                      |
-| `line_mode`   | `"stair"` \| `"line"` \| `"column"` | _(global)_   | Per-series render mode override.                                                                                                                               |
-| `line_width`  | `number` \| `string`                | _(global)_   | Per-series stroke width override.                                                                                                                              |
-| `forced`      | `boolean`                           | `false`      | Keep this series even when the entity picker removes all user selections.                                                                                      |
+| Option        | Type                                | Default      | Description                                                                                                                                             |
+| ------------- | ----------------------------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `entity`      | `string`                            | **required** | Entity ID.                                                                                                                                              |
+| `attribute`   | `string` \| `string[]`              | —            | Attribute dot-path(s). When omitted, the entity state is used.                                                                                          |
+| `label`       | `string`                            | —            | Legend label. Defaults to the entity friendly name.                                                                                                     |
+| `color`       | `string`                            | —            | CSS color (e.g. `"#42a5f5"` or `"var(--primary-color)"`).                                                                                               |
+| `unit`        | `string`                            | —            | Override the unit label shown in the legend and tooltip for this series. Also lets picker-added attributes use that unit for compatible grouping.       |
+| `group`       | `string`                            | —            | Shared graph group name. Purely numeric values (`1`, `2`, etc.) are graph-order aliases; mixed names are literal group names.                           |
+| `scale_group` | `string`                            | —            | Deprecated alias for `group`, kept for existing YAML.                                                                                                  |
+| `scale_mode`  | `"auto"` \| `"manual"`              | `"auto"`     | `"manual"` enables `scale_min`/`scale_max`.                                                                                                             |
+| `scale_min`   | `number`                            | —            | Y-axis minimum when `scale_mode: manual`.                                                                                                               |
+| `scale_max`   | `number`                            | —            | Y-axis maximum when `scale_mode: manual`.                                                                                                               |
+| `line_mode`   | `"stair"` \| `"line"` \| `"column"` | _(global)_   | Per-series render mode override.                                                                                                                        |
+| `line_width`  | `number` \| `string`                | _(global)_   | Per-series stroke width override.                                                                                                                       |
+| `forced`      | `boolean`                           | `false`      | Keep this series even when the entity picker removes all user selections.                                                                               |
 
 ---
 

@@ -2,7 +2,7 @@
 
 Une paire de cartes Lovelace pour Home Assistant qui exposent toutes les capacités du composant web
 [`@kipk/ha-better-history`](https://www.npmjs.com/package/@kipk/ha-better-history) —
-graphiques d'historique multi-entités avec style par série, groupes d'axe, superpositions climat, et plus encore.
+graphiques d'historique multi-entités avec style par série, groupes, superpositions climat, et plus encore.
 
 ## Variantes
 
@@ -25,7 +25,7 @@ actuelle d'un thermostat climat, le niveau de batterie d'un capteur, la puissanc
 prise connectée, la position d'un volet, etc. Ces valeurs sont invisibles dans l'historique intégré.
 
 `ha-better-history` trace les attributs comme des séries à part entière. Vous pouvez mélanger séries
-d'état et séries d'attributs sur le même graphique, avec couleurs, libellés et groupes d'axe Y
+d'état et séries d'attributs sur le même graphique, avec couleurs, libellés et groupes
 indépendants :
 
 ```yaml
@@ -33,22 +33,22 @@ series:
   - entity: climate.living_room
     attribute: current_temperature   # invisible dans l'historique natif HA
     label: Temp. intérieure
-    scale_group: temperature
+    group: temperature
   - entity: sensor.outdoor_temperature
     label: Temp. extérieure
-    scale_group: temperature         # partage le même axe Y
+    group: temperature               # partage le même graphique
 ```
 
 > Les attributs HA ne portant aucune métadonnée d'unité, déclarez les unités via `attribute_units`
 > pour que les séries puissent être regroupées sur une échelle commune — voir l'option [`attribute_units`](#données).
 > Les chips d'attributs ajoutées avec le sélecteur visuel peuvent aussi être éditées directement :
 > clic droit sur la chip (ou appui long sur écran tactile) pour définir son `unit` et son
-> `scale_group` avant l'enregistrement dans la configuration de la carte.
+> `group` avant l'enregistrement dans la configuration de la carte.
 
 ### Autres points forts
 
 - **Multi-entités, multi-attributs** — combinez autant de séries que nécessaire sur un seul graphique.
-- **Groupes d'axe** — regroupez les séries sur un axe Y commun par unité ou `scale_group` explicite (ex. toutes les températures ensemble, toutes les humidités ensemble).
+- **Groupes** — regroupez les séries sur le même graphique par unité ou `group` explicite (ex. toutes les températures ensemble, toutes les humidités ensemble).
 - **Style par série** — couleur, mode de ligne (escalier / ligne / colonne) et épaisseur par série.
 - **Superposition climat** — état chauffe/refroidissement visualisé en bande de fond sur les séries clima.
 - **Plage temporelle flexible** — fenêtre glissante relative (ex. dernières 48 h) ou plage de dates fixe, avec sélecteur de dates optionnel dans le graphique.
@@ -112,18 +112,23 @@ L'éditeur est organisé en onglets :
 
 Toutes les options sont configurables via l'interface sans écrire de YAML.
 
-### Unité et groupe d'axe des chips d'attributs
+### Unité et groupe des chips d'attributs
 
 Quand vous ajoutez des attributs avec le sélecteur visuel, chaque attribut sélectionné apparaît sous
 forme de chip. Faites un clic droit sur une chip d'attribut, ou un appui long sur écran tactile, pour
 ouvrir un petit éditeur avec :
 
 - **Unité** — enregistrée comme `unit`, affichée dans la légende/le tooltip et utilisée par le graphique pour choisir les échelles compatibles.
-- **Groupe d'axe** — enregistré comme `scale_group` ; les attributs avec le même groupe partagent le même axe Y.
+- **Groupe** — enregistré comme `group` ; les attributs avec le même groupe partagent le même graphique.
+
+Les groupes purement numériques (`1`, `2`, etc.) sont des alias spéciaux basés sur l'ordre des
+graphiques : `1` rattache la série au premier graphique numérique existant, `2` au deuxième, etc.
+C'est utile pour rattacher un attribut ajouté à un graphique déjà plus bas dans la carte sans
+renommer toutes les séries de ce graphique.
 
 C'est pratique pour les attributs ajoutés depuis le sélecteur quand vous voulez les grouper sans
 modifier le YAML à la main. Par exemple, définissez plusieurs attributs de température avec l'unité
-`°C` et le groupe d'axe `temperature` pour les afficher ensemble sur un seul graphique.
+`°C` et le groupe `temperature` pour les afficher ensemble sur un seul graphique.
 
 ---
 
@@ -160,19 +165,19 @@ series:
     attribute: current_temperature
     label: Temp. intérieure
     color: "#42a5f5"
-    scale_group: temperature
+    group: temperature
     line_mode: line
     line_width: 2.5
   - entity: climate.living_room
     attribute: humidity
     label: Humidité
     color: "#66bb6a"
-    scale_group: humidity
+    group: humidity
     unit: "%"
   - entity: sensor.outdoor_temperature
     label: Temp. extérieure
     color: "#ef5350"
-    scale_group: temperature
+    group: temperature
 attribute_units:
   climate.living_room.humidity: "%"
 ```
@@ -224,7 +229,7 @@ Toutes les options sont facultatives sauf indication contraire. Les valeurs par 
 > ```
 >
 > La clé est au format `entity_id.nom_attribut`. La valeur est la chaîne d'unité affichée dans le
-> tooltip et utilisée pour regrouper les séries sur un axe Y commun via `scale_group`.
+> tooltip et utilisée pour regrouper les séries compatibles via `group`.
 >
 > Pour les attributs ajoutés via le sélecteur visuel, vous pouvez définir l'unité directement depuis
 > le popup de la chip d'attribut au lieu de maintenir une entrée globale dans `attribute_units`.
@@ -308,20 +313,21 @@ Ces options s'appliquent uniquement à `custom:a-better-history-button-card`.
 
 Chaque élément de la liste `series` est un objet `CardSeriesConfig`.
 
-| Option        | Type                                | Défaut     | Description                                                                                                                                                                         |
-| ------------- | ----------------------------------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `entity`      | `string`                            | **requis** | Identifiant de l'entité.                                                                                                                                                            |
-| `attribute`   | `string` \| `string[]`              | —          | Chemin(s) d'attribut. Si absent, l'état de l'entité est utilisé.                                                                                                                    |
-| `label`       | `string`                            | —          | Libellé dans la légende. Par défaut : nom convivial de l'entité.                                                                                                                    |
-| `color`       | `string`                            | —          | Couleur CSS (ex. `"#42a5f5"` ou `"var(--primary-color)"`).                                                                                                                          |
-| `unit`        | `string`                            | —          | Surcharge le libellé d'unité affiché dans la légende et le tooltip pour cette série. Permet aussi aux attributs ajoutés depuis le sélecteur d'utiliser cette unité pour le groupement d'échelles compatibles. |
-| `scale_group` | `string`                            | —          | Nom du groupe d'axe Y partagé. Les séries avec le même groupe partagent une échelle.                                                                                                |
-| `scale_mode`  | `"auto"` \| `"manual"`              | `"auto"`   | `"manual"` active `scale_min`/`scale_max`.                                                                                                                                          |
-| `scale_min`   | `number`                            | —          | Minimum de l'axe Y quand `scale_mode: manual`.                                                                                                                                      |
-| `scale_max`   | `number`                            | —          | Maximum de l'axe Y quand `scale_mode: manual`.                                                                                                                                      |
-| `line_mode`   | `"stair"` \| `"line"` \| `"column"` | _(global)_ | Surcharge du mode de rendu pour cette série.                                                                                                                                        |
-| `line_width`  | `number` \| `string`                | _(global)_ | Surcharge de l'épaisseur de trait pour cette série.                                                                                                                                 |
-| `forced`      | `boolean`                           | `false`    | Conserver cette série même quand le sélecteur d'entités supprime toutes les sélections utilisateur.                                                                                 |
+| Option        | Type                                | Défaut     | Description                                                                                                                                                                                                   |
+| ------------- | ----------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `entity`      | `string`                            | **requis** | Identifiant de l'entité.                                                                                                                                                                                      |
+| `attribute`   | `string` \| `string[]`              | —          | Chemin(s) d'attribut. Si absent, l'état de l'entité est utilisé.                                                                                                                                              |
+| `label`       | `string`                            | —          | Libellé dans la légende. Par défaut : nom convivial de l'entité.                                                                                                                                              |
+| `color`       | `string`                            | —          | Couleur CSS (ex. `"#42a5f5"` ou `"var(--primary-color)"`).                                                                                                                                                    |
+| `unit`        | `string`                            | —          | Surcharge le libellé d'unité affiché dans la légende et le tooltip pour cette série. Permet aussi aux attributs ajoutés depuis le sélecteur d'utiliser cette unité pour le groupement compatible.             |
+| `group`       | `string`                            | —          | Nom du groupe de graphique partagé. Les valeurs purement numériques (`1`, `2`, etc.) sont des alias d'ordre de graphique ; les noms mixtes restent littéraux.                                                 |
+| `scale_group` | `string`                            | —          | Alias obsolète de `group`, conservé pour les YAML existants.                                                                                                                                                  |
+| `scale_mode`  | `"auto"` \| `"manual"`              | `"auto"`   | `"manual"` active `scale_min`/`scale_max`.                                                                                                                                                                    |
+| `scale_min`   | `number`                            | —          | Minimum de l'axe Y quand `scale_mode: manual`.                                                                                                                                                                |
+| `scale_max`   | `number`                            | —          | Maximum de l'axe Y quand `scale_mode: manual`.                                                                                                                                                                |
+| `line_mode`   | `"stair"` \| `"line"` \| `"column"` | _(global)_ | Surcharge du mode de rendu pour cette série.                                                                                                                                                                  |
+| `line_width`  | `number` \| `string`                | _(global)_ | Surcharge de l'épaisseur de trait pour cette série.                                                                                                                                                           |
+| `forced`      | `boolean`                           | `false`    | Conserver cette série même quand le sélecteur d'entités supprime toutes les sélections utilisateur.                                                                                                           |
 
 ---
 

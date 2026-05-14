@@ -6,6 +6,8 @@ export interface CardSeriesConfig {
   label?: string;
   color?: string;
   unit?: string;
+  group?: string;
+  /** @deprecated Use `group` instead. */
   scale_group?: string;
   scale_mode?: "auto" | "manual";
   scale_min?: number;

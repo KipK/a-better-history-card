@@ -16,6 +16,8 @@ function cssColor(value: string | number[] | undefined): string | undefined {
 }
 
 function mapSeries(s: CardSeriesConfig): SeriesConfig {
+  const group = s.group ?? s.scale_group;
+
   return {
     entity: s.entity,
     ...(s.attribute !== undefined && { attribute: s.attribute }),
@@ -23,7 +25,7 @@ function mapSeries(s: CardSeriesConfig): SeriesConfig {
     ...(s.label !== undefined && { label: s.label }),
     ...(s.color !== undefined && { color: s.color }),
     ...(s.unit !== undefined && { unit: s.unit }),
-    ...(s.scale_group !== undefined && { scaleGroup: s.scale_group }),
+    ...(group !== undefined && { scaleGroup: group }),
     ...(s.scale_mode !== undefined && { scaleMode: s.scale_mode }),
     ...(s.scale_min !== undefined && { scaleMin: s.scale_min }),
     ...(s.scale_max !== undefined && { scaleMax: s.scale_max }),
