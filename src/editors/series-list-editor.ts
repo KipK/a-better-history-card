@@ -187,6 +187,7 @@ export class SeriesListEditor extends LitElement {
       <div class="picker-section">
         <abh-series-picker
           .hass=${this.hass}
+          .browserHistory=${false}
           @sources-confirmed=${(e: CustomEvent<{ sources: HistorySource[] }>) =>
             this._onSourcesConfirmed(e)}
         ></abh-series-picker>

@@ -5778,7 +5778,7 @@ z([A({ attribute: !1 })], H.prototype, "hass", void 0), z([A({ attribute: !1 })]
 })], H.prototype, "toolsOpen", void 0), z([j()], H.prototype, "_resolved", void 0), z([j()], H.prototype, "_hiddenSeriesIds", void 0), z([j()], H.prototype, "_rangeStart", void 0), z([j()], H.prototype, "_rangeEnd", void 0), z([j()], H.prototype, "_viewStart", void 0), z([j()], H.prototype, "_viewEnd", void 0), z([j()], H.prototype, "_liveNow", void 0), z([j()], H.prototype, "_datePickerReady", void 0), z([j()], H.prototype, "_entityComponentsReady", void 0), z([j()], H.prototype, "_runtimeLineMode", void 0), z([j()], H.prototype, "_attributeMenuOpen", void 0), z([j()], H.prototype, "_attributeSearch", void 0), z([j()], H.prototype, "_selectedEntityId", void 0), z([j()], H.prototype, "_path", void 0), z([j()], H.prototype, "_selectedSources", void 0), z([j()], H.prototype, "_removedConfigSourceIds", void 0), z([j()], H.prototype, "_customEntityIds", void 0), z([j()], H.prototype, "_entityPickerOpen", void 0), z([j()], H.prototype, "_datePickerOpen", void 0), z([j()], H.prototype, "_draggingSourceId", void 0), z([j()], H.prototype, "_importedDataActive", void 0), z([j()], H.prototype, "_containerWidth", void 0), z([j()], H.prototype, "_chartSurfaceHeight", void 0), z([j()], H.prototype, "_chartSurfaceConstrained", void 0);
 var sa = "haBetterHistory", U = class extends Ie {
 	constructor(...e) {
-		super(...e), this._selectedSources = [], this._attributeMenuOpen = !1, this._entityPickerOpen = !1, this._entitySearch = "", this._path = [], this._attributeSearch = "", this._componentsReady = !1, this._customEntityIds = [], this._browserHistoryInstanceId = `abh-picker-${Math.random().toString(36).slice(2)}`, this._lastPointerDownInside = !1, this._syncingBrowserHistory = !1, this._selectingEntityForAttributeMenu = !1, this._handleDocumentPointerDown = (e) => {
+		super(...e), this.browserHistory = !0, this._selectedSources = [], this._attributeMenuOpen = !1, this._entityPickerOpen = !1, this._entitySearch = "", this._path = [], this._attributeSearch = "", this._componentsReady = !1, this._customEntityIds = [], this._browserHistoryInstanceId = `abh-picker-${Math.random().toString(36).slice(2)}`, this._lastPointerDownInside = !1, this._syncingBrowserHistory = !1, this._selectingEntityForAttributeMenu = !1, this._handleDocumentPointerDown = (e) => {
 			this._lastPointerDownInside = this._isEventInsideAttributeOverlay(e), this._attributeMenuOpen && (this._lastPointerDownInside || (e.stopPropagation(), e.stopImmediatePropagation()));
 		}, this._handleDocumentClick = (e) => {
 			if (!this._attributeMenuOpen && !this._entityPickerOpen) {
@@ -5877,13 +5877,13 @@ var sa = "haBetterHistory", U = class extends Ie {
 		};
 	}
 	_pushBrowserHistoryLayer(e) {
-		this._syncingBrowserHistory || this._browserHistoryEntry()?.layer !== e && window.history.pushState(this._browserHistoryState(e), "", window.location.href);
+		this.browserHistory && (this._syncingBrowserHistory || this._browserHistoryEntry()?.layer !== e && window.history.pushState(this._browserHistoryState(e), "", window.location.href));
 	}
 	_replaceBrowserHistoryLayer(e) {
-		this._syncingBrowserHistory || window.history.replaceState(this._browserHistoryState(e), "", window.location.href);
+		this.browserHistory && (this._syncingBrowserHistory || window.history.replaceState(this._browserHistoryState(e), "", window.location.href));
 	}
 	_closeBrowserHistoryLayer(e, t) {
-		if (!this._syncingBrowserHistory && this._browserHistoryEntry()?.layer === e) {
+		if (this.browserHistory && !this._syncingBrowserHistory && this._browserHistoryEntry()?.layer === e) {
 			window.history.back();
 			return;
 		}
@@ -5966,7 +5966,10 @@ var sa = "haBetterHistory", U = class extends Ie {
     ` : E``;
 	}
 };
-z([A({ attribute: !1 })], U.prototype, "hass", void 0), z([A({ attribute: !1 })], U.prototype, "initialSources", void 0), z([j()], U.prototype, "_selectedSources", void 0), z([j()], U.prototype, "_attributeMenuOpen", void 0), z([j()], U.prototype, "_entityPickerOpen", void 0), z([j()], U.prototype, "_selectedEntityId", void 0), z([j()], U.prototype, "_entitySearch", void 0), z([j()], U.prototype, "_path", void 0), z([j()], U.prototype, "_attributeSearch", void 0), z([j()], U.prototype, "_componentsReady", void 0), z([j()], U.prototype, "_customEntityIds", void 0), customElements.get("abh-series-picker") || customElements.define("abh-series-picker", U);
+z([A({ attribute: !1 })], U.prototype, "hass", void 0), z([A({ attribute: !1 })], U.prototype, "initialSources", void 0), z([A({
+	type: Boolean,
+	attribute: "browser-history"
+})], U.prototype, "browserHistory", void 0), z([j()], U.prototype, "_selectedSources", void 0), z([j()], U.prototype, "_attributeMenuOpen", void 0), z([j()], U.prototype, "_entityPickerOpen", void 0), z([j()], U.prototype, "_selectedEntityId", void 0), z([j()], U.prototype, "_entitySearch", void 0), z([j()], U.prototype, "_path", void 0), z([j()], U.prototype, "_attributeSearch", void 0), z([j()], U.prototype, "_componentsReady", void 0), z([j()], U.prototype, "_customEntityIds", void 0), customElements.get("abh-series-picker") || customElements.define("abh-series-picker", U);
 function ca(e = "ha-better-history") {
 	customElements.get(e) || customElements.define(e, H);
 }
@@ -7575,6 +7578,7 @@ var Zo = class extends X {
       <div class="picker-section">
         <abh-series-picker
           .hass=${this.hass}
+          .browserHistory=${!1}
           @sources-confirmed=${(e) => this._onSourcesConfirmed(e)}
         ></abh-series-picker>
       </div>
