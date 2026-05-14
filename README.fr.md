@@ -126,10 +126,6 @@ graphiques : `1` rattache la série au premier graphique numérique existant, `2
 C'est utile pour rattacher un attribut ajouté à un graphique déjà plus bas dans la carte sans
 renommer toutes les séries de ce graphique.
 
-C'est pratique pour les attributs ajoutés depuis le sélecteur quand vous voulez les grouper sans
-modifier le YAML à la main. Par exemple, définissez plusieurs attributs de température avec l'unité
-`°C` et le groupe `temperature` pour les afficher ensemble sur un seul graphique.
-
 ---
 
 ## Exemples YAML
@@ -313,21 +309,21 @@ Ces options s'appliquent uniquement à `custom:a-better-history-button-card`.
 
 Chaque élément de la liste `series` est un objet `CardSeriesConfig`.
 
-| Option        | Type                                | Défaut     | Description                                                                                                                                                                                                   |
-| ------------- | ----------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `entity`      | `string`                            | **requis** | Identifiant de l'entité.                                                                                                                                                                                      |
-| `attribute`   | `string` \| `string[]`              | —          | Chemin(s) d'attribut. Si absent, l'état de l'entité est utilisé.                                                                                                                                              |
-| `label`       | `string`                            | —          | Libellé dans la légende. Par défaut : nom convivial de l'entité.                                                                                                                                              |
-| `color`       | `string`                            | —          | Couleur CSS (ex. `"#42a5f5"` ou `"var(--primary-color)"`).                                                                                                                                                    |
-| `unit`        | `string`                            | —          | Surcharge le libellé d'unité affiché dans la légende et le tooltip pour cette série. Permet aussi aux attributs ajoutés depuis le sélecteur d'utiliser cette unité pour le groupement compatible.             |
-| `group`       | `string`                            | —          | Nom du groupe de graphique partagé. Les valeurs purement numériques (`1`, `2`, etc.) sont des alias d'ordre de graphique ; les noms mixtes restent littéraux.                                                 |
-| `scale_group` | `string`                            | —          | Alias obsolète de `group`, conservé pour les YAML existants.                                                                                                                                                  |
-| `scale_mode`  | `"auto"` \| `"manual"`              | `"auto"`   | `"manual"` active `scale_min`/`scale_max`.                                                                                                                                                                    |
-| `scale_min`   | `number`                            | —          | Minimum de l'axe Y quand `scale_mode: manual`.                                                                                                                                                                |
-| `scale_max`   | `number`                            | —          | Maximum de l'axe Y quand `scale_mode: manual`.                                                                                                                                                                |
-| `line_mode`   | `"stair"` \| `"line"` \| `"column"` | _(global)_ | Surcharge du mode de rendu pour cette série.                                                                                                                                                                  |
-| `line_width`  | `number` \| `string`                | _(global)_ | Surcharge de l'épaisseur de trait pour cette série.                                                                                                                                                           |
-| `forced`      | `boolean`                           | `false`    | Conserver cette série même quand le sélecteur d'entités supprime toutes les sélections utilisateur.                                                                                                           |
+| Option        | Type                                | Défaut     | Description                                                                                                                                                                                       |
+| ------------- | ----------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `entity`      | `string`                            | **requis** | Identifiant de l'entité.                                                                                                                                                                          |
+| `attribute`   | `string` \| `string[]`              | —          | Chemin(s) d'attribut. Si absent, l'état de l'entité est utilisé.                                                                                                                                  |
+| `label`       | `string`                            | —          | Libellé dans la légende. Par défaut : nom convivial de l'entité.                                                                                                                                  |
+| `color`       | `string`                            | —          | Couleur CSS (ex. `"#42a5f5"` ou `"var(--primary-color)"`).                                                                                                                                        |
+| `unit`        | `string`                            | —          | Surcharge le libellé d'unité affiché dans la légende et le tooltip pour cette série. Permet aussi aux attributs ajoutés depuis le sélecteur d'utiliser cette unité pour le groupement compatible. |
+| `group`       | `string`                            | —          | Nom du groupe de graphique partagé. Les valeurs purement numériques (`1`, `2`, etc.) sont des alias d'ordre de graphique ; les noms mixtes restent littéraux.                                     |
+| `scale_group` | `string`                            | —          | Alias obsolète de `group`, conservé pour les YAML existants.                                                                                                                                      |
+| `scale_mode`  | `"auto"` \| `"manual"`              | `"auto"`   | `"manual"` active `scale_min`/`scale_max`.                                                                                                                                                        |
+| `scale_min`   | `number`                            | —          | Minimum de l'axe Y quand `scale_mode: manual`.                                                                                                                                                    |
+| `scale_max`   | `number`                            | —          | Maximum de l'axe Y quand `scale_mode: manual`.                                                                                                                                                    |
+| `line_mode`   | `"stair"` \| `"line"` \| `"column"` | _(global)_ | Surcharge du mode de rendu pour cette série.                                                                                                                                                      |
+| `line_width`  | `number` \| `string`                | _(global)_ | Surcharge de l'épaisseur de trait pour cette série.                                                                                                                                               |
+| `forced`      | `boolean`                           | `false`    | Conserver cette série même quand le sélecteur d'entités supprime toutes les sélections utilisateur.                                                                                               |
 
 ---
 

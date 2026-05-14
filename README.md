@@ -123,10 +123,6 @@ existing numeric graph, `2` joins the second, and so on. This is useful when you
 attribute to join a graph that is already lower in the chart without renaming every series in that
 graph.
 
-This is useful when attributes were added from the picker and you want to group them without editing
-YAML manually. For example, set multiple temperature attributes to unit `°C` and group
-`temperature` to render them together on one graph.
-
 ---
 
 ## YAML Examples
@@ -309,21 +305,21 @@ These options apply only to `custom:a-better-history-button-card`.
 
 Each item in the `series` list is a `CardSeriesConfig` object.
 
-| Option        | Type                                | Default      | Description                                                                                                                                             |
-| ------------- | ----------------------------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `entity`      | `string`                            | **required** | Entity ID.                                                                                                                                              |
-| `attribute`   | `string` \| `string[]`              | —            | Attribute dot-path(s). When omitted, the entity state is used.                                                                                          |
-| `label`       | `string`                            | —            | Legend label. Defaults to the entity friendly name.                                                                                                     |
-| `color`       | `string`                            | —            | CSS color (e.g. `"#42a5f5"` or `"var(--primary-color)"`).                                                                                               |
-| `unit`        | `string`                            | —            | Override the unit label shown in the legend and tooltip for this series. Also lets picker-added attributes use that unit for compatible grouping.       |
-| `group`       | `string`                            | —            | Shared graph group name. Purely numeric values (`1`, `2`, etc.) are graph-order aliases; mixed names are literal group names.                           |
-| `scale_group` | `string`                            | —            | Deprecated alias for `group`, kept for existing YAML.                                                                                                  |
-| `scale_mode`  | `"auto"` \| `"manual"`              | `"auto"`     | `"manual"` enables `scale_min`/`scale_max`.                                                                                                             |
-| `scale_min`   | `number`                            | —            | Y-axis minimum when `scale_mode: manual`.                                                                                                               |
-| `scale_max`   | `number`                            | —            | Y-axis maximum when `scale_mode: manual`.                                                                                                               |
-| `line_mode`   | `"stair"` \| `"line"` \| `"column"` | _(global)_   | Per-series render mode override.                                                                                                                        |
-| `line_width`  | `number` \| `string`                | _(global)_   | Per-series stroke width override.                                                                                                                       |
-| `forced`      | `boolean`                           | `false`      | Keep this series even when the entity picker removes all user selections.                                                                               |
+| Option        | Type                                | Default      | Description                                                                                                                                       |
+| ------------- | ----------------------------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `entity`      | `string`                            | **required** | Entity ID.                                                                                                                                        |
+| `attribute`   | `string` \| `string[]`              | —            | Attribute dot-path(s). When omitted, the entity state is used.                                                                                    |
+| `label`       | `string`                            | —            | Legend label. Defaults to the entity friendly name.                                                                                               |
+| `color`       | `string`                            | —            | CSS color (e.g. `"#42a5f5"` or `"var(--primary-color)"`).                                                                                         |
+| `unit`        | `string`                            | —            | Override the unit label shown in the legend and tooltip for this series. Also lets picker-added attributes use that unit for compatible grouping. |
+| `group`       | `string`                            | —            | Shared graph group name. Purely numeric values (`1`, `2`, etc.) are graph-order aliases; mixed names are literal group names.                     |
+| `scale_group` | `string`                            | —            | Deprecated alias for `group`, kept for existing YAML.                                                                                             |
+| `scale_mode`  | `"auto"` \| `"manual"`              | `"auto"`     | `"manual"` enables `scale_min`/`scale_max`.                                                                                                       |
+| `scale_min`   | `number`                            | —            | Y-axis minimum when `scale_mode: manual`.                                                                                                         |
+| `scale_max`   | `number`                            | —            | Y-axis maximum when `scale_mode: manual`.                                                                                                         |
+| `line_mode`   | `"stair"` \| `"line"` \| `"column"` | _(global)_   | Per-series render mode override.                                                                                                                  |
+| `line_width`  | `number` \| `string`                | _(global)_   | Per-series stroke width override.                                                                                                                 |
+| `forced`      | `boolean`                           | `false`      | Keep this series even when the entity picker removes all user selections.                                                                         |
 
 ---
 

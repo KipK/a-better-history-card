@@ -28,3 +28,8 @@
 
 - update ha-better-history to 0.2.1
   . set units and scale group to attributes and entities from the graph by right click/long press the attributes chips
+
+## [0.1.5] dev
+
+- displayed charts now have implicit numeric group names by position (1,2,3,... )
+- few fixes and UI/UX improvement in ha-better-history components
