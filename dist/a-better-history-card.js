@@ -7649,13 +7649,14 @@ function $o(e) {
 }
 var es = class extends X {
 	constructor(...e) {
-		super(...e), this._config = { type: "" }, this._activeTab = "", this._componentsReady = !1, this._dateRangePickerReady = !1, this._translationLanguage = "";
+		super(...e), this._config = { type: "" }, this._activeTab = "", this._hoursDraft = "", this._editingHours = !1, this._componentsReady = !1, this._dateRangePickerReady = !1, this._translationLanguage = "";
 	}
 	static {
 		this.properties = {
 			hass: { attribute: !1 },
 			_config: { state: !0 },
 			_activeTab: { state: !0 },
+			_hoursDraft: { state: !0 },
 			_componentsReady: { state: !0 },
 			_dateRangePickerReady: { state: !0 }
 		};
@@ -7713,6 +7714,36 @@ var es = class extends X {
       max-width: 160px;
     }
 
+    .hours-field {
+      display: block;
+      margin-top: 16px;
+      max-width: 160px;
+    }
+
+    .hours-label {
+      color: var(--secondary-text-color);
+      display: block;
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
+
+    .hours-input {
+      background: var(--card-background-color);
+      border: 1px solid var(--divider-color);
+      border-radius: 4px;
+      box-sizing: border-box;
+      color: var(--primary-text-color);
+      font: inherit;
+      min-height: 40px;
+      padding: 8px 12px;
+      width: 100%;
+    }
+
+    .hours-input:focus {
+      border-color: var(--primary-color);
+      outline: 0;
+    }
+
     @media (min-width: 721px) {
       .entities-tab {
         min-height: 360px;
@@ -7731,7 +7762,7 @@ var es = class extends X {
 		this._loadTranslations();
 	}
 	setConfig(e) {
-		this._config = { ...Do(e) };
+		this._config = { ...Do(e) }, this._editingHours || (this._hoursDraft = this._hoursDisplayValue());
 		let t = this._tabs();
 		t.find((e) => e.id === this._activeTab) || (this._activeTab = t[0]?.id ?? ""), this._config._store_preview && (this._config = this._withoutStorePreview(this._config), queueMicrotask(() => this._emitConfig()));
 	}
@@ -7755,9 +7786,6 @@ var es = class extends X {
 					label: this._localize("editor.option.absolute_date_range")
 				}]
 			} }
-		}, {
-			name: "hours",
-			selector: { number: { min: 1 } }
 		}];
 	}
 	_displaySchema() {
@@ -8077,6 +8105,20 @@ var es = class extends X {
         .computeLabel=${(e) => this._computeLabel(e)}
         @value-changed=${(e) => this._valueChanged(e)}
       ></ha-form>
+      <label class="hours-field">
+        <span class="hours-label">${this._localize("editor.field.hours")}</span>
+        <input
+          class="hours-input"
+          type="number"
+          min="1"
+          .value=${this._hoursDraft}
+          @focus=${() => {
+			this._editingHours = !0;
+		}}
+          @input=${(e) => this._hoursChanged(e)}
+          @blur=${() => this._hoursBlurred()}
+        />
+      </label>
       ${this._config.range_mode === "absolute" && this._componentsReady && this._dateRangePickerReady ? q`
             <div class="date-range-section">
               <span class="date-range-label">${this._localize("editor.date_range")}</span>
@@ -8091,6 +8133,30 @@ var es = class extends X {
             </div>
           ` : q``}
     `;
+	}
+	_hoursDisplayValue() {
+		return this._validHours(this._config.hours)?.toString() ?? "";
+	}
+	_validHours(e) {
+		let t = typeof e == "string" && e.trim() !== "" ? Number(e) : e;
+		if (!(typeof t != "number" || !Number.isFinite(t) || t < 1)) return t;
+	}
+	_hoursChanged(e) {
+		let t = e.currentTarget.value;
+		if (this._hoursDraft = t, t === "") return;
+		let n = this._validHours(t);
+		n !== void 0 && (this._config = {
+			...this._config,
+			hours: n
+		}, this._emitConfig());
+	}
+	_hoursBlurred() {
+		this._editingHours = !1;
+		let e = this._validHours(this._hoursDraft) ?? this._validHours(this._config.hours) ?? 24;
+		this._hoursDraft = e.toString(), this._config = {
+			...this._config,
+			hours: e
+		}, this._emitConfig();
 	}
 	_dateRangeStartDate() {
 		return this._coerceDate(this._config.start_date) ?? /* @__PURE__ */ new Date(Date.now() - 24 * 36e5);

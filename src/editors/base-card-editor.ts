@@ -23,6 +23,7 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
     hass: { attribute: false },
     _config: { state: true },
     _activeTab: { state: true },
+    _hoursDraft: { state: true },
     _componentsReady: { state: true },
     _dateRangePickerReady: { state: true }
   };
@@ -79,6 +80,36 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
       max-width: 160px;
     }
 
+    .hours-field {
+      display: block;
+      margin-top: 16px;
+      max-width: 160px;
+    }
+
+    .hours-label {
+      color: var(--secondary-text-color);
+      display: block;
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
+
+    .hours-input {
+      background: var(--card-background-color);
+      border: 1px solid var(--divider-color);
+      border-radius: 4px;
+      box-sizing: border-box;
+      color: var(--primary-text-color);
+      font: inherit;
+      min-height: 40px;
+      padding: 8px 12px;
+      width: 100%;
+    }
+
+    .hours-input:focus {
+      border-color: var(--primary-color);
+      outline: 0;
+    }
+
     @media (min-width: 721px) {
       .entities-tab {
         min-height: 360px;
@@ -89,6 +120,8 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
   hass?: HomeAssistant;
   protected _config: ABetterHistoryCardConfig = { type: "" };
   protected _activeTab = "";
+  private _hoursDraft = "";
+  private _editingHours = false;
   private _componentsReady = false;
   private _dateRangePickerReady = false;
   private _translationLanguage = "";
@@ -105,6 +138,9 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
 
   setConfig(config: unknown): void {
     this._config = { ...normalizeConfig(config as ABetterHistoryCardConfig) };
+    if (!this._editingHours) {
+      this._hoursDraft = this._hoursDisplayValue();
+    }
     const tabs = this._tabs();
     if (!tabs.find((t) => t.id === this._activeTab)) {
       this._activeTab = tabs[0]?.id ?? "";
@@ -145,8 +181,7 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
             ]
           }
         }
-      },
-      { name: "hours", selector: { number: { min: 1 } } }
+      }
     ];
   }
 
@@ -421,6 +456,18 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
         .computeLabel=${(s: HaFormSchema) => this._computeLabel(s)}
         @value-changed=${(e: HaFormChangedEvent<Record<string, unknown>>) => this._valueChanged(e)}
       ></ha-form>
+      <label class="hours-field">
+        <span class="hours-label">${this._localize("editor.field.hours")}</span>
+        <input
+          class="hours-input"
+          type="number"
+          min="1"
+          .value=${this._hoursDraft}
+          @focus=${() => { this._editingHours = true; }}
+          @input=${(event: Event) => this._hoursChanged(event)}
+          @blur=${() => this._hoursBlurred()}
+        />
+      </label>
       ${this._config.range_mode === "absolute" && this._componentsReady && this._dateRangePickerReady
         ? html`
             <div class="date-range-section">
@@ -437,6 +484,38 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
           `
         : html``}
     `;
+  }
+
+  private _hoursDisplayValue(): string {
+    return this._validHours(this._config.hours)?.toString() ?? "";
+  }
+
+  private _validHours(value: unknown): number | undefined {
+    const numeric = typeof value === "string" && value.trim() !== "" ? Number(value) : value;
+    if (typeof numeric !== "number" || !Number.isFinite(numeric) || numeric < 1) return undefined;
+    return numeric;
+  }
+
+  private _hoursChanged(event: Event): void {
+    const input = event.currentTarget as HTMLInputElement;
+    const raw = input.value;
+    this._hoursDraft = raw;
+
+    if (raw === "") return;
+
+    const hours = this._validHours(raw);
+    if (hours === undefined) return;
+
+    this._config = { ...this._config, hours };
+    this._emitConfig();
+  }
+
+  private _hoursBlurred(): void {
+    this._editingHours = false;
+    const hours = this._validHours(this._hoursDraft) ?? this._validHours(this._config.hours) ?? 24;
+    this._hoursDraft = hours.toString();
+    this._config = { ...this._config, hours };
+    this._emitConfig();
   }
 
   private _dateRangeStartDate(): Date {
