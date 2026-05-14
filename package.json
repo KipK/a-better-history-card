@@ -8,7 +8,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@kipk/ha-better-history": "^0.2.0",
+    "@kipk/ha-better-history": "^0.2.1",
     "@kipk/load-ha-components": "^1.0.3",
     "lit": "^3.3.2"
   },
