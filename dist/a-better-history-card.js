@@ -4807,7 +4807,7 @@ var H = class extends Fe {
 	}
 	_syncChartSurfaceSize(e) {
 		let t = Math.round(e), n = this._observedChartSurface?.querySelector(".chart-graphs"), r = n ? Math.round(n.offsetHeight) : 0;
-		if (this._lastContentHeight > 0 && r > 0 && r === this._lastContentHeight && Math.abs(t - this._chartSurfaceHeight) > na) return;
+		if (this._measureGraphLayout(n ?? void 0, r), this._lastContentHeight > 0 && r > 0 && r === this._lastContentHeight && Math.abs(t - this._chartSurfaceHeight) > na) return;
 		this._lastContentHeight = r;
 		let i = r < t - na || t < r - na, a = t < this._chartSurfaceHeight - na, o = this._graphGroupRenderCache?.graphHeight ?? 180, s = this._chartSurfaceConstrained && o !== 180;
 		if (i || a || s) {
@@ -4822,6 +4822,17 @@ var H = class extends Fe {
 			for (let t of e) this._syncSurfaceHeaderOffset(t.contentRect.height);
 		}), this._surfaceHeaderObserver.observe(e)));
 	}
+	_measureGraphLayout(e, t) {
+		if (!e || t <= 0) return;
+		let n = e.querySelectorAll(".graph-section").length, r = this._graphGroupRenderCache?.graphHeight;
+		if (n <= 0 || r === void 0) return;
+		let i = Math.max(0, t - n * r);
+		this._measuredGraphLayout = {
+			graphCount: n,
+			graphHeight: r,
+			overheadHeight: i
+		};
+	}
 	_syncSurfaceHeaderOffset(e) {
 		let t = this.renderRoot.querySelector(".chart-surface");
 		if (!t) return;
@@ -4830,12 +4841,18 @@ var H = class extends Fe {
 			return;
 		}
 		let n = t.querySelector(".chart-graphs"), r = Math.round(t.getBoundingClientRect().height), i = n ? Math.round(n.offsetHeight) : 0, a = i > r - na, o = Math.max(0, (r - i) / 2), s = e + 10 - o, c = t.style.getPropertyValue("--better-history-surface-header-offset"), l = c !== "";
+		if (this._chartSurfaceConstrained || a) {
+			let r = Math.ceil(e + 10);
+			if (c === `${r}px`) return;
+			this._lastContentHeight = n ? Math.round(n.offsetHeight) : 0, t.style.setProperty("--better-history-surface-header-offset", `${r}px`);
+			return;
+		}
 		if (s <= 0) {
 			if (!l || s > -na) return;
 			this._lastContentHeight = n ? Math.round(n.offsetHeight) : 0, t.style.removeProperty("--better-history-surface-header-offset");
 			return;
 		}
-		let u = Math.ceil(a ? e + 10 : 2 * s);
+		let u = Math.ceil(2 * s);
 		c !== `${u}px` && (this._lastContentHeight = n ? Math.round(n.offsetHeight) : 0, t.style.setProperty("--better-history-surface-header-offset", `${u}px`));
 	}
 	_effectiveStartDate() {
@@ -5229,8 +5246,15 @@ var H = class extends Fe {
 	}
 	_graphHeightFor(e) {
 		if (!this._chartSurfaceConstrained || this._chartSurfaceHeight <= 0) return 180;
-		let t = Math.max(new Set(e.numericScales.map((e) => e.graphKey)).size, +!!e.allSeries.some((e) => e.valueType !== "number" && e.valueType !== "boolean"), 1), n = e.allSeries.filter((e) => e.valueType !== "number" && e.valueType !== "boolean").length, r = t * 62 + (n > 0 ? 10 + n * 14 : 0), i = this._chartSurfaceHeight - r, a = this._containerWidth > 0 ? this._containerWidth * 640 / 720 : 640, o = Math.max(180, Math.min(Math.floor(a * $i), Math.floor(this._chartSurfaceHeight / t * ea), ta)), s = Math.floor(Math.max(0, i) / t);
-		return Math.max(Qi, Math.min(s, o));
+		let t = this._graphCountFor(e), n = this._measuredGraphLayout?.graphCount === t ? this._measuredGraphLayout.overheadHeight : void 0, r = this._estimatedGraphOverhead(e, t), i = n ?? r, a = this._chartSurfaceHeight - i, o = this._containerWidth > 0 ? this._containerWidth * 640 / 720 : 640, s = Math.max(180, Math.min(Math.floor(o * $i), Math.floor(this._chartSurfaceHeight / t * ea), ta)), c = Math.floor(Math.max(0, a) / t);
+		return Math.max(Qi, Math.min(c, s));
+	}
+	_graphCountFor(e) {
+		return Math.max(new Set(e.numericScales.map((e) => e.graphKey)).size, +!!e.allSeries.some((e) => e.valueType !== "number" && e.valueType !== "boolean"), 1);
+	}
+	_estimatedGraphOverhead(e, t) {
+		let n = e.allSeries.filter((e) => e.valueType !== "number" && e.valueType !== "boolean").length, r = this._resolved?.showLegend ?? !0 ? t * 30 : 0;
+		return t * 62 + r + (n > 0 ? 10 + n * 14 : 0);
 	}
 	_renderGraphGroup(e) {
 		let t = this._resolved?.showLegend ?? !0, n = this._resolved?.showGrid ?? !0, r = this._resolved?.showScale ?? !0, i = e.series.map((e) => e.id).join("|"), a = r ? ca(e.yLabels) : "0px", o = r ? ca(e.rightYLabels) : "0px", s = 28 + e.graphHeight, c = s + 3, l = s + 16 + 6;

@@ -40,11 +40,13 @@ series:
 
 > Because HA attributes carry no unit metadata, declare units via `attribute_units` so series
 > can be matched onto a shared scale — see the [`attribute_units`](#data) option.
+> Attribute chips added with the visual picker can also be edited directly: right-click the chip
+> (or long-press on touch) to set its `unit` and `scale_group` before it is saved to the card config.
 
 ### Other highlights
 
 - **Multi-entity, multi-attribute** — combine as many series as needed on one graph.
-- **Scale groups** — group series onto a shared Y-axis by unit (e.g. all temperatures together, all humidity readings together).
+- **Scale groups** — group series onto a shared Y-axis by unit or explicit `scale_group` (e.g. all temperatures together, all humidity readings together).
 - **Per-series styling** — color, line mode (stair / line / column), and line width per series.
 - **Climate overlay** — heating/cooling state visualized as a background band on climate series.
 - **Flexible time range** — rolling relative window (e.g. last 48 h) or fixed absolute date range, with an optional date-range picker in the graph.
@@ -98,7 +100,7 @@ type: module
 Both cards ship with a full visual editor accessible from the Lovelace card picker.
 The editor is organized into tabs:
 
-- **Entities** — add, remove, and reorder entity/attribute series using the series picker.
+- **Entities** — add, remove, reorder, and group entity/attribute series using the series picker.
 - **Range** — choose relative hours or an absolute date range with a date-range picker.
 - **Display** — toggle date picker, entity picker, legend, tooltip, grid, scale, and climate overlay.
 - **Style** — set global line mode, line width, and title appearance.
@@ -107,6 +109,18 @@ The editor is organized into tabs:
 - **Advanced** — enable `debug_performance` and configure `attribute_units`.
 
 You can configure every option through the UI without writing any YAML.
+
+### Attribute chip unit and scale group
+
+When adding attributes with the visual series picker, each selected attribute appears as a chip.
+Right-click an attribute chip, or long-press it on touch screens, to open a small editor with:
+
+- **Unit** — saved as the series `unit`, shown in the legend/tooltip, and used by the graph when choosing compatible scales.
+- **Scale group** — saved as `scale_group`; attributes with the same group share the same Y-axis.
+
+This is useful when attributes were added from the picker and you want to group them without editing
+YAML manually. For example, set multiple temperature attributes to unit `°C` and scale group
+`temperature` to render them together on one graph.
 
 ---
 
@@ -207,6 +221,9 @@ All options are optional unless noted. Defaults come from `normalizeConfig()`.
 >
 > The key format is `entity_id.attribute_name`. The value is the unit string shown in the tooltip
 > and used to group series onto a shared Y-axis via `scale_group`.
+>
+> For attributes added through the visual picker, you can set the unit directly from the attribute
+> chip popup instead of maintaining a global `attribute_units` entry.
 
 ### Range
 
@@ -293,7 +310,7 @@ Each item in the `series` list is a `CardSeriesConfig` object.
 | `attribute`   | `string` \| `string[]`              | —            | Attribute dot-path(s). When omitted, the entity state is used.                                                                                                 |
 | `label`       | `string`                            | —            | Legend label. Defaults to the entity friendly name.                                                                                                            |
 | `color`       | `string`                            | —            | CSS color (e.g. `"#42a5f5"` or `"var(--primary-color)"`).                                                                                                      |
-| `unit`        | `string`                            | —            | Override the unit label shown in the legend and tooltip for this series. Does **not** affect scale grouping — use `attribute_units` at the top level for that. |
+| `unit`        | `string`                            | —            | Override the unit label shown in the legend and tooltip for this series. Also lets picker-added attributes use that unit for compatible scale grouping.        |
 | `scale_group` | `string`                            | —            | Shared Y-axis group name. Series with the same group share a scale.                                                                                            |
 | `scale_mode`  | `"auto"` \| `"manual"`              | `"auto"`     | `"manual"` enables `scale_min`/`scale_max`.                                                                                                                    |
 | `scale_min`   | `number`                            | —            | Y-axis minimum when `scale_mode: manual`.                                                                                                                      |
