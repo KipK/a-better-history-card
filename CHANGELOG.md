@@ -31,6 +31,18 @@
 
 ## [0.1.5]
 
+
 - add card background color and opacity style options
 - displayed charts now have implicit numeric group names by position (1,2,3,... )
 - few fixes and UI/UX improvement in ha-better-history components
+
+## [0.1.6]
+
+- ha-better-history 0.2.3:
+  . fix chart clipping on loading multiple sources
+  . add colored dots near scales
+  . prevent scale ticks to appear above the chart.
+  . allow to manually split/join scales for same unit graphs by dragging colored dots to the wated scale side.
+  . auto scale splitting is more conservative
+  . prevent splitting when there's 2 different units ( forced to one scale per unit )
+  . prevent more than 2 different units per graph
