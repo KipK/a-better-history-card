@@ -1,6 +1,10 @@
 import type { BetterHistoryConfig, SeriesConfig } from "@kipk/ha-better-history";
 import type { ABetterHistoryCardConfig, CardSeriesConfig } from "../types/config.js";
 
+type BetterHistoryConfigWithScaleSplit = BetterHistoryConfig & {
+  autoScaleSplit?: boolean;
+};
+
 function cssColor(value: string | number[] | undefined): string | undefined {
   if (typeof value === "string" && value.trim() !== "") {
     const color = value.trim();
@@ -36,7 +40,7 @@ function mapSeries(s: CardSeriesConfig): SeriesConfig {
 
 /** Converts a card config into the BetterHistoryConfig consumed by <ha-better-history>. */
 export function buildBetterHistoryConfig(card: ABetterHistoryCardConfig, skipTitle?: boolean): BetterHistoryConfig {
-  const cfg: BetterHistoryConfig = {};
+  const cfg: BetterHistoryConfigWithScaleSplit = {};
 
   if (card.series) cfg.series = card.series.map(mapSeries);
   if (card.entities) cfg.defaultEntities = card.entities;
@@ -55,6 +59,7 @@ export function buildBetterHistoryConfig(card: ABetterHistoryCardConfig, skipTit
   if (card.show_tooltip !== undefined) cfg.showTooltip = card.show_tooltip;
   if (card.show_grid !== undefined) cfg.showGrid = card.show_grid;
   if (card.show_scale !== undefined) cfg.showScale = card.show_scale;
+  if (card.auto_scale_split !== undefined) cfg.autoScaleSplit = card.auto_scale_split;
   if (card.show_import_button !== undefined) cfg.showImportButton = card.show_import_button;
   if (card.show_export_button !== undefined) cfg.showExportButton = card.show_export_button;
   if (card.show_time_range_selector !== undefined) cfg.showTimeRangeSelector = card.show_time_range_selector;

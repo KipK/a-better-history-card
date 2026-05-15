@@ -12,6 +12,7 @@
   "editor.date_range": "Date range",
   "editor.field.attribute": "Attribute (dot path, leave blank for state)",
   "editor.field.attribute_units": "Attribute units (JSON object)",
+  "editor.field.auto_scale_split": "Auto split scales",
   "editor.field.button_color": "Button color",
   "editor.field.button_hover_color": "Hover color",
   "editor.field.button_hover_effect": "Hover effect",

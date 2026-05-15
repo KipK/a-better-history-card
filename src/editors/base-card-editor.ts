@@ -198,6 +198,7 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
       { name: "show_tooltip", selector: { boolean: {} } },
       { name: "show_grid", selector: { boolean: {} } },
       { name: "show_scale", selector: { boolean: {} } },
+      { name: "auto_scale_split", selector: { boolean: {} } },
       { name: "show_controls", selector: { boolean: {} } },
       { name: "disable_climate_overlay", selector: { boolean: {} } }
     ];

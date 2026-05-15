@@ -9,6 +9,7 @@ export function normalizeConfig(raw: ABetterHistoryCardConfig): ABetterHistoryCa
     show_tooltip: true,
     show_grid: true,
     show_scale: true,
+    auto_scale_split: true,
     show_controls: true,
     show_line_mode_buttons: true,
     show_export_button: true,

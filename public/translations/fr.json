@@ -12,6 +12,7 @@
   "editor.date_range": "Plage de dates",
   "editor.field.attribute": "Attribut (chemin avec points, vide pour l'état)",
   "editor.field.attribute_units": "Unités d'attributs (objet JSON)",
+  "editor.field.auto_scale_split": "Séparer automatiquement les échelles",
   "editor.field.button_color": "Couleur du bouton",
   "editor.field.button_hover_color": "Couleur au survol",
   "editor.field.button_hover_effect": "Effet au survol",

@@ -38,6 +38,7 @@ export interface ABetterHistoryCardConfig {
   show_tooltip?: boolean;
   show_grid?: boolean;
   show_scale?: boolean;
+  auto_scale_split?: boolean;
   show_import_button?: boolean;
   show_export_button?: boolean;
   show_time_range_selector?: boolean;
