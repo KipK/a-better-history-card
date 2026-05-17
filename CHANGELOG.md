@@ -46,3 +46,7 @@
   . auto scale splitting is more conservative
   . prevent splitting when there's 2 different units ( forced to one scale per unit )
   . prevent more than 2 different units per graph
+
+## [0.1.7]
+- ha-better-history 0.2.4:
+  . fix temperature sensors not merging climate entities chart
