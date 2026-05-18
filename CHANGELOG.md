@@ -50,3 +50,9 @@
 ## [0.1.7]
 - ha-better-history 0.2.4:
   . fix temperature sensors not merging climate entities chart
+
+## [0.1.8]
+- ha-better-history 0.2.5
+  . fix race condition when adding multiple attributes at the same time
+  . fix legend padding when a segment is displayed under the graph
+  . fix long press on chips clearing the popup on release.
