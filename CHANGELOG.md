@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Attach the compiled `a-better-history-card.js` bundle directly to draft GitHub releases.
+
 ## [0.1.0]
 
 - Initial release
