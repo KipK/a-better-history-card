@@ -60,3 +60,7 @@
   . fix race condition when adding multiple attributes at the same time
   . fix legend padding when a segment is displayed under the graph
   . fix long press on chips clearing the popup on release.
+
+## [0.1.9]
+- ha-better-history 0.2.6
+  . add pinch/wheel zomm in/out + vertical mouse drag on zoomed graph
