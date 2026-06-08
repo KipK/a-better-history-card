@@ -5,6 +5,12 @@ type BetterHistoryConfigWithScaleSplit = BetterHistoryConfig & {
   autoScaleSplit?: boolean;
 };
 
+export interface BetterHistoryConfigCache {
+  card?: ABetterHistoryCardConfig;
+  skipTitle?: boolean;
+  config?: BetterHistoryConfig;
+}
+
 function cssColor(value: string | number[] | undefined): string | undefined {
   if (typeof value === "string" && value.trim() !== "") {
     const color = value.trim();
@@ -78,4 +84,24 @@ export function buildBetterHistoryConfig(card: ABetterHistoryCardConfig, skipTit
   if (card.debug_performance !== undefined) cfg.debugPerformance = card.debug_performance;
 
   return cfg;
+}
+
+export function cachedBetterHistoryConfig(
+  cache: BetterHistoryConfigCache,
+  card: ABetterHistoryCardConfig,
+  skipTitle?: boolean
+): BetterHistoryConfig {
+  const normalizedSkipTitle = skipTitle === true;
+
+  if (cache.card === card && cache.skipTitle === normalizedSkipTitle && cache.config) {
+    return cache.config;
+  }
+
+  const config = buildBetterHistoryConfig(card, normalizedSkipTitle);
+
+  cache.card = card;
+  cache.skipTitle = normalizedSkipTitle;
+  cache.config = config;
+
+  return config;
 }

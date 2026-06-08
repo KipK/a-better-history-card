@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Attach the compiled `a-better-history-card.js` bundle directly to draft GitHub releases.
+- Keep the embedded history config reference stable between Home Assistant live updates to avoid repeated loading/clipping on future-ended graphs.
 
 ## [0.1.0]
 

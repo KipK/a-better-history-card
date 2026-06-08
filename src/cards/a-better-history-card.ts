@@ -1,6 +1,6 @@
 import { LitElement, css, html, nothing, type TemplateResult } from "lit";
 import "../components/history-dialog.js";
-import { buildBetterHistoryConfig } from "../data/build-better-history-config.js";
+import { cachedBetterHistoryConfig, type BetterHistoryConfigCache } from "../data/build-better-history-config.js";
 import { normalizeConfig } from "../data/normalize-config.js";
 import type { ABetterHistoryCardConfig } from "../types/config.js";
 import { CARD_TYPE, EDITOR_TAG } from "../const.js";
@@ -150,6 +150,7 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
   private _dialogOpen = false;
   private _graphVisible?: boolean;
   private _translationLanguage = "";
+  private _betterHistoryConfigCache: BetterHistoryConfigCache = {};
 
   setConfig(config: unknown): void {
     const raw = config as ABetterHistoryCardConfig;
@@ -281,7 +282,7 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
       return html`<ha-card><div class="error">${localize(this.hass, "card.error.no_configuration")}</div></ha-card>`;
     }
 
-    const bhConfig = buildBetterHistoryConfig(cfg, !!cfg.title);
+    const bhConfig = cachedBetterHistoryConfig(this._betterHistoryConfigCache, cfg, !!cfg.title);
     const language = this.hass?.locale?.language ?? this.hass?.language;
 
     return html`

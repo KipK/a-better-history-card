@@ -1,5 +1,5 @@
 import { LitElement, css, html, nothing, type PropertyValues, type TemplateResult } from "lit";
-import { buildBetterHistoryConfig } from "../data/build-better-history-config.js";
+import { cachedBetterHistoryConfig, type BetterHistoryConfigCache } from "../data/build-better-history-config.js";
 import type { ABetterHistoryCardConfig } from "../types/config.js";
 import type { HomeAssistant } from "../types/ha.js";
 import { ensureTranslations, languageFromHass, localize } from "../localize/localize.js";
@@ -70,6 +70,7 @@ export class HistoryDialog extends LitElement {
   private _pickerOverlayOpen = false;
   private _suppressNextClose = false;
   private _suppressCloseTimer?: ReturnType<typeof setTimeout>;
+  private _betterHistoryConfigCache: BetterHistoryConfigCache = {};
 
   protected updated(): void {
     this._styleDialogHeader();
@@ -212,7 +213,7 @@ export class HistoryDialog extends LitElement {
         ${this.open && cfg
           ? html`<a-better-history-card-history
               .hass=${this.hass}
-              .config=${buildBetterHistoryConfig(cfg, true)}
+              .config=${cachedBetterHistoryConfig(this._betterHistoryConfigCache, cfg, true)}
               .language=${this.language}
               .showControls=${this._controlsVisible}
               .toolsOpen=${this._toolsOpen}
