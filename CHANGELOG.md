@@ -1,9 +1,5 @@
 # Changelog
 
-## Unreleased
-
-- Attach the compiled `a-better-history-card.js` bundle directly to draft GitHub releases.
-- Keep the embedded history config reference stable between Home Assistant live updates to avoid repeated loading/clipping on future-ended graphs.
 
 ## [0.1.0]
 
@@ -65,3 +61,6 @@
 ## [0.1.9]
 - ha-better-history 0.2.6
   . add pinch/wheel zomm in/out + vertical mouse drag on zoomed graph
+
+## [0.1.10-dev]
+- Keep the embedded history config reference stable between Home Assistant live updates to avoid repeated loading/clipping on future-ended graphs.
