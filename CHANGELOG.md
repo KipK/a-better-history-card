@@ -65,3 +65,8 @@
 ## [0.1.10]
 - Keep the embedded history config reference stable between Home Assistant live updates to avoid repeated loading/clipping on future-ended graphs.
 - update ha-better-history component to 0.2.7
+
+## [0.1.11]
+- fix ha css colors in series
+- fix stacked graph x-axis alignment
+- update ha-better-history to 0.2.9
