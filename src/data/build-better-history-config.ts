@@ -5,6 +5,30 @@ type BetterHistoryConfigWithScaleSplit = BetterHistoryConfig & {
   autoScaleSplit?: boolean;
 };
 
+const HA_PICKER_THEME_COLORS = new Set([
+  "primary",
+  "accent",
+  "red",
+  "pink",
+  "purple",
+  "deep-purple",
+  "indigo",
+  "blue",
+  "light-blue",
+  "cyan",
+  "teal",
+  "green",
+  "light-green",
+  "lime",
+  "yellow",
+  "amber",
+  "orange",
+  "deep-orange",
+  "brown",
+  "grey",
+  "blue-grey"
+]);
+
 export interface BetterHistoryConfigCache {
   card?: ABetterHistoryCardConfig;
   skipTitle?: boolean;
@@ -25,15 +49,36 @@ function cssColor(value: string | number[] | undefined): string | undefined {
   return `rgb(${r}, ${g}, ${b})`;
 }
 
+function supportsCssColor(color: string): boolean {
+  return typeof CSS !== "undefined" && typeof CSS.supports === "function" && CSS.supports("color", color);
+}
+
+function normalizeSeriesColor(value: string | undefined): string | undefined {
+  const color = value?.trim();
+  if (!color) return undefined;
+  const compactName = color.replace(/[\s_-]+/g, "").toLowerCase();
+
+  if (HA_PICKER_THEME_COLORS.has(color)) {
+    const fallback = compactName !== color && supportsCssColor(compactName) ? compactName : color;
+    return `var(--${color}-color, ${fallback})`;
+  }
+  if (supportsCssColor(color)) return color;
+
+  if (compactName !== color && supportsCssColor(compactName)) return compactName;
+
+  return undefined;
+}
+
 function mapSeries(s: CardSeriesConfig): SeriesConfig {
   const group = s.group ?? s.scale_group;
+  const color = normalizeSeriesColor(s.color);
 
   return {
     entity: s.entity,
     ...(s.attribute !== undefined && { attribute: s.attribute }),
     ...(s.forced !== undefined && { forced: s.forced }),
     ...(s.label !== undefined && { label: s.label }),
-    ...(s.color !== undefined && { color: s.color }),
+    ...(color !== undefined && { color }),
     ...(s.unit !== undefined && { unit: s.unit }),
     ...(group !== undefined && { scaleGroup: group }),
     ...(s.scale_mode !== undefined && { scaleMode: s.scale_mode }),
