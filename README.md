@@ -123,6 +123,11 @@ existing numeric graph, `2` joins the second, and so on. This is useful when you
 attribute to join a graph that is already lower in the chart without renaming every series in that
 graph.
 
+Non-numeric timeline ribbons, such as binary sensor states or climate action states, follow graph
+grouping when possible. If a ribbon has the same `group` as numeric series, it is rendered under
+that graph. If no explicit group matches, it is attached to a graph from the same entity when
+possible. Otherwise it falls back to the first graph for compatibility.
+
 ---
 
 ## YAML Examples
@@ -322,6 +327,10 @@ Each item in the `series` list is a `CardSeriesConfig` object.
 | `line_mode`   | `"stair"` \| `"line"` \| `"column"` | _(global)_   | Per-series render mode override.                                                                                                                  |
 | `line_width`  | `number` \| `string`                | _(global)_   | Per-series stroke width override.                                                                                                                 |
 | `forced`      | `boolean`                           | `false`      | Keep this series even when the entity picker removes all user selections.                                                                         |
+
+Non-numeric timeline ribbons use `group` too: set the same `group` on a ribbon and the numeric
+series it belongs with to render the ribbon under that graph. Ungrouped ribbons are attached to a
+same-entity graph when possible, otherwise they stay on the first graph for compatibility.
 
 ---
 

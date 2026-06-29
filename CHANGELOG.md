@@ -69,4 +69,5 @@
 ## [0.1.11]
 - fix ha css colors in series
 - fix stacked graph x-axis alignment
+- fixed timeline/ribbon series placement: non-numeric ribbons now render next to their matching graph group or same-entity graph instead of always being attached to the first graph.
 - update ha-better-history to 0.2.9
