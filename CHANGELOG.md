@@ -71,3 +71,7 @@
 - fix stacked graph x-axis alignment
 - fixed timeline/ribbon series placement: non-numeric ribbons now render next to their matching graph group or same-entity graph instead of always being attached to the first graph.
 - update ha-better-history to 0.2.9
+
+## [0.1.12]
+- update ha-better-history to 0.2.10 ( fix #5 )
+ . fix date range arrow navigation issue
