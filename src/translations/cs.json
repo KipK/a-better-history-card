@@ -29,6 +29,8 @@
   "editor.field.label": "Popisek",
   "editor.field.line_mode": "Režim čáry",
   "editor.field.line_width": "Šířka čáry",
+  "editor.field.show_points": "Zobrazit datové body",
+  "editor.field.point_radius": "Poloměr bodů",
   "editor.field.range_mode": "Režim rozsahu",
   "editor.field.scale_group": "Skupina měřítka",
   "editor.field.scale_max": "Maximum měřítka",

@@ -29,6 +29,8 @@
   "editor.field.label": "Etiket",
   "editor.field.line_mode": "Linjetilstand",
   "editor.field.line_width": "Linjebredde",
+  "editor.field.show_points": "Vis datapunkter",
+  "editor.field.point_radius": "Punktradius",
   "editor.field.range_mode": "Periodetilstand",
   "editor.field.scale_group": "Skalagruppe",
   "editor.field.scale_max": "Skala maksimum",

@@ -29,6 +29,8 @@
   "editor.field.label": "Надпись",
   "editor.field.line_mode": "Режим линии",
   "editor.field.line_width": "Толщина линии",
+  "editor.field.show_points": "Показывать точки данных",
+  "editor.field.point_radius": "Радиус точек",
   "editor.field.range_mode": "Режим диапазона",
   "editor.field.scale_group": "Группа шкалы",
   "editor.field.scale_max": "Максимум шкалы",

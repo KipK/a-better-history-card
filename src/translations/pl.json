@@ -29,6 +29,8 @@
   "editor.field.label": "Etykieta",
   "editor.field.line_mode": "Tryb linii",
   "editor.field.line_width": "Grubość linii",
+  "editor.field.show_points": "Pokaż punkty danych",
+  "editor.field.point_radius": "Promień punktów",
   "editor.field.range_mode": "Tryb zakresu",
   "editor.field.scale_group": "Grupa skali",
   "editor.field.scale_max": "Maksimum skali",

@@ -33,6 +33,8 @@
   "editor.field.label": "Label",
   "editor.field.line_mode": "Line mode",
   "editor.field.line_width": "Line width",
+  "editor.field.show_points": "Show data points",
+  "editor.field.point_radius": "Point radius",
   "editor.field.range_mode": "Range mode",
   "editor.field.scale_group": "Group",
   "editor.field.scale_max": "Scale max",

@@ -29,6 +29,8 @@
   "editor.field.label": "Nimiö",
   "editor.field.line_mode": "Viivatila",
   "editor.field.line_width": "Viivan paksuus",
+  "editor.field.show_points": "Näytä datapisteet",
+  "editor.field.point_radius": "Pisteen säde",
   "editor.field.range_mode": "Välitila",
   "editor.field.scale_group": "Asteikkoryhmä",
   "editor.field.scale_max": "Asteikon maksimi",

@@ -29,6 +29,8 @@
   "editor.field.label": "Rótulo",
   "editor.field.line_mode": "Modo de linha",
   "editor.field.line_width": "Espessura da linha",
+  "editor.field.show_points": "Mostrar pontos de dados",
+  "editor.field.point_radius": "Raio dos pontos",
   "editor.field.range_mode": "Modo de intervalo",
   "editor.field.scale_group": "Grupo de escala",
   "editor.field.scale_max": "Escala máxima",

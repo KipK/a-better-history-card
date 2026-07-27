@@ -29,6 +29,8 @@
   "editor.field.label": "Címke",
   "editor.field.line_mode": "Vonal mód",
   "editor.field.line_width": "Vonalvastagság",
+  "editor.field.show_points": "Adatpontok megjelenítése",
+  "editor.field.point_radius": "Pontok sugara",
   "editor.field.range_mode": "Tartomány mód",
   "editor.field.scale_group": "Skála csoport",
   "editor.field.scale_max": "Skála maximum",

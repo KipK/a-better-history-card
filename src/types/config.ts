@@ -14,6 +14,8 @@ export interface CardSeriesConfig {
   scale_max?: number;
   line_mode?: BetterHistoryLineMode;
   line_width?: number | string;
+  show_points?: boolean;
+  point_radius?: number;
   forced?: boolean;
 }
 

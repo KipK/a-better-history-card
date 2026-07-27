@@ -29,6 +29,8 @@
   "editor.field.label": "Ετικέτα",
   "editor.field.line_mode": "Λειτουργία γραμμής",
   "editor.field.line_width": "Πλάτος γραμμής",
+  "editor.field.show_points": "Εμφάνιση σημείων δεδομένων",
+  "editor.field.point_radius": "Ακτίνα σημείων",
   "editor.field.range_mode": "Λειτουργία εύρους",
   "editor.field.scale_group": "Ομάδα κλίμακας",
   "editor.field.scale_max": "Μέγιστο κλίμακας",

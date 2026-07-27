@@ -66,6 +66,9 @@ export class SeriesItemEditor extends LitElement {
           { name: "scale_max", selector: { number: {} } }
         ]
       : [];
+    const pointRadiusSchema: HaFormSchema[] = this.series.show_points === true
+      ? [{ name: "point_radius", selector: { number: { min: 1, max: 8, step: 0.5, mode: "box" } } }]
+      : [];
 
     return [
       { name: "entity", selector: { entity: {} } },
@@ -100,6 +103,8 @@ export class SeriesItemEditor extends LitElement {
         }
       },
       { name: "line_width", selector: { number: { min: 1, max: 5, mode: "box" } } },
+      { name: "show_points", selector: { boolean: {} } },
+      ...pointRadiusSchema,
       { name: "forced", selector: { boolean: {} } }
     ];
   }
@@ -111,6 +116,7 @@ export class SeriesItemEditor extends LitElement {
   private _valueChanged(event: HaFormChangedEvent<CardSeriesConfig>): void {
     const value = { forced: true, ...event.detail.value };
     if (value.group !== undefined) delete value.scale_group;
+    if ((value.point_radius as unknown) === "") delete value.point_radius;
 
     this._emitItem(this._withDefaultUnit(value));
   }

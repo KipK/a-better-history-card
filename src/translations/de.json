@@ -29,6 +29,8 @@
   "editor.field.label": "Beschriftung",
   "editor.field.line_mode": "Linienmodus",
   "editor.field.line_width": "Linienbreite",
+  "editor.field.show_points": "Datenpunkte anzeigen",
+  "editor.field.point_radius": "Punktradius",
   "editor.field.range_mode": "Bereichsmodus",
   "editor.field.scale_group": "Skalen-Gruppe",
   "editor.field.scale_max": "Maximale Skala",

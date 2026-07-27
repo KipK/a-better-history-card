@@ -33,6 +33,8 @@
   "editor.field.label": "Libellé",
   "editor.field.line_mode": "Mode de ligne",
   "editor.field.line_width": "Épaisseur de ligne",
+  "editor.field.show_points": "Afficher les points de données",
+  "editor.field.point_radius": "Rayon des points",
   "editor.field.range_mode": "Mode de plage",
   "editor.field.scale_group": "Groupe",
   "editor.field.scale_max": "Échelle max",

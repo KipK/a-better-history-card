@@ -166,6 +166,8 @@ series:
     group: temperature
     line_mode: line
     line_width: 2.5
+    show_points: true
+    point_radius: 3
   - entity: climate.living_room
     attribute: humidity
     label: Humidity
@@ -326,7 +328,13 @@ Each item in the `series` list is a `CardSeriesConfig` object.
 | `scale_max`   | `number`                            | —            | Y-axis maximum when `scale_mode: manual`.                                                                                                         |
 | `line_mode`   | `"stair"` \| `"line"` \| `"column"` | _(global)_   | Per-series render mode override.                                                                                                                  |
 | `line_width`  | `number` \| `string`                | _(global)_   | Per-series stroke width override.                                                                                                                 |
+| `show_points` | `boolean`                           | `false`      | Show data-point markers for numeric or boolean `line`/`stair` series.                                                                             |
+| `point_radius` | `number`                           | `2.5`        | Marker radius, clamped to `1`–`8`. Changes marker size, not marker count or spacing.                                                              |
 | `forced`      | `boolean`                           | `false`      | Keep this series even when the entity picker removes all user selections.                                                                         |
+
+Point markers reuse the curve points retained by the existing display downsampling, so enabling
+them does not request or retain additional Home Assistant history data. Render-only interpolation
+or extension points at the visible range boundaries are not marked.
 
 Non-numeric timeline ribbons use `group` too: set the same `group` on a ribbon and the numeric
 series it belongs with to render the ribbon under that graph. Ungrouped ribbons are attached to a

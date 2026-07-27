@@ -164,6 +164,8 @@ series:
     group: temperature
     line_mode: line
     line_width: 2.5
+    show_points: true
+    point_radius: 3
   - entity: climate.living_room
     attribute: humidity
     label: Humidité
@@ -325,7 +327,14 @@ Chaque élément de la liste `series` est un objet `CardSeriesConfig`.
 | `scale_max`   | `number`                            | —          | Maximum de l'axe Y quand `scale_mode: manual`.                                                                                                                                                    |
 | `line_mode`   | `"stair"` \| `"line"` \| `"column"` | _(global)_ | Surcharge du mode de rendu pour cette série.                                                                                                                                                      |
 | `line_width`  | `number` \| `string`                | _(global)_ | Surcharge de l'épaisseur de trait pour cette série.                                                                                                                                               |
+| `show_points` | `boolean`                           | `false`    | Affiche les marqueurs de points pour les séries numériques ou booléennes en mode `line`/`stair`.                                                                                                  |
+| `point_radius` | `number`                           | `2.5`      | Rayon des marqueurs, borné entre `1` et `8`. Modifie leur taille, pas leur nombre ni leur espacement.                                                                                             |
 | `forced`      | `boolean`                           | `false`    | Conserver cette série même quand le sélecteur d'entités supprime toutes les sélections utilisateur.                                                                                               |
+
+Les marqueurs réutilisent les points de courbe conservés par le downsampling d'affichage existant :
+leur activation ne demande ni ne conserve de données historiques Home Assistant supplémentaires.
+Les points ajoutés uniquement pour interpoler ou prolonger les bornes de la plage visible ne sont
+pas marqués.
 
 ---
 

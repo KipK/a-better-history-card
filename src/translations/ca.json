@@ -29,6 +29,8 @@
   "editor.field.label": "Etiqueta",
   "editor.field.line_mode": "Mode de línia",
   "editor.field.line_width": "Amplada de línia",
+  "editor.field.show_points": "Mostra els punts de dades",
+  "editor.field.point_radius": "Radi dels punts",
   "editor.field.range_mode": "Mode d'interval",
   "editor.field.scale_group": "Grup d'escala",
   "editor.field.scale_max": "Escala màxima",

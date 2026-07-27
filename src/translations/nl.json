@@ -29,6 +29,8 @@
   "editor.field.label": "Label",
   "editor.field.line_mode": "Lijnmodus",
   "editor.field.line_width": "Lijndikte",
+  "editor.field.show_points": "Gegevenspunten tonen",
+  "editor.field.point_radius": "Puntstraal",
   "editor.field.range_mode": "Bereikmodus",
   "editor.field.scale_group": "Schaalgroep",
   "editor.field.scale_max": "Schaalmaximum",

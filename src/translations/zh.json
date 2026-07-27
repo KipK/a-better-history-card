@@ -29,6 +29,8 @@
   "editor.field.label": "标签",
   "editor.field.line_mode": "线条模式",
   "editor.field.line_width": "线宽",
+  "editor.field.show_points": "显示数据点",
+  "editor.field.point_radius": "点半径",
   "editor.field.range_mode": "范围模式",
   "editor.field.scale_group": "刻度组",
   "editor.field.scale_max": "刻度最大值",

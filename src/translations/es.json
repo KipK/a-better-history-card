@@ -29,6 +29,8 @@
   "editor.field.label": "Etiqueta",
   "editor.field.line_mode": "Modo de línea",
   "editor.field.line_width": "Ancho de línea",
+  "editor.field.show_points": "Mostrar puntos de datos",
+  "editor.field.point_radius": "Radio de los puntos",
   "editor.field.range_mode": "Modo de rango",
   "editor.field.scale_group": "Grupo de escala",
   "editor.field.scale_max": "Escala máxima",
