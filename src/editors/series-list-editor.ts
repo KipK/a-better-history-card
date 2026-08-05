@@ -102,7 +102,9 @@ export class SeriesListEditor extends LitElement {
 
   override connectedCallback(): void {
     super.connectedCallback();
-    ensureHaComponents().then(() => { this._componentsReady = true; });
+    void ensureHaComponents()
+      .then(() => { this._componentsReady = true; })
+      .catch(() => undefined);
   }
 
   protected override updated(): void {

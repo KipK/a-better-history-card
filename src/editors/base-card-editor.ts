@@ -133,8 +133,12 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
 
   override connectedCallback(): void {
     super.connectedCallback();
-    ensureHaComponents().then(() => { this._componentsReady = true; });
-    ensureDateRangePicker().then(() => { this._dateRangePickerReady = customElements.get("ha-date-range-picker") !== undefined; });
+    void ensureHaComponents()
+      .then(() => { this._componentsReady = true; })
+      .catch(() => undefined);
+    void ensureDateRangePicker()
+      .then(() => { this._dateRangePickerReady = true; })
+      .catch(() => undefined);
   }
 
   protected override updated(): void {
