@@ -1,5 +1,10 @@
 # Changelog
 
+ ## [0.3.1]
+
+- Add context menu on entity badges to open attribute picker
+- fix attribute badges position
+
 
  ## [0.3.0]
 
