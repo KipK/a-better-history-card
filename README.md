@@ -117,6 +117,9 @@ The **Create dashboard card** action captures the current runtime graph once. It
 
 This configuration export is distinct from the tools panel's JSON data export: historical points are never included. An unzoomed rolling window remains relative, while a zoomed or date-picker view is exported as an absolute ISO range. Area/device/floor/label targets are frozen as their resolved entities. Temporarily legend-hidden series remain included. Axis overrides that exist only on an auto-expanded climate child cannot be represented, and imported JSON history data cannot be converted into a card.
 
+<img width="1038" height="765" alt="image" src="https://github.com/user-attachments/assets/6e9940c0-d44d-4435-8c06-96b17570b3e2" />
+
+
 ### Attribute chip unit and group
 
 When adding attributes with the visual series picker, each selected attribute appears as a chip.
