@@ -119,6 +119,8 @@ L'action **Créer une carte** capture une seule fois le graphique courant. Le di
 
 Cet export de configuration est distinct de l'export JSON des données du panneau Outils : aucun point historique n'est inclus. Une fenêtre glissante non zoomée reste relative, tandis qu'un zoom ou une plage du sélecteur de dates devient une plage absolue ISO. Les targets area/device/floor/label sont figées sous forme d'entités résolues. Les séries temporairement masquées dans la légende restent incluses. Un override d'axe présent uniquement sur un enfant climate auto-développé ne peut pas être représenté, et les données d'historique JSON importées ne peuvent pas devenir une carte.
 
+<img width="1038" height="765" alt="image" src="https://github.com/user-attachments/assets/6e9940c0-d44d-4435-8c06-96b17570b3e2" />
+
 ### Unité et groupe des chips d'attributs
 
 Quand vous ajoutez des attributs avec le sélecteur visuel, chaque attribut sélectionné apparaît sous
