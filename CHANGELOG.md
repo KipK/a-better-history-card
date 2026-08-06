@@ -1,41 +1,48 @@
 # Changelog
 
 
-## [0.1.0]
+ ## [0.3.0]
 
-- Initial release
+ - Add dashboard yaml card export button
+ Will display a dialog with copiable yaml code of the current graph to add on your dashboard
+ - Add native home assistant target selection.
+ Now you can add entities by label, device, rooms.
+ Only selecting one entity will display the attribute picker.
+ - update npm packages
 
-## [0.1.1]
+ ## [0.2.0]
+- fix unavailable numeric series classification ( #6)
+ - update ha-better-history to 0.3.0
+  - Add optional optimized series point markers
+- expose optional series point markers
 
-- update ha-better-history lib to 0.1.7
- . fix climate overlay position
- . fix attribute picker not closing when clicking on top
+## [0.1.12]
+- update ha-better-history to 0.2.10 ( fix #5 )
+ . fix date range arrow navigation issue
 
-## [0.1.2]
+## [0.1.11]
+- fix ha css colors in series
+- fix stacked graph x-axis alignment
+- fixed timeline/ribbon series placement: non-numeric ribbons now render next to their matching graph group or same-entity graph instead of always being attached to the first graph.
+- update ha-better-history to 0.2.9
 
-- updated ha-better-history-component to 0.1.8
-  . better UX on mobile
-  . improved range selection slider handling on mobile & desktop.
-- use private custom-element tag to avoid versionning conflict with other card using history component
-- handle browser history
+## [0.1.10]
+- Keep the embedded history config reference stable between Home Assistant live updates to avoid repeated loading/clipping on future-ended graphs.
+- update ha-better-history component to 0.2.7
 
-## [0.1.3]
+## [0.1.9]
+- ha-better-history 0.2.6
+  . add pinch/wheel zomm in/out + vertical mouse drag on zoomed graph
 
-- update ha-better-history to 0.2.0
-  . now we can set units and scale group to attributes from the graph by right click/long press the attributes chips
-  . some UI fixes
+## [0.1.8]
+- ha-better-history 0.2.5
+  . fix race condition when adding multiple attributes at the same time
+  . fix legend padding when a segment is displayed under the graph
+  . fix long press on chips clearing the popup on release.
 
-## [0.1.4]
-
-- update ha-better-history to 0.2.1
-  . set units and scale group to attributes and entities from the graph by right click/long press the attributes chips
-
-## [0.1.5]
-
-
-- add card background color and opacity style options
-- displayed charts now have implicit numeric group names by position (1,2,3,... )
-- few fixes and UI/UX improvement in ha-better-history components
+## [0.1.7]
+- ha-better-history 0.2.4:
+  . fix temperature sensors not merging climate entities chart
 
 ## [0.1.6]
 
@@ -48,46 +55,38 @@
   . prevent splitting when there's 2 different units ( forced to one scale per unit )
   . prevent more than 2 different units per graph
 
-## [0.1.7]
-- ha-better-history 0.2.4:
-  . fix temperature sensors not merging climate entities chart
-
-## [0.1.8]
-- ha-better-history 0.2.5
-  . fix race condition when adding multiple attributes at the same time
-  . fix legend padding when a segment is displayed under the graph
-  . fix long press on chips clearing the popup on release.
-
-## [0.1.9]
-- ha-better-history 0.2.6
-  . add pinch/wheel zomm in/out + vertical mouse drag on zoomed graph
-
-## [0.1.10]
-- Keep the embedded history config reference stable between Home Assistant live updates to avoid repeated loading/clipping on future-ended graphs.
-- update ha-better-history component to 0.2.7
-
-## [0.1.11]
-- fix ha css colors in series
-- fix stacked graph x-axis alignment
-- fixed timeline/ribbon series placement: non-numeric ribbons now render next to their matching graph group or same-entity graph instead of always being attached to the first graph.
-- update ha-better-history to 0.2.9
-
-## [0.1.12]
-- update ha-better-history to 0.2.10 ( fix #5 )
- . fix date range arrow navigation issue
+## [0.1.5]
 
 
- ## [0.2.0]
-- fix unavailable numeric series classification ( #6)
- - update ha-better-history to 0.3.0
-  - Add optional optimized series point markers
-- expose optional series point markers
+- add card background color and opacity style options
+- displayed charts now have implicit numeric group names by position (1,2,3,... )
+- few fixes and UI/UX improvement in ha-better-history components
 
- ## [0.3.0]
+## [0.1.4]
 
- - Add dashboard yaml card export button
- Will display a dialog with copiable yaml code of the current graph to add on your dashboard
- - Add native home assistant target selection.
- Now you can add entities by label, device, rooms.
- Only selecting one entity will display the attribute picker.
- - update npm packages
+- update ha-better-history to 0.2.1
+  . set units and scale group to attributes and entities from the graph by right click/long press the attributes chips
+
+## [0.1.3]
+
+- update ha-better-history to 0.2.0
+  . now we can set units and scale group to attributes from the graph by right click/long press the attributes chips
+  . some UI fixes
+
+## [0.1.2]
+
+- updated ha-better-history-component to 0.1.8
+  . better UX on mobile
+  . improved range selection slider handling on mobile & desktop.
+- use private custom-element tag to avoid versionning conflict with other card using history component
+- handle browser history
+
+## [0.1.1]
+
+- update ha-better-history lib to 0.1.7
+ . fix climate overlay position
+ . fix attribute picker not closing when clicking on top
+
+## [0.1.0]
+
+- Initial release
