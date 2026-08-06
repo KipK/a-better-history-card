@@ -74,5 +74,20 @@
   "editor.tab.header": "Κεφαλίδα",
   "editor.tab.range": "Εύρος",
   "editor.tab.style": "Στυλ",
-  "editor.tab.tools": "Εργαλεία"
+  "editor.tab.tools": "Εργαλεία",
+  "card.label.create_dashboard_card": "Δημιουργία κάρτας πίνακα",
+  "editor.field.show_card_export_button": "Εμφάνιση κουμπιού εξαγωγής κάρτας",
+  "export_dialog.title": "Δημιουργία κάρτας πίνακα",
+  "export_dialog.card_type_label": "Τύπος κάρτας",
+  "export_dialog.card_type.inline": "Τυπική κάρτα",
+  "export_dialog.card_type.button": "Κάρτα κουμπιού",
+  "export_dialog.instructions": "Αντιγράψτε αυτό το YAML στον επεξεργαστή κώδικα μιας κάρτας Home Assistant.",
+  "export_dialog.yaml_label": "YAML κάρτας",
+  "export_dialog.copy": "Αντιγραφή YAML",
+  "export_dialog.copied": "Το YAML αντιγράφηκε",
+  "export_dialog.copy_failed": "Η αυτόματη αντιγραφή απέτυχε. Το YAML είναι επιλεγμένο για χειροκίνητη αντιγραφή.",
+  "export_dialog.close": "Κλείσιμο",
+  "export_dialog.imported_data_unsupported": "Τα εισαγόμενα δεδομένα ιστορικού δεν μπορούν να μετατραπούν σε κάρτα Home Assistant.",
+  "export_dialog.missing_snapshot": "Η διαμόρφωση του γραφήματος δεν είναι διαθέσιμη.",
+  "export_dialog.incompatible_component": "Το ενσωματωμένο στοιχείο ιστορικού δεν υποστηρίζει εξαγωγή κάρτας. Ενημερώστε τον πόρο της κάρτας."
 }

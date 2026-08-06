@@ -74,5 +74,20 @@
   "editor.tab.header": "Hlavička",
   "editor.tab.range": "Rozsah",
   "editor.tab.style": "Štýl",
-  "editor.tab.tools": "Nástroje"
+  "editor.tab.tools": "Nástroje",
+  "card.label.create_dashboard_card": "Vytvoriť kartu dashboardu",
+  "editor.field.show_card_export_button": "Zobraziť tlačidlo exportu karty",
+  "export_dialog.title": "Vytvoriť kartu dashboardu",
+  "export_dialog.card_type_label": "Typ karty",
+  "export_dialog.card_type.inline": "Štandardná karta",
+  "export_dialog.card_type.button": "Tlačidlová karta",
+  "export_dialog.instructions": "Skopírujte tento YAML do editora kódu karty Home Assistant.",
+  "export_dialog.yaml_label": "YAML karty",
+  "export_dialog.copy": "Kopírovať YAML",
+  "export_dialog.copied": "YAML skopírovaný",
+  "export_dialog.copy_failed": "Automatické kopírovanie zlyhalo. YAML je vybratý na ručné kopírovanie.",
+  "export_dialog.close": "Zavrieť",
+  "export_dialog.imported_data_unsupported": "Importované údaje histórie nemožno previesť na kartu Home Assistant.",
+  "export_dialog.missing_snapshot": "Konfigurácia grafu nie je dostupná.",
+  "export_dialog.incompatible_component": "Vložený komponent histórie nepodporuje export karty. Aktualizujte zdroj karty."
 }

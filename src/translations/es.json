@@ -74,5 +74,20 @@
   "editor.tab.header": "Encabezado",
   "editor.tab.range": "Rango",
   "editor.tab.style": "Estilo",
-  "editor.tab.tools": "Herramientas"
+  "editor.tab.tools": "Herramientas",
+  "card.label.create_dashboard_card": "Crear tarjeta de panel",
+  "editor.field.show_card_export_button": "Mostrar botón de exportación de tarjeta",
+  "export_dialog.title": "Crear tarjeta de panel",
+  "export_dialog.card_type_label": "Tipo de tarjeta",
+  "export_dialog.card_type.inline": "Tarjeta estándar",
+  "export_dialog.card_type.button": "Tarjeta de botón",
+  "export_dialog.instructions": "Copia este YAML en el editor de código de una tarjeta de Home Assistant.",
+  "export_dialog.yaml_label": "YAML de la tarjeta",
+  "export_dialog.copy": "Copiar YAML",
+  "export_dialog.copied": "YAML copiado",
+  "export_dialog.copy_failed": "La copia automática falló. El YAML está seleccionado para que puedas copiarlo manualmente.",
+  "export_dialog.close": "Cerrar",
+  "export_dialog.imported_data_unsupported": "Los datos de historial importados no se pueden convertir en una tarjeta de Home Assistant.",
+  "export_dialog.missing_snapshot": "La configuración del gráfico no está disponible.",
+  "export_dialog.incompatible_component": "El componente de historial integrado no admite la exportación de tarjetas. Actualiza el recurso de la tarjeta."
 }

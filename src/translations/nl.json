@@ -74,5 +74,20 @@
   "editor.tab.header": "Koptekst",
   "editor.tab.range": "Bereik",
   "editor.tab.style": "Stijl",
-  "editor.tab.tools": "Gereedschappen"
+  "editor.tab.tools": "Gereedschappen",
+  "card.label.create_dashboard_card": "Dashboardkaart maken",
+  "editor.field.show_card_export_button": "Knop voor kaart-export tonen",
+  "export_dialog.title": "Dashboardkaart maken",
+  "export_dialog.card_type_label": "Kaarttype",
+  "export_dialog.card_type.inline": "Standaardkaart",
+  "export_dialog.card_type.button": "Knopkaart",
+  "export_dialog.instructions": "Kopieer deze YAML naar de code-editor van een Home Assistant-kaart.",
+  "export_dialog.yaml_label": "Kaart-YAML",
+  "export_dialog.copy": "YAML kopiëren",
+  "export_dialog.copied": "YAML gekopieerd",
+  "export_dialog.copy_failed": "Automatisch kopiëren is mislukt. De YAML is geselecteerd voor handmatig kopiëren.",
+  "export_dialog.close": "Sluiten",
+  "export_dialog.imported_data_unsupported": "Geïmporteerde geschiedenisgegevens kunnen niet worden omgezet in een Home Assistant-kaart.",
+  "export_dialog.missing_snapshot": "De grafiekconfiguratie is niet beschikbaar.",
+  "export_dialog.incompatible_component": "De ingebouwde geschiedeniscomponent ondersteunt kaart-export niet. Werk de kaartbron bij."
 }

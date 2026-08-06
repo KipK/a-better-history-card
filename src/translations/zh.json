@@ -74,5 +74,20 @@
   "editor.tab.header": "页眉",
   "editor.tab.range": "范围",
   "editor.tab.style": "样式",
-  "editor.tab.tools": "工具"
+  "editor.tab.tools": "工具",
+  "card.label.create_dashboard_card": "创建仪表板卡片",
+  "editor.field.show_card_export_button": "显示卡片导出按钮",
+  "export_dialog.title": "创建仪表板卡片",
+  "export_dialog.card_type_label": "卡片类型",
+  "export_dialog.card_type.inline": "标准卡片",
+  "export_dialog.card_type.button": "按钮卡片",
+  "export_dialog.instructions": "将此 YAML 复制到 Home Assistant 卡片的代码编辑器中。",
+  "export_dialog.yaml_label": "卡片 YAML",
+  "export_dialog.copy": "复制 YAML",
+  "export_dialog.copied": "YAML 已复制",
+  "export_dialog.copy_failed": "自动复制失败。YAML 已选中，可手动复制。",
+  "export_dialog.close": "关闭",
+  "export_dialog.imported_data_unsupported": "导入的历史数据无法转换为 Home Assistant 卡片。",
+  "export_dialog.missing_snapshot": "图表配置不可用。",
+  "export_dialog.incompatible_component": "嵌入的历史组件不支持卡片导出。请更新卡片资源。"
 }

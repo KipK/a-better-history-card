@@ -1,5 +1,9 @@
 import { LitElement, css, html, nothing, type TemplateResult } from "lit";
 import "../components/history-dialog.js";
+import "../components/card-export-dialog.js";
+import type { BetterHistoryRuntimeConfigSnapshot } from "@kipk/ha-better-history";
+import type { CardExportDialogError } from "../components/card-export-dialog.js";
+import { isUsableRuntimeConfigSnapshot } from "../data/build-export-card-config.js";
 import { cachedBetterHistoryConfig, type BetterHistoryConfigCache } from "../data/build-better-history-config.js";
 import { normalizeConfig } from "../data/normalize-config.js";
 import type { ABetterHistoryCardConfig } from "../types/config.js";
@@ -63,7 +67,10 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
     _toolsOpen: { state: true },
     _controlsVisible: { state: true },
     _dialogOpen: { state: true },
-    _graphVisible: { state: true }
+    _graphVisible: { state: true },
+    _cardExportDialogOpen: { state: true },
+    _cardExportSnapshot: { state: true },
+    _cardExportError: { state: true }
   };
 
   static styles = css`
@@ -149,6 +156,9 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
   private _controlsVisible = true;
   private _dialogOpen = false;
   private _graphVisible?: boolean;
+  private _cardExportDialogOpen = false;
+  private _cardExportSnapshot?: BetterHistoryRuntimeConfigSnapshot;
+  private _cardExportError?: CardExportDialogError;
   private _translationLanguage = "";
   private _betterHistoryConfigCache: BetterHistoryConfigCache = {};
 
@@ -207,9 +217,42 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
     return !!(cfg?.entities?.length || cfg?.series?.length);
   }
 
-  private _toolsDisabled(cfg: ABetterHistoryCardConfig | undefined): boolean {
+  private _graphActionsDisabled(cfg: ABetterHistoryCardConfig | undefined): boolean {
     return this._graphVisible === false
       || (this._graphVisible === undefined && !this._hasConfiguredGraphTargets(cfg));
+  }
+
+  private _openCardExportDialog(): void {
+    const history = this.renderRoot.querySelector(
+      ".history-frame > a-better-history-card-history",
+    ) as (HTMLElement & {
+      getRuntimeConfigSnapshot?: () => BetterHistoryRuntimeConfigSnapshot;
+    }) | null;
+
+    this._cardExportSnapshot = undefined;
+    this._cardExportError = undefined;
+    if (typeof history?.getRuntimeConfigSnapshot !== "function") {
+      this._cardExportError = "incompatible_component";
+    } else {
+      try {
+        const snapshot = history.getRuntimeConfigSnapshot();
+        if (!isUsableRuntimeConfigSnapshot(snapshot)) {
+          this._cardExportError = "missing_snapshot";
+        } else {
+          this._cardExportSnapshot = snapshot;
+        }
+      } catch {
+        this._cardExportError = "missing_snapshot";
+      }
+    }
+    this._cardExportDialogOpen = true;
+  }
+
+  private _closeCardExportDialog(event: Event): void {
+    event.stopPropagation();
+    this._cardExportDialogOpen = false;
+    this._cardExportSnapshot = undefined;
+    this._cardExportError = undefined;
   }
 
   private _cardStyle(): string {
@@ -233,9 +276,11 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
 
   private _renderHeader(): TemplateResult | typeof nothing {
     const cfg = this._config;
+    if (!cfg) return nothing;
     const title = cfg?.title;
     const showChevron = !!(cfg?.show_controls_toggle && (cfg?.show_date_picker || cfg?.show_entity_picker));
-    const hasButtons = cfg?.show_tools_button || showChevron || cfg?.show_fullscreen_button;
+    const showCardExport = cfg?.show_card_export_button !== false;
+    const hasButtons = showCardExport || cfg?.show_tools_button || showChevron || cfg?.show_fullscreen_button;
 
     if (!title && !hasButtons) return nothing;
 
@@ -250,11 +295,18 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
       <div class="header">
         ${title ? html`<div class="card-title" style=${titleStyle}>${title}</div>` : nothing}
         ${hasButtons ? html`<div class="header-actions">
+          ${showCardExport
+            ? html`<ha-icon-button
+                .label=${localize(this.hass, "card.label.create_dashboard_card")}
+                ?disabled=${this._graphActionsDisabled(cfg)}
+                @click=${this._openCardExportDialog}
+              ><ha-icon icon="mdi:view-dashboard-variant-outline"></ha-icon></ha-icon-button>`
+            : nothing}
           ${cfg.show_tools_button
             ? html`<ha-icon-button
                 .label=${localize(this.hass, "card.label.tools")}
                 ?active=${this._toolsOpen}
-                ?disabled=${this._toolsDisabled(cfg)}
+                ?disabled=${this._graphActionsDisabled(cfg)}
                 @click=${() => { this._toolsOpen = !this._toolsOpen; }}
               ><ha-icon icon="mdi:tools"></ha-icon></ha-icon-button>`
             : nothing}
@@ -306,6 +358,15 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
           .language=${language}
           @abh-dialog-closed=${this._onDialogClosed}
         ></abh-history-dialog>
+        <abh-card-export-dialog
+          .open=${this._cardExportDialogOpen}
+          .hass=${this.hass}
+          .baseConfig=${cfg}
+          .snapshot=${this._cardExportSnapshot}
+          .language=${language}
+          .error=${this._cardExportError}
+          @abh-card-export-dialog-closed=${this._closeCardExportDialog}
+        ></abh-card-export-dialog>
       </ha-card>
     `;
   }

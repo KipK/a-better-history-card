@@ -1,6 +1,6 @@
 {
   "name": "a-better-history-card",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "type": "module",
   "private": true,
   "scripts": {
@@ -8,9 +8,10 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@kipk/ha-better-history": "^0.3.1",
+    "@kipk/ha-better-history": "^0.4.0",
     "@kipk/load-ha-components": "^2.0.0",
-    "lit": "^3.3.3"
+    "lit": "^3.3.3",
+    "yaml": "^2.9.0"
   },
   "devDependencies": {
     "typescript": "^7.0.2",

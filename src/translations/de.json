@@ -74,5 +74,20 @@
   "editor.tab.header": "Kopfzeile",
   "editor.tab.range": "Bereich",
   "editor.tab.style": "Stil",
-  "editor.tab.tools": "Werkzeuge"
+  "editor.tab.tools": "Werkzeuge",
+  "card.label.create_dashboard_card": "Dashboard-Karte erstellen",
+  "editor.field.show_card_export_button": "Schaltfläche zum Exportieren der Dashboard-Karte anzeigen",
+  "export_dialog.title": "Dashboard-Karte erstellen",
+  "export_dialog.card_type_label": "Kartentyp",
+  "export_dialog.card_type.inline": "Standardkarte",
+  "export_dialog.card_type.button": "Schaltflächenkarte",
+  "export_dialog.instructions": "Kopiere dieses YAML in den Code-Editor einer Home-Assistant-Karte.",
+  "export_dialog.yaml_label": "Karten-YAML",
+  "export_dialog.copy": "YAML kopieren",
+  "export_dialog.copied": "YAML kopiert",
+  "export_dialog.copy_failed": "Automatisches Kopieren fehlgeschlagen. Das YAML ist für manuelles Kopieren markiert.",
+  "export_dialog.close": "Schließen",
+  "export_dialog.imported_data_unsupported": "Importierte Verlaufsdaten können nicht in eine Home-Assistant-Karte konvertiert werden.",
+  "export_dialog.missing_snapshot": "Die Diagrammkonfiguration ist nicht verfügbar.",
+  "export_dialog.incompatible_component": "Die eingebettete Verlaufskomponente unterstützt den Kartenexport nicht. Aktualisiere die Kartenressource."
 }

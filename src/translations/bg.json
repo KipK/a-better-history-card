@@ -74,5 +74,20 @@
   "editor.tab.header": "Заглавна част",
   "editor.tab.range": "Период",
   "editor.tab.style": "Стил",
-  "editor.tab.tools": "Инструменти"
+  "editor.tab.tools": "Инструменти",
+  "card.label.create_dashboard_card": "Създаване на карта за таблото",
+  "editor.field.show_card_export_button": "Показване на бутон за експортиране на карта",
+  "export_dialog.title": "Създаване на карта за таблото",
+  "export_dialog.card_type_label": "Тип карта",
+  "export_dialog.card_type.inline": "Стандартна карта",
+  "export_dialog.card_type.button": "Карта с бутон",
+  "export_dialog.instructions": "Копирайте този YAML в редактора на код на карта в Home Assistant.",
+  "export_dialog.yaml_label": "YAML на картата",
+  "export_dialog.copy": "Копиране на YAML",
+  "export_dialog.copied": "YAML е копиран",
+  "export_dialog.copy_failed": "Автоматичното копиране не бе успешно. YAML е избран за ръчно копиране.",
+  "export_dialog.close": "Затваряне",
+  "export_dialog.imported_data_unsupported": "Импортираните данни от историята не могат да се преобразуват в карта на Home Assistant.",
+  "export_dialog.missing_snapshot": "Конфигурацията на графиката не е налична.",
+  "export_dialog.incompatible_component": "Вграденият компонент за история не поддържа експортиране на карта. Актуализирайте ресурса на картата."
 }

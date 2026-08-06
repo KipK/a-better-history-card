@@ -235,6 +235,7 @@ export abstract class BaseCardEditor extends LitElement implements LovelaceCardE
   protected _headerSchema(): HaFormSchema[] {
     return [
       { name: "title", selector: { text: {} } },
+      { name: "show_card_export_button", selector: { boolean: {} } },
       { name: "show_tools_button", selector: { boolean: {} } },
       { name: "show_controls_toggle", selector: { boolean: {} } },
       { name: "show_fullscreen_button", selector: { boolean: {} } }

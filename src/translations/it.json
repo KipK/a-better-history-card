@@ -74,5 +74,20 @@
   "editor.tab.header": "Intestazione",
   "editor.tab.range": "Intervallo",
   "editor.tab.style": "Stile",
-  "editor.tab.tools": "Strumenti"
+  "editor.tab.tools": "Strumenti",
+  "card.label.create_dashboard_card": "Crea scheda dashboard",
+  "editor.field.show_card_export_button": "Mostra il pulsante di esportazione della scheda",
+  "export_dialog.title": "Crea scheda dashboard",
+  "export_dialog.card_type_label": "Tipo di scheda",
+  "export_dialog.card_type.inline": "Scheda standard",
+  "export_dialog.card_type.button": "Scheda pulsante",
+  "export_dialog.instructions": "Copia questo YAML nell'editor di codice di una scheda Home Assistant.",
+  "export_dialog.yaml_label": "YAML della scheda",
+  "export_dialog.copy": "Copia YAML",
+  "export_dialog.copied": "YAML copiato",
+  "export_dialog.copy_failed": "La copia automatica non è riuscita. Il YAML è selezionato per la copia manuale.",
+  "export_dialog.close": "Chiudi",
+  "export_dialog.imported_data_unsupported": "I dati della cronologia importati non possono essere convertiti in una scheda Home Assistant.",
+  "export_dialog.missing_snapshot": "La configurazione del grafico non è disponibile.",
+  "export_dialog.incompatible_component": "Il componente della cronologia integrato non supporta l'esportazione della scheda. Aggiorna la risorsa della scheda."
 }

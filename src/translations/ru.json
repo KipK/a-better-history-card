@@ -74,5 +74,20 @@
   "editor.tab.header": "Заголовок",
   "editor.tab.range": "Диапазон",
   "editor.tab.style": "Стиль",
-  "editor.tab.tools": "Инструменты"
+  "editor.tab.tools": "Инструменты",
+  "card.label.create_dashboard_card": "Создать карточку панели",
+  "editor.field.show_card_export_button": "Показывать кнопку экспорта карточки",
+  "export_dialog.title": "Создать карточку панели",
+  "export_dialog.card_type_label": "Тип карточки",
+  "export_dialog.card_type.inline": "Обычная карточка",
+  "export_dialog.card_type.button": "Карточка-кнопка",
+  "export_dialog.instructions": "Скопируйте этот YAML в редактор кода карточки Home Assistant.",
+  "export_dialog.yaml_label": "YAML карточки",
+  "export_dialog.copy": "Копировать YAML",
+  "export_dialog.copied": "YAML скопирован",
+  "export_dialog.copy_failed": "Автоматическое копирование не удалось. YAML выделен для ручного копирования.",
+  "export_dialog.close": "Закрыть",
+  "export_dialog.imported_data_unsupported": "Импортированные данные истории нельзя преобразовать в карточку Home Assistant.",
+  "export_dialog.missing_snapshot": "Конфигурация графика недоступна.",
+  "export_dialog.incompatible_component": "Встроенный компонент истории не поддерживает экспорт карточки. Обновите ресурс карточки."
 }

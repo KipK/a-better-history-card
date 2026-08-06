@@ -74,5 +74,20 @@
   "editor.tab.header": "Cabeçalho",
   "editor.tab.range": "Intervalo",
   "editor.tab.style": "Estilo",
-  "editor.tab.tools": "Ferramentas"
+  "editor.tab.tools": "Ferramentas",
+  "card.label.create_dashboard_card": "Criar cartão de painel",
+  "editor.field.show_card_export_button": "Mostrar botão de exportação do cartão",
+  "export_dialog.title": "Criar cartão de painel",
+  "export_dialog.card_type_label": "Tipo de cartão",
+  "export_dialog.card_type.inline": "Cartão padrão",
+  "export_dialog.card_type.button": "Cartão de botão",
+  "export_dialog.instructions": "Copie este YAML para o editor de código de um cartão do Home Assistant.",
+  "export_dialog.yaml_label": "YAML do cartão",
+  "export_dialog.copy": "Copiar YAML",
+  "export_dialog.copied": "YAML copiado",
+  "export_dialog.copy_failed": "A cópia automática falhou. O YAML está selecionado para cópia manual.",
+  "export_dialog.close": "Fechar",
+  "export_dialog.imported_data_unsupported": "Os dados de histórico importados não podem ser convertidos num cartão do Home Assistant.",
+  "export_dialog.missing_snapshot": "A configuração do gráfico não está disponível.",
+  "export_dialog.incompatible_component": "O componente de histórico integrado não suporta a exportação de cartões. Atualize o recurso do cartão."
 }

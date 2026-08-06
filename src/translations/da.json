@@ -74,5 +74,20 @@
   "editor.tab.header": "Sidehoved",
   "editor.tab.range": "Periode",
   "editor.tab.style": "Stil",
-  "editor.tab.tools": "Værktøjer"
+  "editor.tab.tools": "Værktøjer",
+  "card.label.create_dashboard_card": "Opret dashboardkort",
+  "editor.field.show_card_export_button": "Vis knap til eksport af kort",
+  "export_dialog.title": "Opret dashboardkort",
+  "export_dialog.card_type_label": "Korttype",
+  "export_dialog.card_type.inline": "Standardkort",
+  "export_dialog.card_type.button": "Knapkort",
+  "export_dialog.instructions": "Kopiér denne YAML til kodeeditoren for et Home Assistant-kort.",
+  "export_dialog.yaml_label": "Kort-YAML",
+  "export_dialog.copy": "Kopiér YAML",
+  "export_dialog.copied": "YAML kopieret",
+  "export_dialog.copy_failed": "Automatisk kopiering mislykkedes. YAML er markeret til manuel kopiering.",
+  "export_dialog.close": "Luk",
+  "export_dialog.imported_data_unsupported": "Importerede historikdata kan ikke konverteres til et Home Assistant-kort.",
+  "export_dialog.missing_snapshot": "Grafkonfigurationen er ikke tilgængelig.",
+  "export_dialog.incompatible_component": "Den integrerede historikkomponent understøtter ikke korteksport. Opdater kortressourcen."
 }

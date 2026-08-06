@@ -50,7 +50,8 @@ series:
 - **Per-series styling** — color, line mode (stair / line / column), and line width per series.
 - **Climate overlay** — heating/cooling state visualized as a background band on climate series.
 - **Flexible time range** — rolling relative window (e.g. last 48 h) or fixed absolute date range, with an optional date-range picker in the graph.
-- **Toolbar** — optional tools panel with zoom selector, line-mode buttons, CSV export/import.
+- **Toolbar** — optional tools panel with zoom selector, line-mode buttons, and JSON data export/import.
+- **Dashboard card YAML export** — capture the graph as an inline or button-card configuration and copy it into Home Assistant's card code editor.
 - **Two card variants** — inline graph in the dashboard grid, or a button that opens a dialog.
 - **Visual editor** — full tabbed UI editor; no YAML required.
 
@@ -104,11 +105,17 @@ The editor is organized into tabs:
 - **Range** — choose relative hours or an absolute date range with a date-range picker.
 - **Display** — toggle date picker, entity picker, legend, tooltip, grid, scale, and climate overlay.
 - **Style** — set global line mode, line width, and title appearance.
-- **Header** — configure toolbar buttons (tools, controls toggle, fullscreen).
+- **Header** — configure dashboard-card export, tools, controls toggle, and fullscreen buttons.
 - **Button** _(button-card only)_ — set button label, icon, color, and hover effect.
 - **Advanced** — enable `debug_performance` and configure `attribute_units`.
 
 You can configure every option through the UI without writing any YAML.
+
+### Dashboard card YAML export
+
+The **Create dashboard card** action captures the current runtime graph once. Its dialog switches immediately between `custom:a-better-history-card` and `custom:a-better-history-button-card` YAML without recapturing the graph. Copy the result and paste it manually into Home Assistant's card code editor; no dashboard is modified automatically.
+
+This configuration export is distinct from the tools panel's JSON data export: historical points are never included. An unzoomed rolling window remains relative, while a zoomed or date-picker view is exported as an absolute ISO range. Area/device/floor/label targets are frozen as their resolved entities. Temporarily legend-hidden series remain included. Axis overrides that exist only on an auto-expanded climate child cannot be represented, and imported JSON history data cannot be converted into a card.
 
 ### Attribute chip unit and group
 
@@ -278,6 +285,7 @@ These buttons are rendered by the card above the `ha-better-history` component.
 | Option                   | Type      | Default | Description                                                                                                                                            |
 | ------------------------ | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `show_tools_button`      | `boolean` | `false` | Show the tools (`mdi:tools`) button that opens the tools panel.                                                                                        |
+| `show_card_export_button` | `boolean` | `true` | Show the dashboard-card YAML export button. Available in the Header editor tab.                                                                        |
 | `show_controls_toggle`   | `boolean` | `false` | Show the chevron button that toggles date/entity controls visibility. Only meaningful when `show_date_picker` or `show_entity_picker` is enabled.      |
 | `show_fullscreen_button` | `boolean` | `false` | Show the fullscreen button. On the inline card this uses the browser Fullscreen API; in the button card it toggles `ha-dialog`'s fullscreen attribute. |
 | `show_line_mode_buttons` | `boolean` | `true`  | Show stair/line/column toggle buttons in the tools panel. Requires `show_tools_button: true`.                                                          |
@@ -326,6 +334,7 @@ Each item in the `series` list is a `CardSeriesConfig` object.
 | `scale_mode`  | `"auto"` \| `"manual"`              | `"auto"`     | `"manual"` enables `scale_min`/`scale_max`.                                                                                                       |
 | `scale_min`   | `number`                            | —            | Y-axis minimum when `scale_mode: manual`.                                                                                                         |
 | `scale_max`   | `number`                            | —            | Y-axis maximum when `scale_mode: manual`.                                                                                                         |
+| `scale_preference` | `"auto"` \| `"primary"` \| `"secondary"` | `"auto"` | Preferred Y axis, including runtime axis-dot changes captured by card export.                                                        |
 | `line_mode`   | `"stair"` \| `"line"` \| `"column"` | _(global)_   | Per-series render mode override.                                                                                                                  |
 | `line_width`  | `number` \| `string`                | _(global)_   | Per-series stroke width override.                                                                                                                 |
 | `show_points` | `boolean`                           | `false`      | Show data-point markers for numeric or boolean `line`/`stair` series.                                                                             |

@@ -12,6 +12,7 @@ export interface CardSeriesConfig {
   scale_mode?: "auto" | "manual";
   scale_min?: number;
   scale_max?: number;
+  scale_preference?: "auto" | "primary" | "secondary";
   line_mode?: BetterHistoryLineMode;
   line_width?: number | string;
   show_points?: boolean;
@@ -59,6 +60,7 @@ export interface ABetterHistoryCardConfig {
 
   // Toolbar buttons rendered above the component
   show_tools_button?: boolean;
+  show_card_export_button?: boolean;
   show_controls_toggle?: boolean;
   show_fullscreen_button?: boolean;
   show_line_mode_buttons?: boolean;

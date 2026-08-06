@@ -74,5 +74,20 @@
   "editor.tab.header": "Capçalera",
   "editor.tab.range": "Interval",
   "editor.tab.style": "Estil",
-  "editor.tab.tools": "Eines"
+  "editor.tab.tools": "Eines",
+  "card.label.create_dashboard_card": "Crea una targeta de tauler",
+  "editor.field.show_card_export_button": "Mostra el botó d'exportació de targeta",
+  "export_dialog.title": "Crea una targeta de tauler",
+  "export_dialog.card_type_label": "Tipus de targeta",
+  "export_dialog.card_type.inline": "Targeta estàndard",
+  "export_dialog.card_type.button": "Targeta de botó",
+  "export_dialog.instructions": "Copieu aquest YAML a l'editor de codi d'una targeta de Home Assistant.",
+  "export_dialog.yaml_label": "YAML de la targeta",
+  "export_dialog.copy": "Copia el YAML",
+  "export_dialog.copied": "YAML copiat",
+  "export_dialog.copy_failed": "La còpia automàtica ha fallat. El YAML està seleccionat per copiar-lo manualment.",
+  "export_dialog.close": "Tanca",
+  "export_dialog.imported_data_unsupported": "Les dades d'historial importades no es poden convertir en una targeta de Home Assistant.",
+  "export_dialog.missing_snapshot": "La configuració del gràfic no està disponible.",
+  "export_dialog.incompatible_component": "El component d'historial integrat no admet l'exportació de targetes. Actualitzeu el recurs de la targeta."
 }

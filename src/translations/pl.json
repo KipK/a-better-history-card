@@ -74,5 +74,20 @@
   "editor.tab.header": "Nagłówek",
   "editor.tab.range": "Zakres",
   "editor.tab.style": "Styl",
-  "editor.tab.tools": "Narzędzia"
+  "editor.tab.tools": "Narzędzia",
+  "card.label.create_dashboard_card": "Utwórz kartę panelu",
+  "editor.field.show_card_export_button": "Pokaż przycisk eksportu karty",
+  "export_dialog.title": "Utwórz kartę panelu",
+  "export_dialog.card_type_label": "Typ karty",
+  "export_dialog.card_type.inline": "Karta standardowa",
+  "export_dialog.card_type.button": "Karta przycisku",
+  "export_dialog.instructions": "Skopiuj ten YAML do edytora kodu karty Home Assistant.",
+  "export_dialog.yaml_label": "YAML karty",
+  "export_dialog.copy": "Kopiuj YAML",
+  "export_dialog.copied": "YAML skopiowany",
+  "export_dialog.copy_failed": "Automatyczne kopiowanie nie powiodło się. YAML został zaznaczony do ręcznego skopiowania.",
+  "export_dialog.close": "Zamknij",
+  "export_dialog.imported_data_unsupported": "Zaimportowanych danych historii nie można przekształcić w kartę Home Assistant.",
+  "export_dialog.missing_snapshot": "Konfiguracja wykresu jest niedostępna.",
+  "export_dialog.incompatible_component": "Osadzony komponent historii nie obsługuje eksportu karty. Zaktualizuj zasób karty."
 }

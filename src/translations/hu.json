@@ -74,5 +74,20 @@
   "editor.tab.header": "Fejléc",
   "editor.tab.range": "Tartomány",
   "editor.tab.style": "Stílus",
-  "editor.tab.tools": "Eszközök"
+  "editor.tab.tools": "Eszközök",
+  "card.label.create_dashboard_card": "Irányítópult-kártya létrehozása",
+  "editor.field.show_card_export_button": "Kártyaexport gomb megjelenítése",
+  "export_dialog.title": "Irányítópult-kártya létrehozása",
+  "export_dialog.card_type_label": "Kártyatípus",
+  "export_dialog.card_type.inline": "Normál kártya",
+  "export_dialog.card_type.button": "Gombkártya",
+  "export_dialog.instructions": "Másolja ezt a YAML-t egy Home Assistant-kártya kódszerkesztőjébe.",
+  "export_dialog.yaml_label": "Kártya YAML",
+  "export_dialog.copy": "YAML másolása",
+  "export_dialog.copied": "YAML másolva",
+  "export_dialog.copy_failed": "Az automatikus másolás sikertelen. A YAML ki van jelölve kézi másoláshoz.",
+  "export_dialog.close": "Bezárás",
+  "export_dialog.imported_data_unsupported": "Az importált előzményadatok nem alakíthatók Home Assistant-kártyává.",
+  "export_dialog.missing_snapshot": "A grafikon konfigurációja nem érhető el.",
+  "export_dialog.incompatible_component": "A beágyazott előzménykomponens nem támogatja a kártyaexportot. Frissítse a kártya erőforrását."
 }

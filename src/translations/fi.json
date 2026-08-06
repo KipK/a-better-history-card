@@ -74,5 +74,20 @@
   "editor.tab.header": "Ylätunniste",
   "editor.tab.range": "Väli",
   "editor.tab.style": "Tyyli",
-  "editor.tab.tools": "Työkalut"
+  "editor.tab.tools": "Työkalut",
+  "card.label.create_dashboard_card": "Luo hallintapaneelikortti",
+  "editor.field.show_card_export_button": "Näytä kortin vientipainike",
+  "export_dialog.title": "Luo hallintapaneelikortti",
+  "export_dialog.card_type_label": "Korttityyppi",
+  "export_dialog.card_type.inline": "Tavallinen kortti",
+  "export_dialog.card_type.button": "Painikekortti",
+  "export_dialog.instructions": "Kopioi tämä YAML Home Assistant -kortin koodieditoriin.",
+  "export_dialog.yaml_label": "Kortin YAML",
+  "export_dialog.copy": "Kopioi YAML",
+  "export_dialog.copied": "YAML kopioitu",
+  "export_dialog.copy_failed": "Automaattinen kopiointi epäonnistui. YAML on valittu manuaalista kopiointia varten.",
+  "export_dialog.close": "Sulje",
+  "export_dialog.imported_data_unsupported": "Tuotuja historiatietoja ei voi muuntaa Home Assistant -kortiksi.",
+  "export_dialog.missing_snapshot": "Kaavion määritykset eivät ole käytettävissä.",
+  "export_dialog.incompatible_component": "Upotettu historiakomponentti ei tue kortin vientiä. Päivitä korttiresurssi."
 }

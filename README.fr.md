@@ -52,7 +52,8 @@ series:
 - **Style par série** — couleur, mode de ligne (escalier / ligne / colonne) et épaisseur par série.
 - **Superposition climat** — état chauffe/refroidissement visualisé en bande de fond sur les séries clima.
 - **Plage temporelle flexible** — fenêtre glissante relative (ex. dernières 48 h) ou plage de dates fixe, avec sélecteur de dates optionnel dans le graphique.
-- **Barre d'outils** — panneau outils optionnel avec sélecteur de zoom, boutons de mode ligne, export/import CSV.
+- **Barre d'outils** — panneau outils optionnel avec sélecteur de zoom, boutons de mode ligne et export/import des données JSON.
+- **Export YAML de carte dashboard** — capturer le graphique comme configuration de carte normale ou bouton, puis la copier dans Home Assistant.
 - **Deux variantes de carte** — graphique inline dans la grille du tableau de bord, ou bouton qui ouvre une boîte de dialogue.
 - **Éditeur visuel** — éditeur complet à onglets ; aucun YAML requis.
 
@@ -106,11 +107,17 @@ L'éditeur est organisé en onglets :
 - **Plage** — choisir une fenêtre relative en heures ou une plage de dates absolue avec un sélecteur de dates.
 - **Affichage** — activer/désactiver le sélecteur de dates, le sélecteur d'entités, la légende, le tooltip, la grille, l'axe et la superposition climat.
 - **Style** — définir le mode de ligne global, l'épaisseur de ligne et l'apparence du titre.
-- **En-tête** — configurer les boutons de la barre d'outils (outils, bascule des contrôles, plein écran).
+- **En-tête** — configurer les boutons d'export de carte, outils, bascule des contrôles et plein écran.
 - **Bouton** _(variante button-card uniquement)_ — définir le libellé, l'icône, la couleur et l'effet de survol du bouton.
 - **Avancé** — activer `debug_performance` et configurer `attribute_units`.
 
 Toutes les options sont configurables via l'interface sans écrire de YAML.
+
+### Export YAML d'une carte dashboard
+
+L'action **Créer une carte** capture une seule fois le graphique courant. Le dialogue bascule immédiatement entre le YAML `custom:a-better-history-card` et `custom:a-better-history-button-card` sans reprendre d'instantané. Copiez le résultat puis collez-le manuellement dans l'éditeur de code d'une carte Home Assistant ; aucun dashboard n'est modifié automatiquement.
+
+Cet export de configuration est distinct de l'export JSON des données du panneau Outils : aucun point historique n'est inclus. Une fenêtre glissante non zoomée reste relative, tandis qu'un zoom ou une plage du sélecteur de dates devient une plage absolue ISO. Les targets area/device/floor/label sont figées sous forme d'entités résolues. Les séries temporairement masquées dans la légende restent incluses. Un override d'axe présent uniquement sur un enfant climate auto-développé ne peut pas être représenté, et les données d'historique JSON importées ne peuvent pas devenir une carte.
 
 ### Unité et groupe des chips d'attributs
 
@@ -277,6 +284,7 @@ Ces boutons sont rendus par la carte au-dessus du composant `ha-better-history`.
 | Option                   | Type      | Défaut  | Description                                                                                                                                                       |
 | ------------------------ | --------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `show_tools_button`      | `boolean` | `false` | Afficher le bouton outils (`mdi:tools`) qui ouvre le panneau outils.                                                                                              |
+| `show_card_export_button` | `boolean` | `true` | Afficher le bouton d'export YAML de carte dashboard. Disponible dans l'onglet En-tête.                                                                            |
 | `show_controls_toggle`   | `boolean` | `false` | Afficher le bouton chevron qui bascule la visibilité des contrôles date/entités. N'a de sens que si `show_date_picker` ou `show_entity_picker` est activé.        |
 | `show_fullscreen_button` | `boolean` | `false` | Afficher le bouton plein écran. Sur la carte inline, utilise l'API Fullscreen du navigateur ; dans la carte bouton, bascule l'attribut fullscreen de `ha-dialog`. |
 | `show_line_mode_buttons` | `boolean` | `true`  | Afficher les boutons escalier/ligne/colonne dans le panneau outils. Nécessite `show_tools_button: true`.                                                          |
@@ -325,6 +333,7 @@ Chaque élément de la liste `series` est un objet `CardSeriesConfig`.
 | `scale_mode`  | `"auto"` \| `"manual"`              | `"auto"`   | `"manual"` active `scale_min`/`scale_max`.                                                                                                                                                        |
 | `scale_min`   | `number`                            | —          | Minimum de l'axe Y quand `scale_mode: manual`.                                                                                                                                                    |
 | `scale_max`   | `number`                            | —          | Maximum de l'axe Y quand `scale_mode: manual`.                                                                                                                                                    |
+| `scale_preference` | `"auto"` \| `"primary"` \| `"secondary"` | `"auto"` | Axe Y préféré, y compris les changements runtime capturés lors de l'export de carte.                                                                  |
 | `line_mode`   | `"stair"` \| `"line"` \| `"column"` | _(global)_ | Surcharge du mode de rendu pour cette série.                                                                                                                                                      |
 | `line_width`  | `number` \| `string`                | _(global)_ | Surcharge de l'épaisseur de trait pour cette série.                                                                                                                                               |
 | `show_points` | `boolean`                           | `false`    | Affiche les marqueurs de points pour les séries numériques ou booléennes en mode `line`/`stair`.                                                                                                  |

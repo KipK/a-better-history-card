@@ -1,4 +1,8 @@
 import { LitElement, css, html, nothing, type PropertyValues, type TemplateResult } from "lit";
+import "./card-export-dialog.js";
+import type { BetterHistoryRuntimeConfigSnapshot } from "@kipk/ha-better-history";
+import type { CardExportDialogError } from "./card-export-dialog.js";
+import { isUsableRuntimeConfigSnapshot } from "../data/build-export-card-config.js";
 import { cachedBetterHistoryConfig, type BetterHistoryConfigCache } from "../data/build-better-history-config.js";
 import type { ABetterHistoryCardConfig } from "../types/config.js";
 import type { HomeAssistant } from "../types/ha.js";
@@ -14,6 +18,9 @@ export class HistoryDialog extends LitElement {
     _controlsVisible: { state: true },
     _toolsOpen: { state: true },
     _graphVisible: { state: true },
+    _cardExportDialogOpen: { state: true },
+    _cardExportSnapshot: { state: true },
+    _cardExportError: { state: true },
   };
 
   static styles = css`
@@ -30,12 +37,12 @@ export class HistoryDialog extends LitElement {
       color: var(--primary-text-color);
     }
 
-    .btn-tools {
+    .btn-first {
       margin-inline-start: 12px;
     }
 
     @media (max-width: 600px) {
-      .btn-tools {
+      .btn-first {
         margin-inline-start: 14px;
       }
       .btn-fs {
@@ -66,6 +73,9 @@ export class HistoryDialog extends LitElement {
   private _controlsVisible = true;
   private _toolsOpen = false;
   private _graphVisible?: boolean;
+  private _cardExportDialogOpen = false;
+  private _cardExportSnapshot?: BetterHistoryRuntimeConfigSnapshot;
+  private _cardExportError?: CardExportDialogError;
   private _translationLanguage = "";
   private _pickerOverlayOpen = false;
   private _suppressNextClose = false;
@@ -80,6 +90,9 @@ export class HistoryDialog extends LitElement {
   protected willUpdate(changed: PropertyValues): void {
     if (changed.has("config")) {
       this._graphVisible = undefined;
+    }
+    if (changed.has("open") && !this.open) {
+      this._releaseCardExport();
     }
   }
 
@@ -122,6 +135,7 @@ export class HistoryDialog extends LitElement {
       return;
     }
     event.stopPropagation();
+    this._releaseCardExport();
     this.dispatchEvent(new CustomEvent("abh-dialog-closed", { bubbles: true }));
   }
 
@@ -138,9 +152,46 @@ export class HistoryDialog extends LitElement {
     return !!(cfg?.entities?.length || cfg?.series?.length);
   }
 
-  private _toolsDisabled(cfg: ABetterHistoryCardConfig | undefined): boolean {
+  private _graphActionsDisabled(cfg: ABetterHistoryCardConfig | undefined): boolean {
     return this._graphVisible === false
       || (this._graphVisible === undefined && !this._hasConfiguredGraphTargets(cfg));
+  }
+
+  private _openCardExportDialog(): void {
+    const history = this.renderRoot.querySelector(
+      "a-better-history-card-history.history",
+    ) as (HTMLElement & {
+      getRuntimeConfigSnapshot?: () => BetterHistoryRuntimeConfigSnapshot;
+    }) | null;
+
+    this._cardExportSnapshot = undefined;
+    this._cardExportError = undefined;
+    if (typeof history?.getRuntimeConfigSnapshot !== "function") {
+      this._cardExportError = "incompatible_component";
+    } else {
+      try {
+        const snapshot = history.getRuntimeConfigSnapshot();
+        if (!isUsableRuntimeConfigSnapshot(snapshot)) {
+          this._cardExportError = "missing_snapshot";
+        } else {
+          this._cardExportSnapshot = snapshot;
+        }
+      } catch {
+        this._cardExportError = "missing_snapshot";
+      }
+    }
+    this._cardExportDialogOpen = true;
+  }
+
+  private _releaseCardExport(): void {
+    this._cardExportDialogOpen = false;
+    this._cardExportSnapshot = undefined;
+    this._cardExportError = undefined;
+  }
+
+  private _closeCardExportDialog(event: Event): void {
+    event.stopPropagation();
+    this._releaseCardExport();
   }
 
   private async _loadTranslations(): Promise<void> {
@@ -174,6 +225,9 @@ export class HistoryDialog extends LitElement {
   protected render(): TemplateResult {
     const cfg = this.config;
     const title = cfg?.title ?? localize(this.hass, "dialog.title.history", this.language);
+    const showCardExport = cfg?.show_card_export_button !== false;
+    const showTools = !!cfg?.show_tools_button;
+    const showControls = !!(cfg?.show_controls_toggle && (cfg?.show_date_picker || cfg?.show_entity_picker));
 
     return html`
       <ha-dialog
@@ -184,20 +238,29 @@ export class HistoryDialog extends LitElement {
         ?fullscreen=${this._fullscreen}
         @closed=${(e: Event) => this._onDialogClosed(e)}
       >
-        ${cfg?.show_tools_button
+        ${showCardExport
           ? html`<ha-icon-button
               slot="headerActionItems"
-              class="btn btn-tools"
+              class="btn btn-first"
+              .label=${localize(this.hass, "card.label.create_dashboard_card", this.language)}
+              ?disabled=${this._graphActionsDisabled(cfg)}
+              @click=${this._openCardExportDialog}
+            ><ha-icon icon="mdi:view-dashboard-variant-outline"></ha-icon></ha-icon-button>`
+          : nothing}
+        ${showTools
+          ? html`<ha-icon-button
+              slot="headerActionItems"
+              class=${`btn ${!showCardExport ? "btn-first" : ""}`}
               .label=${localize(this.hass, "card.label.tools", this.language)}
               ?active=${this._toolsOpen}
-              ?disabled=${this._toolsDisabled(cfg)}
+              ?disabled=${this._graphActionsDisabled(cfg)}
               @click=${() => { this._toolsOpen = !this._toolsOpen; }}
             ><ha-icon icon="mdi:tools"></ha-icon></ha-icon-button>`
           : nothing}
-        ${cfg?.show_controls_toggle && (cfg?.show_date_picker || cfg?.show_entity_picker)
+        ${showControls
           ? html`<ha-icon-button
               slot="headerActionItems"
-              class="btn"
+              class=${`btn ${!showCardExport && !showTools ? "btn-first" : ""}`}
               .label=${localize(this.hass, this._controlsVisible ? "card.label.hide_controls" : "card.label.show_controls", this.language)}
               @click=${() => { this._controlsVisible = !this._controlsVisible; }}
             ><ha-icon icon=${this._controlsVisible ? "mdi:chevron-up" : "mdi:chevron-down"}></ha-icon></ha-icon-button>`
@@ -205,7 +268,7 @@ export class HistoryDialog extends LitElement {
         ${cfg?.show_fullscreen_button
           ? html`<ha-icon-button
               slot="headerActionItems"
-              class="btn btn-fs"
+              class=${`btn btn-fs ${!showCardExport && !showTools && !showControls ? "btn-first" : ""}`}
               .label=${localize(this.hass, this._fullscreen ? "dialog.label.exit_fullscreen" : "card.label.fullscreen", this.language)}
               @click=${() => { this._fullscreen = !this._fullscreen; }}
             ><ha-icon icon=${this._fullscreen ? "mdi:fullscreen-exit" : "mdi:fullscreen"}></ha-icon></ha-icon-button>`
@@ -223,6 +286,15 @@ export class HistoryDialog extends LitElement {
             ></a-better-history-card-history>`
           : nothing}
       </ha-dialog>
+      <abh-card-export-dialog
+        .open=${this._cardExportDialogOpen}
+        .hass=${this.hass}
+        .baseConfig=${cfg}
+        .snapshot=${this._cardExportSnapshot}
+        .language=${this.language}
+        .error=${this._cardExportError}
+        @abh-card-export-dialog-closed=${this._closeCardExportDialog}
+      ></abh-card-export-dialog>
     `;
   }
 }

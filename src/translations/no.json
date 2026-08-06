@@ -74,5 +74,20 @@
   "editor.tab.header": "Topptekst",
   "editor.tab.range": "Periode",
   "editor.tab.style": "Stil",
-  "editor.tab.tools": "Verktøy"
+  "editor.tab.tools": "Verktøy",
+  "card.label.create_dashboard_card": "Opprett dashbordkort",
+  "editor.field.show_card_export_button": "Vis knapp for eksport av kort",
+  "export_dialog.title": "Opprett dashbordkort",
+  "export_dialog.card_type_label": "Korttype",
+  "export_dialog.card_type.inline": "Standardkort",
+  "export_dialog.card_type.button": "Knappkort",
+  "export_dialog.instructions": "Kopier denne YAML-en til kodeeditoren for et Home Assistant-kort.",
+  "export_dialog.yaml_label": "Kort-YAML",
+  "export_dialog.copy": "Kopier YAML",
+  "export_dialog.copied": "YAML kopiert",
+  "export_dialog.copy_failed": "Automatisk kopiering mislyktes. YAML-en er valgt for manuell kopiering.",
+  "export_dialog.close": "Lukk",
+  "export_dialog.imported_data_unsupported": "Importerte historikkdata kan ikke konverteres til et Home Assistant-kort.",
+  "export_dialog.missing_snapshot": "Grafkonfigurasjonen er ikke tilgjengelig.",
+  "export_dialog.incompatible_component": "Den innebygde historikkkomponenten støtter ikke korteksport. Oppdater kortressursen."
 }

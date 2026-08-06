@@ -84,6 +84,7 @@ function mapSeries(s: CardSeriesConfig): SeriesConfig {
     ...(s.scale_mode !== undefined && { scaleMode: s.scale_mode }),
     ...(s.scale_min !== undefined && { scaleMin: s.scale_min }),
     ...(s.scale_max !== undefined && { scaleMax: s.scale_max }),
+    ...(s.scale_preference !== undefined && { scalePreference: s.scale_preference }),
     ...(s.line_mode !== undefined && { lineMode: s.line_mode }),
     ...(s.line_width !== undefined && { lineWidth: s.line_width }),
     ...(s.show_points !== undefined && { showPoints: s.show_points }),
