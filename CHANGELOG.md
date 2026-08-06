@@ -82,3 +82,12 @@
  - update ha-better-history to 0.3.0
   - Add optional optimized series point markers
 - expose optional series point markers
+
+ ## [0.3.0]
+
+ - Add dashboard yaml card export button
+ Will display a dialog with copiable yaml code of the current graph to add on your dashboard
+ - Add native home assistant target selection.
+ Now you can add entities by label, device, rooms.
+ Only selecting one entity will display the attribute picker.
+ - update npm packages
