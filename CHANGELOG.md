@@ -5,7 +5,6 @@
 - Add context menu on entity badges to open attribute picker
 - fix attribute badges position
 
-
  ## [0.3.0]
 
  - Add dashboard yaml card export button

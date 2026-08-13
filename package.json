@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@kipk/ha-better-history": "^0.4.1",
-    "@kipk/load-ha-components": "^2.0.0",
+    "@kipk/load-ha-components": "^2.1.0",
     "lit": "^3.3.3",
     "yaml": "^2.9.0"
   },
