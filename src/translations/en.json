@@ -62,6 +62,7 @@
   "editor.field.title_color": "Title color",
   "editor.field.title_font_family": "Title font family",
   "editor.field.title_font_size": "Title font size",
+  "editor.field.decimals": "Decimals (empty = automatic)",
   "editor.field.unit": "Unit",
   "editor.option.absolute_date_range": "Absolute (date range)",
   "editor.option.auto": "Auto",

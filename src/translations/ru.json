@@ -56,6 +56,7 @@
   "editor.field.title_color": "Цвет заголовка",
   "editor.field.title_font_family": "Шрифт заголовка",
   "editor.field.title_font_size": "Размер шрифта заголовка",
+  "editor.field.decimals": "Знаки после запятой (пусто = автоматически)",
   "editor.field.unit": "Единица измерения",
   "editor.option.absolute_date_range": "Абсолютный (диапазон дат)",
   "editor.option.auto": "Авто",

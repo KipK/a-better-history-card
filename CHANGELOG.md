@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.0
+
+- Add per-series tooltip decimals with Home Assistant sensor defaults, editor controls, and runtime badge settings.
+- Format Y-axis labels from tick spacing, remove trailing zeros, and adapt label density to graph height.
+- Preserve decimal overrides in dashboard YAML and history JSON exports without rounding historical values.
+
 ## [0.3.2]
 
 - Update ha-better-history package to 0.4.2, Vite to 8.3.5, and YAML to 2.9.1.

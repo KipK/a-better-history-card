@@ -56,6 +56,7 @@
   "editor.field.title_color": "Farba názvu",
   "editor.field.title_font_family": "Rodina písma názvu",
   "editor.field.title_font_size": "Veľkosť písma názvu",
+  "editor.field.decimals": "Desatinné miesta (prázdne = automaticky)",
   "editor.field.unit": "Jednotka",
   "editor.option.absolute_date_range": "Absolútny (rozsah dátumov)",
   "editor.option.auto": "Automaticky",

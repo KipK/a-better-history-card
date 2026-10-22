@@ -56,6 +56,7 @@
   "editor.field.title_color": "Kolor tytułu",
   "editor.field.title_font_family": "Rodzina czcionek tytułu",
   "editor.field.title_font_size": "Rozmiar czcionki tytułu",
+  "editor.field.decimals": "Miejsca dziesiętne (puste = automatycznie)",
   "editor.field.unit": "Jednostka",
   "editor.option.absolute_date_range": "Bezwzględny (zakres dat)",
   "editor.option.auto": "Automatyczny",

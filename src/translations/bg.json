@@ -56,6 +56,7 @@
   "editor.field.title_color": "Цвят на заглавието",
   "editor.field.title_font_family": "Шрифт на заглавието",
   "editor.field.title_font_size": "Размер на шрифта на заглавието",
+  "editor.field.decimals": "Десетични знаци (празно = автоматично)",
   "editor.field.unit": "Единица",
   "editor.option.absolute_date_range": "Абсолютен (период от дати)",
   "editor.option.auto": "Автоматично",

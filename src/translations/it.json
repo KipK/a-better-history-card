@@ -56,6 +56,7 @@
   "editor.field.title_color": "Colore titolo",
   "editor.field.title_font_family": "Famiglia di caratteri del titolo",
   "editor.field.title_font_size": "Dimensione carattere del titolo",
+  "editor.field.decimals": "Decimali (vuoto = automatico)",
   "editor.field.unit": "Unità",
   "editor.option.absolute_date_range": "Assoluto (intervallo di date)",
   "editor.option.auto": "Automatico",

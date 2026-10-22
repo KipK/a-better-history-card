@@ -75,6 +75,7 @@ export class SeriesItemEditor extends LitElement {
       { name: "attribute", selector: { text: {} } },
       { name: "label", selector: { text: {} } },
       { name: "unit", selector: { text: {} } },
+      { name: "decimals", selector: { number: { min: 0, max: 20, step: 1, mode: "box" } } },
       { name: "group", selector: { text: {} } },
       {
         name: "scale_mode",
@@ -117,6 +118,9 @@ export class SeriesItemEditor extends LitElement {
     const value = { forced: true, ...event.detail.value };
     if (value.group !== undefined) delete value.scale_group;
     if ((value.point_radius as unknown) === "") delete value.point_radius;
+    if (typeof value.decimals !== "number" || !Number.isInteger(value.decimals) || value.decimals < 0 || value.decimals > 20) {
+      delete value.decimals;
+    }
 
     this._emitItem(this._withDefaultUnit(value));
   }

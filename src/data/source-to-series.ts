@@ -1,7 +1,7 @@
 import type { HistorySource } from "@kipk/ha-better-history";
 import type { CardSeriesConfig } from "../types/config.js";
 
-type HistorySourceWithGroup = HistorySource & { group?: string; scaleGroup?: string };
+type HistorySourceWithGroup = HistorySource & { group?: string; scaleGroup?: string; decimals?: number };
 
 export function sourceToSeriesConfig(source: HistorySource): CardSeriesConfig {
   const sourceWithGroup = source as HistorySourceWithGroup;
@@ -13,6 +13,7 @@ export function sourceToSeriesConfig(source: HistorySource): CardSeriesConfig {
         ? source.path.join(".")
         : undefined,
     unit: source.unit,
+    ...(sourceWithGroup.decimals !== undefined && { decimals: sourceWithGroup.decimals }),
     group: sourceWithGroup.group ?? sourceWithGroup.scaleGroup,
     forced: true,
   };

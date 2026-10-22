@@ -56,6 +56,7 @@
   "editor.field.title_color": "Color del títol",
   "editor.field.title_font_family": "Família tipogràfica del títol",
   "editor.field.title_font_size": "Mida de la lletra del títol",
+  "editor.field.decimals": "Decimals (buit = automàtic)",
   "editor.field.unit": "Unitat",
   "editor.option.absolute_date_range": "Absolut (interval de dates)",
   "editor.option.auto": "Automàtic",

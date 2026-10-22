@@ -56,6 +56,7 @@
   "editor.field.title_color": "Titelfarve",
   "editor.field.title_font_family": "Titel skrifttypefamilie",
   "editor.field.title_font_size": "Titel skriftstørrelse",
+  "editor.field.decimals": "Decimaler (tom = automatisk)",
   "editor.field.unit": "Enhed",
   "editor.option.absolute_date_range": "Absolut (datoperiode)",
   "editor.option.auto": "Auto",

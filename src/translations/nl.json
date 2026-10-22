@@ -56,6 +56,7 @@
   "editor.field.title_color": "Titelkleur",
   "editor.field.title_font_family": "Titel lettertypefamilie",
   "editor.field.title_font_size": "Titel lettergrootte",
+  "editor.field.decimals": "Decimalen (leeg = automatisch)",
   "editor.field.unit": "Eenheid",
   "editor.option.absolute_date_range": "Absoluut (datumbereik)",
   "editor.option.auto": "Auto",

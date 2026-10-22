@@ -325,9 +325,19 @@ These options apply only to `custom:a-better-history-button-card`.
 
 Each item in the `series` list is a `CardSeriesConfig` object.
 
+The optional `decimals` field accepts an integer from `0` to `20` for numeric tooltip values.
+By default, sensor states use Home Assistant's display precision and attributes retain full
+precision. Clear the field in the editor to return to automatic mode.
+
+Y-axis labels independently choose their precision from tick spacing and omit trailing zeros.
+Tick density adapts to graph height; tooltip precision does not round stored points or change
+scale bounds. Right-click or long-press runtime attribute chips or direct entity ribbons to edit
+decimals. Runtime changes last for the session and are retained by the dashboard YAML export.
+
 | Option        | Type                                | Default      | Description                                                                                                                                       |
 | ------------- | ----------------------------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `entity`      | `string`                            | **required** | Entity ID.                                                                                                                                        |
+| `decimals` | `number` | automatic | Numeric tooltip decimals, integer `0`–`20`; omit to follow HA sensor display precision or retain full attribute precision. |
 | `attribute`   | `string` \| `string[]`              | —            | Attribute dot-path(s). When omitted, the entity state is used.                                                                                    |
 | `label`       | `string`                            | —            | Legend label. Defaults to the entity friendly name.                                                                                               |
 | `color`       | `string`                            | —            | CSS color (e.g. `"#42a5f5"` or `"var(--primary-color)"`).                                                                                         |

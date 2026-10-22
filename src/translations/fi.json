@@ -56,6 +56,7 @@
   "editor.field.title_color": "Otsikon väri",
   "editor.field.title_font_family": "Otsikon kirjasinperhe",
   "editor.field.title_font_size": "Otsikon kirjasinkoko",
+  "editor.field.decimals": "Desimaalit (tyhjä = automaattinen)",
   "editor.field.unit": "Yksikkö",
   "editor.option.absolute_date_range": "Absoluuttinen (päivämääräväli)",
   "editor.option.auto": "Automaattinen",

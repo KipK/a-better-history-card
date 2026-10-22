@@ -80,6 +80,7 @@ function mapSeries(s: CardSeriesConfig): SeriesConfig {
     ...(s.label !== undefined && { label: s.label }),
     ...(color !== undefined && { color }),
     ...(s.unit !== undefined && { unit: s.unit }),
+    ...(s.decimals !== undefined && { decimals: s.decimals }),
     ...(group !== undefined && { scaleGroup: group }),
     ...(s.scale_mode !== undefined && { scaleMode: s.scale_mode }),
     ...(s.scale_min !== undefined && { scaleMin: s.scale_min }),

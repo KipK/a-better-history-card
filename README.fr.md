@@ -323,9 +323,20 @@ Ces options s'appliquent uniquement à `custom:a-better-history-button-card`.
 
 Chaque élément de la liste `series` est un objet `CardSeriesConfig`.
 
+Le champ optionnel `decimals` accepte un entier de `0` à `20` pour les valeurs numériques des
+infobulles. Par défaut, les états des capteurs suivent la précision Home Assistant et les attributs
+conservent leur précision complète. Videz le champ dans l'éditeur pour revenir au mode automatique.
+
+Les axes choisissent indépendamment leur précision selon le pas des graduations et suppriment les
+zéros inutiles. La densité des graduations s'adapte à la hauteur du graphique. Le réglage des
+infobulles ne modifie ni les données ni les bornes. Un clic droit ou un appui long sur un badge
+d'attribut ou d'entité ajouté au graphique permet de régler les décimales. Ces réglages temporaires
+sont conservés dans l'export YAML de la carte.
+
 | Option        | Type                                | Défaut     | Description                                                                                                                                                                                       |
 | ------------- | ----------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `entity`      | `string`                            | **requis** | Identifiant de l'entité.                                                                                                                                                                          |
+| `decimals` | `number` | automatique | Décimales des infobulles, entier `0`–`20` ; sinon précision HA du capteur ou précision complète de l'attribut. |
 | `attribute`   | `string` \| `string[]`              | —          | Chemin(s) d'attribut. Si absent, l'état de l'entité est utilisé.                                                                                                                                  |
 | `label`       | `string`                            | —          | Libellé dans la légende. Par défaut : nom convivial de l'entité.                                                                                                                                  |
 | `color`       | `string`                            | —          | Couleur CSS (ex. `"#42a5f5"` ou `"var(--primary-color)"`).                                                                                                                                        |

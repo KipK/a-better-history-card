@@ -56,6 +56,7 @@
   "editor.field.title_color": "标题颜色",
   "editor.field.title_font_family": "标题字体",
   "editor.field.title_font_size": "标题字号",
+  "editor.field.decimals": "小数位数（留空为自动）",
   "editor.field.unit": "单位",
   "editor.option.absolute_date_range": "绝对（日期范围）",
   "editor.option.auto": "自动",

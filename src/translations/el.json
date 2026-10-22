@@ -56,6 +56,7 @@
   "editor.field.title_color": "Χρώμα τίτλου",
   "editor.field.title_font_family": "Οικογένεια γραμματοσειράς τίτλου",
   "editor.field.title_font_size": "Μέγεθος γραμματοσειράς τίτλου",
+  "editor.field.decimals": "Δεκαδικά ψηφία (κενό = αυτόματα)",
   "editor.field.unit": "Μονάδα",
   "editor.option.absolute_date_range": "Απόλυτο (εύρος ημερομηνιών)",
   "editor.option.auto": "Αυτόματα",

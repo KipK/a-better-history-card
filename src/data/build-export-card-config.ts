@@ -67,7 +67,7 @@ const BUTTON_FIELDS = [
   "button_hover_effect",
 ] as const;
 
-function mapSeries(series: SeriesConfig): CardSeriesConfig {
+function mapSeries(series: SeriesConfig & { decimals?: number }): CardSeriesConfig {
   return {
     entity: series.entity,
     ...(series.attribute !== undefined && {
@@ -77,6 +77,7 @@ function mapSeries(series: SeriesConfig): CardSeriesConfig {
     ...(series.label !== undefined && { label: series.label }),
     ...(series.color !== undefined && { color: series.color }),
     ...(series.unit !== undefined && { unit: series.unit }),
+    ...(series.decimals !== undefined && { decimals: series.decimals }),
     ...((series.group ?? series.scaleGroup) !== undefined && { group: series.group ?? series.scaleGroup }),
     ...(series.scaleMode !== undefined && { scale_mode: series.scaleMode }),
     ...(series.scaleMin !== undefined && { scale_min: series.scaleMin }),
