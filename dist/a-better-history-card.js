@@ -1,4 +1,4 @@
-//#region node_modules/@lit/reactive-element/css-tag.js
+// node_modules/@lit/reactive-element/css-tag.js
 var e = globalThis, t = e.ShadowRoot && (e.ShadyCSS === void 0 || e.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, n = Symbol(), r = /* @__PURE__ */ new WeakMap(), i = class {
 	constructor(e, t, r) {
 		if (this._$cssResult$ = !0, r !== n) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
@@ -252,8 +252,7 @@ var C = class extends HTMLElement {
 	firstUpdated(e) {}
 };
 C.elementStyles = [], C.shadowRootOptions = { mode: "open" }, C[y("elementProperties")] = /* @__PURE__ */ new Map(), C[y("finalized")] = /* @__PURE__ */ new Map(), v?.({ ReactiveElement: C }), (h.reactiveElementVersions ??= []).push("2.1.2");
-//#endregion
-//#region node_modules/lit-html/lit-html.js
+// node_modules/lit-html/lit-html.js
 var ee = globalThis, te = (e) => e, w = ee.trustedTypes, ne = w ? w.createPolicy("lit-html", { createHTML: (e) => e }) : void 0, re = "$lit$", T = `lit$${Math.random().toFixed(9).slice(2)}$`, ie = "?" + T, ae = `<${ie}>`, oe = document, se = () => oe.createComment(""), ce = (e) => e === null || typeof e != "object" && typeof e != "function", le = Array.isArray, ue = (e) => le(e) || typeof e?.[Symbol.iterator] == "function", de = "[ 	\n\f\r]", fe = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, pe = /-->/g, me = />/g, he = RegExp(`>|${de}(?:([^\\s"'>=/]+)(${de}*=${de}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`, "g"), ge = /'/g, _e = /"/g, ve = /^(?:script|style|textarea|title)$/i, ye = (e) => (t, ...n) => ({
 	_$litType$: e,
 	strings: t,
@@ -508,8 +507,7 @@ var Fe = (e, t, n) => {
 k._$litElement$ = !0, k.finalized = !0, Ie.litElementHydrateSupport?.({ LitElement: k });
 var Le = Ie.litElementPolyfillSupport;
 Le?.({ LitElement: k }), (Ie.litElementVersions ??= []).push("4.2.2");
-//#endregion
-//#region node_modules/@lit/reactive-element/decorators/property.js
+// node_modules/@lit/reactive-element/decorators/property.js
 var Re = {
 	attribute: !0,
 	type: String,
@@ -545,8 +543,7 @@ function A(e) {
 		return t.constructor.createProperty(n, e), r ? Object.getOwnPropertyDescriptor(t, n) : void 0;
 	})(e, t, n);
 }
-//#endregion
-//#region node_modules/@lit/reactive-element/decorators/state.js
+// node_modules/@lit/reactive-element/decorators/state.js
 function j(e) {
 	return A({
 		...e,
@@ -554,8 +551,7 @@ function j(e) {
 		attribute: !1
 	});
 }
-//#endregion
-//#region node_modules/@kipk/load-ha-components/dist/load-ha-components.js
+// node_modules/@kipk/load-ha-components/dist/load-ha-components.js
 var Be = 1e4, Ve = class extends Error {
 	result;
 	cause;
@@ -766,8 +762,7 @@ async function pt(e, t) {
 	if (c !== void 0 || l.missing.length > 0) throw ft(l.missing, s, o), new Ve(l, c);
 	return l;
 }
-//#endregion
-//#region node_modules/@kipk/ha-better-history/dist/all.js
+// node_modules/@kipk/ha-better-history/dist/all.js
 var mt = /* @__PURE__ */ new Set(["unknown", "unavailable"]);
 function ht(e) {
 	return e == null || typeof e == "string" && mt.has(e);
@@ -1429,7 +1424,7 @@ var Sn = class {
 	}
 	_activeSession(e, t) {
 		let n = this._session;
-		if (!(!n || n.cancelled)) return n.startTime === e.getTime() && n.endTime === t.getTime() ? n : void 0;
+		if (n && !n.cancelled) return n.startTime === e.getTime() && n.endTime === t.getTime() ? n : void 0;
 	}
 	_isCurrentSession(e) {
 		return this._session === e && !e.cancelled;
@@ -1465,7 +1460,7 @@ var Sn = class {
 	}
 	_availableSessionSeries(e, t, n, r, i) {
 		let a = this._sessionSources(e, i), o = new Set(a.map((e) => e.source.id));
-		for (let i of e.sources) o.has(i.id) || !e.sourceStates.has(i.id) || this._hasAccumulatorSeries(e, i) && (a.push(e.accumulator.buildSeries(i, t, n, r)), o.add(i.id));
+		for (let i of e.sources) !o.has(i.id) && e.sourceStates.has(i.id) && this._hasAccumulatorSeries(e, i) && (a.push(e.accumulator.buildSeries(i, t, n, r)), o.add(i.id));
 		return a;
 	}
 	_requestProgressUpdate(e) {
@@ -1564,9 +1559,7 @@ var Sn = class {
 				sourceCount: o.length,
 				existingSourceCount: this.series.length
 			});
-			return;
-		}
-		this.loading = !0, this._beginLoad(i, c), this.debugPerformance && P(this.debugPerformance, "controller.add_sources_start", {
+		} else this.loading = !0, this._beginLoad(i, c), this.debugPerformance && P(this.debugPerformance, "controller.add_sources_start", {
 			sessionId: i.id,
 			sourceCount: c.length,
 			joinedActiveSourceCount: o.length - c.length,
@@ -2259,11 +2252,8 @@ function zr(e, t) {
 }
 function Br(e, t) {
 	let n = [], r;
-	for (let i of e) {
-		if (i.time < t.start) {
-			r = i;
-			continue;
-		}
+	for (let i of e) if (i.time < t.start) r = i;
+	else {
 		if (i.time > t.end) break;
 		n.push(i);
 	}
@@ -2548,13 +2538,9 @@ var ri = class {
 		this._queuePoint(t);
 	}
 	_queuePoint(e) {
-		if (!e) {
-			this._clear();
-			return;
-		}
-		this._pendingPoint = e, this._frame === void 0 && (this._frame = requestAnimationFrame(() => {
+		e ? (this._pendingPoint = e, this._frame === void 0 && (this._frame = requestAnimationFrame(() => {
 			this._frame = void 0, this._apply();
-		}));
+		}))) : this._clear();
 	}
 	handlePointerLeave() {
 		this._pendingPoint = void 0, this._clear();
@@ -4767,13 +4753,7 @@ async function Yi() {
 	return Ki;
 }
 function Xi(e) {
-	if (!qi) {
-		if (qi = !0, e instanceof Ve) {
-			console.warn(`[ha-better-history] Failed to load ha-target-picker. Missing: ${e.result.missing.join(", ") || "unknown"}. Falling back to entity-only selection.`, e.cause ?? e);
-			return;
-		}
-		console.warn("[ha-better-history] Failed to load ha-target-picker. Falling back to entity-only selection.", e);
-	}
+	qi || (qi = !0, e instanceof Ve ? console.warn(`[ha-better-history] Failed to load ha-target-picker. Missing: ${e.result.missing.join(", ") || "unknown"}. Falling back to entity-only selection.`, e.cause ?? e) : console.warn("[ha-better-history] Failed to load ha-target-picker. Falling back to entity-only selection.", e));
 }
 async function Zi(e, t) {
 	try {
@@ -4805,11 +4785,7 @@ function ta(e) {
 	return E`
     <div
       class="date-picker-wrapper"
-      @focusin=${t}
-      @pointerdown=${t}
-      @keydown=${(t) => {
-		t.key === "Escape" && e.onClose?.();
-	}}
+      @click=${t}
     >
       <ha-date-range-picker
         .hass=${e.hass}
@@ -4817,9 +4793,11 @@ function ta(e) {
         .endDate=${e.endDate}
         time-picker
         extended-presets
+        @wa-show=${t}
+        @picker-closed=${() => e.onClose?.()}
         @value-changed=${(t) => {
 		let n = t.detail, r = n.value?.startDate ?? n.startDate, i = n.value?.endDate ?? n.endDate;
-		r instanceof Date && i instanceof Date && (e.onChange(r, i), e.onClose?.());
+		r instanceof Date && i instanceof Date && e.onChange(r, i);
 	}}
       ></ha-date-range-picker>
     </div>
@@ -4929,19 +4907,7 @@ function _a(e, t) {
 			continue;
 		}
 		let t = r.split(/[\s_.-]+/).filter(Boolean);
-		if (t.some((t) => t === e)) {
-			n = Math.max(n ?? 0, 110);
-			continue;
-		}
-		if (t.some((t) => t.startsWith(e))) {
-			n = Math.max(n ?? 0, 95);
-			continue;
-		}
-		if (r.includes(e)) {
-			n = Math.max(n ?? 0, 80);
-			continue;
-		}
-		e.length >= 4 && t.some((t) => ha(e, t) <= 1) && (n = Math.max(n ?? 0, 65));
+		t.some((t) => t === e) ? n = Math.max(n ?? 0, 110) : t.some((t) => t.startsWith(e)) ? n = Math.max(n ?? 0, 95) : r.includes(e) ? n = Math.max(n ?? 0, 80) : e.length >= 4 && t.some((t) => ha(e, t) <= 1) && (n = Math.max(n ?? 0, 65));
 	}
 	return n;
 }
@@ -5016,7 +4982,7 @@ function Sa(e) {
 function Ca(e) {
 	let t = (t) => {
 		let n = oa(t);
-		!n || !e.explicitTargetEntityIds?.includes(n.entityId) || e.onEntityActionsOpen?.(n.entityId, n.host, t) && (t.preventDefault(), t.stopPropagation());
+		n && e.explicitTargetEntityIds?.includes(n.entityId) && e.onEntityActionsOpen?.(n.entityId, n.host, t) && (t.preventDefault(), t.stopPropagation());
 	};
 	return e.disableTargetPickerWhileLoading ? E`
     <ha-target-picker
@@ -5148,7 +5114,7 @@ function ka(e, t) {
       ?dragging=${s}
       @contextmenu=${f}
       @pointerdown=${(e) => {
-		!c || e.button !== 0 || (u = {
+		c && e.button === 0 && (u = {
 			x: e.clientX,
 			y: e.clientY
 		}, l = setTimeout(() => {
@@ -5456,7 +5422,7 @@ function Ja(e, t, n) {
 				continue;
 			}
 			let l = Kt(c), u = l ? Jt(e, t) : void 0;
-			!l || !u || Ya(t, c).includes(r) && i.push({
+			l && u && Ya(t, c).includes(r) && i.push({
 				key: s,
 				dottedPath: t.join("."),
 				valueType: l,
@@ -5678,9 +5644,9 @@ function rs(e) {
 }
 var H = class extends k {
 	constructor(...e) {
-		super(...e), this.hours = 24, this.showDatePicker = !1, this.showEntityPicker = !1, this.showImportButton = !1, this.showExportButton = !0, this.showTimeRangeSelector = !0, this.showLineModeButtons = !0, this.showLegend = !0, this.showTooltip = !0, this.showGrid = !0, this.showScale = !0, this.autoScaleSplit = !0, this.showControls = !0, this.debugPerformance = !1, this.toolsOpen = !1, this._hiddenSeriesIds = [], this._liveNow = Date.now(), this._datePickerReady = !1, this._entityComponentsReady = !1, this._targetPickerReady = !1, this._targetPickerLoadComplete = !1, this._attributeMenuOpen = !1, this._attributeSearch = "", this._path = [], this._selectedSources = [], this._selectedTargets = {}, this._removedConfigSourceIds = [], this._scalePreferences = {}, this._customEntityIds = [], this._entityPickerOpen = !1, this._datePickerOpen = !1, this._pendingAddedSources = [], this._data = new Sn(this), this._tooltip = new ri(this), this._browserHistoryInstanceId = `hbh-${Math.random().toString(36).slice(2)}`, this._prevClipX = /* @__PURE__ */ new Map(), this._prevStartTime = 0, this._prevEndTime = 0, this._prevContainerWidth = 0, this._wasLoading = !1, this._suppressLineAnimation = !1, this._suppressLiveRangeAnimation = !1, this._dragDropCommitted = !1, this._lastPickerOverlayOpen = !1, this._lastPointerDownInside = !1, this._syncingBrowserHistory = !1, this._selectingEntityForAttributeMenu = !1, this._importedSeriesMeta = /* @__PURE__ */ new Map(), this._importedSources = [], this._importedDataActive = !1, this._containerWidth = 0, this._chartSurfaceHeight = 0, this._chartSurfaceConstrained = !1, this._lastContentHeight = 0, this._graphTouchPointers = /* @__PURE__ */ new Map(), this._handleBrowserPopState = (e) => {
+		super(...e), this.hours = 24, this.showDatePicker = !1, this.showEntityPicker = !1, this.showImportButton = !1, this.showExportButton = !0, this.showTimeRangeSelector = !0, this.showLineModeButtons = !0, this.showLegend = !0, this.showTooltip = !0, this.showGrid = !0, this.showScale = !0, this.autoScaleSplit = !0, this.showControls = !0, this.debugPerformance = !1, this.toolsOpen = !1, this._hiddenSeriesIds = [], this._liveNow = Date.now(), this._datePickerReady = !1, this._entityComponentsReady = !1, this._targetPickerReady = !1, this._targetPickerLoadComplete = !1, this._attributeMenuOpen = !1, this._attributeSearch = "", this._path = [], this._selectedSources = [], this._selectedTargets = {}, this._removedConfigSourceIds = [], this._scalePreferences = {}, this._customEntityIds = [], this._entityPickerOpen = !1, this._datePickerOpen = !1, this._pendingAddedSources = [], this._data = new Sn(this), this._tooltip = new ri(this), this._browserHistoryInstanceId = `hbh-${Math.random().toString(36).slice(2)}`, this._prevClipX = /* @__PURE__ */ new Map(), this._prevStartTime = 0, this._prevEndTime = 0, this._prevContainerWidth = 0, this._wasLoading = !1, this._suppressLineAnimation = !1, this._suppressLiveRangeAnimation = !1, this._dragDropCommitted = !1, this._lastPickerOverlayOpen = !1, this._lastPointerDownInside = !1, this._syncingBrowserHistory = !1, this._datePickerHistoryClosing = !1, this._selectingEntityForAttributeMenu = !1, this._importedSeriesMeta = /* @__PURE__ */ new Map(), this._importedSources = [], this._importedDataActive = !1, this._containerWidth = 0, this._chartSurfaceHeight = 0, this._chartSurfaceConstrained = !1, this._lastContentHeight = 0, this._graphTouchPointers = /* @__PURE__ */ new Map(), this._handleBrowserPopState = (e) => {
 			let t = this._browserHistoryEntry(e.state);
-			this._syncingBrowserHistory = !0;
+			this._datePickerHistoryClosing = !1, this._syncingBrowserHistory = !0;
 			try {
 				if (!t) {
 					this._closeBrowserHistoryOverlays();
@@ -5695,24 +5661,14 @@ var H = class extends k {
 			let t = new Set(this._pickerEntities().map((e) => e.entity_id));
 			return va(ma(this.hass, Object.values(this.hass.states).filter((e) => e !== void 0).filter((e) => !t.has(e.entity_id))), e);
 		}, this._handleDocumentPointerDown = (e) => {
-			this._lastPointerDownInside = this._isEventInsideAttributeOverlay(e), !(!this._attributeMenuOpen && !this._sourceSettingsSourceId && !this._entityActionsEntityId) && (this._lastPointerDownInside || (e.stopPropagation(), e.stopImmediatePropagation()));
+			this._lastPointerDownInside = this._isEventInsideAttributeOverlay(e), (this._attributeMenuOpen || this._sourceSettingsSourceId || this._entityActionsEntityId) && (this._lastPointerDownInside || (e.stopPropagation(), e.stopImmediatePropagation()));
 		}, this._handleDocumentClick = (e) => {
 			if (!this._attributeMenuOpen && !this._sourceSettingsSourceId && !this._entityActionsEntityId) {
 				this._lastPointerDownInside = !1;
 				return;
 			}
 			let t = this._lastPointerDownInside;
-			if (this._lastPointerDownInside = !1, !t && !this._isEventInsideAttributeOverlay(e)) {
-				if (this._entityActionsEntityId) {
-					e.preventDefault(), e.stopPropagation(), e.stopImmediatePropagation(), this._closeEntityActions();
-					return;
-				}
-				if (this._sourceSettingsSourceId) {
-					e.preventDefault(), e.stopPropagation(), e.stopImmediatePropagation(), this._sourceSettingsSourceId = void 0;
-					return;
-				}
-				e.preventDefault(), e.stopPropagation(), e.stopImmediatePropagation(), this._closeAttributeMenu();
-			}
+			this._lastPointerDownInside = !1, t || this._isEventInsideAttributeOverlay(e) || (this._entityActionsEntityId ? (e.preventDefault(), e.stopPropagation(), e.stopImmediatePropagation(), this._closeEntityActions()) : this._sourceSettingsSourceId ? (e.preventDefault(), e.stopPropagation(), e.stopImmediatePropagation(), this._sourceSettingsSourceId = void 0) : (e.preventDefault(), e.stopPropagation(), e.stopImmediatePropagation(), this._closeAttributeMenu()));
 		};
 	}
 	static {
@@ -5746,7 +5702,7 @@ var H = class extends k {
 		}), this._resizeObserver.observe(this);
 	}
 	disconnectedCallback() {
-		super.disconnectedCallback(), document.removeEventListener("pointerdown", this._handleDocumentPointerDown, !0), document.removeEventListener("click", this._handleDocumentClick, !0), window.removeEventListener("popstate", this._handleBrowserPopState), this._resizeObserver?.disconnect(), this._resizeObserver = void 0, this._surfaceHeaderObserver?.disconnect(), this._surfaceHeaderObserver = void 0, this._resetGraphGestureState(), this._sourceAddBatchTimer !== void 0 && (clearTimeout(this._sourceAddBatchTimer), this._sourceAddBatchTimer = void 0), this._pendingAttributeOpenTimer !== void 0 && (clearTimeout(this._pendingAttributeOpenTimer), this._pendingAttributeOpenTimer = void 0), this._closeEntityActions(), this._stopLiveClock();
+		super.disconnectedCallback(), document.removeEventListener("pointerdown", this._handleDocumentPointerDown, !0), document.removeEventListener("click", this._handleDocumentClick, !0), window.removeEventListener("popstate", this._handleBrowserPopState), this._datePickerHistoryClosing = !1, this._resizeObserver?.disconnect(), this._resizeObserver = void 0, this._surfaceHeaderObserver?.disconnect(), this._surfaceHeaderObserver = void 0, this._resetGraphGestureState(), this._sourceAddBatchTimer !== void 0 && (clearTimeout(this._sourceAddBatchTimer), this._sourceAddBatchTimer = void 0), this._pendingAttributeOpenTimer !== void 0 && (clearTimeout(this._pendingAttributeOpenTimer), this._pendingAttributeOpenTimer = void 0), this._closeEntityActions(), this._stopLiveClock();
 	}
 	_maxXTicks() {
 		if (this._containerWidth <= 0) return 12;
@@ -5762,11 +5718,7 @@ var H = class extends k {
 		if (this._measureGraphLayout(n ?? void 0, r), this._lastContentHeight > 0 && r > 0 && r === this._lastContentHeight && Math.abs(t - this._chartSurfaceHeight) > Ho) return;
 		this._lastContentHeight = r;
 		let i = r < t - Ho || t < r - Ho, a = t < this._chartSurfaceHeight - Ho, o = this._graphGroupRenderCache?.graphHeight ?? 180, s = this._chartSurfaceConstrained && o !== 180;
-		if (i || a || s) {
-			this._chartSurfaceHeight !== t && (this._chartSurfaceHeight = t), this._chartSurfaceConstrained ||= !0;
-			return;
-		}
-		this._chartSurfaceHeight !== 0 && (this._chartSurfaceHeight = 0), this._chartSurfaceConstrained &&= !1;
+		i || a || s ? (this._chartSurfaceHeight !== t && (this._chartSurfaceHeight = t), this._chartSurfaceConstrained ||= !0) : (this._chartSurfaceHeight !== 0 && (this._chartSurfaceHeight = 0), this._chartSurfaceConstrained &&= !1);
 	}
 	_observeSurfaceHeader() {
 		let e = this.renderRoot.querySelector(".surface-header");
@@ -5884,14 +5836,10 @@ var H = class extends k {
 		this._syncingBrowserHistory || window.history.replaceState(this._browserHistoryState(e), "", window.location.href);
 	}
 	_closeBrowserHistoryLayer(e, t) {
-		if (!this._syncingBrowserHistory && this._browserHistoryEntry()?.layer === e) {
-			window.history.back();
-			return;
-		}
-		t();
+		!this._syncingBrowserHistory && this._browserHistoryEntry()?.layer === e ? window.history.back() : t();
 	}
 	_openBrowserHistoryLayer(e) {
-		this._datePickerOpen = e === "date-picker", this._entityPickerOpen = e === "target-picker", this._attributeMenuOpen = e === "attribute-picker", e !== "attribute-picker" && (this._attributeSearch = "");
+		this._datePickerOpen = e === "date-picker", this._entityPickerOpen = e === "target-picker", this._attributeMenuOpen = e === "attribute-picker", e === "date-picker" && this.renderRoot.querySelector("ha-date-range-picker")?.open?.(), e !== "attribute-picker" && (this._attributeSearch = "");
 	}
 	_closeBrowserHistoryOverlays() {
 		this._datePickerOpen && this._closeDatePickerOverlay(), (this._attributeMenuOpen || this._entityPickerOpen) && this._closePickerOverlay();
@@ -5900,15 +5848,10 @@ var H = class extends k {
 		this._attributeMenuOpen = !1, this._entityPickerOpen = !1, this._attributeSearch = "", this._sourceSettingsSourceId = void 0, this._closeEntityActions();
 	}
 	_closeDatePickerOverlay() {
-		if (!this._datePickerOpen) return;
-		this._datePickerOpen = !1;
-		let e = this.renderRoot.querySelector("ha-date-range-picker");
-		e?.dispatchEvent(new KeyboardEvent("keydown", {
-			key: "Escape",
-			bubbles: !0
-		})), e?.blur();
-		let t = this.getRootNode(), n = t instanceof Document || t instanceof ShadowRoot ? t.activeElement : void 0;
-		n instanceof HTMLElement && n.blur();
+		this._datePickerOpen && (this._datePickerOpen = !1, this.renderRoot.querySelector("ha-date-range-picker")?.shadowRoot?.querySelector("date-range-picker")?.dispatchEvent(new Event("cancel-date-picker", {
+			bubbles: !0,
+			composed: !0
+		})));
 	}
 	_effectiveLineMode() {
 		return this._runtimeLineMode ?? this.config?.lineMode ?? this.lineMode;
@@ -6026,7 +5969,7 @@ var H = class extends k {
 				hass: this.hass,
 				attributeUnits: this.attributeUnits
 			});
-			this._reconcileRemovedConfigSourceIds(i), this._resolved = i, !this._rangeStart && !this._rangeEnd && !t && (this._rangeStart = i.startDate, this._rangeEnd = i.endDate), !this._viewStart && !this._viewEnd && !t && (this._viewStart = i.startDate, this._viewEnd = i.endDate);
+			this._reconcileRemovedConfigSourceIds(i), this._resolved = i, this._rangeStart || this._rangeEnd || t || (this._rangeStart = i.startDate, this._rangeEnd = i.endDate), this._viewStart || this._viewEnd || t || (this._viewStart = i.startDate, this._viewEnd = i.endDate);
 			let o = this._fetchSources(), s = yt(o), c = t ? `${s}|rolling|${this._relativeRangeMs()}` : `${s}|${i.startDate.getTime()}|${i.endDate.getTime()}`;
 			if (c !== this._lastFetchKey) {
 				let e = s === yt(this._lastFetchSources) && this._lastFetchKey !== "";
@@ -6066,10 +6009,13 @@ var H = class extends k {
 		})), this.requestUpdate();
 	}
 	_onDatePickerOpened() {
-		this._datePickerOpen || (this._datePickerOpen = !0, this._pushBrowserHistoryLayer("date-picker"));
+		if (this._datePickerOpen || this._datePickerHistoryClosing) return;
+		this._datePickerOpen = !0;
+		let e = window.history.state;
+		typeof e == "object" && e && ("dialog" in e || "dialogData" in e || "opensDialog" in e) || this._pushBrowserHistoryLayer("date-picker");
 	}
 	_onDatePickerClosed() {
-		this._closeBrowserHistoryLayer("date-picker", () => this._closeDatePickerOverlay());
+		this._datePickerOpen && (this._datePickerOpen = !1, this._datePickerHistoryClosing = !this._syncingBrowserHistory && this._browserHistoryEntry()?.layer === "date-picker", this._datePickerHistoryClosing && window.history.back());
 	}
 	_pickScaleGroup(e, t, n) {
 		if (e.valueType !== "number") return `series:${e.id}`;
@@ -6477,11 +6423,7 @@ var H = class extends k {
 		return i ? e.series.filter((e) => i.ids.has(e.id)).every((e) => Qo(e.unit) === Qo(r.unit)) : n === "right";
 	}
 	_onAxisDotDragStart(e, t, n, r) {
-		if (!this._canDragAxisSeries(e, t, n)) {
-			r.preventDefault();
-			return;
-		}
-		this._draggingAxisSeriesId = t, r.dataTransfer?.setData("text/plain", t), r.dataTransfer && (r.dataTransfer.effectAllowed = "move");
+		this._canDragAxisSeries(e, t, n) ? (this._draggingAxisSeriesId = t, r.dataTransfer?.setData("text/plain", t), r.dataTransfer && (r.dataTransfer.effectAllowed = "move")) : r.preventDefault();
 	}
 	_clearAxisDrag() {
 		this._draggingAxisSeriesId = void 0, this._axisDropTarget = void 0;
@@ -6726,9 +6668,7 @@ var H = class extends k {
 					active: !1,
 					target: t
 				}, t.setPointerCapture(e.pointerId);
-				return;
-			}
-			if (e.pointerType === "touch" && (this._graphTouchPointers.set(e.pointerId, {
+			} else if (e.pointerType === "touch" && (this._graphTouchPointers.set(e.pointerId, {
 				x: e.clientX,
 				y: e.clientY
 			}), this._graphTouchPointers.size === 2)) {
@@ -6738,11 +6678,7 @@ var H = class extends k {
 		}
 	}
 	_onGraphPointerMove(e) {
-		if (e.pointerType === "mouse" && this._graphMouseDrag?.pointerId === e.pointerId) {
-			this._moveGraphMouseDrag(e);
-			return;
-		}
-		e.pointerType !== "touch" || !this._graphTouchPointers.has(e.pointerId) || (this._graphTouchPointers.set(e.pointerId, {
+		e.pointerType === "mouse" && this._graphMouseDrag?.pointerId === e.pointerId ? this._moveGraphMouseDrag(e) : e.pointerType === "touch" && this._graphTouchPointers.has(e.pointerId) && (this._graphTouchPointers.set(e.pointerId, {
 			x: e.clientX,
 			y: e.clientY
 		}), this._moveGraphTouchGesture(e));
@@ -6808,7 +6744,6 @@ var H = class extends k {
 		if (t.mode !== "scroll" && (e.preventDefault(), e.stopPropagation(), t.mode === "pinch")) {
 			let e = (Math.max(1, s) - t.startDistanceX) / t.width;
 			this._zoomGraphViewAt(t.anchorPercent, Math.exp(-e * Po), t.width, t.startViewStart, t.startViewEnd, Fo, Io);
-			return;
 		}
 	}
 	_graphTouchPair() {
@@ -7259,20 +7194,12 @@ var H = class extends k {
 		});
 	}
 	_onEntityPickerOpened() {
-		this._entityPickerOpen && !this._attributeMenuOpen || (this._entityPickerOpen = !0, this._attributeMenuOpen = !1, this._pushBrowserHistoryLayer("target-picker"), this._targetPickerReady || Ji().then((e) => {
+		(!this._entityPickerOpen || this._attributeMenuOpen) && (this._entityPickerOpen = !0, this._attributeMenuOpen = !1, this._pushBrowserHistoryLayer("target-picker"), this._targetPickerReady || Ji().then((e) => {
 			this._targetPickerReady = e && customElements.get("ha-target-picker") !== void 0, this._targetPickerLoadComplete = !0;
 		}));
 	}
 	_onEntityPickerClosed() {
-		if (this._pendingAttributeEntityId) {
-			this._entityPickerOpen = !1, this._schedulePendingAttributeMenu();
-			return;
-		}
-		if (this._selectingEntityForAttributeMenu) {
-			this._entityPickerOpen = !1;
-			return;
-		}
-		this._closeBrowserHistoryLayer("target-picker", () => {
+		this._pendingAttributeEntityId ? (this._entityPickerOpen = !1, this._schedulePendingAttributeMenu()) : this._selectingEntityForAttributeMenu ? this._entityPickerOpen = !1 : this._closeBrowserHistoryLayer("target-picker", () => {
 			this._entityPickerOpen = !1;
 		});
 	}
@@ -7427,20 +7354,15 @@ var H = class extends k {
 	}
 	_removeSource(e) {
 		let t = this._selectedSources.find((t) => t.id === e);
-		if (this._pendingAddedSources = this._pendingAddedSources.filter((t) => t.id !== e), this._sourceSettingsSourceId === e && (this._sourceSettingsSourceId = void 0), this._activeResolvedSeries().find((t) => t.id === e && t.forced === !1)) {
-			this._removedConfigSourceIds = [...this._removedConfigSourceIds, e], this._hiddenSeriesIds = this._hiddenSeriesIds.filter((t) => t !== e), this._data.removeSources([e]), this.dispatchEvent(new CustomEvent("series-removed", {
-				detail: { sourceId: e },
-				bubbles: !0,
-				composed: !0
-			}));
-			return;
-		}
-		if (e.startsWith("state:")) {
+		if (this._pendingAddedSources = this._pendingAddedSources.filter((t) => t.id !== e), this._sourceSettingsSourceId === e && (this._sourceSettingsSourceId = void 0), this._activeResolvedSeries().find((t) => t.id === e && t.forced === !1)) this._removedConfigSourceIds = [...this._removedConfigSourceIds, e], this._hiddenSeriesIds = this._hiddenSeriesIds.filter((t) => t !== e), this._data.removeSources([e]), this.dispatchEvent(new CustomEvent("series-removed", {
+			detail: { sourceId: e },
+			bubbles: !0,
+			composed: !0
+		}));
+		else if (e.startsWith("state:")) {
 			let t = e.slice(6);
 			B(this._selectedTargets).includes(t) && this._setExplicitTargetEntity(t, !1);
-			return;
-		}
-		!t || this._isDefaultSource(t) || (this._selectedSources = this._selectedSources.filter((t) => t.id !== e), this._hiddenSeriesIds = this._hiddenSeriesIds.filter((t) => t !== e), this.dispatchEvent(new CustomEvent("series-removed", {
+		} else t && !this._isDefaultSource(t) && (this._selectedSources = this._selectedSources.filter((t) => t.id !== e), this._hiddenSeriesIds = this._hiddenSeriesIds.filter((t) => t !== e), this.dispatchEvent(new CustomEvent("series-removed", {
 			detail: { sourceId: e },
 			bubbles: !0,
 			composed: !0
@@ -7461,11 +7383,7 @@ var H = class extends k {
 	}
 	_onSourceDragStart(e, t) {
 		let n = this._selectedSources.find((t) => t.id === e);
-		if (!n || this._isDefaultSource(n)) {
-			t.preventDefault();
-			return;
-		}
-		this._draggingSourceId = e, this._dragStartSourceIds = this._selectedSources.map((e) => e.id), this._dragDropCommitted = !1, t.dataTransfer?.setData("text/plain", e), t.dataTransfer && (t.dataTransfer.effectAllowed = "move");
+		!n || this._isDefaultSource(n) ? t.preventDefault() : (this._draggingSourceId = e, this._dragStartSourceIds = this._selectedSources.map((e) => e.id), this._dragDropCommitted = !1, t.dataTransfer?.setData("text/plain", e), t.dataTransfer && (t.dataTransfer.effectAllowed = "move"));
 	}
 	_onSourceDragEnd() {
 		if (!this._dragDropCommitted && this._dragStartSourceIds) {
@@ -7552,26 +7470,16 @@ function os(e) {
 var U = class extends k {
 	constructor(...e) {
 		super(...e), this.browserHistory = !0, this._selectedSources = [], this._selectedTargets = {}, this._attributeMenuOpen = !1, this._entityPickerOpen = !1, this._entitySearch = "", this._path = [], this._attributeSearch = "", this._componentsReady = !1, this._targetPickerReady = !1, this._targetPickerLoadComplete = !1, this._customEntityIds = [], this._browserHistoryInstanceId = `abh-picker-${Math.random().toString(36).slice(2)}`, this._lastPointerDownInside = !1, this._syncingBrowserHistory = !1, this._selectingEntityForAttributeMenu = !1, this._handleDocumentPointerDown = (e) => {
-			this._lastPointerDownInside = this._isEventInsideAttributeOverlay(e), !(!this._attributeMenuOpen && !this._sourceSettingsSourceId) && (this._lastPointerDownInside || (e.stopPropagation(), e.stopImmediatePropagation()));
+			this._lastPointerDownInside = this._isEventInsideAttributeOverlay(e), (this._attributeMenuOpen || this._sourceSettingsSourceId) && (this._lastPointerDownInside || (e.stopPropagation(), e.stopImmediatePropagation()));
 		}, this._handleDocumentClick = (e) => {
 			if (!this._attributeMenuOpen && !this._entityPickerOpen && !this._sourceSettingsSourceId) {
 				this._lastPointerDownInside = !1;
 				return;
 			}
 			let t = this._lastPointerDownInside;
-			if (this._lastPointerDownInside = !1, !t && !this._isEventInsideAttributeOverlay(e)) {
-				if (this._sourceSettingsSourceId) {
-					e.preventDefault(), e.stopPropagation(), e.stopImmediatePropagation(), this._sourceSettingsSourceId = void 0;
-					return;
-				}
-				if (this._entityPickerOpen && !this._attributeMenuOpen) {
-					this._closeBrowserHistoryLayer("target-picker", () => {
-						this._entityPickerOpen = !1, this._entitySearch = "";
-					});
-					return;
-				}
-				e.preventDefault(), e.stopPropagation(), e.stopImmediatePropagation(), this._closeAttributeMenu();
-			}
+			this._lastPointerDownInside = !1, t || this._isEventInsideAttributeOverlay(e) || (this._sourceSettingsSourceId ? (e.preventDefault(), e.stopPropagation(), e.stopImmediatePropagation(), this._sourceSettingsSourceId = void 0) : this._entityPickerOpen && !this._attributeMenuOpen ? this._closeBrowserHistoryLayer("target-picker", () => {
+				this._entityPickerOpen = !1, this._entitySearch = "";
+			}) : (e.preventDefault(), e.stopPropagation(), e.stopImmediatePropagation(), this._closeAttributeMenu()));
 		}, this._handleBrowserPopState = (e) => {
 			let t = this._browserHistoryEntry(e.state);
 			this._syncingBrowserHistory = !0;
@@ -7679,11 +7587,7 @@ var U = class extends k {
 		this.browserHistory && (this._syncingBrowserHistory || window.history.replaceState(this._browserHistoryState(e), "", window.location.href));
 	}
 	_closeBrowserHistoryLayer(e, t) {
-		if (this.browserHistory && !this._syncingBrowserHistory && this._browserHistoryEntry()?.layer === e) {
-			window.history.back();
-			return;
-		}
-		t();
+		this.browserHistory && !this._syncingBrowserHistory && this._browserHistoryEntry()?.layer === e ? window.history.back() : t();
 	}
 	_pickerEntities() {
 		return this.hass ? this._customEntityIds.filter((e) => typeof e == "string" && e !== "").filter((e, t, n) => n.indexOf(e) === t).map((e) => this.hass?.states[e]).filter((e) => e !== void 0) : [];
@@ -7747,20 +7651,12 @@ var U = class extends k {
 			getItems: this._getItems,
 			getAdditionalItems: this._getAdditionalItems,
 			onEntityPickerOpened: () => {
-				this._entityPickerOpen && !this._attributeMenuOpen || (this._entityPickerOpen = !0, this._attributeMenuOpen = !1, this._pushBrowserHistoryLayer("target-picker"), this._targetPickerReady || Ji().then((e) => {
+				(!this._entityPickerOpen || this._attributeMenuOpen) && (this._entityPickerOpen = !0, this._attributeMenuOpen = !1, this._pushBrowserHistoryLayer("target-picker"), this._targetPickerReady || Ji().then((e) => {
 					this._targetPickerReady = e && customElements.get("ha-target-picker") !== void 0, this._targetPickerLoadComplete = !0;
 				}));
 			},
 			onEntityPickerClosed: () => {
-				if (this._pendingAttributeEntityId) {
-					this._entityPickerOpen = !1, this._schedulePendingAttributeMenu();
-					return;
-				}
-				if (this._selectingEntityForAttributeMenu) {
-					this._entityPickerOpen = !1;
-					return;
-				}
-				this._closeBrowserHistoryLayer("target-picker", () => {
+				this._pendingAttributeEntityId ? (this._entityPickerOpen = !1, this._schedulePendingAttributeMenu()) : this._selectingEntityForAttributeMenu ? this._entityPickerOpen = !1 : this._closeBrowserHistoryLayer("target-picker", () => {
 					this._entityPickerOpen = !1;
 				});
 			},
@@ -7838,11 +7734,9 @@ V([A({ attribute: !1 })], U.prototype, "hass", void 0), V([A({ attribute: !1 })]
 function ss(e = "ha-better-history") {
 	customElements.get(e) || customElements.define(e, H);
 }
-//#endregion
-//#region src/const.ts
+// src/const.ts
 var cs = "A Better History Card", ls = "custom:a-better-history-card", us = "a-better-history-card", ds = "a-better-history-card-history", fs = "a-better-history-card-editor", ps = "custom:a-better-history-button-card", ms = "a-better-history-button-card", hs = "a-better-history-button-card-editor";
-//#endregion
-//#region src/data/normalize-config.ts
+// src/data/normalize-config.ts
 function gs(e) {
 	return {
 		range_mode: "relative",
@@ -7863,8 +7757,7 @@ function gs(e) {
 		...e
 	};
 }
-//#endregion
-//#region src/data/build-export-card-config.ts
+// src/data/build-export-card-config.ts
 function _s(e) {
 	if (typeof e != "object" || !e) return !1;
 	let t = e;
@@ -7953,8 +7846,7 @@ function Cs(e, t, n) {
 	};
 	return t.range.mode === "relative" ? (r.range_mode = "relative", r.hours = t.range.hours) : (r.range_mode = "absolute", r.start_date = new Date(t.range.startDate.getTime()).toISOString(), r.end_date = new Date(t.range.endDate.getTime()).toISOString()), r.line_mode = t.lineMode, xs(r, e, vs), n === "button" && xs(r, e, ys), Ss(r);
 }
-//#endregion
-//#region node_modules/yaml/browser/dist/nodes/identity.js
+// node_modules/yaml/browser/dist/nodes/identity.js
 var ws = Symbol.for("yaml.alias"), Ts = Symbol.for("yaml.document"), Es = Symbol.for("yaml.map"), Ds = Symbol.for("yaml.pair"), Os = Symbol.for("yaml.scalar"), ks = Symbol.for("yaml.seq"), W = Symbol.for("yaml.node.type"), As = (e) => !!e && typeof e == "object" && e[W] === ws, js = (e) => !!e && typeof e == "object" && e[W] === Ts, Ms = (e) => !!e && typeof e == "object" && e[W] === Es, G = (e) => !!e && typeof e == "object" && e[W] === Ds, K = (e) => !!e && typeof e == "object" && e[W] === Os, Ns = (e) => !!e && typeof e == "object" && e[W] === ks;
 function q(e) {
 	if (e && typeof e == "object") switch (e[W]) {
@@ -8035,8 +7927,7 @@ function Hs(e, t, n) {
 		throw Error(`Cannot replace node with ${e} parent`);
 	}
 }
-//#endregion
-//#region node_modules/yaml/browser/dist/doc/directives.js
+// node_modules/yaml/browser/dist/doc/directives.js
 var Us = {
 	"!": "%21",
 	",": "%2C",
@@ -8118,7 +8009,7 @@ var Us = {
 				J(n) && n.tag && (t[n.tag] = !0);
 			}), r = Object.keys(t);
 		} else r = [];
-		for (let [i, a] of n) (i !== "!!" || a !== "tag:yaml.org,2002:") && (!e || r.some((e) => e.startsWith(a))) && t.push(`%TAG ${i} ${a}`);
+		for (let [i, a] of n) i === "!!" && a === "tag:yaml.org,2002:" || e && !r.some((e) => e.startsWith(a)) || t.push(`%TAG ${i} ${a}`);
 		return t.join("\n");
 	}
 };
@@ -8126,8 +8017,7 @@ Gs.defaultYaml = {
 	explicit: !1,
 	version: "1.2"
 }, Gs.defaultTags = { "!!": "tag:yaml.org,2002:" };
-//#endregion
-//#region node_modules/yaml/browser/dist/doc/anchors.js
+// node_modules/yaml/browser/dist/doc/anchors.js
 function Ks(e) {
 	if (/[\x00-\x19\s,[\]{}]/.test(e)) {
 		let t = `Anchor must not contain whitespace or control characters: ${JSON.stringify(e)}`;
@@ -8168,8 +8058,7 @@ function Ys(e, t) {
 		sourceObjects: r
 	};
 }
-//#endregion
-//#region node_modules/yaml/browser/dist/doc/applyReviver.js
+// node_modules/yaml/browser/dist/doc/applyReviver.js
 function Xs(e, t, n, r) {
 	if (r && typeof r == "object") {
 		if (Array.isArray(r)) for (let t = 0, n = r.length; t < n; ++t) {
@@ -8191,8 +8080,7 @@ function Xs(e, t, n, r) {
 	}
 	return e.call(t, n, r);
 }
-//#endregion
-//#region node_modules/yaml/browser/dist/nodes/toJS.js
+// node_modules/yaml/browser/dist/nodes/toJS.js
 function Y(e, t, n) {
 	if (Array.isArray(e)) return e.map((e, t) => Y(e, String(t), n));
 	if (e && typeof e.toJSON == "function") {
@@ -8210,8 +8098,7 @@ function Y(e, t, n) {
 	}
 	return typeof e == "bigint" && !n?.keep ? Number(e) : e;
 }
-//#endregion
-//#region node_modules/yaml/browser/dist/nodes/Node.js
+// node_modules/yaml/browser/dist/nodes/Node.js
 var Zs = class {
 	constructor(e) {
 		Object.defineProperty(this, W, { value: e });
@@ -8250,20 +8137,22 @@ var Zs = class {
 			if (e === this) break;
 			e.anchor === this.source && (r = e);
 		}
+		if (r && t) {
+			let { anchors: e, doc: n, maxAliasCount: i } = t, a = e.get(r);
+			/* istanbul ignore if */
+			if (a ||= (Y(r, null, t), e.get(r)), a?.res === void 0) throw ReferenceError("This should not happen: Alias anchor was not resolved?");
+			if (i >= 0 && (a.count += 1, a.aliasCount === 0 && (a.aliasCount = $s(n, r, e)), a.count * a.aliasCount > i)) throw ReferenceError("Excessive alias count indicates a resource exhaustion attack");
+		}
 		return r;
 	}
 	toJSON(e, t) {
 		if (!t) return { source: this.source };
-		let { anchors: n, doc: r, maxAliasCount: i } = t, a = this.resolve(r, t);
-		if (!a) {
+		let n = this.resolve(t.doc, t);
+		if (!n) {
 			let e = `Unresolved alias (the anchor must be set before the alias): ${this.source}`;
 			throw ReferenceError(e);
 		}
-		let o = n.get(a);
-		/* istanbul ignore if */
-		if (o ||= (Y(a, null, t), n.get(a)), o?.res === void 0) throw ReferenceError("This should not happen: Alias anchor was not resolved?");
-		if (i >= 0 && (o.count += 1, o.aliasCount === 0 && (o.aliasCount = $s(r, a, n)), o.count * o.aliasCount > i)) throw ReferenceError("Excessive alias count indicates a resource exhaustion attack");
-		return o.res;
+		return t.anchors.get(n).res;
 	}
 	toString(e, t, n) {
 		let r = `*${this.source}`;
@@ -8296,8 +8185,7 @@ function $s(e, t, n) {
 	}
 	return 1;
 }
-//#endregion
-//#region node_modules/yaml/browser/dist/nodes/Scalar.js
+// node_modules/yaml/browser/dist/nodes/Scalar.js
 var ec = (e) => !e || typeof e != "function" && typeof e != "object", X = class extends Zs {
 	constructor(e) {
 		super(Os), this.value = e;
@@ -8310,8 +8198,7 @@ var ec = (e) => !e || typeof e != "function" && typeof e != "object", X = class 
 	}
 };
 X.BLOCK_FOLDED = "BLOCK_FOLDED", X.BLOCK_LITERAL = "BLOCK_LITERAL", X.PLAIN = "PLAIN", X.QUOTE_DOUBLE = "QUOTE_DOUBLE", X.QUOTE_SINGLE = "QUOTE_SINGLE";
-//#endregion
-//#region node_modules/yaml/browser/dist/doc/createNode.js
+// node_modules/yaml/browser/dist/doc/createNode.js
 var tc = "tag:yaml.org,2002:";
 function nc(e, t, n) {
 	if (t) {
@@ -8349,8 +8236,7 @@ function rc(e, t, n) {
 	let u = l?.createNode ? l.createNode(n.schema, e, n) : typeof l?.nodeClass?.from == "function" ? l.nodeClass.from(n.schema, e, n) : new X(e);
 	return t ? u.tag = t : l.default || (u.tag = l.tag), c && (c.node = u), u;
 }
-//#endregion
-//#region node_modules/yaml/browser/dist/nodes/Collection.js
+// node_modules/yaml/browser/dist/nodes/Collection.js
 function ic(e, t, n) {
 	let r = n;
 	for (let e = t.length - 1; e >= 0; --e) {
@@ -8494,8 +8380,7 @@ function mc(e, t, n) {
 	}
 	return r;
 }
-//#endregion
-//#region node_modules/yaml/browser/dist/stringify/stringifyString.js
+// node_modules/yaml/browser/dist/stringify/stringifyString.js
 var hc = (e, t) => ({
 	indentAtStart: t ? e.indent.length : e.indentAtStart,
 	lineWidth: e.options.lineWidth,
@@ -8648,8 +8533,7 @@ function wc(e, t, n, r) {
 	}
 	return l;
 }
-//#endregion
-//#region node_modules/yaml/browser/dist/stringify/stringify.js
+// node_modules/yaml/browser/dist/stringify/stringify.js
 function Tc(e, t) {
 	let n = Object.assign({
 		blockQuote: !0,
@@ -8732,8 +8616,7 @@ function Oc(e, t, n, r) {
 	let s = typeof i.stringify == "function" ? i.stringify(a, t, n, r) : K(a) ? wc(a, t, n, r) : a.toString(t, n, r);
 	return o ? K(a) || s[0] === "{" || s[0] === "[" ? `${o} ${s}` : `${o}\n${t.indent}${s}` : s;
 }
-//#endregion
-//#region node_modules/yaml/browser/dist/stringify/stringifyPair.js
+// node_modules/yaml/browser/dist/stringify/stringifyPair.js
 function kc({ key: e, value: t }, n, r, i) {
 	let { allNullValues: a, doc: o, indent: s, indentStep: c, options: { commentString: l, indentSeq: u, simpleKeys: d } } = n, f = J(e) && e.comment || null;
 	if (d) {
@@ -8777,13 +8660,11 @@ function kc({ key: e, value: t }, n, r, i) {
 	} else (x === "" || x[0] === "\n") && (S = "");
 	return g += S + x, n.inFlow ? b && r && r() : y && !b ? g += lc(g, n.indent, l(y)) : h && i && i(), g;
 }
-//#endregion
-//#region node_modules/yaml/browser/dist/log.js
+// node_modules/yaml/browser/dist/log.js
 function Ac(e, t) {
 	(e === "debug" || e === "warn") && console.warn(t);
 }
-//#endregion
-//#region node_modules/yaml/browser/dist/schema/yaml-1.1/merge.js
+// node_modules/yaml/browser/dist/schema/yaml-1.1/merge.js
 var jc = "<<", Mc = {
 	identify: (e) => e === jc || typeof e == "symbol" && e.description === jc,
 	default: "key",
@@ -8813,8 +8694,7 @@ function Fc(e, t, n) {
 function Ic(e, t) {
 	return e && As(t) ? t.resolve(e.doc, e) : t;
 }
-//#endregion
-//#region node_modules/yaml/browser/dist/nodes/addPairToJSMap.js
+// node_modules/yaml/browser/dist/nodes/addPairToJSMap.js
 function Lc(e, t, { key: n, value: r }) {
 	if (J(n) && n.addToJSMap) n.addToJSMap(e, t, r);
 	else if (Nc(e, n)) Pc(e, t, r);
@@ -8851,8 +8731,7 @@ function Rc(e, t, n) {
 	}
 	return JSON.stringify(t);
 }
-//#endregion
-//#region node_modules/yaml/browser/dist/nodes/Pair.js
+// node_modules/yaml/browser/dist/nodes/Pair.js
 function zc(e, t, n) {
 	return new Z(rc(e, void 0, n), rc(t, void 0, n));
 }
@@ -8871,8 +8750,7 @@ var Z = class e {
 		return e?.doc ? kc(this, e, t, n) : JSON.stringify(this);
 	}
 };
-//#endregion
-//#region node_modules/yaml/browser/dist/stringify/stringifyCollection.js
+// node_modules/yaml/browser/dist/stringify/stringifyCollection.js
 function Bc(e, t, n) {
 	return (t.inFlow ?? e.flow ? Hc : Vc)(e, t, n);
 }
@@ -8943,8 +8821,7 @@ function Uc({ indent: e, options: { commentString: t } }, n, r, i) {
 		n.push(i.trimStart());
 	}
 }
-//#endregion
-//#region node_modules/yaml/browser/dist/nodes/YAMLMap.js
+// node_modules/yaml/browser/dist/nodes/YAMLMap.js
 function Wc(e, t) {
 	let n = K(t) ? t.value : t;
 	for (let r of e) if (G(r) && (r.key === t || r.key === n || K(r.key) && r.key.value === n)) return r;
@@ -9089,8 +8966,7 @@ function Jc(e) {
 	let t = K(e) ? e.value : e;
 	return t && typeof t == "string" && (t = Number(t)), typeof t == "number" && Number.isInteger(t) && t >= 0 ? t : null;
 }
-//#endregion
-//#region node_modules/yaml/browser/dist/schema/common/seq.js
+// node_modules/yaml/browser/dist/schema/common/seq.js
 var Yc = {
 	collection: "seq",
 	default: !0,
@@ -9126,8 +9002,7 @@ var Yc = {
 		return e && Qc.test.test(e) && t === (e[0] === "t" || e[0] === "T") ? e : t ? n.options.trueStr : n.options.falseStr;
 	}
 };
-//#endregion
-//#region node_modules/yaml/browser/dist/stringify/stringifyNumber.js
+// node_modules/yaml/browser/dist/stringify/stringifyNumber.js
 function Q({ format: e, minFractionDigits: t, tag: n, value: r }) {
 	if (typeof r == "bigint") return String(r);
 	let i = typeof r == "number" ? r : Number(r);
@@ -9141,8 +9016,7 @@ function Q({ format: e, minFractionDigits: t, tag: n, value: r }) {
 	}
 	return a;
 }
-//#endregion
-//#region node_modules/yaml/browser/dist/schema/core/float.js
+// node_modules/yaml/browser/dist/schema/core/float.js
 var $c = {
 	identify: (e) => typeof e == "number",
 	default: !0,
@@ -9212,8 +9086,7 @@ var al = {
 	el,
 	tl
 ];
-//#endregion
-//#region node_modules/yaml/browser/dist/schema/json/schema.js
+// node_modules/yaml/browser/dist/schema/json/schema.js
 function ll(e) {
 	return typeof e == "bigint" || Number.isInteger(e);
 }
@@ -9297,8 +9170,7 @@ var ul = ({ value: e }) => JSON.stringify(e), dl = [
 		}, r, i, a);
 	}
 };
-//#endregion
-//#region node_modules/yaml/browser/dist/schema/yaml-1.1/pairs.js
+// node_modules/yaml/browser/dist/schema/yaml-1.1/pairs.js
 function ml(e, t) {
 	if (Ns(e)) for (let n = 0; n < e.items.length; ++n) {
 		let r = e.items[n];
@@ -9377,8 +9249,7 @@ var vl = {
 	},
 	createNode: (e, t, n) => _l.from(e, t, n)
 };
-//#endregion
-//#region node_modules/yaml/browser/dist/schema/yaml-1.1/bool.js
+// node_modules/yaml/browser/dist/schema/yaml-1.1/bool.js
 function yl({ value: e, source: t }, n) {
 	return t && (e ? bl : xl).test.test(t) ? t : e ? n.options.trueStr : n.options.falseStr;
 }
@@ -9533,8 +9404,7 @@ var Nl = {
 		return e;
 	}
 };
-//#endregion
-//#region node_modules/yaml/browser/dist/schema/yaml-1.1/timestamp.js
+// node_modules/yaml/browser/dist/schema/yaml-1.1/timestamp.js
 function Pl(e, t) {
 	let n = e[0], r = n === "-" || n === "+" ? e.substring(1) : e, i = (e) => t ? BigInt(e) : Number(e), a = r.replace(/_/g, "").split(":").reduce((e, t) => e * i(60) + i(t), i(0));
 	return n === "-" ? i(-1) * a : a;
@@ -9661,8 +9531,7 @@ function Ul(e, t, n) {
 		return e.includes(n) || e.push(n), e;
 	}, []);
 }
-//#endregion
-//#region node_modules/yaml/browser/dist/schema/Schema.js
+// node_modules/yaml/browser/dist/schema/Schema.js
 var Wl = (e, t) => e.key < t.key ? -1 : +(e.key > t.key), Gl = class e {
 	constructor({ compat: e, customTags: t, merge: n, resolveKnownTags: r, schema: i, sortMapEntries: a, toStringDefaults: o }) {
 		this.compat = Array.isArray(e) ? Ul(e, "compat") : e ? Ul(null, e) : null, this.name = typeof i == "string" && i || "core", this.knownTags = r ? Hl : {}, this.tags = Ul(t, this.name, n), this.toStringOptions = o ?? null, Object.defineProperty(this, Es, { value: Kc }), Object.defineProperty(this, Os, { value: Xc }), Object.defineProperty(this, ks, { value: Yc }), this.sortMapEntries = typeof a == "function" ? a : a === !0 ? Wl : null;
@@ -9672,8 +9541,7 @@ var Wl = (e, t) => e.key < t.key ? -1 : +(e.key > t.key), Gl = class e {
 		return t.tags = this.tags.slice(), t;
 	}
 };
-//#endregion
-//#region node_modules/yaml/browser/dist/stringify/stringifyDocument.js
+// node_modules/yaml/browser/dist/stringify/stringifyDocument.js
 function Kl(e, t) {
 	let n = [], r = t.directives === !0;
 	if (t.directives !== !1 && e.directives) {
@@ -9710,8 +9578,7 @@ function Kl(e, t) {
 	}
 	return n.join("\n") + "\n";
 }
-//#endregion
-//#region node_modules/yaml/browser/dist/doc/Document.js
+// node_modules/yaml/browser/dist/doc/Document.js
 var ql = class e {
 	constructor(e, t, n) {
 		this.commentBefore = null, this.comment = null, this.errors = [], this.warnings = [], Object.defineProperty(this, W, { value: Ts });
@@ -9855,8 +9722,7 @@ function Jl(e) {
 	if (q(e)) return !0;
 	throw Error("Expected a YAML collection as document contents");
 }
-//#endregion
-//#region node_modules/yaml/browser/dist/parse/cst-visit.js
+// node_modules/yaml/browser/dist/parse/cst-visit.js
 var Yl = Symbol("break visit"), Xl = Symbol("skip children"), Zl = Symbol("remove item");
 function Ql(e, t) {
 	"type" in e && e.type === "document" && (e = {
@@ -9894,8 +9760,7 @@ function $l(e, t, n) {
 	}
 	return typeof r == "function" ? r(t, e) : r;
 }
-//#endregion
-//#region node_modules/yaml/browser/dist/public-api.js
+// node_modules/yaml/browser/dist/public-api.js
 function eu(e, t, n) {
 	let r = null;
 	if (typeof t == "function" || Array.isArray(t) ? r = t : n === void 0 && t && (n = t), typeof n == "string" && (n = n.length), typeof n == "number") {
@@ -9908,16 +9773,14 @@ function eu(e, t, n) {
 	}
 	return js(e) && !r ? e.toString(n) : new ql(e, r, n).toString(n);
 }
-//#endregion
-//#region src/data/serialize-card-config.ts
+// src/data/serialize-card-config.ts
 function tu(e) {
 	return `${eu(e, {
 		lineWidth: 0,
 		directives: !1
 	}).replace(/^---\s*\n/, "").replace(/\n+$/, "")}\n`;
 }
-//#endregion
-//#region src/translations/index.ts
+// src/translations/index.ts
 var nu = {
 	bg: {
 		"card.error.no_configuration": "Няма конфигурация.",
@@ -11733,8 +11596,7 @@ function $(e, t, n) {
 	}
 	return nu[ou(e, n)]?.[t] ?? nu[ru]?.[t] ?? su(t);
 }
-//#endregion
-//#region src/components/card-export-dialog.ts
+// src/components/card-export-dialog.ts
 var lu = class extends k {
 	constructor(...e) {
 		super(...e), this.open = !1, this._selectedCardType = "inline", this._copyStatus = "idle";
@@ -11888,7 +11750,7 @@ var lu = class extends k {
 	}
 	async _copyYaml() {
 		let e = this._yaml, t = this.renderRoot.querySelector("textarea");
-		if (!(!e || !t)) {
+		if (e && t) {
 			if (navigator.clipboard?.writeText) try {
 				await navigator.clipboard.writeText(e), this._copyStatus = "copied";
 				return;
@@ -11962,8 +11824,7 @@ var lu = class extends k {
 	}
 };
 customElements.get("abh-card-export-dialog") || customElements.define("abh-card-export-dialog", lu);
-//#endregion
-//#region src/data/build-better-history-config.ts
+// src/data/build-better-history-config.ts
 var uu = /* @__PURE__ */ new Set([
 	"primary",
 	"accent",
@@ -12046,12 +11907,11 @@ function gu(e, t, n) {
 	let i = hu(t, r);
 	return e.card = t, e.skipTitle = r, e.config = i, i;
 }
-//#endregion
-//#region src/components/history-dialog.ts
+// src/components/history-dialog.ts
 var _u = class extends k {
 	constructor(...e) {
 		super(...e), this.open = !1, this._fullscreen = !1, this._controlsVisible = !0, this._toolsOpen = !1, this._cardExportDialogOpen = !1, this._translationLanguage = "", this._pickerOverlayOpen = !1, this._suppressNextClose = !1, this._betterHistoryConfigCache = {}, this._onDocPointerDown = () => {
-			!this.open || !this._pickerOverlayOpen || (this._suppressNextClose = !0, this._suppressCloseTimer !== void 0 && clearTimeout(this._suppressCloseTimer), this._suppressCloseTimer = setTimeout(() => {
+			this.open && this._pickerOverlayOpen && (this._suppressNextClose = !0, this._suppressCloseTimer !== void 0 && clearTimeout(this._suppressCloseTimer), this._suppressCloseTimer = setTimeout(() => {
 				this._suppressNextClose = !1, this._suppressCloseTimer = void 0;
 			}, 1e3));
 		};
@@ -12131,9 +11991,7 @@ var _u = class extends k {
 			e.stopPropagation(), this._suppressNextClose = !1, this._suppressCloseTimer !== void 0 && (clearTimeout(this._suppressCloseTimer), this._suppressCloseTimer = void 0);
 			let t = e.currentTarget;
 			t.open = !0, this.requestUpdate();
-			return;
-		}
-		e.stopPropagation(), this._releaseCardExport(), this.dispatchEvent(new CustomEvent("abh-dialog-closed", { bubbles: !0 }));
+		} else e.stopPropagation(), this._releaseCardExport(), this.dispatchEvent(new CustomEvent("abh-dialog-closed", { bubbles: !0 }));
 	}
 	_onPickerOverlayChanged(e) {
 		this._pickerOverlayOpen = e.detail.open;
@@ -12242,8 +12100,7 @@ var _u = class extends k {
 	}
 };
 customElements.get("abh-history-dialog") || customElements.define("abh-history-dialog", _u);
-//#endregion
-//#region src/cards/a-better-history-card.ts
+// src/cards/a-better-history-card.ts
 function vu(e) {
 	if (typeof e == "string" && e.trim() !== "") {
 		let t = e.trim();
@@ -12511,8 +12368,7 @@ var bu = class extends k {
     `;
 	}
 };
-//#endregion
-//#region src/cards/a-better-history-button-card.ts
+// src/cards/a-better-history-button-card.ts
 function xu(e) {
 	if (typeof e == "string" && e.trim() !== "") {
 		let t = e.trim();
@@ -12644,8 +12500,7 @@ var Cu = class extends k {
     `;
 	}
 };
-//#endregion
-//#region src/editors/series-item-editor.ts
+// src/editors/series-item-editor.ts
 function wu(e) {
 	if (typeof e == "string" && e.trim() !== "") return e.trim();
 	if (!Array.isArray(e) || e.length < 3) return;
@@ -12870,8 +12725,7 @@ var Tu = class extends k {
 	}
 };
 customElements.get("abh-series-item-editor") || customElements.define("abh-series-item-editor", Tu);
-//#endregion
-//#region src/data/source-to-series.ts
+// src/data/source-to-series.ts
 function Eu(e) {
 	let t = e;
 	return {
@@ -12882,8 +12736,7 @@ function Eu(e) {
 		forced: !0
 	};
 }
-//#endregion
-//#region src/ha/load-components.ts
+// src/ha/load-components.ts
 var Du = [
 	"ha-form",
 	"ha-icon",
@@ -12910,8 +12763,7 @@ async function Nu(e, t) {
 		throw t(), ku || (ku = !0, e instanceof Ve ? console.warn(`[a-better-history-card] Failed to load Home Assistant UI components. Missing: ${e.result.missing.join(", ") || "unknown"}.`, e.cause ?? e) : console.warn("[a-better-history-card] Failed to load Home Assistant UI components.", e)), e;
 	}
 }
-//#endregion
-//#region src/editors/series-list-editor.ts
+// src/editors/series-list-editor.ts
 var Pu = class extends k {
 	constructor(...e) {
 		super(...e), this.series = [], this._dragIndex = -1, this._dragOverIndex = -1, this._componentsReady = !1, this._translationLanguage = "";
@@ -13116,8 +12968,7 @@ var Pu = class extends k {
 	}
 };
 customElements.get("abh-series-list-editor") || customElements.define("abh-series-list-editor", Pu);
-//#endregion
-//#region src/editors/base-card-editor.ts
+// src/editors/base-card-editor.ts
 var Fu = /* @__PURE__ */ new Set([
 	"title_color",
 	"card_background_color",
@@ -13688,7 +13539,7 @@ var Lu = class extends k {
 	}
 	_dateRangeChanged(e) {
 		let t = e.detail, n = this._coerceDate(t.value?.startDate ?? t.startDate), r = this._coerceDate(t.value?.endDate ?? t.endDate);
-		!n || !r || (this._config = {
+		n && r && (this._config = {
 			...this._config,
 			start_date: n.toISOString(),
 			end_date: r.toISOString()
@@ -13740,8 +13591,7 @@ var Lu = class extends k {
 	}
 };
 customElements.get("a-better-history-card-editor") || customElements.define(fs, Ru);
-//#endregion
-//#region src/editors/a-better-history-button-card-editor.ts
+// src/editors/a-better-history-button-card-editor.ts
 var zu = class extends Lu {
 	_styleSchema() {
 		return super._styleSchema().filter((e) => e.name !== "title_color");
@@ -13812,4 +13662,3 @@ Bu.filter((e) => e.type === "a-better-history-card" || e.type === "custom:a-bett
 	preview: !0,
 	documentationURL: "https://github.com/KipK/a-better-history-card#readme"
 });
-//#endregion

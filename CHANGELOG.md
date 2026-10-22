@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.3.2]
+
+- Update ha-better-history package to 0.4.2, Vite to 8.3.5, and YAML to 2.9.1.
+
  ## [0.3.1]
 
 - Add context menu on entity badges to open attribute picker
