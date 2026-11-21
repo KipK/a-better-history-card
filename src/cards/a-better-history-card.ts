@@ -63,6 +63,7 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
 
   static properties = {
     hass: { attribute: false },
+    preview: { type: Boolean },
     _config: { state: true },
     _toolsOpen: { state: true },
     _controlsVisible: { state: true },
@@ -151,7 +152,11 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
   `;
 
   hass?: HomeAssistant;
+  /** Set by Home Assistant when the card is rendered inside the card editor preview. */
+  preview = false;
   private _config?: ABetterHistoryCardConfig;
+  private _previewConfigSource?: ABetterHistoryCardConfig;
+  private _previewConfig?: ABetterHistoryCardConfig;
   private _toolsOpen = false;
   private _controlsVisible = true;
   private _dialogOpen = false;
@@ -274,8 +279,21 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
     return "";
   }
 
+  /**
+   * The editor preview hides the runtime entity picker: it duplicates the editor's own picker,
+   * and selections made there are never saved to the card configuration.
+   */
+  private _displayConfig(cfg: ABetterHistoryCardConfig): ABetterHistoryCardConfig {
+    if (!this.preview || cfg.show_entity_picker === false) return cfg;
+    if (this._previewConfigSource !== cfg || !this._previewConfig) {
+      this._previewConfigSource = cfg;
+      this._previewConfig = { ...cfg, show_entity_picker: false };
+    }
+    return this._previewConfig;
+  }
+
   private _renderHeader(): TemplateResult | typeof nothing {
-    const cfg = this._config;
+    const cfg = this._config ? this._displayConfig(this._config) : undefined;
     if (!cfg) return nothing;
     const title = cfg?.title;
     const showChevron = !!(cfg?.show_controls_toggle && (cfg?.show_date_picker || cfg?.show_entity_picker));
@@ -334,7 +352,7 @@ export class ABetterHistoryCard extends LitElement implements LovelaceCard {
       return html`<ha-card><div class="error">${localize(this.hass, "card.error.no_configuration")}</div></ha-card>`;
     }
 
-    const bhConfig = cachedBetterHistoryConfig(this._betterHistoryConfigCache, cfg, !!cfg.title);
+    const bhConfig = cachedBetterHistoryConfig(this._betterHistoryConfigCache, this._displayConfig(cfg), !!cfg.title);
     const language = this.hass?.locale?.language ?? this.hass?.language;
 
     return html`

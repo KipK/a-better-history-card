@@ -21,17 +21,19 @@ export class SeriesListEditor extends LitElement {
       display: block;
     }
 
+    /* The editor preview follows the editor in the HA dialog and is positioned;
+       raise the picker so its attribute menu and Done button stay above it. */
     .picker-section {
       margin-bottom: 0;
-      max-height: 44px;
       min-height: 36px;
       overflow: visible;
       position: relative;
+      z-index: 2;
     }
 
     .picker-section abh-series-picker {
+      --better-history-min-height: 0px;
       display: block;
-      max-height: 44px;
       overflow: visible;
     }
 
