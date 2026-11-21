@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.4.1
+
+- Show selected targets as compact chips again with Home Assistant 2026.9 and later, which replaced them with a list. Right-click or long-press an entity chip to select its attributes.
+- Closing a picker in the card editor preview no longer closes the editor or asks to save changes.
+- Card editor: the preview no longer shows its own entity picker, and the attribute menu and Done button of the Entities tab stay above the preview.
+- Update ha-better-history to 0.5.1 and Vite to 8.3.8.
+
 ## 0.4.0
 
 - Add per-series tooltip decimals with Home Assistant sensor defaults, editor controls, and runtime badge settings.
