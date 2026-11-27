@@ -76,13 +76,16 @@ series:
 
 ## Installation
 
-### Via HACS
+### Via le Marketplace de Home Assistant (HACS)
 
-[![Ajouter ce repository à HACS.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=KipK&repository=a-better-history-card&category=Plugin)
+<!-- ha-marketplace:exclude-start -->
+[![Ouvrir votre instance Home Assistant et ouvrir un dépôt dans le Marketplace.](https://my.home-assistant.io/badges/marketplace_repository.svg)](https://my.home-assistant.io/redirect/marketplace_repository/?owner=KipK&repository=a-better-history-card&category=plugin)
 
+Home Assistant antérieur à 2026.11 : [ouvrir dans HACS](https://my.home-assistant.io/redirect/hacs_repository/?owner=KipK&repository=a-better-history-card&category=plugin).
+<!-- ha-marketplace:exclude-end -->
 
-1. Ajoutez ce dépôt comme dépôt personnalisé dans HACS (type : **Dashboard**).
-2. Installez **a-better-history-card** depuis HACS.
+1. Ajoutez ce dépôt comme dépôt personnalisé dans le Marketplace (HACS avant Home Assistant 2026.11) (type : **Dashboard**).
+2. Installez **a-better-history-card** depuis le Marketplace (HACS avant Home Assistant 2026.11).
 3. Videz le cache du navigateur et rechargez Home Assistant.
 
 ### Manuelle
